@@ -2,14 +2,12 @@
 \usepackage{amsmath} % Required for some math elements 
 \usepackage{graphicx} % Required for some math elements 
 
-\newcommand{\fshark}{\texttt{F\#thark}}
+\newcommand{\fshark}[0]{\texttt{F\#thark}}
 \begin{document}
 \noindent
-\textbf{
-    \fshark \--- Effortless Futhark programming in F# projects \\
-    Mikkel Storgaard Knudsen\\
-    Project description    
-}
+\textbf{Effortless Futhark programming in F\# projects}\\
+\textbf{Mikkel Storgaard Knudsen}
+\textbf{Project description}
 
 \section{Problem background}
 
@@ -23,32 +21,34 @@ programmer who now has to reason and express not only application
 parallelism but also to optimise access patterns for the capricious 
 many-core hardware (e.g., optimising locality of reference).
 
-1. DSLs for programming productivity: >
 The parallel assembly languages of our time OpenCL and CUDA are tedious.
 This has lead to the design of various data-parallel DSLs covering 
-applications from various fields ...
+applications from various fields. In example, Diderot\cite{pldi12} is a highly
+specialized image analysis language, and TAIL\cite{fhcp16} compiles APL into GPU code.
 Futhark is a general-purpose, hardware-neutral, purely-functional data-parallel 
 language (and optimising-compiler infrastructure) aimed at efficient execution 
-on many-core hardware such as GPGPUs (ref 1). 
+on many-core hardware such as GPGPUs\cite{pldi17}.
 
-2. An common critique against the approach of using data-parallel languages (DSL) 
+An common critique against the approach of using data-parallel languages (DSL) 
 for harnessing the power of modern hardware, has been that in an enterprise 
 setting it can be seen as frivolous to embark on exploratory project with 
 DSLs whose potential and lifetime is questionable.  In other words, if the
 application code is not written in a mainstream language than it is ``esoteric
 and unmaintainable'', and as such it is an unacceptable approach.
 
-3. This project plans to investigate the feasibility of a deep-interoperability
+This project plans to investigate the feasibility of a deep-interoperability
 solution between one such data-parallel DSL, namely Futhark, and one such
-mainstream productivity-oriented environment, namely F\#. 
-\begin{itemize}
-    \item[1] an F\# code generator, that would allow ``small'' computational
+mainstream productivity-oriented environment, namely F\#.
+
+Mainly, this project consists of two parts:
+\begin{enumerate}
+    \item an F\# code generator, that would allow ``small'' computational
         kernels to be written in Futhark and easily integrated with the
         rest of the F\# application. In some sense, efficient many-core
         execution of such computational kernels promotes language interoperability
         because performance-wise it matters little if the CPU-orchestration code
         is written in a slower or faster (mainstream) language.
-    \item[2] The more challenging part of the project refers to identifying
+    \item The more challenging part of the project refers to identifying
         a subset of F\# that can be (always and efficiently) translated to 
         Futhark---think Featherweight Java for example.
         This step allows to effectively hide Futhark from the user toolchain:
@@ -57,32 +57,14 @@ mainstream productivity-oriented environment, namely F\#.
         interactive consoles, profilers---and at the very end (after unit testing and all that)
         programs conforming to the identified subset can be compiled to Futhark
         and from there to efficient GPGPU code.
-\end{itemize}
+\end{enumerate}
 
-
-
-
-Although the Futhark compiler creates heavily optimized OpenCL programs from
-Futhark source code, the developer has to write his or her program in Futhark.
-It is up for discussion how high the Futhark barrier of entry actually is, 
-but in any case it is not realistic to expect all developers to learn an entire 
-(functional) programming language, just to gain some expected 
-performance increase.
-
-\fshark seeks to lower this barrier of entry significantly.
-By using \fshark, the F\# merely has to insert the \fshark attribute to their
-already existing code. \fshark will then automatically obtain Futhark optimized
-OpenCL source code from the F\# code, inject this into the F\# code, and compile
-it into an F\# program as usual.
-
-
-In short; \fshark lets F\# developers harness the optimizations of Futhark
-programming by adding a simple [Fshark] attribute to their code.
-
-As functional programs has a reputation of being slower than equivalent object
-oriented programs, I will not just investigate the performance increase between
-standard- and \fshark-enabled F\# programs, but also between \fshark-enabled F#
-programs and OpenCL C\# programs.
+The final product of this project should let any F\# developer harness the
+performance gains of working with Futhark, without modifying their existing
+project by more than a single extra line or two in the source code.
+Such a non-invasive approach to F\#-Futhark interoperability is neither
+``esoteric'' nor ``unmaintainable'', and is indeed something resembling a ``free
+lunch'' solution for using Futhark in an F\# environment. 
 
 \section{Goals}
 The overall goal of this project is to
@@ -98,6 +80,7 @@ The overall goal of this project is to
 
     \item demonstrate the F\#-Futhark interoperability solution by analysing 
             a set of big-compute benchmarks.
+
     % between F\#- and \fshark programs, and between
     %C\# OpenCL- and \fshark programs.
 \end{itemize}
@@ -106,34 +89,24 @@ The overall goal of this project is to
 \begin{enumerate}
     \item develop an intermediate language between F\# and Futhark.
     I.e., F\# has I/O constructs that does not have any equivalents within 
-    Futhark, which means that an \fshark function must be split into an I/O part
-    and a pure part.
+    Futhark, so the intermediate code must split F\# into untranslatable and
+    translatable sections, and pass the translatable parts on to Futhark.
 
-    \item develop a transpiler from (a subset of) F\# to this intermediate
-    language.
+    \item develop a C\# code generator which takes intermediate code, and
+      Futhark-compiled OpenCL source code, and generates a C\# module that is
+      fully callable from the original F\# code.
 
-    \item develop a transpiler from this intermediate language to Futhark.
-
-    \item develop an F\# code generator which writes complete compilable F\#
-    modules, containing the OpenCL source code returned from the Futhark 
-    compiler.
-
-    \item develop a method to replace the \fshark enabled code with a modified 
-    version, that contains the code generated in step 4.
+    \item develop a preprocessor that performs the F\#-to-Futhark (and back
+      again) compilations as an automatic step before compiling the resulting
+      F\# program using the conventional toolchain.
     
-    \item Compartmentalize all the above steps into a preprocessor
-    that is executed before running the usual F\# compiler.
-    
-    \item show equivalence between the original \fshark code, and the 
-    intermediate language code that is being sent to Futhark.
+    \item show semantic equivalence between written F\# source code,
+      and rewritten intermediate code (and the resulting C\# code.)
 
-    \item show equivalence between the intermediate language code,
-    and the Futhark code it is being translated into.
+    \item run benchmarks and evaluate performance between F\#/F\# w. Futhark, and 
+      C\# (OpenCL)/ F\# w. Futhark
 
-    \item run and document benchmarks between F\#/\fshark and 
-    C\# (OpenCL)/\fshark 
-
-    \item syntax-coloring tool for the F\# subset
+    \item develop a syntax-coloring tool for the F\# subset
 \end{enumerate}
 
 \section{Learning objectives}
@@ -141,16 +114,14 @@ The overall goal of this project is to
     \item explain subsets of Futhark and F\# languages, which are representative 
             for the translation.
     \item review various transpiler solutions from literature
-    \item 
     \item design, implement and evaluate the complete set of rewrite 
             rules required by the F\#-to-Futhark transpilation.
     \item evaluate the solution on a set of representative benchmarks
     \item argue for the correctness of the transformations
     \item discuss (possibly speculatively, but reasoned) the ease of use of the framework
-    \item Design a transpiler that reads code from a mixed paradigm language,
-    and splits it into an impure part, and a pure functional part.
-    
 \end{itemize}
 
-\section*{References}
+\bibliographystyle{plain}
+\bibliography{references}
+
 \end{document}
