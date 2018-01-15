@@ -1,0 +1,99 @@
+\documentclass{article}
+\usepackage{amsmath} % Required for some math elements 
+\usepackage{graphicx} % Required for some math elements 
+
+\newcommand{\fshark}{\texttt{F\#thark}}
+\begin{document}
+\noindent
+\textbf{
+    \fshark \--- Effortless Futhark programming in F# projects \\
+    Mikkel Storgaard Knudsen\\
+    Project description    
+}
+
+\section{Problem background}
+Futhark has already shown its efficiency, 
+and in many cases supremacy, compared to many established performance benchmarks
+for GPU code (ref 1). 
+
+As CPU performance on per-core basis has slowed down very significantly since 
+year \ref, continued performance increases in performance-oriented programming 
+has been found by writing parallel programs in favour of sequential programs.
+Multicore CPUs most commonly have 4 to 32 cores, whilst modern GPGPUs can have
+multiple thousands of cores.
+
+Although the Futhark compiler creates heavily optimized OpenCL programs from
+Futhark source code, the developer has to write his or her program in Futhark.
+It is up for discussion how high the Futhark barrier of entry actually is, 
+but in any case it is not realistic to expect all developers to learn an entire 
+(functional) programming language, just to gain some expected 
+performance increase.
+
+\fshark seeks to lower this barrier of entry significantly.
+By using \fshark, the F\# merely has to insert the \fshark attribute to their
+already existing code. \fshark will then automatically obtain Futhark optimized
+OpenCL source code from the F\# code, inject this into the F\# code, and compile
+it into an F\# program as usual.
+
+
+In short; \fshark lets F\# developers harness the optimizations of Futhark
+programming by adding a simple [Fshark] attribute to their code.
+
+As functional programs has a reputation of being slower than equivalent object
+oriented programs, I will not just investigate the performance increase between
+standard- and \fshark-enabled F\# programs, but also between \fshark-enabled F#
+programs and OpenCL C\# programs.
+
+\section{Goals}
+The overall goal of this project is to
+\begin{itemize}
+    \item develop a transpiler from (a subset of) F\# to Futhark
+
+    \item develop a method of inserting Futhark generated OpenCL code into
+    an existing F\# code base.
+
+    \item explore benchmarks between F\#- and \fshark programs, and between
+    C\# OpenCL- and \fshark programs.
+\end{itemize}
+
+\section{Tasks}
+\begin{enumerate}
+    \item develop an intermediate language between F\# and Futhark.
+    I.e., F\# has I/O constructs that does not have any equivalents within 
+    Futhark, which means that an \fshark function must be split into an I/O part
+    and a pure part.
+
+    \item develop a transpiler from (a subset of) F\# to this intermediate
+    language.
+
+    \item develop a transpiler from this intermediate language to Futhark.
+
+    \item develop an F\# code generator which writes complete compilable F\#
+    modules, containing the OpenCL source code returned from the Futhark 
+    compiler.
+
+    \item develop a method to replace the \fshark enabled code with a modified 
+    version, that contains the code generated in step 4.
+    
+    \item Compartmentalize all the above steps into a preprocessor
+    that is executed before running the usual F\# compiler.
+    
+    \item show equivalence between the original \fshark code, and the 
+    intermediate language code that is being sent to Futhark.
+
+    \item show equivalence between the intermediate language code,
+    and the Futhark code it is being translated into.
+
+    \item run and document benchmarks between F\#/\fshark and 
+    C\# (OpenCL)/\fshark 
+\end{enumerate}
+
+\section{Learning objectives}
+\begin{itemize}
+    \item Design a transpiler that reads code from a mixed paradigm language,
+    and splits it into an impure part, and a pure functional part.
+    
+\end{itemize}
+
+\section*{References}
+\end{document}
