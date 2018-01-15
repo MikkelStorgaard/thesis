@@ -12,15 +12,55 @@
 }
 
 \section{Problem background}
-Futhark has already shown its efficiency, 
-and in many cases supremacy, compared to many established performance benchmarks
-for GPU code (ref 1). 
 
-As CPU performance on per-core basis has slowed down very significantly since 
-year \ref, continued performance increases in performance-oriented programming 
-has been found by writing parallel programs in favour of sequential programs.
-Multicore CPUs most commonly have 4 to 32 cores, whilst modern GPGPUs can have
-multiple thousands of cores.
+As CPU performance on per-core basis has slowed down significantly since
+mid 2000, the trend in modern architectures design has been to enable 
+Moore's low by exponentially scaling the hardware parallelism. 
+For example multi-cores have commonly up to 32 cores, whilst modern 
+GPGPUs support thousands of cores.
+These highly-parallel hardware however, complicates the job of the 
+programmer who now has to reason and express not only application 
+parallelism but also to optimise access patterns for the capricious 
+many-core hardware (e.g., optimising locality of reference).
+
+1. DSLs for programming productivity: >
+The parallel assembly languages of our time OpenCL and CUDA are tedious.
+This has lead to the design of various data-parallel DSLs covering 
+applications from various fields ...
+Futhark is a general-purpose, hardware-neutral, purely-functional data-parallel 
+language (and optimising-compiler infrastructure) aimed at efficient execution 
+on many-core hardware such as GPGPUs (ref 1). 
+
+2. An common critique against the approach of using data-parallel languages (DSL) 
+for harnessing the power of modern hardware, has been that in an enterprise 
+setting it can be seen as frivolous to embark on exploratory project with 
+DSLs whose potential and lifetime is questionable.  In other words, if the
+application code is not written in a mainstream language than it is ``esoteric
+and unmaintainable'', and as such it is an unacceptable approach.
+
+3. This project plans to investigate the feasibility of a deep-interoperability
+solution between one such data-parallel DSL, namely Futhark, and one such
+mainstream productivity-oriented environment, namely F\#. 
+\begin{itemize}
+    \item[1] an F\# code generator, that would allow ``small'' computational
+        kernels to be written in Futhark and easily integrated with the
+        rest of the F\# application. In some sense, efficient many-core
+        execution of such computational kernels promotes language interoperability
+        because performance-wise it matters little if the CPU-orchestration code
+        is written in a slower or faster (mainstream) language.
+    \item[2] The more challenging part of the project refers to identifying
+        a subset of F\# that can be (always and efficiently) translated to 
+        Futhark---think Featherweight Java for example.
+        This step allows to effectively hide Futhark from the user toolchain:
+        programs can be developed entirely in F\#, using the standard 
+        programming-productivity facilities of F\# (F\# SDK)---such as debugger,
+        interactive consoles, profilers---and at the very end (after unit testing and all that)
+        programs conforming to the identified subset can be compiled to Futhark
+        and from there to efficient GPGPU code.
+\end{itemize}
+
+
+
 
 Although the Futhark compiler creates heavily optimized OpenCL programs from
 Futhark source code, the developer has to write his or her program in Futhark.
@@ -47,13 +87,19 @@ programs and OpenCL C\# programs.
 \section{Goals}
 The overall goal of this project is to
 \begin{itemize}
-    \item develop a transpiler from (a subset of) F\# to Futhark
+    \item develop a C\# code generator for Futhark's CPU-orchestration code,
+            together with a method of inserting Futhark generated OpenCL code into
+            an existing F\# code base.
 
-    \item develop a method of inserting Futhark generated OpenCL code into
-    an existing F\# code base.
+    \item identify a subset of F\# that can be effectively translated to Futhark,
+            develop rewrite rules for transpiling the identified subset of F\# to 
+            Futhark
 
-    \item explore benchmarks between F\#- and \fshark programs, and between
-    C\# OpenCL- and \fshark programs.
+
+    \item demonstrate the F\#-Futhark interoperability solution by analysing 
+            a set of big-compute benchmarks.
+    % between F\#- and \fshark programs, and between
+    %C\# OpenCL- and \fshark programs.
 \end{itemize}
 
 \section{Tasks}
@@ -86,10 +132,21 @@ The overall goal of this project is to
 
     \item run and document benchmarks between F\#/\fshark and 
     C\# (OpenCL)/\fshark 
+
+    \item syntax-coloring tool for the F\# subset
 \end{enumerate}
 
 \section{Learning objectives}
 \begin{itemize}
+    \item explain subsets of Futhark and F\# languages, which are representative 
+            for the translation.
+    \item review various transpiler solutions from literature
+    \item 
+    \item design, implement and evaluate the complete set of rewrite 
+            rules required by the F\#-to-Futhark transpilation.
+    \item evaluate the solution on a set of representative benchmarks
+    \item argue for the correctness of the transformations
+    \item discuss (possibly speculatively, but reasoned) the ease of use of the framework
     \item Design a transpiler that reads code from a mixed paradigm language,
     and splits it into an impure part, and a pure functional part.
     
