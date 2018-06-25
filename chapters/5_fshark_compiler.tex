@@ -45,17 +45,51 @@ mandatory arguments:
   point to a directory where F\# can write files and execute subprocesses
   (Futhark- and C\# compilers) which also has to write files.
   
-\item[\texttt{clooPath} \& \texttt{monoOptionsPath}]\hfill\\
+\item[\texttt{clooPath} and \texttt{monoOptionsPath}]\hfill\\
   The C\# compiler needs the \texttt{Cloo}- and the \texttt{Mono Options}
   libraries available for the compilation, and the finished FShark .dll file
   also needs these two libraries available. To ensure their availability, the
   FSharkWrapper requires these paths at the beginning of the process, so it can
   pass them on later in the process.
 
-  
+\item[\texttt{preludePath}]hfill\\
+  The FShark compiler needs the FShark prelude available to compile FShark
+  programs. 
 
+\item[\texttt{openCL}]hfill\\
+  Although Futhark (and therefore FShark) is most effective on OpenCL-enabled
+  computers, the benchmarks in \ref{sec:benchmarks} still show a significant
+  speed increase for non-OpenCL Futhark over native F\# code.
+  Therefore, FShark is also available for non-OpenCL users. Use this flag to
+  tell FShark whether Futhark should compile C\# with or without OpenCL.
+  
+\item[\texttt{unsafe}]hfill\\
+  For some Futhark programs, the Futhark compiler itself is unable to tell
+  whether certain array operations or SOAC usages are safe, and will stop the
+  compilation, even though the code should (and does) indeed work.
+  To enable these unsafe operations, pass a \texttt{true} flag to the compiler.
 \end{description}
 
+Now, we can pass a source file to the FShark wrapper, compile\footnote{See
+  subsection \ref{subsec:fsharkwrappercompileandload}} it and load it into the FShark wrapper object.
+
+To use the compiled FShark function, we must first wrap our designated input in
+an \texttt{obj array}. In this case, our chosen FShark function takes one
+argument, an \texttt{int array}. We define this array, and construct an argument
+array containing this single element. If the FShark function takes two
+arguments, we define an input \texttt{obj array} with two elements, and so
+forth.
+It is important to declare the input array as an \texttt{obj array}. Otherwise,
+F\#s own type checker might very well faultily infer the input array as
+something else. In this particular case, \texttt{input} would've been inferred
+as being an \texttt{int array array}, until we declared its type specifically.
+
+We then invoke the desired function through the wrapper. As all
+reflection-invoked functions return a value of type \texttt{obj}, we need to
+downcast this object manually.
+In this example, we use F\#s downcast operator \texttt{(:?>)} to declare the
+return value as an \texttt{int array}. The actual return type is always the same as the
+return type declared in the source FShark file.
 
 \begin{figure}
   \centering
@@ -87,18 +121,6 @@ let main argv =
   \caption{An F\# program using FShark}
   \label{fig:fsharkusageexample}
 \end{figure}
-
-
-
-
-
-
-
-
-
-
-
-
 
 \begin{figure}
   \centering
