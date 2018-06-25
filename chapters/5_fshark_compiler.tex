@@ -1,0 +1,193 @@
+\chapter{The FShark Compiler and Wrapper}
+\section*{Introduction}
+\label{sec:fsharkcompiler}
+Parsing and building a regular F\# program is trivial when using official build tools like
+\texttt{msbuild} or \texttt{fsharpc}.
+But in the case of FShark, we are not interested in the final result from the
+F\# compiler, but merely its half-finished product.
+
+As the F\# Software Foundation offers the official F\# Compiler as a freely
+available NuGet package for F\# projects, we can use this package
+\texttt{FSharp.Compiler.Services} to parse the entire input FShark program and
+give us a Typed Abstract Syntax Tree of the FSharp expressions therein.
+
+FIGURE HERE OF THE USUAL FSHARP COMPILATION 
+
+As the F\# Software Foundation actively encourages developers to create projects
+using the F\# compiler library, they have published the collected F\# compiler
+as a NuGet package, alongside a tutorial\ref{fsharptutorial}on the usage of the
+various compiler parts.
+
+For FShark, the Compiler Services package is used to compile a Typed Abstract
+Syntax Tree from a valid FShark source code file, which we then
+convert into- and print as a valid Futhark program.
+The Typed Abstract Syntax Tree is merely an AST that already has tagged all the
+contained expressions with their respective types.
+
+We'll start with a detailed explanation of the FShark Compiler Pipeline.
+
+\subsection{The FShark Compiler Pipeline in practice}
+To examine the compiler pipeline in action, we'll go through the motions with
+the small example program displayed in figure \ref{fig:fsharkusageexample}.
+We begin by constructing an instance of the FSharkWrapper. It has the following
+mandatory arguments:
+
+\begin{description}
+\item[\texttt{libName}]\hfill\\
+  This is the library name for the FShark program. In the final Futhark
+  \texttt{.cs} and \texttt{.dll} files, the main class will have the same name
+  as the \texttt{libName}. This doesn't really matter if FShark is just used
+  as a JIT compiler, but it's good to have a proper name if the user only wants
+  to use the compiler parts of FShark.
+
+\item[\texttt{tmpRoot}]\hfill\\
+  The FShark compiler works in its own temporary directory. This argument must
+  point to a directory where F\# can write files and execute subprocesses
+  (Futhark- and C\# compilers) which also has to write files.
+  
+\item[\texttt{clooPath} \& \texttt{monoOptionsPath}]\hfill\\
+  The C\# compiler needs the \texttt{Cloo}- and the \texttt{Mono Options}
+  libraries available for the compilation, and the finished FShark .dll file
+  also needs these two libraries available. To ensure their availability, the
+  FSharkWrapper requires these paths at the beginning of the process, so it can
+  pass them on later in the process.
+
+  
+
+\end{description}
+
+
+\begin{figure}
+  \centering
+    \begin{minted}[linenos,breaklines]{fsharp}
+module FSharkExample
+open FShark.Main
+
+[<EntryPoint>]
+let main argv =
+  let wrapper = 
+    new FSharkWrapper(
+      libName="ExampleModule",
+      tmpRoot="/home/mikkel/FShark",
+      clooPath="/home/mikkel/Cloo.clSharp.dll",
+      monoOptionsPath="/home/mikkel/Mono.Options.dll",
+      preludePath= "/home/mikkel/Documents/fshark/FSharkPrelude/bin/Debug/FSharkPrelude.dll",
+      openCL=true,
+      unsafe=true
+      )
+
+  wrapper.AddSourceFile "../../srcs/ExampleModule.fs"
+  wrapper.CompileAndLoad
+  let xs = [|1;2;3;4|]
+  let input = [|xs|] : obj array
+  let xs' = wrapper.InvokeFunction "MapPlusTwo" input :?> int array
+  printfn "Mapping (+2) over %A gives us %A" xs xs'
+  0
+    \end{minted}
+  \caption{An F\# program using FShark}
+  \label{fig:fsharkusageexample}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{figure}
+  \centering
+  \begin{minted}[xleftmargin=5pt,linenos]{fsharp}
+    module ExampleModule
+    open FSharkPrelude
+
+    module SomeValues =
+      let Four : int = 4
+
+      let SomePlus (x : int) (y : int) : int = x + y
+
+    [<FSharkEntry>]
+    let TimesTwo (x : int) : int =
+      SomeValues.SomePlus x x
+  
+    [<FSharkEntry>]
+    let MapPlusTwo (xs : int array) : int array =
+      Map ((+)2) xs
+
+    let PlusSeven (x : int) : int =
+      SomeValues.SomePlus x 7
+  \end{minted}
+  \caption{A valid FShark program}
+  \label{fig:validfsharkprogram}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \begin{minted}{text}
+    let Four : i32 = 4i32
+    let SomePlus (x : i32) (y : i32) : i32 =
+      ((x i32.+ y))
+    entry TimesTwo (x : i32) : i32 =
+      unsafe SomePlus(x) (x)
+    entry MapPlusTwo (xs : []i32) : []i32 =
+      unsafe map (let x = 2i32 in
+                  (\(y : i32) -> ((x i32.+ y)))) (xs)
+    let PlusSeven (x : i32) : i32 =
+      SomePlus(x) (7i32)
+      \end{minted}
+  \caption{A valid FShark program, compiled to Futhark}
+  \label{fig:validfsharkprogramresult}
+\end{figure}
+
+  
+In figure \ref{fig:validfsharkprogram} we see a small but valid FShark program. It
+reads like a regular F\# program, but contains the three vital parts that makes
+it usable as an FShark program.
+\begin{itemize}
+\item The module declaration on the first line declares that the following code
+  is inside a module. In this case, we are declaring the module
+  \texttt{ExampleModule}, although we could use any valid F\# module name.
+  As shown in figure \ref{fig:validfsharkprogramresult}, the top module
+  declaration falls away during compilation, so only the top module contents are
+  left.
+
+\item This \texttt{open} statement ensures that the F\# Compiler Services has
+  access to the FSharkPrelude during the compilation. It is possible to write an
+  FShark program which doesn't use the FSharkPrelude, but this removes access to
+  the SOACs that we use to write our data parallel programs.
+
+\item The \texttt{[<FSharkEntry>]} attributed function \texttt{TimesTwo} ensures
+  that the resulting Futhark library from the FShark compiler has at least one
+  entry point function.
+  Without any entry point functions, we won't have any functions in the final
+  compiled FShark program.
+\end{itemize}
+
+In figure \ref{fig:validfsharkprogramresult} we see the resulting Futhark program.
+For now, we will ignore the transformations that have happened, except for two
+things: The \texttt{Map} function (called from FSharkPrelude) has been rewritten
+as the plain Futhark SOAC \texttt{map} in lowercase, and the module SomeValues has been
+flattened (see sec \ref{futurework:modules} for future plans.)
+
+This Futhark program is then stored in a temporary location in the user's file
+system, and compiled into as a library, using Futhark's C\# compiler, either
+with or without OpenCL support. Finally after this compilation, we can invoke
+the resulting .dll file from within the FShark-using F\# program.
+
+\subsection{Building FShark from the Typed AST}
+\label{sec:fsharkcompilerrules}
+FShark supports a subset of the F\# language, which also means that only a
+subset of F\#'s FSharpExpr
+
+Only the supported FSharpExpr's has been listed here, but the full range of
+FSharpExpr's are available on \cite{typedtree}.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End:

@@ -1,0 +1,99 @@
+\chapter{The \fshark{} language}
+\label{chap:fsharklanguage}
+
+% introduction
+
+\begin{figure}
+  \centering
+  \begin{tabular}{lclr}
+    $t$ & $::=$ & $\texttt{int}$ & (Integers) \\
+        & $|$   & $\texttt{float}$ & (Floats) \\
+        & $|$   & $\texttt{bool}$ & (Booleans) \\
+        & $|$   & $(t_0 \times \ldots \times t_n)$ & (Tuples) \\
+        & $|$   & $\{\texttt{id}_0:t_0 ; \ldots ; \texttt{id}_n:t_n\}$ & (Records) \\
+        & $|$   & $t$ array & (Arrays) \\
+    \\
+
+    $k$ & $::=$ & $n$ & (Integer) \\
+        & $|$   & $f$ & (Float) \\
+        & $|$   & $b$ & (Boolean) \\
+        & $|$   & $(k_0 , \ldots , k_n)$ & (Tuple) \\
+        & $|$   & $\{\texttt{id}_0=k_0 ; \ldots ; \texttt{id}_n=k_n\}$ & (Record) \\
+        & $|$   & $[k_0 ; \ldots ; k_n]$ & (Array) \\
+    \\
+
+    $p$ & $::=$ & $\texttt{id}$ & (Name pattern) \\
+        & $|$   & $(p_0, \ldots, p_n)$ & (Tuple pattern) \\
+  \end{tabular}
+  \caption{The FShark syntax}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \begin{tabular}{lclr}
+    $e$ & $::=$ & $k$ & Constant \\
+        & $|$   & $v$ & Variable \\
+        & $|$   & $(k_0 , \ldots , k_n)$ & (Tuple expression) \\
+        & $|$   & $\{\texttt{id}_0=k_0 ; \ldots ; \texttt{id}_n=k_n\}$ & (Record expression) \\
+        & $|$   & $[k_0 ; \ldots ; k_n]$ & (Array expression) \\
+        & $|$   & $e_1 \odot e_2$ & (Binary operator) \\
+        & $|$   & $-e$ & (Prefix minus) \\
+        & $|$   & \texttt{not} $e$ & (Logical negation) \\
+        & $|$   & \texttt{if} $e_1$ \texttt{then} $e_2$ \texttt{else} $e_3$ & (Branching) \\
+        & $|$   & $v.[e_0] \ldots .[e_n]$ & (Array indexing) \\
+        & $|$   & $v$.\texttt{id} & (Record indexing) \\
+        & $|$   & $v_0.v_1$ & (Module indexing) \\
+        & $|$   & \texttt{let} $p = e_1$ \texttt{in} $e_2$ & (Pattern binding) \\
+        & $|$   & $v$ $e_0$ $\ldots$ $e_n$ & (Function call) \\
+    \\
+    $entry$ & $::=$ & \texttt{[<FSharkEntry>]} & \\
+            & $|$   & $\epsilon$ & \\
+    \\
+    $fun$ & $::=$ & $entry\ \texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t = e$ & \\
+    $typealias$ & $::=$ & $\texttt{type}\ v\ = t $& \\
+    $module$ & $::=$ & $\texttt{module}\ v = prog'\ progs'$ & \\
+    \\
+    $prog$ & $::=$ & $module\ prog$ & \\
+           & $|$   & $prog'\ prog$  & \\
+           & $|$   & $\epsilon$     & \\
+
+    $prog'$ & $::=$ & $typealias$   & \\
+            & $|$   & $fun$ & \\
+
+    $progs'$ & $::=$ & $prog'\ progs'$   & \\
+             & $|$   & $\epsilon$ & \\
+  \end{tabular}
+  \caption{The FShark syntax, expressions}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \begin{tabular}{lclr}
+    $e$ & $::=$ & $k$ & Constant \\
+        & $|$   & $v$ & Variable \\
+        & $|$   & $(k_0 , \ldots , k_n)$ & (Tuple expression) \\
+        & $|$   & $\{\texttt{id}_0=k_0 ; \ldots ; \texttt{id}_n=k_n\}$ & (Record expression) \\
+        & $|$   & $[k_0 ; \ldots ; k_n]$ & (Array expression) \\
+        & $|$   & $e_1 \odot e_2$ & (Binary operator) \\
+        & $|$   & $-e$ & (Prefix minus) \\
+        & $|$   & \texttt{not} $e$ & (Logical negation) \\
+  \end{tabular}
+  \caption{f binary operators}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \begin{tabular}{lclr}
+    $e$ & $::=$ & $k$ & Constant \\
+        & $|$   & $v$ & Variable \\
+        & $|$   & $(k_0 , \ldots , k_n)$ & (Tuple expression) \\
+        & $|$   & $\{\texttt{id}_0=k_0 ; \ldots ; \texttt{id}_n=k_n\}$ & (Record expression) \\
+        & $|$   & $[k_0 ; \ldots ; k_n]$ & (Array expression) \\
+        & $|$   & $e_1 \odot e_2$ & (Binary operator) \\
+        & $|$   & $-e$ & (Prefix minus) \\
+        & $|$   & \texttt{not} $e$ & (Logical negation) \\
+  \end{tabular}
+  \caption{FShark SOACs}
+\end{figure}
+
+LANGUAGE REFERNCE

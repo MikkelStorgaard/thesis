@@ -1,0 +1,44 @@
+\section{The supported F\# subset for FShark}
+A standard F\# program automatically includes the \texttt{Microsoft.FSharp.Core}
+namespace, which contains the \texttt{Core.Operators} module.
+As \texttt{Core.Operators} contains all the basic operators and standard
+functions for, this is where the F\# subset suitable for FShark compilation has
+been picked out.
+
+\subsection{F\# operators available in FShark}
+Infix operators:\\
+\begin{tabular}{|c|r|}
+  \hline 
+  \texttt{+} & Addition \\ \hline
+  \texttt{-} & Subtraction \\ \hline
+  \texttt{*} & Multiplication \\ \hline
+  \texttt{/} & Division \\ \hline
+  \texttt{\%} & Modulo operation \\ \hline
+  \texttt{**} & Exponentiation \\ \hline
+  \texttt{\&\&} & Boolean \texttt{and} \\ \hline
+  \texttt{||} & Boolean \texttt{or} \\ \hline
+
+  \texttt{<} & Less \\ \hline
+  \texttt{<=} & Less-or-equal \\ \hline
+  \texttt{>} & Greater \\ \hline
+  \texttt{>=} & Greater-or-equal \\ \hline
+  \texttt{=} & Is-Equal \\ \hline
+  \texttt{<>} & Is-Not-Equal \\ \hline
+  \texttt{<|} & Left-apply: $e_1 \texttt{ <| } e_2$ $\equiv e_1 (e_2)$ \\ \hline
+  \texttt{|>} & Right-apply: $e_1 \texttt{ |> } e_2$ $\equiv e_2 (e_1)$ \\ \hline
+\end{tabular}
+\\
+\\
+Special operators:\\
+\begin{tabular}{|c|r|}
+  \hline 
+  \texttt{[$e_0$...$e_1$]} & Generate an array of numbers in the interval $[e_0, e_1]$. \\ \hline
+\end{tabular}
+
+
+
+\subsection{F\# standard functions available in FShark}
+\begin{description}
+\item[\texttt{id}]\hfill\\
+  The identity function
+\end{description}

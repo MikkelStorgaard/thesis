@@ -1,12 +1,10 @@
 Mikkels speciale
 
 0. The prelude
-0. The prelude
   1. Abstract
   2. Table of Contents
   3. Preface
 
-1. Introduction
 1. Introduction
   1. Sequential vs. parallel computin
     1. What is sequential computing good at
@@ -24,7 +22,9 @@ Mikkels speciale
     4. Benchmarks ported from other languages to Futhark shows in most cases, that 
     the Futhark versions are (much) faster than their source language counterparts.
     The only exceptions are source benchmarks which are not written as "obvious" implementations of an algorithm
-    but instead are hand-tailored implementations uniquely crafted to exploit things like memory management in the source language.
+    but instead are hand-tailored implementations uniquely crafted to exploit things like memory management i\chapter{The \LO{} language}
+\label{chap:l0language}
+n the source language.
     (lets call back to this point when we compare FShark to similar solutions)
     
     5. Conclusion: Futhark creates huge performance boosts wherever it goes. 
@@ -54,15 +54,6 @@ Mikkels speciale
     
   4. Roadmap
     
-    
-    
-    
-
-
-    
-    
-2. Background
-
 2. Background
   1. What is Futhark?
     1. a short description of the language
@@ -71,14 +62,17 @@ Mikkels speciale
     1. a short description of the syntax
     2. description of the benefits of F# being .NET and lib-sharing with C#
 
-Part One: The FShark Building Blocks
+Part One: The FShark Language
+3a. Write the complete FShark grammar
+    (include supported statements in grammar)
+3b. List the supported F# Operators 
+
 3. The FShark Prelude
   1. Introduction
   2. Description of the chosen library functions, their F# implementations and corresponding Futhark function.
   3. Arguing their correctness (also from testing) based on equivalence testing between F# and FShark
 
 4. The F# Subset
-  0. Write the complete FShark grammar
   1. Introduction
   2. Arguing for the selected subset (i.e. why specifically operators and built-in math functions)
   3. Description of the chosen library functions and their F# implementations.
@@ -86,13 +80,12 @@ Part One: The FShark Building Blocks
   and therefore have been implemented as an inlined log identity)
   5. Arguing their correctness (also from testing) based on equivalence testing between F# and FShark
   
-  6. List the supported F# expressions and statements
 
 Part Two: The FShark Compiler and Wrapper
 5. The FShark Compiler
   1. Parsing an FSharp program using the FSharp compiler
-    1. An example of a well-formed FShark program
-    2. A short description of the FSharp Compiler Services package
+    1. A short description of the FSharp Compiler Services package
+    2. An example of a well-formed FShark program
     3. Running the FSharp Compiler Service on a well-formed FShark program
     
   2. Building an FShark program from the parsed ImplementationFileDecl list
@@ -101,7 +94,10 @@ Part Two: The FShark Compiler and Wrapper
     3. Talk about retrieving function types from FSharpVals
   
   3. Pretty-printing, compiling and invoking the resulting Futhark program in the FShark-using F# program.
-
+  
+  4. Invoking FShark
+    1. Types that are usable in the invokation
+    2. flattening F# arrays into flat arrays, and back again
 Part Three: The Futhark C# Generator
 6. The Futhark C# Generator
   1. Writing OpenCL-enabled C# code
@@ -124,6 +120,7 @@ Part Four: Results and the rest
   2. Benchmark comparisons between FShark running native in F#, and through the FShark compiler (both CL and non-CL)
   3. Benchmark comparisons between FShark and other OpenCL implementations for F#
   
+  4. Explain where the speed differences comes from.
 8. Limitations
 
 9. Method
