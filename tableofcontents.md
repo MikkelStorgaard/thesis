@@ -80,7 +80,6 @@ Part One: The FShark Language
   and therefore have been implemented as an inlined log identity)
   5. Arguing their correctness (also from testing) based on equivalence testing between F# and FShark
   
-
 Part Two: The FShark Compiler and Wrapper
 5. The FShark Compiler
   1. Parsing an FSharp program using the FSharp compiler
@@ -90,8 +89,9 @@ Part Two: The FShark Compiler and Wrapper
     
   2. Building an FShark program from the parsed ImplementationFileDecl list
     1. Getting the root entity from the parsed program
-    2. Writing up the complete conversion rules from FSharpVals and FSharkExprs to Futhark 
+    2. Writing up the complete conversion rules from FSharpVals and -Exprs to FSharkDecls and -Code
     3. Talk about retrieving function types from FSharpVals
+    4. Writing up the complete conversion rules from FSharkDecls and -Code to Futhark
   
   3. Pretty-printing, compiling and invoking the resulting Futhark program in the FShark-using F# program.
   

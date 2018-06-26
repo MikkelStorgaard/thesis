@@ -52,18 +52,18 @@ mandatory arguments:
   FSharkWrapper requires these paths at the beginning of the process, so it can
   pass them on later in the process.
 
-\item[\texttt{preludePath}]hfill\\
+\item[\texttt{preludePath}]\hfill\\
   The FShark compiler needs the FShark prelude available to compile FShark
   programs. 
 
-\item[\texttt{openCL}]hfill\\
+\item[\texttt{openCL}]\hfill\\
   Although Futhark (and therefore FShark) is most effective on OpenCL-enabled
   computers, the benchmarks in \ref{sec:benchmarks} still show a significant
   speed increase for non-OpenCL Futhark over native F\# code.
   Therefore, FShark is also available for non-OpenCL users. Use this flag to
   tell FShark whether Futhark should compile C\# with or without OpenCL.
   
-\item[\texttt{unsafe}]hfill\\
+\item[\texttt{unsafe}]\hfill\\
   For some Futhark programs, the Futhark compiler itself is unable to tell
   whether certain array operations or SOAC usages are safe, and will stop the
   compilation, even though the code should (and does) indeed work.
@@ -71,7 +71,7 @@ mandatory arguments:
 \end{description}
 
 Now, we can pass a source file to the FShark wrapper, compile\footnote{See
-  subsection \ref{subsec:fsharkwrappercompileandload}} it and load it into the FShark wrapper object.
+  subsection \ref{subsec:fsharkwrappercompiles}} it and load it into the FShark wrapper object.
 
 To use the compiled FShark function, we must first wrap our designated input in
 an \texttt{obj array}. In this case, our chosen FShark function takes one
@@ -90,6 +90,121 @@ downcast this object manually.
 In this example, we use F\#s downcast operator \texttt{(:?>)} to declare the
 return value as an \texttt{int array}. The actual return type is always the same as the
 return type declared in the source FShark file.
+
+\subsection{When FShark Wrapper Compiles}
+\label{sec:fsharkwrappercompiles}
+The general way to compile and load an FShark program into the FShark Wrapper,
+is by adding FShark source files to the wrapper object by calling the
+\texttt{AddSourceFile} method, and followingly calling the \texttt{CompileAndLoad}
+method. Although the FShark wrapper also offers other methods of loading and
+compilation, this is the primary one, as it initiates the entire FShark
+compilation pipeline.
+
+When calling \texttt{CompileAndLoad}, the supplied FShark source files are
+concatenated into one long source file, and written to a temporary location.
+An FSharpChecker is then initialized, so we can parse and type check the
+concatenated source code. The FSharpChecker is a class exported by the FSharp
+Compiler Services, and is a class that lets developers use part of the F\#
+compilation pipeline at runtime.
+
+We supply the FSharpChecker with the path to our precompiled FSharkPrelude
+assembly, and then call its \texttt{ParseAndCheckProject} method on to receive
+an assembly value, which contains the complete Typed Abstract Syntax Tree of our
+FShark program, in the form of an \texttt{FSharpImplementationFileDeclaration}.
+
+If the FShark developer followed the guidelines to write a well-formed FShark
+module, the main declaration of the program, the
+\texttt{FSharpImplementationFileDeclaration}, should contain a single
+\texttt{FSharpEntity}, which in turn contains all the remaining declarations in
+the program.
+
+\subsubsection{The declaration types within F\#'s Typed AST}
+The \texttt{FSharpImplementationFileDeclaration} type has three union cases.
+\begin{description}
+\item[\texttt{InitAction of FSharpExpr}] \hfill\\
+  \texttt{InitAction}s are \fsharpexpr{}s that are executed at the
+  initialization of the containing entity. These are not supported in FShark.
+
+\item[\texttt{Entity of FSharpEntity * FSharpImplementationFileDeclaration list}]\hfill\\
+  An \texttt{Entity} is the declaration of a type or a module. In the case of
+  FShark, three different kinds of entities are supported:
+  \begin{description}
+  \item[FSharpRecords] are standard record types, and can be translated to
+    Futhark records with ease.
+    This entity has an empty \texttt{FSharpImplementationFileDeclaration list}.
+  \item[FSharpAbbreviations] are type abbreviations, and are easily translated
+    into Futhark type aliases.
+    This entity has an empty \texttt{FSharpImplementationFileDeclaration list}.
+  \item[FSharpModules] are named modules which contains subdeclarations.
+    In this case, we retrieve the subdeclarations from the \texttt{FSharpImplementationFileDeclaration list}.
+    The FShark compiler supports building FShark modules, but current
+    limitations demands that modules are flattened when compiled to Futhark.
+    This also means that function name prefixes in function calls are stripped
+    when compiled to Futhark.
+  \end{description}
+\item[\texttt{MemberOrFunctionOrValue of \\ FSharpMemberOrFunctionOrValue *
+    FSharpMemberOrFunctionOrValue list list * FSharpExpr}]\hfill\\
+  F\# doesn't differ between functions and values, which means that a function
+  is merely a value with arguments.
+  A pattern matched \texttt{MemberOrFunctionOrValue} value has the form
+  \texttt{MemberOrFunctionOrValue (v, args, exp)}, where \texttt{v} contains the
+  name and the type of the variable.
+  If the \texttt{args} list is empty, \texttt{v} is simply a variable. If not,
+  \texttt{v} is a function. \texttt{exp} contains the \fsharpexpr{} that
+  \texttt{v} is bound to. An \fsharpexpr{} can be anything from a numeric
+  constant to a very long function body.
+\end{description}
+
+\subsection{FSharp-to-FSharkIL rules}
+INTRODUCTION HERE
+For these translations, we will disregard that all \fsharpexpr{}s are union
+cases of the F\# data type \texttt{BasicPatterns}.
+
+\begin{figure}
+  \centering
+\begin{tabular}{@{}l c l c l c l}% to \linewidth {l c X}
+  $\evals{Int8}$ & $=$ & $\lit{Prim Int FInt8} $ & ~~~~~ & 
+  $\evals{Int16}$ & $=$ & $\lit{Prim Int FInt16}$
+  \\
+  $\evals{Int32}$ & $=$ & $\lit{Prim Int FInt32} $ & ~~~~~ & 
+  $\evals{Int64}$ & $=$ & $\lit{Prim Int FInt64} $
+  \\
+  $\evals{UInt8}$ & $=$ & $\lit{Prim UInt FUInt8} $ & ~~~~~ & 
+  $\evals{UInt16}$ & $=$ & $\lit{Prim UInt FUInt16} $ 
+  \\
+  $\evals{UInt32}$ & $=$ & $\lit{Prim UInt FUInt32} $ & ~~~~~ & 
+  $\evals{UInt64}$ & $=$ & $\lit{Prim UInt FUInt64} $ 
+  \\
+  $\evals{Single}$ & $=$ & $\lit{Prim Float FSingle} $ & ~~~~~ & 
+  $\evals{Double}$ & $=$ & $\lit{Prim Float FDouble} $ 
+  \\
+  $\evals{\tau []}$ & $=$ & $\lit{FSharkArray }\evals{\tau}$ & ~~~~~ & 
+  $\evals{(\tau_0 \times \ldots \times \tau_n)}$ & $=$ & $\lit{FSharkTuple}~\evals{\tau_0},\ldots,\evals{\tau_n}$
+  \\
+\end{tabular}
+
+INSERT NOTE ON RULE FOR TUPLE ('a [] * long [])
+
+\caption{F\# (.NET) types to FSharkIL types}
+\end{figure}
+
+
+\begin{figure}
+  \centering
+\begin{tabular}{@{}l c l c l c l c l c l}% to \linewidth {l c X}
+  $\evals{Const(obj, \tau)}$ & $=$ & $\lit{Const}(obj,}\evals{\tau}}\lit{)}$ & ~~~~~ & 
+  $\evals{i}$ & $=$ & $i$ & ~~~~~ & 
+  $\evals{f}$ & $=$ & $f$ \\
+  $\evals{c}$ & $=$ & $\id{ascii}(c)$ & ~~~~~ & 
+  $\evals{\lit{tt}}$ & $=$ & \lit{true} & ~~~~~ & 
+  $\evals{\lit{ff}}$ & $=$ & \lit{false} \\ ~ \\
+\end{tabular}
+  \caption{FShark SOACs}
+\end{figure}
+
+
+
+
 
 \begin{figure}
   \centering

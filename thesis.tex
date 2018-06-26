@@ -2,7 +2,19 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{blindtext}
+\usepackage{seqsplit}
 \usepackage{minted}
+\usepackage[htt]{hyphenat}
+\usepackage{amsmath,amssymb,amsbsy}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsbsy}
+\usepackage{stmaryrd}
+\usepackage{semantic}
+\usepackage{url}
+\usepackage{color}
+\usepackage{flushend}
+\usepackage{subcaption}
+
 
 \title{
 	{FShark - something something subtitle}\\
@@ -11,6 +23,45 @@
 \author{Mikkel Storgaard Knudsen}
 
 \newcommand{\fshark}{\texttt{FShark}}
+\newcommand{\fsharpexpr}{\texttt{FSharpExpr}}
+% Futhark syntax highlighting setup
+\usepackage{listings}
+\renewcommand{\ttdefault}{pcr} % Courier instead of Computer Modern
+% Fix dashes in listings (from
+% https://tex.stackexchange.com/questions/33185/listings-package-changes-hyphens-to-minus-signs
+% )
+\makeatletter
+\lst@CCPutMacro\lst@ProcessOther {"2D}{\lst@ttfamily{-{}}{-{}}}
+\@empty\z@\@empty
+\makeatother
+\lstdefinelanguage{Futhark}
+{keywords={fun,if,then,else,loop,do,map,reduce,reduceComm,filter,scan,redomap,redomapComm,transpose,reshape,iota,replicate,let,in,for,while,with,f32,int,zip,streamSeq,zipWith,unsafe,streamRed,streamMap,mapPerThread,fn,reduceKernel,concat,split,size},%
+  sensitive=true,
+  comment=[l]{--},
+  moredelim=**[is][\color{blue}]{$}{$}
+}
+\lstdefinelanguage{tail}
+{keywords={let,in},%
+  sensitive=true,
+  comment=[l]{--},
+  moredelim=**[is][\color{blue}]{$}{$}
+}
+\lstset{
+  language=Futhark,
+  basicstyle=\ttfamily,
+  keywordstyle=\bfseries,
+  showlines=true,
+  columns=fullflexible,
+  keepspaces=true,
+}
+
+\newcommand{\evals}[1]{\llbracket #1 \rrbracket}
+\newcommand{\evalfn}[1]{\evals{#1}_{\textrm{fn}}}
+\newcommand{\evalbinop}[1]{\evals{#1}_{\textrm{binop}}}
+\newcommand{\evalunop}[1]{\evals{#1}_{\textrm{unop}}}
+\newcommand{\id}[1]{\emph{#1}}
+\newcommand{\lit}[1]{\text{\ttfamily #1}} % literal
+
 
 \begin{document}
 

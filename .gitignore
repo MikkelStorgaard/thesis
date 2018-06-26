@@ -2,3 +2,19 @@
 !/report/*.tex
 !/report/*.bib
 
+
+_minted-thesis/
+
+auto/
+
+*.aux
+
+*.fdb_latexmk
+
+*.fls
+
+*.log
+
+*.dvi
+
+*.gz
