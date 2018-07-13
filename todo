@@ -1,0 +1,54 @@
+create sequence
+
+fix multidim array printing
+
+create benchmarks that compare FShark to already existing F# (and C#) opencl solutions 
+
+thesis subjects:
+    suggestions on how to implement missing features like generic modules (Parametric polymorphism)
+
+obs:
+  Don't create functions with unused parameters (set erroron)
+  no tuple args in helper functions
+  modules are flattened when in Futhark
+
+You cannot use tuples in reflection imported F# entry functions, as the tuple is curried at compilation.
+
+Given that FSharkPrelude translates correctly to Futhark expressions, 
+the FShark developer can debug their FShark projects by debugging their FShark module natively in F#.
+
+Fokuspunkter fra i dag:
+  Hvad sker der for arrays?
+    Futhark bruger flade arrays over det hele, og flatten/unflatten sker på O(1).
+    Hvordan yder flattening/unflattening i FShark, i særdeleshed når man bruger InvokeFunction
+      dvs. den der wrapper-funktion
+    Undersøg og beskriv hvordan arrays af arrays opfører sig i F#.
+    Hvorfor har jeg truffet valget om brug af almindelige arrays i FShark, og hvad kunne have været gjort i stedet?
+
+    Hvad er overhead i en almindelig FShark-kørsel? Mål kørslen af et eksempel fratrukket selve runtime i kernen.
+
+    Lav en beskrivelse af de tidligere dimensionelle arrays, og hvorfor det ikke blev dem (hint, man skulle tage højde for dem alle steder,
+    og skrive funktioner der brugte FSharkArrays i stedet for almindelige.)
+    Pros ved tilgangen: en hjemmelavet datatype i FShark ville ved køretid kunne afvise irregulære arrays
+			Det kan vi ikke når vi bruger almindelige arrays, og vi er i stedet nødt til at gardere os, f.eks.
+			ved at indsætte checks i FSharkPrelude-funktioner, så vi ikke giver brugeren falske positiver (FShark-programmer
+			som fungerer native, men fejler ved oversættelse.)
+
+			Patologiske tilfælde kan vi dog ikke gardere os imod, herunder programmet "let main = [[1,2],[3]]"
+
+    Tillader 
+
+
+  Interoperabilitet?
+    FShark oversætter og bruger ting vha. reflection ved køretid. Hvad koster det?
+    Det hele sker ved runtime. Hvorfor har jeg valgt dette, og ikke i stedet separeret oversættelse fra kørsel,
+    så FShark kun var en oversætter?
+
+    Pros ved dette: man har statisk inferens af typer osv.,
+    cons: Flere trin i brugen.
+    
+
+
+
+  
+Før forsvaret: Lav futhark-bench færdig for C#-generatoren, så netop denne del er færdig og i rigtig anvendelse.
