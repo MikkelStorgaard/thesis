@@ -5,6 +5,7 @@ Mikkels speciale
   1. Abstract
   2. Table of Contents
   3. Preface
+  4. Vocabulary
 
 1. Introduction
   1. Sequential vs. parallel computin
