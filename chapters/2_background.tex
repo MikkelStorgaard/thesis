@@ -1,0 +1,76 @@
+\chapter{Background}
+\fshark{} is built on the interaction between Futhark, \fsharp{} and \csharp{},
+wherefore WE SHOULD HAVE A BETTER INTRODUCTION FOR THIS CHAPTER.
+
+\section{\fsharp{}}
+\fsharp{} is a relatively young .NET-based language, first released in 2003.
+It is a strongly-typed multiple-paradigm language, with a syntax that is
+primarily functional, resembling OCaml.
+Although \fsharp{} is not as widely used as \csharp{}, \texttt{Java} and the
+like, it is currently experiencing increasing adaptation among
+developers\cite{citeme}.
+Besides supporting multiple paradigms and a reasonable subset of functional
+langauge features (such as pattern matching), \fsharp{}s primary strength is
+it's interoperability with the rest of the .NET ecosystem. Like \csharp{},
+\fsharp{} programs are compiled into Microsoft's \texttt{Common Intermediate
+  Langauge}, and executed using Microsoft's \texttt{Common Language Runtime}.
+
+Therefore, \fsharp{} programs have full access to the standard .NET library,
+just as it can also readily import and use classes and methods from arbitrary
+\csharp{} libraries.
+
+For \fshark{}, \fsharp{} has been selected as a source language for several
+reasons.
+First, most of \fsharp{}s syntax is readily translatable into Futhark syntax, as
+long as the programmer stays away from using any of \fsharp{}s non-functional
+constructs, like \texttt{async} or it's object oriented features.
+Second, as \fsharp{} effortlessly interoperates with \csharp{} programs, and
+\csharp{} has plenty of OpenCL libraries available, we can write imperative
+OpenCL-powered programs in \csharp{}, for use in \fsharp{} projects.
+%% written example
+
+
+\section{Futhark}
+Quoting from Futhark's own homepage,
+\begin{formal}
+  Futhark is a small programming language designed to be compiled to efficient parallel code. It is a statically typed, data-parallel, and purely functional array language in the ML family, and comes with a heavily optimising ahead-of-time compiler that presently generates GPU code via OpenCL, although the language itself is hardware-agnostic.
+\end{formal}
+So far, plenty of handwritten GPU benchmark programs implemented in CUDA et al,
+has been ported to Futhark, with significant performance gains as a result.
+\cite{citesomething}. With these results in mind, it makes sense to start
+implementing other parallelizable algorithms and programs in Futhark. However,
+in the grand scheme of things, Futhark is still a relatively obscure programming
+language, and is almost solely used in academic settings.
+
+With Futhark being a purely functional programming language, it has very few
+imperative language constructs available, and the few that it has, like
+in-place updates, are merely syntactic sugar for other existing library function calls.
+
+As Futhark's main functionality is generating OpenCL kernels, it is in principle
+possible to compile Futhark programs for any language that are able to interface
+with the OpenCL API.
+
+%err, måske flytte eller skrive om
+As a target language for \fsharp{} translations,
+Futhark is ideal as we can identify and relatively easily translate a subset
+of the \fsharp{} language to equivalent Futhark code, as the syntax itself is
+very similar. Even though \fsharp{} also allows plenty of imperative and object
+oriented programming,
+\fshark{} blocks the user from using these constructs, by failing at \fshark{}
+compile time.
+
+% måske tilføje noget om unsafe
+
+\section{\csharp{}}
+\csharp{} 
+\csharp{} 
+\csharp{} 
+\csharp{} 
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End:

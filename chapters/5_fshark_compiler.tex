@@ -179,8 +179,7 @@ cases of the F\# data type \texttt{BasicPatterns}.
   $\evals{Double}$ & $=$ & $\lit{Prim Float FDouble} $ 
   \\
   $\evals{\tau []}$ & $=$ & $\lit{FSharkArray }\evals{\tau}$ & ~~~~~ & 
-  $\evals{(\tau_0 \times \ldots \times \tau_n)}$ & $=$ & $\lit{FSharkTuple}~\evals{\tau_0},\ldots,\evals{\tau_n}$
-  \\
+  $\evals{(\tau_0 \times \ldots \times \tau_n)}$ & $=$ & $\lit{FSharkTuple}~\evals{\tau_0},\ldots,\evals{\tau_n}$ \\ ~ \\
 \end{tabular}
 
 INSERT NOTE ON RULE FOR TUPLE ('a [] * long [])
@@ -191,13 +190,13 @@ INSERT NOTE ON RULE FOR TUPLE ('a [] * long [])
 
 \begin{figure}
   \centering
-\begin{tabular}{@{}l c l c l c l c l c l}% to \linewidth {l c X}
-  $\evals{Const(obj, \tau)}$ & $=$ & $\lit{Const}(obj,}\evals{\tau}}\lit{)}$ & ~~~~~ & 
-  $\evals{i}$ & $=$ & $i$ & ~~~~~ & 
-  $\evals{f}$ & $=$ & $f$ \\
+  \begin{tabular}{@{}l c l c l c l c l c l}% to \linewidth {l c X}
+  %$\evals{Const(obj, \tau)}$ & $=$ & $\lit{Const}(obj,}\evals{\tau}}\lit{)}$ & ~~~~~ &
+%  $\evals{i}$ & $=$ & $i$ & ~~~~~ & 
+%  $\evals{f}$ & $=$ & $f$ \\
   $\evals{c}$ & $=$ & $\id{ascii}(c)$ & ~~~~~ & 
-  $\evals{\lit{tt}}$ & $=$ & \lit{true} & ~~~~~ & 
-  $\evals{\lit{ff}}$ & $=$ & \lit{false} \\ ~ \\
+  $\evals{\lit{tt}}$ & $=$ & $\lit{true}$ & ~~~~~ & 
+  $\evals{\lit{ff}}$ & $=$ & $\lit{false}$ \\ ~ \\
 \end{tabular}
   \caption{FShark SOACs}
 \end{figure}

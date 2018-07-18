@@ -1,0 +1,219 @@
+\chapter{\fshark{}s interoperability between \fsharp and Futhark (\csharp{})}
+FShark stands on three legs: The FShark compiler, the Futhark C\# code generator, and
+the FSharkWrapper.
+The compiler is responsible for compiling FShark source code into Futhark
+source code, and the C\# code generator takes the result Futhark source code,
+and compiles OpenCL powered C\# libraries, which can be imported directly back
+into F\#.
+
+It is of course possible to use the compiler and the code generator as
+individual modules, but for this project, the FSharkWrapper has been designed to
+let users use FShark without having to understand any of the underlying
+pipeline.
+
+To illustrate this; take a look at figure \ref{fig:fsharkusingwrapper}. In the
+first line, the user initializes the FSharkWrapper with the arguments necessary
+to use the wrapper itself. In the second line, the user adds a source file to
+the wrapper by it's path.
+In the third line, the user tells the wrapper to run the compilation pipeline.
+Assuming that the compilation goes well, the user can then invoke some function
+from the FShark program in line four.
+
+Here, calling the \texttt{CompileAndLoad()} function triggers the entire \fshark{}
+pipeline as described in \ref{pipeline}, and does then have a function available
+for the user to call afterwards.
+
+However, as this is the default way of using \fshark{}, we are currently calling
+\texttt{CompileAndLoad()} every time we use the \fshark{} program.
+This is happening even though we only need the final compiled C\# assembly to
+load back into \fsharp{} at runtime. 
+
+Everytime we run the FShark compiler pipeline, we are therefore also
+\begin{enumerate}
+\item parsing, typechecking and generating a TAST from the \fshark{} code,
+  using FSharp's compiler.
+\item generating Futhark source code from the FSharp TAST
+\item Writing the Futhark source code to disk
+\item running the Futhark compiler and C\# code generator on the Futhark source
+  code
+\item running the mono C\# compiler on the resulting C\# source code
+\end{enumerate}
+
+For two selected benchmarks we have the following times
+% Numbers for nbody.fut:
+%  FShark parsing took 1850345 ms
+%  FSharpDecls to FSharkIL took 76660 ms
+%  FSharkIL to Futhark source code took 43471 ms
+%  Compiling the Futhark module into .cs source code took 1555105 ms
+%  Compiling .cs module took 999251 ms
+%  Loading compiled .cs assembly using reflection took 101601 ms
+%  The entire FShark compilation pipeline took 4634460 ms
+%  Average invokation time was 104227 ms
+%  Invoking main took 107597 ms
+
+% LocVolCalib.fut small
+%FShark parsing took 217984 ms
+%FSharpDecls to FSharkIL took 19129 ms
+%FSharkIL to Futhark source code took 98949 ms
+%Compiling the Futhark module into .cs source code took 8037165 ms
+%Compiling .cs module took 1422527 ms
+%Loading compiled .cs assembly using reflection took 81370 ms
+%The entire FShark compilation pipeline took 9877907 ms
+%Average invokation time was 219150 ms
+%
+% locvolcalib medium
+% FShark parsing took 221395 ms
+% FSharpDecls to FSharkIL took 21487 ms
+% FSharkIL to Futhark source code took 107558 ms
+% Compiling the Futhark module into .cs source code took 7739211 ms
+% Compiling .cs module took 1467667 ms
+% Loading compiled .cs assembly using reflection took 77850 ms
+% The entire FShark compilation pipeline took 9635733 ms
+% Average invokation time was 333960 ms
+% 
+% locvolcalib large
+% FShark parsing took 229771 ms
+% FSharpDecls to FSharkIL took 20973 ms
+% FSharkIL to Futhark source code took 111219 ms
+% Compiling the Futhark module into .cs source code took 7452111 ms
+% Compiling .cs module took 1422789 ms
+% Loading compiled .cs assembly using reflection took 79751 ms
+% The entire FShark compilation pipeline took 9317354 ms
+% Average invokation time was 5863264 ms
+
+% nbody from assembly:
+% Opening class from assembly took 61841 ms
+% Running nbody from assembly took 117373 ms
+
+% locvolcalib
+% small
+% Opening class from assembly took 147341 ms
+% Running locvol small from assembly took 210698 ms
+% medium
+% Opening class from assembly took 61771 ms
+% Running locvol medium from assembly took 314444 ms
+% large
+% Opening class from assembly took 71198 ms
+
+
+
+
+% make a chart that shows the time consumption of a regular FShark execution
+% (for LocVolCalib and nbody) from start to finish, and what the time is spent
+% on 
+
+% make the same chart but where the assembly is referenced at compile time,
+% which means that the FShark program is just used as a compiler.
+
+% for both tests, we use ArrayToFlatArray, as we have still settled on normal
+% arrays as the array.
+
+\subsection{Pros and cons of the current design}
+As there are demonstratively great performance gains to be won by only using the
+compiler part of the FShark pipeline, it is worth discussing whether the
+rest of the FShark pipeline should remain.
+
+Besides eliminating the entire compilation operation at every \fshark{}
+execution, a compiler-only approach to the \fshark{} compiler would give us the
+following advantages:
+\begin{itemize}
+\item \textbf{Standalone-modules first:} As the compiler is now only
+  used once, the resulting Futhark assembly is readily importable in any .NET
+  project, as long as the required Mono libraries are also available.
+  This goes not only for the user who just compiled the assembly, but also for
+  any other user who has acquired the necessary Mono libraries. This means that
+  the \fshark{} developer can use and share the \fshark{} assemblies with
+  colleagues and coworkers like any other sharable .NET library,
+  as this is indeed what a compiled Futhark
+  \csharp{} library amounts to.
+
+  Corollarily; this \fshark{} design would make \fshark{} is useful for generating
+  high-performing .NET libraries. (Although one could write such libraries in
+  Futhark instead of \fshark{}.)
+
+\item \textbf{Static typing of \fshark{} module:} The current runtime-only
+  approach means that the user must rely on reflection to call \fshark{}
+  functions.
+  In this situation, all modern IDE comforts like autocompletion, and especially
+  static type checking and inference falls away.
+  For the following example
+  %% let foo (x : int) ((y,z) : (int * int)) : (int * int) 
+  , the current design demands that we first wrap our arguments in an
+  \texttt{obj array}, before invoking the function \texttt{foo}. Furthermore, we
+  must also downcast the result using \fsharp{}s downcasting operator \texttt{:?>}.
+  Because we are upcasting our arguments to an \texttt{obj array}, we can
+  actually pass any (correctly casted) array as an argument to our
+  reflection-invoked function, without triggering any type errors at compile
+  time.
+  The same goes for the downcasted result from the function. We can cast the
+  result as whatever type we like, and not run into any trouble until we finally
+  run the compiled program.
+  % write the example.
+  However, if we use \fshark{} to generate assemblies instead, we now have all
+  the type information available at compile time. Our compiler will block us
+  from compiling the program by giving us useful type errors. Last but not
+  least, we can remove all the casting operations that are littering the
+  program.
+  % other example
+  
+\item \textbf{Getting rid of, or at least trimming down, the FSharkWrapper:} 
+\end{itemize}
+
+However, the current design of \fshark{} also has some advantages that follows
+automatically from the design.
+
+\begin{itemize}
+\item \textbf{Rapid \fshark{} code development:}
+  Currently, it is recommended that any \fshark{} code for a project is also
+  built as part of the project.
+  By including the \fshark{} file in the original project's source list, we can
+  call the \fshark{} module natively, without running the \fshark{} compiler, to
+  prototype and debug the \fshark{} code directly in our IDE, before we switch
+  to using the compiled version of the \fshark{} code.
+  % example of developing
+  % 1: picture of placeholder function from Fshark, and fsharp module calling this
+  % 2: picture of placeholder function filled out, and fsharp module calling
+  % this
+  % 3: picture of placeholder function filled out, and fsharp module calling
+  % this through fshark
+
+\item \textbf{En mere}
+\end{itemize}
+
+
+% Discuss the pros and cons of the current design:
+%% Pros:
+%% 1) rapid development. FShark development can take place within the same IDE
+%% and project as the FShark-using program.
+%% 2) Ease of use: FShark can be used through a few imports and 
+
+%% Cons:
+%% 1) Probably the time consumption
+%% 2) The need for the FShark wrapper. Because the runtime-only design demands
+%% using reflection, the reflection behaviour has been encapsulated in a bulky
+%% wrapper object.
+\section{The future of \fshark{} interoperability}
+With these considerations in mind, my future work on \fshark{}s interoperability
+consists of reducing FSharkWrapper in size, so it only takes an \fshark{} source path
+  and a .NET assembly outpath as inputs, and does nothing more than
+  orchestrating the \fshark{}-, the Futhark- and the \csharp compiler.
+  The current design is too complex, largely from supporting too many superflous
+  features like concatenating multiple sources, and so on.
+
+I will also be researching the optimal way to keeping the \fshark{} module development as
+  close to the rest of the \fshark{}-using project as possible, without %% MERE
+  %% HERE
+  
+The current design enables direct prototyping, which must of course be kept
+in later versions of \fshark{}.
+
+%% Another idea: keep annoying wrapper, but let it skip the compiling step.
+
+% \fshark{} as a library generator
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End:
+
+
