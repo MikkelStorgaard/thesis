@@ -178,7 +178,7 @@ However, for the remaining four functions, that didn't have equivalents in
 Futhark's \texttt{math.fut}, their function calls are replaced with their
 identities instead.
 In example, whereas the \fshark{} code
-\begin{minted}
+\begin{minted}{ocaml}
   exp x
 \end{minted}
 is written in Futhark as 
@@ -187,7 +187,7 @@ is written in Futhark as
 \end{lstlisting}
 because the exp function is also available in \texttt{math.fut}, the \fshark{}
 code
-\begin{minted}
+\begin{minted}{ocaml}
   cosh x
 \end{minted}
 is rewritten as the full hyperbolic sine function instead, as so
@@ -301,7 +301,7 @@ different ways.
     implemented as calls to \texttt{Array.map} and \texttt{Array.length}
     respectively.
     For \texttt{map} for example, we have the following definition:
-    \begin{minted}[language=fsharp]
+    \begin{minted}{ocaml}
       module FSharkPrelude =
         ...
 
@@ -317,7 +317,7 @@ different ways.
     arguments.
     To define the \fshark{} SOAC so that it is equivalent to the Futhark
     version, it has been defined as so:
-    \begin{minted}[language=fsharp]
+\begin{minted}{ocaml}
       module FSharkPrelude =
         ...
       
@@ -330,7 +330,7 @@ different ways.
     Other functions, like the \texttt{map} functions which takes multiple arrays as
     arguments, require a bit of assembly first. For those \texttt{map} functions,
     we zip the arguments before using \texttt{Array.map} as usual:
-    \begin{minted}[language=fsharp]
+\begin{minted}{ocaml}
       module FSharkPrelude =
         ...
         let Map5 f aa bb cc dd ee =
@@ -342,7 +342,7 @@ different ways.
 
     \item Lastly, some functions does not have \fsharp{} counterparts. In
       example, we implement \texttt{scatter} using a for-loop:
-      \begin{minted}[language=fsharp]
+\begin{minted}{ocaml}
         module FSharkPrelude =
           ...
           let Scatter (dest : 'a array) (is : int array) (vs : 'a array) : 'a array =
@@ -369,6 +369,7 @@ versions that are directly equivalent.
 But there are several issues with just letting the \fshark{} programmer use 
 But many of these \fsharp{} functions are
 contained in 
+HER KOMMER DER MERE
 
 % 1) it would be awkward to maintain a whitelist of accepted library functions,
 % instead of simply handing the developer a gated library.

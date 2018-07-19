@@ -69,12 +69,13 @@ Part One: The FShark Language
     (include supported statements in grammar)
 3b. List the supported F# Operators 
 
-3. The FShark Prelude
+3. The FShark Language
+  Language subset:
   1. Introduction
   2. Description of the chosen library functions, their F# implementations and corresponding Futhark function.
   3. Arguing their correctness (also from testing) based on equivalence testing between F# and FShark
 
-4. The F# Subset
+  FSharkPrelude
   1. Introduction
   2. Arguing for the selected subset (i.e. why specifically operators and built-in math functions)
   3. Description of the chosen library functions and their F# implementations.
@@ -83,7 +84,7 @@ Part One: The FShark Language
   5. Arguing their correctness (also from testing) based on equivalence testing between F# and FShark
   
 Part Two: The FShark Compiler and Wrapper
-5. The FShark Compiler
+4. The FShark Compiler
   1. Parsing an FSharp program using the FSharp compiler
     1. A short description of the FSharp Compiler Services package
     2. An example of a well-formed FShark program
@@ -101,7 +102,7 @@ Part Two: The FShark Compiler and Wrapper
     1. Types that are usable in the invokation
     2. flattening F# arrays into flat arrays, and back again
 Part Three: The Futhark C# Generator
-6. The Futhark C# Generator
+5. The Futhark C# Generator
   1. Writing OpenCL-enabled C# code
     1. Choosing an OpenCL library fit for the task
     2. Alternatives to Cloo, and why they weren't chosen
@@ -119,22 +120,22 @@ Part Three: The Futhark C# Generator
 Something about arrays
 
 Part Four: Results and the rest
-7. Evaluation
+6. Evaluation
   1. An example of a finished FShark-using F# program
   2. Benchmark comparisons between FShark running native in F#, and through the FShark compiler (both CL and non-CL)
   3. Benchmark comparisons between FShark and other OpenCL implementations for F#
   4. Judging correctness based on test suites
   
   4. Explain where the speed differences comes from.
-8. Limitations
+7. Limitations
 
-9. Method
+8. Method
 
-10. Related work
+9. Related work
 
-11. Future work 
+10. Future work 
 
-12. Conclusion
+11. Conclusion
 
 appendices:
 

@@ -70,7 +70,6 @@
 \newenvironment{formal}{%
   \def\FrameCommand{%
     \hspace{1pt}%
-    {\color{darkblue}\vrule width 2pt}%
     {\color{formalshade}\vrule width 4pt}%
     \colorbox{formalshade}%
   }%
@@ -172,23 +171,19 @@
 \begin{document}
 
 %%%% CHAPTERS
-% \include{chapters/0_prelude}
+\include{chapters/0_prelude}
 \include{chapters/1_introduction}
 \include{chapters/2_background}
-\include{chapters/3a_fsharklang}
-\include{chapters/3b_supported_fsharp_ops}
-% \include{chapters/3_prelude}
-% \include{chapters/4_prelude}
-\include{chapters/5_fshark_compiler}
-% \include{chapters/6_prelude}
-
-% \include{chapters/7_prelude}
-% \include{chapters/8_prelude}
-% \include{chapters/9_prelude}
-% \include{chapters/10_prelude}
-% \include{chapters/11_prelude}
-% \include{chapters/12_prelude}
-% \include{chapters/a_appendices}
+\include{chapters/3_fsharklang}
+\include{chapters/4_fshark_compiler}
+\include{chapters/5_csharpgenerator}
+\include{chapters/6_evaluation}
+\include{chapters/7_limitations}
+\include{chapters/8_method}
+\include{chapters/9_related_work}
+\include{chapters/10_future_work}
+\include{chapters/11_conclusion}
+\include{chapters/a_appendices}
 \include{chapters/a_fshark_arrays}
 \include{chapters/b_interoperability_design}
 \end{document}
