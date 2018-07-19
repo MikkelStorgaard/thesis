@@ -6,12 +6,13 @@
 \begin{figure}
   \centering
   \begin{tabular}{lclr}
-    $t$ & $::=$ & $\texttt{int}$ & (Integers) \\
-        & $|$   & $\texttt{float}$ & (Floats) \\
+    $t$ & $::=$ & $\texttt{int8}~|~\texttt{int16} ~|~ \texttt{int} ~ |~\texttt{int64} $ & (Integers) \\
+        & $|$   & $\texttt{uint8} ~ | ~\texttt{uint16} ~|~\texttt{uint} ~|~\texttt{uint64} $ & (Unsigned integers) \\
+        & $|$   & $\texttt{single} ~| ~\texttt{double}$ & (Floats) \\
         & $|$   & $\texttt{bool}$ & (Booleans) \\
-        & $|$   & $(t_0 \times \ldots \times t_n)$ & (Tuples) \\
+        & $|$   & $(t_0 * \ldots * t_n)$ & (Tuples) \\
         & $|$   & $\{\texttt{id}_0:t_0 ; \ldots ; \texttt{id}_n:t_n\}$ & (Records) \\
-        & $|$   & $t$ array & (Arrays) \\
+        & $|$   & $t_0$ \texttt{array} & (Arrays) \\
     \\
 
     $k$ & $::=$ & $n$ & (Integer) \\
@@ -31,7 +32,8 @@
 \begin{figure}
   \centering
   \begin{tabular}{lclr}
-    $e$ & $::=$ & $k$ & Constant \\
+    $e$ & $::=$ & $(e_0)$ & \\
+        & $|$   & $k$ & Constant \\
         & $|$   & $v$ & Variable \\
         & $|$   & $(k_0 , \ldots , k_n)$ & (Tuple expression) \\
         & $|$   & $\{\texttt{id}_0=k_0 ; \ldots ; \texttt{id}_n=k_n\}$ & (Record expression) \\
@@ -46,10 +48,11 @@
         & $|$   & \texttt{let} $p = e_1$ \texttt{in} $e_2$ & (Pattern binding) \\
         & $|$   & $v$ $e_0$ $\ldots$ $e_n$ & (Function call) \\
     \\
-    $entry$ & $::=$ & \texttt{[<FSharkEntry>]} & \\
-            & $|$   & $\epsilon$ & \\
+    $fun$ & $::=$ & \texttt{[<FSharkEntry>]} $\texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t = e$ & \\
+        & $|$   & $\texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t' = e,$ & \\
+        &       & \hspace{1em} \textit{(for any $i \in {1..n}$, $t_i$ is not a tuple)} \\
     \\
-    $fun$ & $::=$ & $entry\ \texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t = e$ & \\
+
     $typealias$ & $::=$ & $\texttt{type}\ v\ = t $& \\
     $module$ & $::=$ & $\texttt{module}\ v = prog'\ progs'$ & \\
     \\
@@ -65,6 +68,76 @@
   \end{tabular}
   \caption{The FShark syntax, expressions}
 \end{figure}
+
+\subsection{\fsharp{} operators available in \fshark{}}
+The \fsharp{} subset chosen for \fshark{} is described in this subsection.
+\begin{description}
+\item[Arithmetic operators]\hfill\\
+  The set of supported arithmetic operators is addition (\texttt{+}),
+  binary subtraction and unary negation (\texttt{-}), multiplication
+  (\texttt{*}), division (\texttt{/}) and modulus (\texttt{\%}).
+  
+\item[Boolean operators]\hfill\\
+  \fshark{} currently supports logical AND (\texttt{\&\&}), logical OR
+  (\texttt{\|\|}), less- and greater-than (\texttt{<}, \texttt{>}), less- and
+  greater-or-equal (\texttt{<=}, \texttt{>=}), equality (\texttt{=}),
+  inequality (\texttt{<>}) and logical negation (\texttt{not}).
+
+\item[Special operators]\hfill\\
+  \fshark{} also supports some of \fsharp{}s syntactic sugar. These operators
+  might not have direct Futhark counterparts, but their applications can be
+  rewritten in Futhark for equivalent functionality.
+  The supported operators are back- and forward pipes (\texttt{<|} and
+  \texttt{|>}), and the range operator ($e_0$ \texttt{..} $e_1$), which
+  generates the sequence of numbers in the interval $[e_0,e_1]$. Note that in
+  \fshark{}, the range operator must be used inside an array as so
+  \texttt{[|$e_0$..$e_1$|]} so we adhere to using arrays and not lists in our
+  \fshark{} programs.
+\end{description}
+Note that all of these operators are overloaded and defined for all integer
+and floating point types in \fsharp{}.
+
+
+
+\subsection{\fsharp{} standard library functions available in \fshark{}}
+\fshark{} supports a subset of the \fsharp{} standard library. These are
+functions that are imported in \fsharp{} modules by default.
+
+\begin{description}
+\item[\texttt{id}]\hfill\\
+  The identity function.
+
+\item[Common math function]\hfill\\
+  The square root function (\texttt{sqrt}), the absolute value (\texttt{abs}),
+  the natural exponential function (\texttt{exp}), the binary- and the decimal
+  logarithm (\texttt{log} and \texttt{log10}).
+  
+\item[Common trigonometric functions]\hfill\\
+  Sine, cosine and tangent functions (both standard and hyperbolic):
+  \texttt{sin}, \texttt{cos}, \texttt{tan}), \texttt{sinh}, \texttt{cosh} and \texttt{tanh}.
+  Also one- and two-argument arctangent: \texttt{atan} and \texttt{atan2}.
+
+\item[Rounding functions]\hfill\\
+  \fshark{} supports all of \fsharp{}s rounding functions:
+  \texttt{floor}, \texttt{ceil}, \texttt{round} and \texttt{truncate}.
+  
+\item[Various common number functions]\hfill\\
+  \texttt{min}, \texttt{max}, \texttt{sign} and \texttt{compare}.
+
+  
+
+\end{description}
+
+
+
+% why these
+%% we can express all things, the mathematical standard funs have direct
+%% equivalents in Futhark
+% this should be extended with bitwise operators
+% some arithmetic functions have been implemented using inline identities
+
+
+
 
 \begin{figure}
   \centering
@@ -97,3 +170,8 @@
 \end{figure}
 
 LANGUAGE REFERNCE
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End:

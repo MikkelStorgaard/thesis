@@ -114,8 +114,10 @@ int main(void)
 
 \begin{figure}
   \centering
-  \begin[language=Futhark]{lstlisting}
-    let saxpy (a : f32) (x : f32) (y : f32) : f32 = a*x+y
+  \begin{lstlisting}[language=Futhark]
+    let saxpy (a : f32) (x : f32) (y : f32) : f32 =
+      a*x+y
+
     let main =
       let N = 1<<20
       let a = 2f32
@@ -203,20 +205,22 @@ The contributions of this thesis are as follows:
   This subset is of course documented for users.
 
 \item The \fshark{} Compiler and Wrapper:\\
+  The \fshark{} Compiler and Wrapper takes a module written in \fshark{} as
+  input, converts the \fshark{} module into a compiled Futhark \csharp{} module,
+  and makes it available to the \fsharp{} program, all at runtime.
+  The pipeline is described in sec \ref{chapter:fsharkcompiler}
 
 \item A \csharp{} backend for Futhark:\\
-
+  To actually use Futhark in \csharp{} projects (and transitively \fsharp{}
+  projects), it was necessary to develop and add a \csharp{} backend to
+  the Futhark compiler. This backend is equivalent in functionality to
+  the \texttt{C}- and the \texttt{Python} backends that are already available.
 
 \end{enumerate}
 
-
 \section{Roadmap}
-
-
-
-
-
-
+The main part of this thesis is split in four parts.
+blaaaah
 
 
 %%% Local Variables:
