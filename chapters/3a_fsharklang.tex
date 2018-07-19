@@ -47,6 +47,8 @@
         & $|$   & $v_0.v_1$ & (Module indexing) \\
         & $|$   & \texttt{let} $p = e_1$ \texttt{in} $e_2$ & (Pattern binding) \\
         & $|$   & $v$ $e_0$ $\ldots$ $e_n$ & (Function call) \\
+        & WHAT ABOUT LAMBDAS?& $v$ $e_0$ $\ldots$ $e_n$ & (Function call) \\
+
     \\
     $fun$ & $::=$ & \texttt{[<FSharkEntry>]} $\texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t = e$ & \\
         & $|$   & $\texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t' = e,$ & \\
@@ -69,8 +71,12 @@
   \caption{The FShark syntax, expressions}
 \end{figure}
 
+\clearpage
+
 \subsection{\fsharp{} operators available in \fshark{}}
 The \fsharp{} subset chosen for \fshark{} is described in this subsection.
+\begin{figure}[h]
+  \centering
 \begin{description}
 \item[Arithmetic operators]\hfill\\
   The set of supported arithmetic operators is addition (\texttt{+}),
@@ -79,7 +85,7 @@ The \fsharp{} subset chosen for \fshark{} is described in this subsection.
   
 \item[Boolean operators]\hfill\\
   \fshark{} currently supports logical AND (\texttt{\&\&}), logical OR
-  (\texttt{\|\|}), less- and greater-than (\texttt{<}, \texttt{>}), less- and
+  (\texttt{$||$}), less- and greater-than (\texttt{<}, \texttt{>}), less- and
   greater-or-equal (\texttt{<=}, \texttt{>=}), equality (\texttt{=}),
   inequality (\texttt{<>}) and logical negation (\texttt{not}).
 
@@ -94,6 +100,9 @@ The \fsharp{} subset chosen for \fshark{} is described in this subsection.
   \texttt{[|$e_0$..$e_1$|]} so we adhere to using arrays and not lists in our
   \fshark{} programs.
 \end{description}
+  \caption{\fshark{} operators}
+  \label{fig:fsharkops}
+\end{figure}
 Note that all of these operators are overloaded and defined for all integer
 and floating point types in \fsharp{}.
 
@@ -103,13 +112,15 @@ and floating point types in \fsharp{}.
 \fshark{} supports a subset of the \fsharp{} standard library. These are
 functions that are imported in \fsharp{} modules by default.
 
+\begin{figure}[h]
+  \centering
 \begin{description}
 \item[\texttt{id}]\hfill\\
   The identity function.
 
 \item[Common math function]\hfill\\
   The square root function (\texttt{sqrt}), the absolute value (\texttt{abs}),
-  the natural exponential function (\texttt{exp}), the binary- and the decimal
+  the natural exponential function (\texttt{exp}), the natural- and the decimal
   logarithm (\texttt{log} and \texttt{log10}).
   
 \item[Common trigonometric functions]\hfill\\
@@ -121,20 +132,109 @@ functions that are imported in \fsharp{} modules by default.
   \fshark{} supports all of \fsharp{}s rounding functions:
   \texttt{floor}, \texttt{ceil}, \texttt{round} and \texttt{truncate}.
   
+\item[Number convertion functions]\hfill\\
+  \fshark{} supports all of \fsharp{}s number convertion functions.
+  For all the following functions $t$, $t e = e', e : t_0, e' : t$, barring
+  exceptions like trying to convert a too large 64-bit integer into a 32-bit
+  integer.
+
+  The convertion functions available are \texttt{int8}, \texttt{int16}, \texttt{int}, \texttt{int64}, \texttt{uint8}, \texttt{uint16},
+  \texttt{uint}, \texttt{uin64}, \texttt{single}, \texttt{double}, \texttt{bool}.
+  
 \item[Various common number functions]\hfill\\
   \texttt{min}, \texttt{max}, \texttt{sign} and \texttt{compare}.
-
-  
-
 \end{description}
+  \caption{\fshark{} operators}
+  \label{fig:fsharkfuns}
+\end{figure}
+
+Currently, bitwise operators like bitwise-AND and bitwise-OR are missing, but
+they should be relatively simple to add to the \fshark{} subset, by adding them
+to the set of supported operators in the \fshark{} compiler.
+
+\subsection{On the \fsharp{} subset selected for \fshark{}}
+For selecting the \fsharp{} subset to support in \fshark{}, I chose to look at
+what functions that were included in \fsharp{}'s prelude. That is, the
+functions that are available in an \fsharp{} program without having to
+\texttt{open} their containing module first.
+Fortunately, \fsharp{} opens several modules by default of which I only
+needed to look in two different ones, to be able to support a reasonable amount
+of \fsharp{} built-ins in \fshark{}.
+
+The primary module used in my supported \fsharp{} subset is the module
+\texttt{FSharp.Core.Operators}.
+This module contained not only the standard arithmetic described in figure
+\ref{fig:fsharkops}, but also most\footnote{except for some convertion
+  functions, found in \texttt{FSharp.Core.ExtraTopLevelOperators}} of the functions shown in the figure \ref{fig:fsharkfuns}.
+Except for \texttt{unit} type functions like \texttt{failwith}, \texttt{exit}
+and \texttt{async}, most of the functions and operators
+\texttt{FSharp.Core.Operators} have direct counterparts in Futhark's prelude,
+with equivalent functionality: All except for four of operators and functions chosen for
+\fshark{} are in fact implemented in Futhark's \texttt{math.fut} library.
+It was therefore aan obvious decision to support these functions and operators in
+\fshark{}.
+
+However, for the remaining four functions, that didn't have equivalents in
+Futhark's \texttt{math.fut}, their function calls are replaced with their
+identities instead.
+In example, whereas the \fshark{} code
+\begin{minted}
+  exp x
+\end{minted}
+is written in Futhark as 
+\begin{lstlisting}[language=Futhark]
+  exp x
+\end{lstlisting}
+because the exp function is also available in \texttt{math.fut}, the \fshark{}
+code
+\begin{minted}
+  cosh x
+\end{minted}
+is rewritten as the full hyperbolic sine function instead, as so
+\begin{lstlisting}[language=Futhark]
+  ((exp x) + (exp (-x))) / 2.0
+\end{lstlisting}
+These rewritings are not pretty to look at from a programmer's perspective, but
+\fshark{}s Futhark code is not meant to be read by humans anyhow.
+
+(MAYBE INVESTIGATE WHETHER INLINING THESE HAS PERFORMANCE PENALTIES) 
+
+% i could have also supported limited imports
+
+\subsection{The correctness of the \fshark{} subset.}
+When transpiling code from one language to another, it is absolutely vital that
+the programmer can trust, that the resulting code in the target language is
+semantically equivalent to the source code.
+In \fshark{}s case, it means that any program written using the \fshark{}
+subset, must have the same result no matter whether it is run natively as
+\fsharp{} code, or it is run as \fshark{} compiled Futhark code.
+
+I.e., one could imagine a programming language which had defined the function
+\texttt{log} not as the natural logarithm, but instead the binary logarithm. In
+such a case, the translation from that language to Futhark would still go
+without a hitch, and without any type errors to hint at the impending
+catastrophe.
+However, the native result with the Futhark result would be wildly different.
+
+To ensure that every operator and function in the \fshark{} subset has
+equivalent results, no matter whether the \fshark{} code is run as native
+\fsharp{} code, or compiled into Futhark, I have written a test suite with unit
+tests for each element in the \fsharp{} subset. 
+
+This is described further in chapter \ref{evaluation_tests}
+
+(THESE ARE NOT ACTUALLY DONE YET)
+(Are unit tests enough?)
+
+% all convertion functions pass through i64. this might be a mistake, as real
+% supports f32 to f64
+
+% thoughts on correctness of translations
+% testing correctness of these translations
 
 
+% why block people from using Array.map and direct them to SOACs instead ( )
 
-% why these
-%% we can express all things, the mathematical standard funs have direct
-%% equivalents in Futhark
-% this should be extended with bitwise operators
-% some arithmetic functions have been implemented using inline identities
 
 
 
@@ -170,6 +270,128 @@ functions that are imported in \fsharp{} modules by default.
 \end{figure}
 
 LANGUAGE REFERNCE
+
+
+\section{FSharkPrelude}
+Besides defining an \fsharp{} subset suitable for Futhark translation, it was
+also imperative to create a library of SOACs and array functions for \fshark{},
+to make it possible to write programs with parallel higher-order array
+functions.
+
+Similarly to how the subset of math functions chosen from \fsharp{} to include in
+the \fshark{} was chosen, the SOACs and array function included in the
+\texttt{FSharkPrelude} has been picked directly from the Futhark libraries
+\texttt{futlib/array.fut} and \texttt{futlib/soacs.fut}. The \texttt{FSharkPrelude} doesn't
+discriminate between array functions and SOACs, as maintaining and importing two
+different prelude files in \fshark{} was needlessly complicated.
+
+The \texttt{FSharkPrelude} consists of functions which are directly named after
+their Futhark counterparts, and have equivalent functionality.
+This prelude, together with the \fshark{} subset, is what makes up the \fshark{} language.
+When \fshark{} developers are writing modules in \fshark{}, they are guaranteed
+that their \fshark{} programs has the same results, no matter whether their
+programs are executed like native \fsharp{} code, or compiled and executed as
+Futhark.
+
+The \texttt{FSharkPrelude} versions of Futhark functions are defined in three
+different ways.
+\begin{description}
+  \item Functions like the SOAC \texttt{map} and the array function
+    \texttt{length} have direct \fsharp{} equivalents, and are therefore
+    implemented as calls to \texttt{Array.map} and \texttt{Array.length}
+    respectively.
+    For \texttt{map} for example, we have the following definition:
+    \begin{minted}[language=fsharp]
+      module FSharkPrelude =
+        ...
+
+         let Map f aa =
+           Array.map f aa
+
+        ...
+    \end{minted}
+
+  \item Some Futhark SOACs, like \texttt{reduce}, takes a neutral element as one of the
+    arguments in their function calls, whilst their \fsharp{} counterparts
+    (\texttt{Array.reduce}) does only take an operator and an array as
+    arguments.
+    To define the \fshark{} SOAC so that it is equivalent to the Futhark
+    version, it has been defined as so:
+    \begin{minted}[language=fsharp]
+      module FSharkPrelude =
+        ...
+      
+        let Reduce (op: 'a -> 'a -> 'a) (neutral : 'a) (xs : 'a array) =
+          let xs' = Array.append [|neutral|] xs
+          in Array.reduce op xs'
+
+        ...
+    \end{minted}
+    Other functions, like the \texttt{map} functions which takes multiple arrays as
+    arguments, require a bit of assembly first. For those \texttt{map} functions,
+    we zip the arguments before using \texttt{Array.map} as usual:
+    \begin{minted}[language=fsharp]
+      module FSharkPrelude =
+        ...
+        let Map5 f aa bb cc dd ee =
+          let curry f (a,b,c,d,e) = f a b c d e
+          let xs = Zip5 aa bb cc dd ee
+          in Array.map (curry f) xs
+        ...
+    \end{minted}
+
+    \item Lastly, some functions does not have \fsharp{} counterparts. In
+      example, we implement \texttt{scatter} using a for-loop:
+      \begin{minted}[language=fsharp]
+        module FSharkPrelude =
+          ...
+          let Scatter (dest : 'a array) (is : int array) (vs : 'a array) : 'a array =
+            for (i,v) in Zip is vs do
+              dest.[i] <- v
+            dest
+          ...
+      \end{minted}
+\end{description}
+The complete list of available SOACs and array functions is available in
+appendix \ref{appendix:soacs}.
+
+Note that calls to \texttt{FSharkPrelude} functions are caught and exchanged for
+Futhark functions during the \fshark{} compilation, as described in sec \ref{kig
+  kig}.
+
+% descriptions
+
+
+% WHY ALL OF THIS
+Several of Futhark's SOACs, such as \texttt{map}, already has \fsharp{}
+versions that are directly equivalent.
+
+But there are several issues with just letting the \fshark{} programmer use 
+But many of these \fsharp{} functions are
+contained in 
+
+% 1) it would be awkward to maintain a whitelist of accepted library functions,
+% instead of simply handing the developer a gated library.
+% 1½) uncomfortable to be told function is not supported at runtime 
+
+% 2) some Array functions have subtle differences compared to their
+% futhark counterparts. In example, reduce doesn't take a neutral element which
+% Futhark's reduce does.
+
+% 3)
+
+
+% note; FSharkPrelude cannot detect bad operators in reduce. non-commutative ops
+% in reduce goes bad when parallel, så deeeeeet
+
+
+% Performance is discussed in a later chapter
+
+% some implementations, like ZipN, are probably criminally ineffective.
+
+% correctness
+
+% performance discussions
 
 %%% Local Variables:
 %%% mode: latex

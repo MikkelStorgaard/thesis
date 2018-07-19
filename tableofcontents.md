@@ -116,11 +116,14 @@ Part Three: The Futhark C# Generator
     
   4. (maybe describe the free list)
 
+Something about arrays
+
 Part Four: Results and the rest
 7. Evaluation
   1. An example of a finished FShark-using F# program
   2. Benchmark comparisons between FShark running native in F#, and through the FShark compiler (both CL and non-CL)
   3. Benchmark comparisons between FShark and other OpenCL implementations for F#
+  4. Judging correctness based on test suites
   
   4. Explain where the speed differences comes from.
 8. Limitations
@@ -133,4 +136,7 @@ Part Four: Results and the rest
 
 12. Conclusion
 
+appendices:
+
+a. FShark reference guide
   
