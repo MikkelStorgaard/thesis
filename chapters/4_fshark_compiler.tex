@@ -11,13 +11,6 @@ available NuGet package for F\# projects, we can use this package
 \texttt{FSharp.Compiler.Services} to parse the entire input \fshark{} program and
 give us a Typed Abstract Syntax Tree of the FSharp expressions therein.
 
-\begin{figure}[h]
-  \centering
-  FIGURE HERE OF THE FSHARP COMPILATION 
-  \caption{The \fshark{} compilation pipeline}
-  \label{fig:fsharkcompilerpipeline}
-\end{figure}
-
 The F\# Software Foundation actively encourages developers to create projects
 using the F\# compiler library, they have published the collected F\# compiler
 as a NuGet package, alongside a tutorial\ref{fsharptutorial}on the usage of the
@@ -132,6 +125,14 @@ is by adding \fshark{} source files to the wrapper object by calling the
 method. Although the \fshark{} wrapper also offers other methods of loading and
 compilation, this is the primary one, as it initiates the entire \fshark{}
 compilation pipeline.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics{chapters/figs/csharp/pipeline_step_3.pdf}
+  \caption{The \fshark{} compilation pipeline}
+  \label{fig:fsharkcompilerpipeline}
+\end{figure}
+
 
 When calling \texttt{CompileAndLoad}, the supplied \fshark{} source files are
 concatenated into one long source file, and written to a temporary location.
@@ -269,9 +270,6 @@ the resulting .dll file from within the \fshark{}-using F\# program.
 
 \subsection{Building \fshark{} from the Typed AST}
 \label{sec:fsharkcompilerrules}
-\fshark{} supports just a subset of the \fsharp{} language, which also means that only a
-subset of \fsharp{}s FSharpExpr
-
 Only the supported FSharpExpr's has been listed here, but the full range of
 FSharpExpr's are available on \cite{typedtree}.
 
@@ -280,6 +278,34 @@ INTRODUCTION HERE
 
 For these translations, we will disregard that all \fsharpexpr{}s are union
 cases of the F\# data type \texttt{BasicPatterns}.
+
+
+\begin{figure}
+  \centering
+\begin{tabular}{@{}l c l}% to \linewidth {l c X}
+  $\evals{Entity(\lit{IsFSharpRecord}, [(field_0 : \tau_0), \ldots, (field_n : \tau_n)])}$ & & \\
+  $= \lit{FSharkRecord([}(field_0 : \evals{\tau_0}), \ldots, (field_n : \evals{\tau_n})\lit{])}$ & & \\
+  ~ \\
+\end{tabular}
+\begin{tabular}{@{}l c l}% to \linewidth {l c X}
+  $\evals{Entity(\lit{IsFSharpTypeAbbreviation}, alias, \tau)}$ & & \\
+  $= \lit{FSharkTypeAlias(} alias, \evals{\tau}\lit{)}$ & & \\
+  ~ \\
+\end{tabular}
+\begin{tabular}{@{}l c l}% to \linewidth {l c X}
+  $\evals{Entity(\lit{IsFSharpModule}, [decl_0,\ldots,decl_n])}$ & & \\
+  $= [\evals{decl_0},\ldots,\evals{decl_n}]$ & & \\
+  ~ \\
+\end{tabular}
+\begin{tabular}{@{}l c l}% to \linewidth {l c X}
+  $\evals{MemberOrFunctionOrValue((name, \tau^{*}, IsEntryFunction), [(arg_0 : \tau_0), \ldots, (arg_n : \tau_n)], e)}$ & & \\
+  $= FSharkVal(IsEntryFunction, \lit{FSharkFunction}([\evals{\tau_0}, \ldots, \evals{\tau_n}], \evals{\tau^{*}}),name, [arg_0,..,arg_n],\evals{e})$ & & \\
+  ~ \\
+\end{tabular}
+\caption{\texttt{FSharpImplemtationFileDeclaration} to \texttt{FSharkDecl}
+  translations.}
+\end{figure}
+
 
 \begin{figure}
   \centering
@@ -313,22 +339,22 @@ INSERT NOTE ON RULE FOR TUPLE ('a [] * long [])
 \begin{figure}
   \centering
 \begin{tabular}{@{}l c l c l c l}% to \linewidth {l c X}
-  $\evals{Prim Int FInt8}$ & $=$ & $\lit{i8} $ & ~~~~~ & 
-  $\evals{Prim Int FInt16}$ & $=$ & $\lit{i16}$
+  $\evals{Prim~Int~FInt8}$ & $=$ & $\lit{i8} $ & ~~~~~ & 
+  $\evals{Prim~Int~FInt16}$ & $=$ & $\lit{i16}$
+  \\              
+  $\evals{Prim~Int~FInt32}$ & $=$ & $\lit{i32} $ & ~~~~~ & 
+  $\evals{Prim~Int~FInt64}$ & $=$ & $\lit{i64} $
   \\
-  $\evals{Prim Int FInt32}$ & $=$ & $\lit{i32} $ & ~~~~~ & 
-  $\evals{Prim Int FInt64}$ & $=$ & $\lit{64} $
+  $\evals{Prim~UInt~FUInt8}$ & $=$ & $\lit{u8} $ & ~~~~~ & 
+  $\evals{Prim~UInt~FUInt16}$ & $=$ & $\lit{u16} $ 
+  \\               
+  $\evals{Prim~UInt~FUInt32}$ & $=$ & $\lit{u32} $ & ~~~~~ & 
+  $\evals{Prim~UInt~FUInt64}$ & $=$ & $\lit{u64} $ 
   \\
-  $\evals{Prim UInt FUInt8}$ & $=$ & $\lit{u8} $ & ~~~~~ & 
-  $\evals{Prim UInt FUInt16}$ & $=$ & $\lit{u16} $ 
+  $\evals{Prim~Float~FSingle}$ & $=$ & $\lit{f32} $ & ~~~~~ & 
+  $\evals{Prim~Float~FDouble}$ & $=$ & $\lit{f64} $ 
   \\
-  $\evals{Prim UInt FUInt32}$ & $=$ & $\lit{u32} $ & ~~~~~ & 
-  $\evals{Prim UInt FUInt64}$ & $=$ & $\lit{u64} $ 
-  \\
-  $\evals{Prim Float FSingle}$ & $=$ & $\lit{f32} $ & ~~~~~ & 
-  $\evals{Prim Float FDouble}$ & $=$ & $\lit{f64} $ 
-  \\
-  $\evals{Prim Bool}$ & $=$ & $\lit{bool} $ & ~~~~~ & 
+  $\evals{Prim~Bool}$ & $=$ & $\lit{bool} $ & ~~~~~ & 
   $\evals{\tau []}$ & $=$ & $\lit{\fshark{}Array }\evals{\tau}$
   \\
   $\evals{(\tau_0 \times \ldots \times \tau_n)}$ & $=$ & $\lit{\fshark{}Tuple}~\evals{\tau_0},\ldots,\evals{\tau_n}$ \\ ~ \\
