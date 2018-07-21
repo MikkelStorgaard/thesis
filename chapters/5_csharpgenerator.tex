@@ -294,45 +294,121 @@ CARRY STATE, FURTHERMORE DYNAMIC MEMORY ALLOCATION
 
 % THE DIFFERENCES BETWEEN MEMORY HANDLING IN CS AND CSOPENCL
 \section{Memory management in Futhark \csharp{}}
-As Futhark passes array values around in byte arrays, it is relevant to compare
+As Futhark stores array values around in byte arrays, it is relevant to compare
 the difference between how the array handling differs between Futhark's C
 backend, and this \csharp{} backend.
-The 
+For OpenCL programs, the memory management of \csharp{} and C is largely the
+same, as the OpenCL side of these programs are the same. \csharp{} does after
+all just use C bindings for it's OpenCL interactions.
 
+However, for non-OpenCL \csharp{} programs, we have to take \csharp{}'s memory
+model into consideration
 
-will now 
-must investigate exactly how 
-%% PERFORMANCE ISSUES WITH CS MANAGED ARRAYS
+C implicitly allows unsafe programming. In this case, it means interacting with system
+memory by reading and writing arbitrary values from/to arbitrary locations,
+designating the values and destinations as whatever type we want.
+In figure \ref{fig:futharkcscene}, we see a \texttt{for}-loop that
+performs a summing scan on an array of integers.
+On line 6, reading from right to left, we are first creating reference to
+a location in the byte array \texttt{xs\_mem\_4223}. However, as the reference
+is a pointer to a byte in the array, we must recast it as an \texttt{int32\_t} pointer.
+After we do this, we can finally derefer the pointer to retrieve a four byte
+integer from the byte array.
 
-%% Use of unsafe and fixed in CSHARP
+We add the retrieved integer to our accumulating variable
+\texttt{scanacc\_4187}, before we cast a reference in our destination byte array
+as an integer pointer, and store the result there.
 
-% TALK ABOUT FUTHARK CONTEXT CONFIG
+\begin{figure}
+\centering
+\begin{minted}[linenos, fontsize=\small]{c}
+memblock mem_4226;
+memblock_alloc(&mem_4226, bytes_4224);
+int32_t scanacc_4187 = 0;
 
-% TALK ABOUT FUTHARK CONTEXT 
+for (int32_t i_4189 = 0; i_4189 < sizze_4135; i_4189++) {
+    int32_t x_4147 = *(int32_t *) &xs_mem_4223[i_4189 * 4];
+    
+    scanacc_4187 += x_4147;
 
-% COMPILING A FUTHARK CS PROGRAM
-% USAGE OF A COMPILED FUTHARK CS PROGRAM
+    *(int32_t *) &mem_4226[i_4189 * 4] = scanacc_4187;
+}
+\end{minted}
+\caption{A short snippet from a Futhark C program}
+\label{fig:futharkcscene}
+\end{figure}
+
+WHY IS THIS NOT ALLOWED?
+
+DESCRIBE TWO DIFFERENT WAYS OF DOING IT ANYHOW
+1) MARSHAL
+2) unsafe and fixed
+
+what was chosen and why
 
 % WHY THIS DESIGN
 
-% PERFORMANCE OF FUTHARK-CS AND FUTHARK-CSOPENCL
+% benchmarks are available in benchmarking chapter
 %% FOR CS-OPENCL, PERFORMANCE IS COMPARABLE TO C-OPENCL
 %% FOR CS, PERFORMANCE IS VASTLY INFERIOR TO TO C
 %%% WHY IS THAT???????????
 
+\section{The \csharp{} / OpenCL interaction}
+OpenCL interaction is not a part of the .NET standard library, but several
+libraries do exist for .NET/OpenCL interactions. For this thesis, I researched a
+selection of these libraries, to determine which one that would fit the best for
+my purposes.
+As Futhark depends on being able to interface with the OpenCL platform directly,
+it was necessary to find an OpenCL library for .NET which had direct bindings to
+the OpenCL developer library.
 
+The .NET libraries I took into consideration was \texttt{NOpenCL}, \texttt{OpenCL.NET} and \texttt{Cloo}.
+All three libraries have been designed to aide OpenCL usage in \csharp{}
+programs, by simplifying OpenCL calls behind methods GØR BEDRE.
+\\
+\\
+\texttt{NOpenCL} was the first candidate for the \csharp{} backend, and had
+several advantages to the other two: As per February 2018, it had been updated
+within the last year, and was therefore the least deprecated library. Second,
+the \texttt{NOpenCL} repository on Github contains both unit tests and
+example programs.
 
+However, \texttt{NOpenCL} is also tailored for Windows use, and therefore not a
+good fit for Futhark, as Futhark is available on both Windows, Linux and Mac OS.
+Furthermore, the library is not available through the NuGet
+package manager, and the OpenCL API calls are needlessly complex to work with
+through the library.
+\\
+\\
+\texttt{OpenCL.NET} also has a test suite, is available through NuGet, and is
+used as the backend for other libraries, such as the \fsharp{} GPU library
+\texttt{Brahma.FSharp}\ref{relatedwork:brahma}.
 
-%discussion:
-% why are we using Cloo, and not other \csharp{} opencl libs
-% if Cloo dies, we can achieve similar functioality by writing our own opencl
-% lib, as we only uses the bindings from Cloo
+However, this library hardcoded to work on a in a Windows context, and has not been
+updated for more than five years.
+\\
+\\
+This leaves us with \texttt{Cloo}. \texttt{Cloo} is usable on all three
+platforms, and it is available on NuGet. Furthermore, as opposed to the other two libraries, the
+Cloo library contains a class with static functions that does nothing but
+passing arguments on to the OpenCL library, using \csharp{}s \texttt{DllImport}
+attribute. It is immediately possible to skip most of \texttt{Cloo}s features,
+and just use the library for it's OpenCL bindings.
 
-% why use \csharp{} when \fshark{} is for \fsharp{}? ImpCode is often directly
-% translatable to \csharp{}
+Even then, \texttt{Cloo} has not been updated within the last five years, and
+probably won't be in the future either.
+\\
+\\
+Given these three candidates, I chose to work with \texttt{Cloo}: It was the
+only one that had the necessary OpenCL bindings readily available, and the only
+one that was platform agnostic.
 
-% the choice of data structures, specifically Arrays
-
+\subsection{Writing a custom OpenCL bindings library}
+Though \texttt{Cloo} is a good fit for Futhark \csharp{}, it is also slightly
+risky to depend on a five year old unmaintained library in a modern project.
+Therefore, it could be a good idea to write a smaller library similar to
+\texttt{Cloo}, specifically for Futhark - or maybe even just include it with
+Futhark as one of the \csharp{} runtime libraries. 
 
 %%% Local Variables:
 %%% mode: latex

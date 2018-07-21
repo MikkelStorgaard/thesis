@@ -31,13 +31,19 @@
 \contentsline {subsection}{\numberline {5.0.7}Entry functions}{32}
 \contentsline {section}{\numberline {5.1}The \texttt {C\#}{} backend, compared to the C- and Python counterparts}{33}
 \contentsline {section}{\numberline {5.2}Memory management in Futhark \texttt {C\#}{}}{33}
-\contentsline {chapter}{\numberline {6}Benchmarks and evaluation}{34}
-\contentsline {chapter}{\numberline {7}Current limitations}{35}
-\contentsline {chapter}{\numberline {8}Method}{36}
-\contentsline {chapter}{\numberline {9}Related work}{37}
-\contentsline {chapter}{\numberline {10}Future work}{38}
-\contentsline {chapter}{\numberline {11}Conclusion}{39}
-\contentsline {chapter}{\numberline {12}Array handling in FShark}{40}
-\contentsline {chapter}{\numberline {13}\texttt {FShark}{}s interoperability between \texttt {F\#}and Futhark (\texttt {C\#}{})}{41}
-\contentsline {subsection}{\numberline {13.0.1}Pros and cons of the current design}{42}
-\contentsline {section}{\numberline {13.1}The future of \texttt {FShark}{} interoperability}{43}
+\contentsline {section}{\numberline {5.3}The \texttt {C\#}{} / OpenCL interaction}{33}
+\contentsline {subsection}{\numberline {5.3.1}Writing a custom OpenCL bindings library}{35}
+\contentsline {chapter}{\numberline {6}Benchmarks and evaluation}{36}
+\contentsline {section}{\numberline {6.1}\texttt {FShark}{} generated Futhark compared to original Futhark code}{36}
+\contentsline {section}{\numberline {6.2}The \texttt {LocVolCalib} benchmark}{36}
+\contentsline {section}{\numberline {6.3}The \texttt {nbody} benchmark}{36}
+\contentsline {subsection}{\numberline {6.3.1}Specifications for benchmark}{36}
+\contentsline {chapter}{\numberline {7}Current limitations}{37}
+\contentsline {chapter}{\numberline {8}Method}{38}
+\contentsline {chapter}{\numberline {9}Related work}{39}
+\contentsline {chapter}{\numberline {10}Future work}{40}
+\contentsline {chapter}{\numberline {11}Conclusion}{41}
+\contentsline {chapter}{\numberline {12}Array handling in FShark}{42}
+\contentsline {chapter}{\numberline {13}\texttt {FShark}{}s interoperability between \texttt {F\#}and Futhark (\texttt {C\#}{})}{43}
+\contentsline {subsection}{\numberline {13.0.1}Pros and cons of the current design}{44}
+\contentsline {section}{\numberline {13.1}The future of \texttt {FShark}{} interoperability}{45}
