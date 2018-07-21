@@ -18,18 +18,23 @@
 \usepackage{tikz}
 \usepackage{svg}
 \usepackage{pdfpages}
-
-
-\title{
-	{FShark - something something subtitle}\\
-	{\large University of Copenhagen}\\
-}
-\author{Mikkel Storgaard Knudsen}
+\usepackage{titling}
 
 \newcommand{\fshark}{\texttt{FShark}}
 \newcommand{\fsharp}{\texttt{F\#}}
 \newcommand{\csharp}{\texttt{C\#}}
 \newcommand{\fsharpexpr}{\texttt{FSharpExpr}}
+
+\title{
+	\fshark{}\\
+	\large University of Copenhagen\\
+  \includegraphics[width=6cm]{logo}
+}
+
+\author{Mikkel Storgaard Knudsen}
+
+
+
 % Futhark syntax highlighting setup
 \usepackage{listings}
 \renewcommand{\ttdefault}{pcr} % Courier instead of Computer Modern

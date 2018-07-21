@@ -1,0 +1,43 @@
+\contentsline {chapter}{\numberline {1}Introduction}{4}
+\contentsline {section}{\numberline {1.1}Sequential versus parallel computing}{4}
+\contentsline {section}{\numberline {1.2}Parallel programming in Futhark}{4}
+\contentsline {section}{\numberline {1.3}Motivation}{5}
+\contentsline {section}{\numberline {1.4}The contributions of this thesis}{7}
+\contentsline {section}{\numberline {1.5}Roadmap}{8}
+\contentsline {chapter}{\numberline {2}Background}{9}
+\contentsline {section}{\numberline {2.1}\texttt {F\#}{}}{9}
+\contentsline {section}{\numberline {2.2}Futhark}{9}
+\contentsline {section}{\numberline {2.3}\texttt {C\#}{}}{10}
+\contentsline {section}{\numberline {2.4}A primer on OpenCL}{10}
+\contentsline {chapter}{\numberline {3}The \texttt {FShark}{} language}{11}
+\contentsline {subsection}{\numberline {3.0.1}\texttt {F\#}{} operators available in \texttt {FShark}{}}{14}
+\contentsline {subsection}{\numberline {3.0.2}\texttt {F\#}{} standard library functions available in \texttt {FShark}{}}{14}
+\contentsline {subsection}{\numberline {3.0.3}On the \texttt {F\#}{} subset selected for \texttt {FShark}{}}{14}
+\contentsline {subsection}{\numberline {3.0.4}The correctness of the \texttt {FShark}{} subset.}{16}
+\contentsline {section}{\numberline {3.1}FSharkPrelude}{17}
+\contentsline {chapter}{\numberline {4}The \texttt {FShark}{} Compiler and Wrapper}{19}
+\contentsline {subsection}{\numberline {4.0.1}The \texttt {FShark}{} Compiler Pipeline in practice}{19}
+\contentsline {subsection}{\numberline {4.0.2}When \texttt {FShark}{} Wrapper Compiles}{21}
+\contentsline {subsubsection}{The declaration types within F\#'s Typed AST}{22}
+\contentsline {subsection}{\numberline {4.0.3}Building \texttt {FShark}{} from the Typed AST}{24}
+\contentsline {subsection}{\numberline {4.0.4}FSharp-to-\texttt {FShark}{}IL rules}{24}
+\contentsline {chapter}{\numberline {5}The Futhark \texttt {C\#}{} backend}{27}
+\contentsline {subsection}{\numberline {5.0.1}The anatomy of a Futhark \texttt {C\#}{} program}{28}
+\contentsline {subsection}{\numberline {5.0.2}Global context variables}{28}
+\contentsline {subsection}{\numberline {5.0.3}The class constructor}{30}
+\contentsline {subsection}{\numberline {5.0.4}The various runtime libraries}{30}
+\contentsline {subsection}{\numberline {5.0.5}The compiled Futhark functions}{31}
+\contentsline {subsection}{\numberline {5.0.6}OpenCL kernels and wrappers}{31}
+\contentsline {subsection}{\numberline {5.0.7}Entry functions}{32}
+\contentsline {section}{\numberline {5.1}The \texttt {C\#}{} backend, compared to the C- and Python counterparts}{33}
+\contentsline {section}{\numberline {5.2}Memory management in Futhark \texttt {C\#}{}}{33}
+\contentsline {chapter}{\numberline {6}Benchmarks and evaluation}{34}
+\contentsline {chapter}{\numberline {7}Current limitations}{35}
+\contentsline {chapter}{\numberline {8}Method}{36}
+\contentsline {chapter}{\numberline {9}Related work}{37}
+\contentsline {chapter}{\numberline {10}Future work}{38}
+\contentsline {chapter}{\numberline {11}Conclusion}{39}
+\contentsline {chapter}{\numberline {12}Array handling in FShark}{40}
+\contentsline {chapter}{\numberline {13}\texttt {FShark}{}s interoperability between \texttt {F\#}and Futhark (\texttt {C\#}{})}{41}
+\contentsline {subsection}{\numberline {13.0.1}Pros and cons of the current design}{42}
+\contentsline {section}{\numberline {13.1}The future of \texttt {FShark}{} interoperability}{43}
