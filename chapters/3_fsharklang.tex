@@ -1,43 +1,57 @@
 \chapter{The \fshark{} language}
 \label{chap:fsharklanguage}
 
+HERE IS A NICE INTRODUCTION.
 % introduction
 
 \begin{figure}
   \centering
-  \begin{tabular}{lclr}
+  \begin{tabular}{@{}lclr}
     $t$ & $::=$ & $\texttt{int8}~|~\texttt{int16} ~|~ \texttt{int} ~ |~\texttt{int64} $ & (Integers) \\
         & $|$   & $\texttt{uint8} ~ | ~\texttt{uint16} ~|~\texttt{uint} ~|~\texttt{uint64} $ & (Unsigned integers) \\
         & $|$   & $\texttt{single} ~| ~\texttt{double}$ & (Floats) \\
         & $|$   & $\texttt{bool}$ & (Booleans) \\
         & $|$   & $(t_0 * \ldots * t_n)$ & (Tuples) \\
-        & $|$   & $\{\texttt{id}_0:t_0 ; \ldots ; \texttt{id}_n:t_n\}$ & (Records) \\
-        & $|$   & $t_0$ \texttt{array} & (Arrays) \\
+        & $|$   & $\{id_0:t_0;~\ldots;~id_n:t_n\}$ & (Records) \\
+        & $|$   & $t~\mathtt{array}$& (Arrays) \\
     \\
+  \end{tabular}
+  \caption{\fshark{} types}
+\end{figure}
 
-    $k$ & $::=$ & $n$ & (Integer) \\
-        & $|$   & $f$ & (Float) \\
-        & $|$   & $b$ & (Boolean) \\
-        & $|$   & $(k_0 , \ldots , k_n)$ & (Tuple) \\
-        & $|$   & $\{\texttt{id}_0=k_0 ; \ldots ; \texttt{id}_n=k_n\}$ & (Record) \\
-        & $|$   & $[k_0 ; \ldots ; k_n]$ & (Array) \\
+\begin{figure}
+  \centering
+  \begin{tabular}{@{}lclr}
+    $k$ & $::=$ & $n\lit{y}~|~n\lit{s}~|~n~|~n\lit{L}$ & (8-, 16-, 32- and 64 bit signed integers) \\
+        & $|$   & $n\lit{uy}~|~n\lit{us}~|~n~|~n\lit{UL}$ & (8-, 16-, 32- and 64 bit unsigned integers) \\
+        & $|$   & $d\lit{f}~|~d $ & (Single and double precision floats) \\
+        & $|$   & $true~|~false$ & (Boolean) \\
+        & $|$   & $(k_0 ,~\ldots ,~k_n)$ & (Tuple) \\
+        & $|$   & $\{id_0=k_0;~\ldots;~id_n=k_n\}$ & (Record) \\
+        & $|$   & $[\vert k_0 ; \ldots ; k_n\vert]$ & (Array) \\
     \\
+  \end{tabular}
+  \caption{\fshark{} literals}
+\end{figure}
 
-    $p$ & $::=$ & $\texttt{id}$ & (Name pattern) \\
+\begin{figure}
+  \centering
+  \begin{tabular}{@{}lclr}
+    $p$ & $::=$ & $id$ & (Name pattern) \\
         & $|$   & $(p_0, \ldots, p_n)$ & (Tuple pattern) \\
   \end{tabular}
-  \caption{The FShark syntax}
+  \caption{\fshark{} patterns}
 \end{figure}
 
 \begin{figure}
   \centering
   \begin{tabular}{lclr}
-    $e$ & $::=$ & $(e_0)$ & \\
+    $e$ & $::=$ & $(e)$ & Expression in parens \\
         & $|$   & $k$ & Constant \\
         & $|$   & $v$ & Variable \\
-        & $|$   & $(k_0 , \ldots , k_n)$ & (Tuple expression) \\
-        & $|$   & $\{\texttt{id}_0=k_0 ; \ldots ; \texttt{id}_n=k_n\}$ & (Record expression) \\
-        & $|$   & $[k_0 ; \ldots ; k_n]$ & (Array expression) \\
+        & $|$   & $(e_0,~\ldots,~e_n)$ & (Tuple expression) \\
+        & $|$   & $\{\texttt{id}_0=e_0 ; \ldots ; \texttt{id}_n=e_n\}$ & (Record expression) \\
+        & $|$   & $[\vert e_0 ; \ldots ; e_n\vert]$ & (Array expression) \\
         & $|$   & $e_1 \odot e_2$ & (Binary operator) \\
         & $|$   & $-e$ & (Prefix minus) \\
         & $|$   & \texttt{not} $e$ & (Logical negation) \\
@@ -46,10 +60,17 @@
         & $|$   & $v$.\texttt{id} & (Record indexing) \\
         & $|$   & $v_0.v_1$ & (Module indexing) \\
         & $|$   & \texttt{let} $p = e_1$ \texttt{in} $e_2$ & (Pattern binding) \\
-        & $|$   & $v$ $e_0$ $\ldots$ $e_n$ & (Function call) \\
-        & WHAT ABOUT LAMBDAS?& $v$ $e_0$ $\ldots$ $e_n$ & (Function call) \\
+        & $|$   & $v~e_0~\ldots e_n$ & (Function call) \\
+        & $|$   & $\mathtt{fun}~p_0~\ldots~p_n~\mathtt{->}~e$ & (Anonymous function) \\
 
     \\
+  \end{tabular}
+  \caption{\fshark{} expressions}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \begin{tabular}{lclr}
     $fun$ & $::=$ & \texttt{[<FSharkEntry>]} $\texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t = e$ & \\
         & $|$   & $\texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t' = e,$ & \\
         &       & \hspace{1em} \textit{(for any $i \in {1..n}$, $t_i$ is not a tuple)} \\
@@ -68,7 +89,7 @@
     $progs'$ & $::=$ & $prog'\ progs'$   & \\
              & $|$   & $\epsilon$ & \\
   \end{tabular}
-  \caption{The FShark syntax, expressions}
+  \caption{\fshark{} statements}
 \end{figure}
 
 \clearpage
@@ -221,7 +242,6 @@ equivalent results, no matter whether the \fshark{} code is run as native
 \fsharp{} code, or compiled into Futhark, I have written a test suite with unit
 tests for each element in the \fsharp{} subset. 
 
-This is described further in chapter \ref{evaluation_tests}
 
 (THESE ARE NOT ACTUALLY DONE YET)
 (Are unit tests enough?)
@@ -234,43 +254,6 @@ This is described further in chapter \ref{evaluation_tests}
 
 
 % why block people from using Array.map and direct them to SOACs instead ( )
-
-
-
-
-
-\begin{figure}
-  \centering
-  \begin{tabular}{lclr}
-    $e$ & $::=$ & $k$ & Constant \\
-        & $|$   & $v$ & Variable \\
-        & $|$   & $(k_0 , \ldots , k_n)$ & (Tuple expression) \\
-        & $|$   & $\{\texttt{id}_0=k_0 ; \ldots ; \texttt{id}_n=k_n\}$ & (Record expression) \\
-        & $|$   & $[k_0 ; \ldots ; k_n]$ & (Array expression) \\
-        & $|$   & $e_1 \odot e_2$ & (Binary operator) \\
-        & $|$   & $-e$ & (Prefix minus) \\
-        & $|$   & \texttt{not} $e$ & (Logical negation) \\
-  \end{tabular}
-  \caption{f binary operators}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \begin{tabular}{lclr}
-    $e$ & $::=$ & $k$ & Constant \\
-        & $|$   & $v$ & Variable \\
-        & $|$   & $(k_0 , \ldots , k_n)$ & (Tuple expression) \\
-        & $|$   & $\{\texttt{id}_0=k_0 ; \ldots ; \texttt{id}_n=k_n\}$ & (Record expression) \\
-        & $|$   & $[k_0 ; \ldots ; k_n]$ & (Array expression) \\
-        & $|$   & $e_1 \odot e_2$ & (Binary operator) \\
-        & $|$   & $-e$ & (Prefix minus) \\
-        & $|$   & \texttt{not} $e$ & (Logical negation) \\
-  \end{tabular}
-  \caption{FShark SOACs}
-\end{figure}
-
-LANGUAGE REFERNCE
-
 
 \chapter{FSharkPrelude}
 Besides defining an \fsharp{} subset suitable for Futhark translation, it was
@@ -295,20 +278,14 @@ Futhark.
 
 The \texttt{FSharkPrelude} versions of Futhark functions are defined in three
 different ways.
-\begin{description}
+\begin{enumerate}
   \item Functions like the SOAC \texttt{map} and the array function
     \texttt{length} have direct \fsharp{} equivalents, and are therefore
     implemented as calls to \texttt{Array.map} and \texttt{Array.length}
     respectively.
     For \texttt{map} for example, we have the following definition:
-    \begin{minted}{ocaml}
-      module FSharkPrelude =
-        ...
-
-         let Map f aa =
-           Array.map f aa
-
-        ...
+    \begin{minted}{fsharp}
+let Map f aa = Array.map f aa
     \end{minted}
 
   \item Some Futhark SOACs, like \texttt{reduce}, takes a neutral element as one of the
@@ -317,41 +294,31 @@ different ways.
     arguments.
     To define the \fshark{} SOAC so that it is equivalent to the Futhark
     version, it has been defined as so:
-\begin{minted}{ocaml}
-      module FSharkPrelude =
-        ...
-      
-        let Reduce (op: 'a -> 'a -> 'a) (neutral : 'a) (xs : 'a array) =
-          let xs' = Array.append [|neutral|] xs
-          in Array.reduce op xs'
+\begin{minted}{fsharp}
+let Reduce (op: 'a -> 'a -> 'a) (neutral : 'a) (xs : 'a array) =
+  let xs' = Array.append [|neutral|] xs
+  in Array.reduce op xs'
+\end{minted}
 
-        ...
-    \end{minted}
     Other functions, like the \texttt{map} functions which takes multiple arrays as
     arguments, require a bit of assembly first. For those \texttt{map} functions,
     we zip the arguments before using \texttt{Array.map} as usual:
-\begin{minted}{ocaml}
-      module FSharkPrelude =
-        ...
-        let Map5 f aa bb cc dd ee =
-          let curry f (a,b,c,d,e) = f a b c d e
-          let xs = Zip5 aa bb cc dd ee
-          in Array.map (curry f) xs
-        ...
-    \end{minted}
+\begin{minted}{fsharp}
+let Map5 f aa bb cc dd ee =
+  let curry f (a,b,c,d,e) = f a b c d e
+  let xs = Zip5 aa bb cc dd ee
+  in Array.map (curry f) xs
+\end{minted}
 
     \item Lastly, some functions does not have \fsharp{} counterparts. In
       example, we implement \texttt{scatter} using a for-loop:
-\begin{minted}{ocaml}
-        module FSharkPrelude =
-          ...
-          let Scatter (dest : 'a array) (is : int array) (vs : 'a array) : 'a array =
-            for (i,v) in Zip is vs do
-              dest.[i] <- v
-            dest
-          ...
+\begin{minted}{fsharp}
+let Scatter (dest : 'a array) (is : int array) (vs : 'a array) : 'a array =
+  for (i,v) in Zip is vs do
+    dest.[i] <- v
+  dest
       \end{minted}
-\end{description}
+\end{enumerate}
 The complete list of available SOACs and array functions is available in
 appendix \ref{appendix:soacs}.
 
@@ -363,6 +330,7 @@ Futhark functions during the \fshark{} compilation, as described in sec \ref{kig
 
 
 % WHY ALL OF THIS
+\subsection*{Why is FSharkPrelude part of the \fshark{} langauge?}
 Several of Futhark's SOACs, such as \texttt{map}, already has \fsharp{}
 versions that are directly equivalent.
 
@@ -386,13 +354,40 @@ HER KOMMER DER MERE
 % in reduce goes bad when parallel, så deeeeeet
 
 
-% Performance is discussed in a later chapter
-
 % some implementations, like ZipN, are probably criminally ineffective.
 
+\subsection*{Arguing for Futhark-equivalent functionality}
 % correctness
 
-% performance discussions
+
+\section{Arrays in \fsharp{} versus in Futhark}
+\subsection*{array handling in Futhark vs in \fsharp{}}
+
+\subsection*{how SOACs are executed in \fshark{} vs. in Futhark}
+touch on complexity and so forth
+biggest issue is that Futhark C code works inplace, while these versions
+returns copies of the functions
+ 
+\subsection*{Translating \fsharp{} arrays to Futhark arrays}
+brush up on Futhark array implementation
+
+brush up on fsharp arrays, specifically jagged arrays and how they are
+implemented (pointers to pointers to arrays)
+
+\section{Converting fsharp arrays to futhark arrays, and back again}
+
+description of the algorithm
+
+the complexity of the algorithm
+
+\subsection*{An alternative solution (FSharkArrays)}
+How they work
+
+How they would alleviate the problem
+
+Why they weren't chosen anyhow (hint; needing to pepper FSharkArray all over
+code, would stand in way of idiomatic FSharp style)
+%
 
 %%% Local Variables:
 %%% mode: latex

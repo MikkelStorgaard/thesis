@@ -1,16 +1,18 @@
 \babel@toc {english}{}
 \contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}
 \contentsline {chapter}{\numberline {2}Background}{10}{chapter.2}
-\contentsline {chapter}{\numberline {3}The \texttt {FShark}{} language}{12}{chapter.3}
+\contentsline {chapter}{\numberline {3}The {\texttt {FShark}}{} language}{12}{chapter.3}
 \contentsline {chapter}{\numberline {4}FSharkPrelude}{18}{chapter.4}
-\contentsline {chapter}{\numberline {5}The \texttt {FShark}{} Compiler and Wrapper}{20}{chapter.5}
-\contentsline {chapter}{\numberline {6}The Futhark \texttt {C\#}{} backend}{28}{chapter.6}
-\contentsline {chapter}{\numberline {7}Benchmarks and evaluation}{37}{chapter.7}
-\contentsline {chapter}{\numberline {8}Current limitations}{39}{chapter.8}
-\contentsline {chapter}{\numberline {9}Method}{40}{chapter.9}
-\contentsline {chapter}{\numberline {10}Related work}{41}{chapter.10}
-\contentsline {chapter}{\numberline {11}Conclusion and future work}{42}{chapter.11}
-\contentsline {chapter}{\numberline {12}Array handling in FShark}{43}{chapter.12}
-\contentsline {chapter}{\numberline {13}\texttt {FShark}{}s interoperability between \texttt {F\#}and Futhark (\texttt {C\#}{})}{44}{chapter.13}
-\contentsline {subsection}{\numberline {13.0.1}Pros and cons of the current design}{45}{subsection.13.0.1}
-\contentsline {section}{\numberline {13.1}The future of \texttt {FShark}{} interoperability}{46}{section.13.1}
+\contentsline {section}{\numberline {4.1}Arrays in {\texttt {F\#}}{} versus in Futhark}{19}{section.4.1}
+\contentsline {section}{\numberline {4.2}Converting fsharp arrays to futhark arrays, and back again}{20}{section.4.2}
+\contentsline {chapter}{\numberline {5}The {\texttt {FShark}}{} Compiler and Wrapper}{21}{chapter.5}
+\contentsline {chapter}{\numberline {6}The Futhark {\texttt {C\#}}{} backend}{29}{chapter.6}
+\contentsline {chapter}{\numberline {7}Benchmarks and evaluation}{38}{chapter.7}
+\contentsline {chapter}{\numberline {8}Current limitations}{41}{chapter.8}
+\contentsline {chapter}{\numberline {9}Method}{42}{chapter.9}
+\contentsline {chapter}{\numberline {10}Related work}{43}{chapter.10}
+\contentsline {chapter}{\numberline {11}Conclusion and future work}{44}{chapter.11}
+\contentsline {chapter}{\numberline {12}Array handling in FShark}{45}{chapter.12}
+\contentsline {chapter}{\numberline {13}{\texttt {FShark}}{}s interoperability between {\texttt {F\#}}and Futhark ({\texttt {C\#}}{})}{46}{chapter.13}
+\contentsline {subsection}{\numberline {13.0.1}Pros and cons of the current design}{47}{subsection.13.0.1}
+\contentsline {section}{\numberline {13.1}The future of {\texttt {FShark}}{} interoperability}{48}{section.13.1}

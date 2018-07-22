@@ -1,7 +1,19 @@
 \documentclass[10pt, a4paper]{report}
 \usepackage[utf8]{inputenc}
+\usepackage{eso-pic} % \AddToShipoutPicture
+\usepackage{graphicx} % \includegraphics
+\usepackage{listings} % \includegraphics
+\usepackage{pgfplots}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{mdframed}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{flafter}
 \usepackage{graphicx}
+\usepackage{tikz}
 \usepackage{blindtext}
+\usepackage{pgfplots}
 \usepackage{seqsplit}
 \usepackage[cache=false]{minted}
 \usepackage{listings}
@@ -21,23 +33,23 @@
 \usepackage{titling}
 \usepackage[parfill]{parskip}
 
-\newcommand{\fshark}{\texttt{FShark}}
-\newcommand{\fsharp}{\texttt{F\#}}
-\newcommand{\csharp}{\texttt{C\#}}
+\newcommand{\fshark}{{\texttt{FShark}}}
+\newcommand{\fsharp}{{\texttt{F\#}}}
+\newcommand{\csharp}{{\texttt{C\#}}}
 \newcommand{\fsharpexpr}{\texttt{FSharpExpr}}
 
-\setminted{fontsize=\small,baselinestretch=1,frame=lines,framerule=1pt}
-\lstset{fontsize=\small,frame=lines}
+\setminted{fontsize=\small,baselinestretch=1,frame=lines,framerule=0.3pt}
+\lstset{basicstyle=\small,frame=lines}
 \usepackage[english, science, titlepage]{ku-frontpage}
 
-\title{\fshark{}}
+\title{FShark}
 \assignment{Master's thesis}
 \author{Mikkel Storgaard Knudsen}
 
-\subtitle{prut PRUT prut}
+\subtitle{Futhark programming in FSharp}
 \date{Handed in: \today{}}
 \advisor{Advisor: Cosmin eller Troels}
-\frontpageimage{logo.png}
+\frontpageimage{hedgehogshark_cropped.jpg}
 
 \author{Mikkel Storgaard Knudsen}
 
