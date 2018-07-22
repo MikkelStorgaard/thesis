@@ -1,26 +1,24 @@
 \chapter{Introduction}
-blah blah blah
-\section{Sequential versus parallel computing}
 Developers worldwide are, and have always been, on the lookout for increased
 computing performance.
-
 Until recently, the increased performance could easily be
 achieved through advances within raw computing power, as CPU's had steadily been
 doubling their number of on-chip transistors, in rough accordance to Moore's Law (citér
 her).
+
 However, the performance increases in CPU design has now slowed down
 significantly, due to physical limitations to CPU design.
 
-Instead of adding more transistors or increasing the clock frequency of newer
+Instead of adding more transistors or increasing the clock frequency in newer
 CPUs, the CPU manufacturers have instead opted to split their single-core CPUs
 up into multicore CPUs, which means that any program can now run several threads
 on the CPU's cores, simultaneously.
 The CPU's cores are specialized in advanced computations 
 's cores are 
 
-
-%% udfyld om hvordan GPU'en har mange flere kerner, og kan bruges til relativt
-%% simple operationer 
+TODO: TODO:
+ udfyld om hvordan GPU'en har mange flere kerner, og kan bruges til relativt
+ simple operationer 
 
 %% WHY ARE BIG DATA INTERESTING
 In sectors like the financial sector and within the natural sciences, there is a
@@ -28,6 +26,7 @@ need for handling large amounts of data in an effective manner. With algorithmic
 trading gaining ground within the trading sector, the trader who can analyze
 incoming buy- and sell-offers the fastest, usually has the advantage at the
 exchanges.
+
 Likewise, faster computing can increase productivity for chemists and
 biologists who are analysing large datasets, physicists can run faster
 simulations, and so on.
@@ -37,18 +36,18 @@ optimal for performing these calculations as fast as possible,
 which is why GPUs are increasingly being used for \textit{General Purpose
   Computing on Graphics Processing Units}.
 
-\section{Parallel programming in Futhark}
+\subsection*{Parallel programming in Futhark}
 GPU programming is in principle easily available for everyone. As long as the user has access
 to a GPU and a reasonable PC for developing software, it just takes a bit of
 effort and reading to get started with CUDA, OpenCL or similar programming.
 Realistically however, it takes much more than just a little effort to start writing
 one's own GPU programs.
 
-Take the function $f(x) = ax+y$. In figure \ref{fig:cudasaxpy} we see the
+Take for instance the function $f(x) = ax+y$. In figure \ref{fig:cudasaxpy} we see the
 function implemented as a CUDA program. In this program, we are defining the
 kernel \texttt{saxpy} itself, and also manually copying data back and forth
 between the GPU.
-Now take the same program, written in Futhark as in figure \ref{fig:futsaxpy}.
+Compared to the same program written in Futhark (figure \ref{fig:futsaxpy}.)
 
 Whereas the CUDA kernel needs to check whether the current thread is outside of
 the bounds of the input data, the equivalent kernel in Futhark is simply a
@@ -130,7 +129,8 @@ int main(void)
   \label{fig:futsaxpy}
 \end{figure}
 
-\section{Motivation}
+\clearpage
+\section*{Motivation}
 \fshark{} is intended to be a way of writing and utilizing Futhark, without
 actually having to write or interact with the Futhark language and compiler
 itself. Besides some tooling and an \fsharp{} SOAC library, it primarily consists of the \fshark{} compiler that compiles from
@@ -181,7 +181,8 @@ adapt to Futhark programming.
 
 (SOME MORE MORE SOME MORE)
 
-\section{The contributions of this thesis}
+\clearpage
+\section*{The contributions of this thesis}
 The contributions of this thesis are as follows:
 \begin{enumerate}
 \item The \texttt{FSharkPrelude}:\\
@@ -218,7 +219,8 @@ The contributions of this thesis are as follows:
 
 \end{enumerate}
 
-\section{Roadmap}
+\clearpage
+\section*{Roadmap}
 The main part of this thesis is split in four parts.
 blaaaah
 

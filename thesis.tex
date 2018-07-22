@@ -19,21 +19,32 @@
 \usepackage{svg}
 \usepackage{pdfpages}
 \usepackage{titling}
+\usepackage[parfill]{parskip}
 
 \newcommand{\fshark}{\texttt{FShark}}
 \newcommand{\fsharp}{\texttt{F\#}}
 \newcommand{\csharp}{\texttt{C\#}}
 \newcommand{\fsharpexpr}{\texttt{FSharpExpr}}
 
-\title{
-	\fshark{}\\
-	\large University of Copenhagen\\
-  \includegraphics[width=6cm]{logo}
-}
+\setminted{fontsize=\small,baselinestretch=1,frame=lines,framerule=1pt}
+\lstset{fontsize=\small,frame=lines}
+\usepackage[english, science, titlepage]{ku-frontpage}
+
+\title{\fshark{}}
+\assignment{Master's thesis}
+\author{Mikkel Storgaard Knudsen}
+
+\subtitle{prut PRUT prut}
+\date{Handed in: \today{}}
+\advisor{Advisor: Cosmin eller Troels}
+\frontpageimage{logo.png}
 
 \author{Mikkel Storgaard Knudsen}
 
-
+\usepackage{tcolorbox}
+\usepackage{etoolbox}
+%\BeforeBeginEnvironment{minted}{\begin{tcolorbox}}%
+%\AfterEndEnvironment{minted}{\end{tcolorbox}}%
 
 % Futhark syntax highlighting setup
 \usepackage{listings}
@@ -188,7 +199,6 @@
 \include{chapters/7_limitations}
 \include{chapters/8_method}
 \include{chapters/9_related_work}
-\include{chapters/10_future_work}
 \include{chapters/11_conclusion}
 \include{chapters/a_appendices}
 \include{chapters/a_fshark_arrays}

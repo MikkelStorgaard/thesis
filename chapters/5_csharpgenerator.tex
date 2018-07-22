@@ -60,7 +60,7 @@ Likewise, we would like to be able to do the same thing in a \csharp{} or an
   \label{fig:smallpython}
 \end{figure}
 
-\subsection{The anatomy of a Futhark \csharp{} program}
+\subsection*{The anatomy of a Futhark \csharp{} program}
 In figure \ref{fig:futharkcsclasses}, we see the two different ways we can
 compile a Futhark program to \csharp{}. They're largely the same, except for
 that the executable Futhark program must have a \texttt{Program} class with a
@@ -94,7 +94,7 @@ through the individual parts.
   \label{fig:futharkclass}
 \end{figure}
 
-\subsection{Global context variables}
+\subsection*{Global context variables}
 \label{globalcontextvariables}
 Compiled Futhark programs need to keep track of several variables.
 Both normal and OpenCL-enabled Futhark \csharp{} programs can take several
@@ -128,7 +128,7 @@ The struct \texttt{futhark\_context\_config cfg} is similar to the
 \texttt{futhark\_context}, but is only used for constructing the actual
 \texttt{futhark\_context}.
 
-\subsection{The class constructor}
+\subsection*{The class constructor}
 The class constructor is necessary to setup the global variables needed
 throughout the Futhark class. When the Futhark program is compiled as an
 executable, the command line arguments are passed to the class constructor by
@@ -139,7 +139,7 @@ Besides setting class variables, OpenCL-enabled versions will initialize (and
 set) first the \texttt{futhark\_context\_config cfg} variable, and afterwards
 the \texttt{futhark\_context} itself.
 
-\subsection{The various runtime libraries}
+\subsection*{The various runtime libraries}
 The runtime libraries are a set of seperate \csharp{} files that are written and
 distributed through the Futhark compiler. When a Futhark program is compiled,
 these library files are concatenated and embedded directly into the rest of the
@@ -213,7 +213,7 @@ static long add64(long x, long y){ return x + y; }
   MAYBE WRITE ALL OF THIS ALSO? ALRIGHT THANKS
 \end{description}
 
-\subsection{The compiled Futhark functions}
+\subsection*{The compiled Futhark functions}
   The compiled Futhark functions are the Futhark Intermediate Code functions,
   expressed in the target language, and corresponds to the entry functions found
   in the entry functions-section of the Futhark class.
@@ -228,7 +228,7 @@ static long add64(long x, long y){ return x + y; }
   In non-OpenCL programs, the array functions and SOAC calls are not stored in
   seperate wrapper functions, but inlined in the Futhark functions.
 
-\subsection{OpenCL kernels and wrappers}
+\subsection*{OpenCL kernels and wrappers}
   If the Futhark program is compiled for OpenCL, all array handling function- and
   SOAC calls are compiled as OpenCL kernels. This part of the Futhark class
   has two parts:
@@ -247,7 +247,7 @@ static long add64(long x, long y){ return x + y; }
     data back and forth between host and device buffers.
   \end{enumerate}
 
-\subsection{Entry functions}
+\subsection*{Entry functions}
 Futhark's internal representation of array values are one dimensional byte
 arrays (which can represent arrays of any type and dimensionality), and an
 accompanying list of integers denoting the lengths of the array's dimensions.
@@ -275,7 +275,7 @@ representations.
 
 \clearpage
 
-\section{The \csharp{} backend, compared to the C- and Python counterparts}
+\section*{The \csharp{} backend, compared to the C- and Python counterparts}
 
 %% DESCRIBE THE DIFFERENCES BETWEEN C# AND THE REST
 THE PYTHON BACKEND HAS MUCH FUNCTIONALITY ENCAPSULATED IN PYOPENCL, AND DOESN'T
@@ -293,7 +293,7 @@ CSHARP GENERATOR IS SOMEWHERE INBETWEEN AS IT IS CAN HANDLE OBJECTS WHICH CAN
 CARRY STATE, FURTHERMORE DYNAMIC MEMORY ALLOCATION
 
 % THE DIFFERENCES BETWEEN MEMORY HANDLING IN CS AND CSOPENCL
-\section{Memory management in Futhark \csharp{}}
+\section*{Memory management in Futhark \csharp{}}
 As Futhark stores array values around in byte arrays, it is relevant to compare
 the difference between how the array handling differs between Futhark's C
 backend, and this \csharp{} backend.
@@ -353,7 +353,7 @@ what was chosen and why
 %% FOR CS, PERFORMANCE IS VASTLY INFERIOR TO TO C
 %%% WHY IS THAT???????????
 
-\section{The \csharp{} / OpenCL interaction}
+\section*{The \csharp{} / OpenCL interaction}
 OpenCL interaction is not a part of the .NET standard library, but several
 libraries do exist for .NET/OpenCL interactions. For this thesis, I researched a
 selection of these libraries, to determine which one that would fit the best for
@@ -403,7 +403,7 @@ Given these three candidates, I chose to work with \texttt{Cloo}: It was the
 only one that had the necessary OpenCL bindings readily available, and the only
 one that was platform agnostic.
 
-\subsection{Writing a custom OpenCL bindings library}
+\subsection*{Writing a custom OpenCL bindings library}
 Though \texttt{Cloo} is a good fit for Futhark \csharp{}, it is also slightly
 risky to depend on a five year old unmaintained library in a modern project.
 Therefore, it could be a good idea to write a smaller library similar to

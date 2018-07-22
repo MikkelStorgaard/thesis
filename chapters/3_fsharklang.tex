@@ -73,7 +73,7 @@
 
 \clearpage
 
-\subsection{\fsharp{} operators available in \fshark{}}
+\subsection*{\fsharp{} operators available in \fshark{}}
 The \fsharp{} subset chosen for \fshark{} is described in this subsection.
 \begin{figure}[h]
   \centering
@@ -108,7 +108,7 @@ and floating point types in \fsharp{}.
 
 
 
-\subsection{\fsharp{} standard library functions available in \fshark{}}
+\subsection*{\fsharp{} standard library functions available in \fshark{}}
 \fshark{} supports a subset of the \fsharp{} standard library. These are
 functions that are imported in \fsharp{} modules by default.
 
@@ -152,7 +152,7 @@ Currently, bitwise operators like bitwise-AND and bitwise-OR are missing, but
 they should be relatively simple to add to the \fshark{} subset, by adding them
 to the set of supported operators in the \fshark{} compiler.
 
-\subsection{On the \fsharp{} subset selected for \fshark{}}
+\subsection*{On the \fsharp{} subset selected for \fshark{}}
 For selecting the \fsharp{} subset to support in \fshark{}, I chose to look at
 what functions that were included in \fsharp{}'s prelude. That is, the
 functions that are available in an \fsharp{} program without having to
@@ -201,7 +201,7 @@ These rewritings are not pretty to look at from a programmer's perspective, but
 
 % i could have also supported limited imports
 
-\subsection{The correctness of the \fshark{} subset.}
+\subsection*{The correctness of the \fshark{} subset.}
 When transpiling code from one language to another, it is absolutely vital that
 the programmer can trust, that the resulting code in the target language is
 semantically equivalent to the source code.
@@ -272,7 +272,7 @@ This is described further in chapter \ref{evaluation_tests}
 LANGUAGE REFERNCE
 
 
-\section{FSharkPrelude}
+\chapter{FSharkPrelude}
 Besides defining an \fsharp{} subset suitable for Futhark translation, it was
 also imperative to create a library of SOACs and array functions for \fshark{},
 to make it possible to write programs with parallel higher-order array

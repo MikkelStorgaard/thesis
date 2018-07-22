@@ -18,3 +18,7 @@ auto/
 *.dvi
 
 *.gz
+
+thesis\.out
+
+thesis\.toc

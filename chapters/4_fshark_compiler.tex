@@ -24,7 +24,7 @@ contained expressions with their respective types.
 
 We'll start with a detailed explanation of the \fshark{} Compiler Pipeline.
 
-\subsection{The \fshark{} Compiler Pipeline in practice}
+\subsection*{The \fshark{} Compiler Pipeline in practice}
 To examine the compiler pipeline in action, we'll go through the motions with
 the small example program displayed in figure \ref{fig:fsharkusageexample}.
 
@@ -117,7 +117,7 @@ In this example, we use F\#s downcast operator \texttt{(:?>)} to declare the
 return value as an \texttt{int array}. The actual return type is always the same as the
 return type declared in the source \fshark{} file.
 
-\subsection{When \fshark{} Wrapper Compiles}
+\subsection*{When \fshark{} Wrapper Compiles}
 \label{sec:fsharkwrappercompiles}
 The general way to compile and load an \fshark{} program into the FShark Wrapper,
 is by adding \fshark{} source files to the wrapper object by calling the
@@ -152,7 +152,7 @@ module, the main declaration of the program, the
 \texttt{FSharpEntity}, which in turn contains all the remaining declarations in
 the program.
 
-\subsubsection{The declaration types within F\#'s Typed AST}
+\subsubsection*{The declaration types within F\#'s Typed AST}
 The \texttt{FSharpImplementationFileDeclaration} type has three union cases.
 \begin{description}
 \item[\texttt{InitAction of FSharpExpr}] \hfill\\
@@ -268,12 +268,12 @@ system, and compiled into as a library, using Futhark's C\# compiler, either
 with or without OpenCL support. Finally after this compilation, we can invoke
 the resulting .dll file from within the \fshark{}-using F\# program.
 
-\subsection{Building \fshark{} from the Typed AST}
+\subsection*{Building \fshark{} from the Typed AST}
 \label{sec:fsharkcompilerrules}
 Only the supported FSharpExpr's has been listed here, but the full range of
 FSharpExpr's are available on \cite{typedtree}.
 
-\subsection{FSharp-to-\fshark{}IL rules}
+\subsection*{FSharp-to-\fshark{}IL rules}
 INTRODUCTION HERE
 
 For these translations, we will disregard that all \fsharpexpr{}s are union
