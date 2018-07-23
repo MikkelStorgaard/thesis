@@ -454,45 +454,129 @@ biggest issue is that Futhark C code works inplace, while these versions
 returns copies of the functions
  better soacs through mutable
  
-\section{Converting fsharp arrays to futhark arrays, and back again}
+\section{Converting jagged arrays to Futhark's flat arrays,  and back again}
 As mentioned in section \ref{csharpentries}, we cannot just pass jagged arrays
 as arguments to the Futhark \csharp{} entry functions.
 Instead, we must convert our jagged array into a flat array and an array of
 integers, and pass these two objects as arguments instead.
 
-The simple algorithm for this flattening is described in pseudocode in figure \ref{fig:flattenarray}
+\subsection{Analysis of FlattenArray}
+The simple algorithm for this flattening is described in pseudocode in figure
+\ref{fig:flattenarray}. The implemented algorithm is slightly more complex, as
+it has perform various type castings, and also checks for invalid arrays such as
+irregular arrays.
+The implemented algorithm is available in the appendices.
+
+When FlattenArray first is called with a jagged array as input, we don't know
+how many dimensions this array has. Therefore, we recursively call FlattenArray
+on the subarrays of the arrays, until these recursive calls reach a base case.
+The base case is the array that does not contain array references, but primitive
+values.
+
+\begin{description}
+\item[\texttt{L2}]: For a one dimensional jagged array, this branch is taken once.
+  For a jagged array of $d$ dimensions, it's taken
+  $\mathlarger{\prod_{n=1}^{d-1}(\text{subarrays at }d_n)}$ times.
+
+\item[\texttt{L3}] is the base case, which takes $O(1)$ time. This is because we
+are just returning a tuple with the original array, and singleton array that holds the length of the
+array (creating the singleton array is also $O(1).$)
+
+\item[\texttt{L4}]:
+  For a jagged array of $d$ dimensions, this branch is taken
+  $\mathlarger{\prod_{n=1}^{d-1}(\text{subarrays at }d_n)}$ times.
+
+\item[\texttt{L5}] is the start of the recursive case. This line is called
+  $O(d)$ times, $d$ being the number of dimensions in the jagged array.
+  The result of \texttt{map FlattenArray array} is an array of \texttt{a} array references
+  and integer array references.
+
+\item[\texttt{L6}] MORE HERE
+\item[\texttt{L7}] simply retrieves a reference to the first array in the array
+  of subarray lengths. This is $O(1)$.
+\item[\texttt{L8}] is by far the most costly line in the function.
+  \fsharp{}s \texttt{Array.concat} function takes a sequence of arrays,
+  allocates a new array, and copies each element of the old arrays into the new array.
+  Each of the $n$ elements in the jagged array is copied to a new array a maximum of $d$
+  times, which means we are performing $O(n*d)$ reads and writes.
+  
+\item[\texttt{L9}] retrieves the length of an array, and is $O(1)$.
+
+\item[\texttt{L10}] appends a singleton array to the accumulated array of
+  subarray dimensions, by first creating a singleton array, and then copy both
+  the single element and the contents of the accumulated array to a third array
+  of their collected length.
+\end{description}
+
+All in all, the upper bound on the \texttt{FlattenArray} algorithm is $O(n*d)$.
+This is a far cry from the performance of flattening in Futhark. Flattening is
+done in $O(1)$, as flattening merely calculates the product of the dimensions of
+the array, and returns the result as the new single dimension of the array.
+
 
 \begin{figure}[h]
   \centering
-\begin{minted}{text}
+\begin{minted}[linenos]{text}
 FlattenArray (array : Array of a) : (Array of b * Array of int) =
   if a is not (Array of a):
     return (array, [len(array)])
   else:
-    (subarrays, subarray_lengths) = (unzip . map) FlattenArray array
-    subarray_lengths = head(subarray_lengths)
+    subarrays_and_lengths = map FlattenArray array
+    (subarrays, subarrays_lengths) = unzip subarrays_and_lengths
+    subarray_lengths = head(subarrays_lengths)
     concatenated_subarrays = concat subarrays
     this_length = len(array)
-    lengths = this_length : subarray_lengths
+    lengths = [this_length] @ subarray_lengths
     return (contatenated_arrays, lengths)
 \end{minted}
   \caption{Flattening jagged arrays, pseudocode}
   \label{fig:flattenarray}
 \end{figure}
 
+\subsection{Analysis of UnflattenArray}
+The algorithm \texttt{UnflattenArray} in figure \ref{fig:unflattenarray}
+restores the flat array from the Futhark \csharp{} program, to a jagged array in \fsharp{}.
+Like in \texttt{FlattenArray}, the most expensive line in the function is the
+array-manipulating one. In \texttt{UnflattenArray}, it is line 7: For each
+dimension in the lengths array, we chunk our data array into multiple smaller
+arrays. Each of the $n$ elements in the initial array is moved to a new and smaller array
+$d$ times, which makes the complexity of this algorithm $O(n*d)$.
+
+\subsubsection*{Why UnflattenArray hinders a specific tuple type}
+When an \fshark{} function is invoked, it's arguments are prepared by an
+argument converter first. For scalar arguments, the argument is simply returned.
+But for array arguments, we must flatten the jagged array into a tuple that
+follows Futhark's array representation.
+
+When the Futhark function returns, we then have to unflatten the Futhark arrays
+back into jagged arrays. To do this, we naively look at all the values
+returned by the Futhark function, and whenever we encounter a tuple of type
+\texttt{('a [] * int64 [])}, we assume that this is a flat array that needs to
+be unflattened.
+This procedure works fine, but has one side effect: \fshark{} doesn't support
+entry functions that has (\texttt{('a [] * int64 [])}) tuples in their return
+types, because this type is reserved.
+
+To circumvent this, the user is instead encouraged to return the tuple as two
+separate values.
+
 \begin{figure}[h]
   \centering
-  \caption{A figure describing the flattening}
-  \label{fig:flattenarray}
+\begin{minted}[linenos]{text}
+UnflattenArray (lengths : Array of int) (data : Array of a) =
+  if len(lengths) = 1:
+    return data
+  else:
+    length = head(lengths)
+    lengths' = tail(lengths)
+    data' = chunk_array length data 
+    data'' = map (UnflattenArray lengths') data'
+    return data''
+\end{minted}
+  \caption{Recreating a jagged array from flat array with dimensions}
+  \label{fig:unflattenarray}
 \end{figure}
 
-
-
-
-alibrary  , that 
-description of the algorithm
-
-the complexity of the algorithm
 
 limitation on FShark types (no []a * []long)
 does not add much to invokation

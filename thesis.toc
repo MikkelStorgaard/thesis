@@ -4,15 +4,17 @@
 \contentsline {chapter}{\numberline {3}The {\texttt {FShark}}{} language}{12}{chapter.3}
 \contentsline {chapter}{\numberline {4}FSharkPrelude}{18}{chapter.4}
 \contentsline {section}{\numberline {4.1}Arrays in {\texttt {F\#}}{} versus in Futhark}{20}{section.4.1}
-\contentsline {section}{\numberline {4.2}Converting fsharp arrays to futhark arrays, and back again}{21}{section.4.2}
-\contentsline {chapter}{\numberline {5}The {\texttt {FShark}}{} Compiler and Wrapper}{23}{chapter.5}
-\contentsline {section}{\numberline {5.1}Design choices in writing the FShark Compiler}{28}{section.5.1}
-\contentsline {chapter}{\numberline {6}The Futhark {\texttt {C\#}}{} backend}{31}{chapter.6}
-\contentsline {subsection}{\numberline {6.0.1}Entry functions}{36}{subsection.6.0.1}
-\contentsline {chapter}{\numberline {7}Benchmarks and evaluation}{40}{chapter.7}
-\contentsline {chapter}{\numberline {8}Current limitations}{43}{chapter.8}
-\contentsline {chapter}{\numberline {9}Related work}{44}{chapter.9}
-\contentsline {chapter}{\numberline {10}Conclusion and future work}{45}{chapter.10}
-\contentsline {chapter}{\numberline {11}{\texttt {FShark}}{}s interoperability between {\texttt {F\#}}and Futhark ({\texttt {C\#}}{})}{46}{chapter.11}
-\contentsline {subsection}{\numberline {11.0.1}Pros and cons of the current design}{47}{subsection.11.0.1}
-\contentsline {section}{\numberline {11.1}The future of {\texttt {FShark}}{} interoperability}{48}{section.11.1}
+\contentsline {section}{\numberline {4.2}Converting jagged arrays to Futhark's flat arrays, and back again}{21}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Analysis of FlattenArray}{21}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Analysis of UnflattenArray}{22}{subsection.4.2.2}
+\contentsline {chapter}{\numberline {5}The {\texttt {FShark}}{} Compiler and Wrapper}{25}{chapter.5}
+\contentsline {section}{\numberline {5.1}Design choices in writing the FShark Compiler}{30}{section.5.1}
+\contentsline {chapter}{\numberline {6}The Futhark {\texttt {C\#}}{} backend}{33}{chapter.6}
+\contentsline {subsection}{\numberline {6.0.1}Entry functions}{38}{subsection.6.0.1}
+\contentsline {chapter}{\numberline {7}Benchmarks and evaluation}{42}{chapter.7}
+\contentsline {chapter}{\numberline {8}Current limitations}{45}{chapter.8}
+\contentsline {chapter}{\numberline {9}Related work}{46}{chapter.9}
+\contentsline {chapter}{\numberline {10}Conclusion and future work}{47}{chapter.10}
+\contentsline {chapter}{\numberline {11}{\texttt {FShark}}{}s interoperability between {\texttt {F\#}}and Futhark ({\texttt {C\#}}{})}{48}{chapter.11}
+\contentsline {subsection}{\numberline {11.0.1}Pros and cons of the current design}{49}{subsection.11.0.1}
+\contentsline {section}{\numberline {11.1}The future of {\texttt {FShark}}{} interoperability}{50}{section.11.1}
