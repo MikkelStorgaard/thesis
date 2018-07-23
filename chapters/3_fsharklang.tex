@@ -328,7 +328,7 @@ Futhark functions during the \fshark{} compilation, as described in sec \ref{kig
 
 
 % WHY ALL OF THIS
-\subsection*{Why is FSharkPrelude part of the \fshark{} langauge?}
+\subsection*{Why is FSharkPrelude part of the \fshark{} language?}
 Several of Futhark's SOACs, such as \texttt{map}, already has \fsharp{}
 versions that are directly equivalent.
 
@@ -353,6 +353,20 @@ HER KOMMER DER MERE
 
 
  some implementations, like ZipN, are probably criminally ineffective.
+
+ \subsection*{How \fshark{} SOACs differ from Futhark's ditto}
+On a surface level, \fshark{} and Futhark SOACs are the same. After all, they
+have equivalent functionality.
+However, Futhark's SOACs are treated specially.  has two major differences
+compared to \fshark{}s, both of which gives significant performance advantages
+to Futhark.
+
+\subsubsection{Aggressive SOAC fusioning}
+
+returns copies of the functions
+ better soacs through mutable functions, however we will still miss out on
+ performance gains stemming from Futhark SOAC fusion.
+
 
 \subsection*{Arguing for Futhark-equivalent functionality}
 using a test suite with both positive and negative testing
@@ -448,12 +462,6 @@ WE HAVE NO WAY OF KNOWING WHERE THINGS ARE ALLOCATED
 SHOULD WE LOOK AT PERFORMANCE OR LANGUAGE DESIGN FIRST?
 
 
-\subsection*{how SOACs are executed in \fshark{} vs. in Futhark}
-touch on complexity and so forth
-biggest issue is that Futhark C code works inplace, while these versions
-returns copies of the functions
- better soacs through mutable
- 
 \section{Converting jagged arrays to Futhark's flat arrays,  and back again}
 As mentioned in section \ref{csharpentries}, we cannot just pass jagged arrays
 as arguments to the Futhark \csharp{} entry functions.

@@ -17,14 +17,15 @@ Native took 438 929 311 microseconds.
         width=1\textwidth,
         %height=0.5,
         symbolic x coords={small.in,medium.in,large.in},
-        bar width=9pt,
+        xtick=data,
         enlargelimits=0.15,
         ybar=2pt,% configures ‘bar shift’
-        bar width=12pt,
+        bar width=8pt,
         nodes near coords,
+        every node near coord/.append style={rotate=70, anchor=west,font=\scriptsize},
         legend style={legend pos=north west}
       ]
-      \addplot plot coordinates {(small.in, 0.21 ) (medium.in, 0.31 ) (large.in, 0.9999 )};
+      \addplot plot coordinates {(small.in, 0.21 ) (medium.in, 0.31 ) (large.in, 9999.9999 )};
       \addplot plot coordinates {(small.in, 81.19 ) (medium.in, 154.14 ) (large.in, 2450.63 )};
       \addplot plot coordinates {(small.in, 438.92 ) (medium.in, 900.64 ) (large.in, 24757.87 )};
       \addplot plot coordinates {(small.in, 0.14 ) (medium.in, 0.16 ) (large.in, 2.14 )};
