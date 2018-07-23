@@ -357,9 +357,18 @@ HER KOMMER DER MERE
  \subsection*{How \fshark{} SOACs differ from Futhark's ditto}
 On a surface level, \fshark{} and Futhark SOACs are the same. After all, they
 have equivalent functionality.
-However, Futhark's SOACs are treated specially.  has two major differences
-compared to \fshark{}s, both of which gives significant performance advantages
-to Futhark.
+However, Futhark's SOACs gets special treatment in the Futhark compiler, and are
+fused together where applicable.
+Take for instance the short code example in figure \ref{fig:futharkfusion}.
+For non-OpenCL programs, Futhark's compiler fuses all three expressions into one for-loop, as described
+in pseudocode in figure \ref{fig:pseudofusion}.
+Similarly, in an OpenCL program, the short code example is translated into a
+single kernel, as shown in figure \ref{fig:pseudokernel}. Notice here that the global
+thread id has a similar function to the iterator variable i in the non-OpenCL
+for-loop.
+
+
+
 
 \subsubsection{Aggressive SOAC fusioning}
 
