@@ -246,14 +246,12 @@ tests for each element in the \fsharp{} subset.
 (THESE ARE NOT ACTUALLY DONE YET)
 (Are unit tests enough?)
 
-% all convertion functions pass through i64. this might be a mistake, as real
-% supports f32 to f64
+all convertion functions pass through i64. this might be a mistake, as real
+supports f32 to f64
 
-% thoughts on correctness of translations
-% testing correctness of these translations
+thoughts on correctness of translations
+testing correctness of these translations
 
-
-% why block people from using Array.map and direct them to SOACs instead ( )
 
 \chapter{FSharkPrelude}
 Besides defining an \fsharp{} subset suitable for Futhark translation, it was
@@ -339,46 +337,165 @@ But many of these \fsharp{} functions are
 contained in 
 HER KOMMER DER MERE
 
-% 1) it would be awkward to maintain a whitelist of accepted library functions,
-% instead of simply handing the developer a gated library.
-% 1½) uncomfortable to be told function is not supported at runtime 
+ 1) it would be awkward to maintain a whitelist of accepted library functions,
+ instead of simply handing the developer a gated library.
+ 1½) uncomfortable to be told function is not supported at runtime 
 
-% 2) some Array functions have subtle differences compared to their
-% futhark counterparts. In example, reduce doesn't take a neutral element which
-% Futhark's reduce does.
+ 2) some Array functions have subtle differences compared to their
+ futhark counterparts. In example, reduce doesn't take a neutral element which
+ Futhark's reduce does.
 
-% 3)
-
-
-% note; FSharkPrelude cannot detect bad operators in reduce. non-commutative ops
-% in reduce goes bad when parallel, så deeeeeet
+ 3)
 
 
-% some implementations, like ZipN, are probably criminally ineffective.
+ note; FSharkPrelude cannot detect bad operators in reduce. non-commutative ops
+ in reduce goes bad when parallel, så deeeeeet
+
+
+ some implementations, like ZipN, are probably criminally ineffective.
 
 \subsection*{Arguing for Futhark-equivalent functionality}
-% correctness
-
+using a test suite with both positive and negative testing
 
 \section{Arrays in \fsharp{} versus in Futhark}
-\subsection*{array handling in Futhark vs in \fsharp{}}
+As Futhark is an array language, designing the array handling for \fshark{} was
+a non-inconsequential part of the design process.
+Whereas multidimensional arrays in Futhark are written as i.e. \texttt{[][]i32}
+for a two dimensional integer array, their actual representation in the compiled
+code is a flat array of bytes, and an array of integers denoting the lengths of
+the dimensions.
+Accessing the array at runtime can be done in $O(1)$, whether it's
+either at some constant or a variable index (i.e. \texttt{let second\_x = xs[2]} or \texttt{let n = xs[i,j]}).
+The indexes are resolved during the Futhark compilation, either as scalars, or
+as a variable calculated from other variables.
+
+RESEARCH WHETHER ``RANDOM READS'' ARE COALESCED IN A NICE WAY IN FUTHARK.
+
+Functional languages like Haskell and \fsharp{} mainly works with lists.
+In \fsharp{}, lists are implemented as singly linked lists. Nodes in the
+list are dynamically allocated on the heap, and lookups take $O(n)$ time.
+We cannot make multidimensional lists, but we can make lists of lists: If we
+were to emulate a two dimensional list of integers in \fsharp{}, we could use
+the type \texttt{int list list}. At runtime, the type would then be realized as
+a singly linked list of references to singly linked list of integers.
+For an \texttt{int list list} of $i \times j$ integers, we therefore have
+lookups in $O(i+j)$ time.
+
+\fsharp{} does also have arrays. The \texttt{System.Array} class itself is reference
+type. If we initialize an integer array in FSharp like so: \texttt{let arr =
+Array.create 10 0}, the type of \texttt{arr} is a reference to where it's corresponding
+array is located in memory. As the integers contained in the array are value
+types, the layout of the array referenced by \texttt{arr} is some initial array
+metadata, and then the ten integers stored in sequence.
+
+We can access the array elements on $O(1)$ time, as indexing into the array is
+just done by accessing the array reference plus an index offset.
+If we want to emulate multidimensional arrays with these elements, we can create
+arrays of arrays (in .NET terms, these are called ``jagged arrays''). In figure
+\ref{fig:jaggedarrayfsharp} we initialize a jagged array of integers.
+
+\begin{figure}[h]
+  \centering
+\begin{minted}{fsharp}
+let i = 8
+let j = 5
+let xss = Array.init i <| (Array.create j) 
+  
+(* xss = [|
+           [|0;0;0;0;0|];
+           [|1;1;1;1;1|];
+           [|2;2;2;2;2|];
+           [|3;3;3;3;3|];
+           [|4;4;4;4;4|];
+           [|5;5;5;5;5|];
+           [|6;6;6;6;6|];
+           [|7;7;7;7;7|];
+         |]
+*) 
+
+let some_two = xss.[2].[3]
+
+\end{minted}
+  \caption{Initializing a jagged array of integers in FSharp}
+  \label{fig:jaggedarrayfsharp}
+\end{figure}
+
+\texttt{xss} is an array of arrays, so \texttt{xss} is a reference to an array
+in memory, which itself contains references to other arrays.
+To retrieve the variable \texttt{some\_two}, we first follow the reference to
+the array \texttt{xss} in memory. There we get the second element, which is a
+reference to another array in memory. In this array, we read the third element,
+which in this case is the 2 that we wanted.
+
+The lookup takes $O(d)$ time\footnote{where $d$ is the number of references we
+  we are chasing to get our element.}, as we access arrays in $O(1)$ time, and have to follow $d$
+references to get to our element. If we just wanted a reference to the second
+array in \texttt{xss}, we would be chasing the first reference to \texttt{arr},
+and then return one of the references stored within.
+
+FSharp also offers actual multidimensional arrays.
+Instead of  by initiabb DO MORE HERE
+
+
+comparison between arrays: multidims are represented as single objects in
+memory, less cache misses. 
+and so forth
+
+\\
+
+WE HAVE NO WAY OF KNOWING WHERE THINGS ARE ALLOCATED
+
+SHOULD WE LOOK AT PERFORMANCE OR LANGUAGE DESIGN FIRST?
+
 
 \subsection*{how SOACs are executed in \fshark{} vs. in Futhark}
 touch on complexity and so forth
 biggest issue is that Futhark C code works inplace, while these versions
 returns copies of the functions
+ better soacs through mutable
  
-\subsection*{Translating \fsharp{} arrays to Futhark arrays}
-brush up on Futhark array implementation
-
-brush up on fsharp arrays, specifically jagged arrays and how they are
-implemented (pointers to pointers to arrays)
-
 \section{Converting fsharp arrays to futhark arrays, and back again}
+As mentioned in section \ref{csharpentries}, we cannot just pass jagged arrays
+as arguments to the Futhark \csharp{} entry functions.
+Instead, we must convert our jagged array into a flat array and an array of
+integers, and pass these two objects as arguments instead.
 
+The simple algorithm for this flattening is described in pseudocode in figure \ref{fig:flattenarray}
+
+\begin{figure}[h]
+  \centering
+\begin{minted}{text}
+FlattenArray (array : Array of a) : (Array of b * Array of int) =
+  if a is not (Array of a):
+    return (array, [len(array)])
+  else:
+    (subarrays, subarray_lengths) = (unzip . map) FlattenArray array
+    subarray_lengths = head(subarray_lengths)
+    concatenated_subarrays = concat subarrays
+    this_length = len(array)
+    lengths = this_length : subarray_lengths
+    return (contatenated_arrays, lengths)
+\end{minted}
+  \caption{Flattening jagged arrays, pseudocode}
+  \label{fig:flattenarray}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \caption{A figure describing the flattening}
+  \label{fig:flattenarray}
+\end{figure}
+
+
+
+
+alibrary  , that 
 description of the algorithm
 
 the complexity of the algorithm
+
+limitation on FShark types (no []a * []long)
+does not add much to invokation
 
 \subsection*{An alternative solution (FSharkArrays)}
 How they work
@@ -387,7 +504,22 @@ How they would alleviate the problem
 
 Why they weren't chosen anyhow (hint; needing to pepper FSharkArray all over
 code, would stand in way of idiomatic FSharp style)
-%
+
+\subsection*{Conclusion on arrays}
+Ultimately, choosing between jagged arrays, multidimensional arrays and
+FSharkArrays became a question of simplicity vs. performance.
+For \fshark{}, I had the liberty to focus solely on simplicity, as \fshark{}
+code is neither intended or even efficient when executed as native FSharp code.
+Therefore I could choose to let \fshark{} use jagged arrays, instead of any of
+the other options.
+
+The syntax for declaring a jagged array type closely
+resembles Futhark's multidimensional array syntax (take for instance FSharp's
+\texttt{int [] []} versus Futhark's \texttt{[][]i32} for declaring
+two-dimensional integer arrays).
+The close similarities between Futhark and \fshark{} code means that \fshark{}
+generated Futhark code is easier to read for debugging purposes, and likewise
+makes Futhark code easier to port to \fshark{}.
 
 %%% Local Variables:
 %%% mode: latex

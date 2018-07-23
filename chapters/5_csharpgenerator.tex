@@ -247,7 +247,8 @@ static long add64(long x, long y){ return x + y; }
     data back and forth between host and device buffers.
   \end{enumerate}
 
-\subsection*{Entry functions}
+\subsection{Entry functions}
+\label{csharpentries}
 Futhark's internal representation of array values are one dimensional byte
 arrays (which can represent arrays of any type and dimensionality), and an
 accompanying list of integers denoting the lengths of the array's dimensions.
@@ -272,6 +273,8 @@ When the Futhark function returns the result, the result is then printed to \tex
 For libraries, the ``\texttt{entry\_}'' prefix is dropped, and the function
 just takes care of converting array arguments into and back-from their Futhark
 representations.
+
+MENTION THE INPUT ARGUMENTS SPECIFICALLY ARRAYS THAT HAVE TO BE FLATTENED FIRST
 
 \clearpage
 
