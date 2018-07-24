@@ -268,18 +268,19 @@ to the set of supported operators in the \fshark{} compiler.
 \clearpage
 \subsection*{The correctness of the \fshark{} subset.}
 When transpiling code from one language to another, it is absolutely vital that
-the programmer can trust, that the resulting code in the target language is
-semantically equivalent to the source code.
-In \fshark{}s case, it means that any program written using the \fshark{}
-subset, must have the same result no matter whether it is run natively as
-\fsharp{} code, or it is run as \fshark{} compiled Futhark code.
+the programmer can trust that the target language result
+is semantically equivalent to the source language code.
 
-I.e., one could imagine a programming language which had defined the function
-\texttt{log} not as the natural logarithm, but instead the binary logarithm. In
-such a case, the translation from that language to Futhark would still go
-without a hitch, and without any type errors to hint at the impending
-catastrophe.
-However, the native result with the Futhark result would be wildly different.
+In \fshark{}s case, it means that any program written using the \fshark{}
+subset must have the same result no matter whether it is run natively as
+\fsharp{} code, or run as \fshark{} compiled Futhark code.
+
+Take for example the logarithm function \texttt{log}. In both \fsharp{} and
+Futhark, this function denotes the natural logarithm. If we were translating
+from a careless language $l$, where \texttt{log} instead denoted the binary
+logarithm, the translation would still be succesfull and not trigger any type
+errors.
+However, the native result and the Futhark result would be wildly different.
 
 To ensure that every operator and function in the \fshark{} subset has
 equivalent results, no matter whether the \fshark{} code is run as native
@@ -321,84 +322,100 @@ Futhark.
 The \texttt{FSharkPrelude} versions of Futhark functions are defined in three
 different ways.
 \begin{enumerate}
-  \item Functions like the SOAC \texttt{map} and the array function
-    \texttt{length} have direct \fsharp{} equivalents, and are therefore
-    implemented as calls to \texttt{Array.map} and \texttt{Array.length}
-    respectively.
-    For \texttt{map} for example, we have the following definition:
-    \begin{minted}{fsharp}
-let Map f aa = Array.map f aa
-    \end{minted}
+  \item Functions like \texttt{map} and array functions like
+    \texttt{length} have direct \fsharp{} equivalents. The
+    \texttt{FSharkPrelude} versions therefore simply pass their arguments on to
+    the existing functions. In example, FSharkPrelude.Map is shown in figure
+    \ref{fig:fsharkpreludemap}.
+    Other functions, like the \texttt{map} functions which takes multiple arrays as
+    arguments, require a bit of assembly first. For those \texttt{map} functions,
+    we zip the arguments before using \texttt{Array.map} as usual:
 
-  \item Some Futhark SOACs, like \texttt{reduce}, takes a neutral element as one of the
+  \item Some Futhark SOACs have \fsharp{} counterparts that are very close to
+    their original definition.
+    I.e., Futhark's \texttt{reduce} takes a neutral element\footnote{For
+      parallelization purposes} as one of the
     arguments in their function calls, whilst their \fsharp{} counterparts
     (\texttt{Array.reduce}) does only take an operator and an array as
     arguments.
-    To define the \fshark{} SOAC so that it is equivalent to the Futhark
-    version, it has been defined as so:
+    In such cases, the \texttt{FSharkPrelude} version changes the input slightly
+    before passing it on to the existing function. See figure
+    \ref{fsharkpreludereduce}.
+
+  \item Lastly, some functions does not have \fsharp{} counterparts at all, such
+    as scatter. In these cases, we manually implement an equivalent function in
+    \fsharp{}.
+    Note that we are not limited to the \fshark{} subset in the
+    \texttt{FSharkPrelude}, as the prelude functions are not translated by the
+    \fshark{} compiler, but detected caught and exchanged for
+    Futhark functions during the \fshark{} compilation (see \ref{removingpreludecalls}).
+    FSharkPrelude.Scatter is shown in figure \ref{fig:fsharkpreludescatter}.
+
+\end{enumerate}
+The complete list of available SOACs and array functions is available in
+appendix \ref{appendix:soacs}. MAYBE
+
+Note that calls to \texttt{FSharkPrelude} functions 
+
+\clearpage
+\begin{figure}[H]
+\centering
+\begin{minted}{fsharp}
+let Map (f : 'a -> 'b) (xs : 'a array) : 'b array =
+  Array.map f xs
+\end{minted}
+\caption{\texttt{FSharkPrelude.Map}}
+\label{fig:fsharkpreludemap}
+\end{figure}
+
+\begin{figure}[H]
 \begin{minted}{fsharp}
 let Reduce (op: 'a -> 'a -> 'a) (neutral : 'a) (xs : 'a array) =
   let xs' = Array.append [|neutral|] xs
   in Array.reduce op xs'
 \end{minted}
+\caption{\texttt{FSharkPrelude.Reduce}}
+\label{fig:fsharkpreludereduce}
+\end{figure}
 
-    Other functions, like the \texttt{map} functions which takes multiple arrays as
-    arguments, require a bit of assembly first. For those \texttt{map} functions,
-    we zip the arguments before using \texttt{Array.map} as usual:
-\begin{minted}{fsharp}
-let Map5 f aa bb cc dd ee =
-  let curry f (a,b,c,d,e) = f a b c d e
-  let xs = Zip5 aa bb cc dd ee
-  in Array.map (curry f) xs
-\end{minted}
-
-    \item Lastly, some functions does not have \fsharp{} counterparts. In
-      example, we implement \texttt{scatter} using a for-loop:
+\begin{figure}[H]
 \begin{minted}{fsharp}
 let Scatter (dest : 'a array) (is : int array) (vs : 'a array) : 'a array =
   for (i,v) in Zip is vs do
     dest.[i] <- v
   dest
-      \end{minted}
-\end{enumerate}
-The complete list of available SOACs and array functions is available in
-appendix \ref{appendix:soacs}.
+\end{minted}
+\caption{\texttt{FSharkPrelude.Scatter}}
+\label{fig:fsharkpreludescatter}
+\end{figure}
+\clearpage
 
-Note that calls to \texttt{FSharkPrelude} functions are caught and exchanged for
-Futhark functions during the \fshark{} compilation, as described in sec \ref{kig
-  kig}.
-
-% descriptions
-
-
-% WHY ALL OF THIS
 \subsection*{Why is FSharkPrelude part of the \fshark{} language?}
-Several of Futhark's SOACs, such as \texttt{map}, already has \fsharp{}
-versions that are directly equivalent.
+Although plenty of functions in the Futhark library already has \fsharp{}
+counterparts, we have chosen not to allow these \fsharp{} counterparts to be
+used directly in \fshark{} programs.
+Besides basic differences like different naming in \fsharp{} and Futhark for
+equivalent functions\footnote{like \texttt{fold} and \texttt{foldBack} vs.
+  \texttt{foldl} and \texttt{foldr}} like, there are multiple other reasons.
 
-But there are several issues with just letting the \fshark{} programmer use 
-But many of these \fsharp{} functions are
-contained in 
-HER KOMMER DER MERE
+1) From a user experience point of view, it is awkward to maintain a whitelist
+of accepted functions from certain classes.
+In example, \texttt{Array.map} is exchangable with Futhark's
+\texttt{map}, but there are no immediate Futhark version of \fsharp{}s
+\texttt{Array.sortInPlace}. Therefore, the \fshark{} compiler would succesfully
+exchange a call to \texttt{Array.map} with a call to \texttt{map}, but it would
+have to halt with an error message, if the user tried to use \texttt{Array.sortInPlace}.
 
- 1) it would be awkward to maintain a whitelist of accepted library functions,
- instead of simply handing the developer a gated library.
- 1½) uncomfortable to be told function is not supported at runtime 
+2) Some Array functions have subtle differences compared to their
+Futhark counterparts. As shown in figure \ref{fig:fsharkpreludereduce},
+\texttt{Array.reduce} is slightly different in \fsharp{}.
 
- 2) some Array functions have subtle differences compared to their
- futhark counterparts. In example, reduce doesn't take a neutral element which
- Futhark's reduce does.
+We are slightly hypocritical, as we DO let users use a subset of \fsharp{}s
+standard library functions. However, there is a whitelist available for this
+subset in the \fshark{} language specification, and the standard library
+functions are not visibly called as a method from another module.
 
- 3)
-
-
- note; FSharkPrelude cannot detect bad operators in reduce. non-commutative ops
- in reduce goes bad when parallel, så deeeeeet
-
-
- some implementations, like ZipN, are probably criminally ineffective.
-
- \subsection*{How \fshark{} SOACs differ from Futhark's ditto}
+\subsection*{How \fshark{} SOACs differ from Futhark's ditto}
 On a surface level, \fshark{} and Futhark SOACs are the same. After all, they
 have equivalent functionality.
 However, Futhark's SOACs gets special treatment in the Futhark compiler, and are
