@@ -3,11 +3,12 @@
 In the following chapter, we will describe the \fshark{} subset. Although the
 subset is just a part of \fsharp{}, we will describe it as if it was a language
 itself.
+\clearpage
+\section{\fshark{} syntax}
+\Cref{fig:fsharkstatements,fig:fsharkexpressions,fig:fsharkpatterns,fig:fsharktypes,fig:fsharkliterals}
+shows the complete \fshark{} syntax.
 
-Figures \cref{fig:fsharkstatements} shows the statements available in \fshark{}, 
-
-
-\begin{figure}
+\begin{figure}[h]
   \centering
   \begin{tabular}{lclr}
     $prog$ & $::=$ & $module\ prog$ & \\
@@ -35,12 +36,12 @@ Figures \cref{fig:fsharkstatements} shows the statements available in \fshark{},
 
 
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \begin{tabular}{lclr}
-    $e$ & $::=$ & $(e)$ & Expression in parens \\
-        & $|$   & $k$ & Constant \\
-        & $|$   & $v$ & Variable \\
+    $e$ & $::=$ & $(e)$ & (Expression in parenthesis) \\
+        & $|$   & $k$ & (Constant) \\
+        & $|$   & $v$ & (Variable) \\
         & $|$   & $(e_0,~\ldots,~e_n)$ & (Tuple expression) \\
         & $|$   & $\{\texttt{id}_0=e_0 ; \ldots ; \texttt{id}_n=e_n\}$ & (Record expression) \\
         & $|$   & $[\vert e_0 ; \ldots ; e_n\vert]$ & (Array expression) \\
@@ -61,19 +62,19 @@ Figures \cref{fig:fsharkstatements} shows the statements available in \fshark{},
 \label{fig:fsharkexpressions}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \begin{tabular}{@{}lclr}
     $p$ & $::=$ & $id$ & (Name pattern) \\
         & $|$   & $(p_0, \ldots, p_n)$ & (Tuple pattern) \\
   \end{tabular}
   \caption{\fshark{} patterns}
-\label{fig:fsharkpatters}
+\label{fig:fsharkpatterns}
 \end{figure}
 
 
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \begin{tabular}{@{}lclr}
     $t$ & $::=$ & $\texttt{int8}~|~\texttt{int16} ~|~ \texttt{int} ~ |~\texttt{int64} $ & (Integers) \\
@@ -89,7 +90,7 @@ Figures \cref{fig:fsharkstatements} shows the statements available in \fshark{},
 \label{fig:fsharktypes}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \begin{tabular}{@{}lclr}
     $k$ & $::=$ & $n\lit{y}~|~n\lit{s}~|~n~|~n\lit{L}$ & (8-, 16-, 32- and 64 bit signed integers) \\
@@ -106,8 +107,11 @@ Figures \cref{fig:fsharkstatements} shows the statements available in \fshark{},
 \end{figure}
 \clearpage
 
-\subsection*{\fsharp{} operators available in \fshark{}}
-The \fsharp{} subset chosen for \fshark{} is described in this subsection.
+\section{\fsharp{} operators available in \fshark{}}
+The \fsharp{} subset chosen for \fshark{} is described in \ref{fig:fsharkops}.
+Note that all of these operators are overloaded and defined for all integer
+and floating point types in \fsharp{}.
+
 \begin{figure}[h]
   \centering
 \begin{description}
@@ -115,7 +119,7 @@ The \fsharp{} subset chosen for \fshark{} is described in this subsection.
   The set of supported arithmetic operators is addition (\texttt{+}),
   binary subtraction and unary negation (\texttt{-}), multiplication
   (\texttt{*}), division (\texttt{/}) and modulus (\texttt{\%}).
-  
+
 \item[Boolean operators]\hfill\\
   \fshark{} currently supports logical AND (\texttt{\&\&}), logical OR
   (\texttt{$||$}), less- and greater-than (\texttt{<}, \texttt{>}), less- and
@@ -128,23 +132,22 @@ The \fsharp{} subset chosen for \fshark{} is described in this subsection.
   rewritten in Futhark for equivalent functionality.
   The supported operators are back- and forward pipes (\texttt{<|} and
   \texttt{|>}), and the range operator ($e_0$ \texttt{..} $e_1$), which
-  generates the sequence of numbers in the interval $[e_0,e_1]$. Note that in
-  \fshark{}, the range operator must be used inside an array as so
-  \texttt{[|$e_0$..$e_1$|]} so we adhere to using arrays and not lists in our
-  \fshark{} programs.
+  generates the sequence of numbers in the interval $[e_0,e_1]$.
+
+  Note that the range operator must be used inside an array (as so
+  \texttt{$[\vert e_0..e_1\vert]$}), so the expression generates an array
+  instead of a list.
 \end{description}
   \caption{\fshark{} operators}
-  \label{fig:fsharkops}
+\label{fig:fsharkops}
 \end{figure}
-Note that all of these operators are overloaded and defined for all integer
-and floating point types in \fsharp{}.
 
 
 
-\subsection*{\fsharp{} standard library functions available in \fshark{}}
+\section{\fsharp{} standard library functions available in \fshark{}}
 \fshark{} supports a subset of the \fsharp{} standard library. These are
-functions that are imported in \fsharp{} modules by default.
-
+readily available in all \fsharp{} programs, without having to open other modules.
+The standard library subset is shown in figure \ref{fig:fsharkfuns}.
 \begin{figure}[h]
   \centering
 \begin{description}
@@ -181,11 +184,7 @@ functions that are imported in \fsharp{} modules by default.
   \label{fig:fsharkfuns}
 \end{figure}
 
-Currently, bitwise operators like bitwise-AND and bitwise-OR are missing, but
-they should be relatively simple to add to the \fshark{} subset, by adding them
-to the set of supported operators in the \fshark{} compiler.
-
-\subsection*{On the \fsharp{} subset selected for \fshark{}}
+\subsection{On selection the \fsharp{} subset to include in \fshark{}}
 For selecting the \fsharp{} subset to support in \fshark{}, I chose to look at
 what functions that were included in \fsharp{}'s prelude. That is, the
 functions that are available in an \fsharp{} program without having to
@@ -210,30 +209,63 @@ It was therefore aan obvious decision to support these functions and operators i
 However, for the remaining four functions, that didn't have equivalents in
 Futhark's \texttt{math.fut}, their function calls are replaced with their
 identities instead.
-In example, whereas the \fshark{} code
-\begin{minted}{ocaml}
-  exp x
-\end{minted}
-is written in Futhark as 
-\begin{lstlisting}[language=Futhark]
-  exp x
-\end{lstlisting}
-because the exp function is also available in \texttt{math.fut}, the \fshark{}
-code
-\begin{minted}{ocaml}
-  cosh x
-\end{minted}
-is rewritten as the full hyperbolic sine function instead, as so
-\begin{lstlisting}[language=Futhark]
-  ((exp x) + (exp (-x))) / 2.0
-\end{lstlisting}
+In example, the \fshark{} code in figure \ref{fig:fsharkexp} can be
+expressed in Futhark directly (figure \ref{fig:futharkexp}).
+However, the hyperbolic cosine function is available in \fsharp{} (figure
+\ref{fig:fsharkcosh}), but not in Futhark.
+
+Therefore, the compiled \fshark{} Futhark code is just the hyperbolic function
+inlined (figure \ref{fig:futharkcosh}).
+
 These rewritings are not pretty to look at from a programmer's perspective, but
 \fshark{}s Futhark code is not meant to be read by humans anyhow.
 
 (MAYBE INVESTIGATE WHETHER INLINING THESE HAS PERFORMANCE PENALTIES) 
 
-% i could have also supported limited imports
+\subsection{Missing arithmetic operators in \fshark{}}
+Currently, bitwise operators like bitwise-AND and bitwise-OR are missing, but
+they should be relatively simple to add to the \fshark{} subset, by adding them
+to the set of supported operators in the \fshark{} compiler.
 
+
+\clearpage
+
+\begin{figure}[H]
+  \centering
+\begin{minted}{fsharp}
+  exp x
+\end{minted}
+  \caption{$e^x$ in \fsharp{}}
+  \label{fig:fsharkexp}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+\begin{lstlisting}[language=Futhark]
+  exp x
+\end{lstlisting}
+  \caption{$e^x$ in Futhark}
+  \label{fig:futharkexp}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+\begin{minted}{fsharp}
+  cosh x
+\end{minted}
+  \caption{$cosh~ x$ in \fsharp{}}
+  \label{fig:fsharkcosh}
+\end{figure}
+\begin{figure}[H]
+  \centering
+\begin{lstlisting}[language=Futhark]
+  ((exp x) + (exp (-x))) / 2.0
+\end{lstlisting}
+\caption{\fshark{}s $cosh~ x$ compiled to Futhark}
+  \label{fig:futharkcosh}
+\end{figure}
+
+\clearpage
 \subsection*{The correctness of the \fshark{} subset.}
 When transpiling code from one language to another, it is absolutely vital that
 the programmer can trust, that the resulting code in the target language is
