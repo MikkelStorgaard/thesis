@@ -1,8 +1,77 @@
-\chapter{The \fshark{} language}
+\chapter{The \fshark{} subset}
 \label{chap:fsharklanguage}
+In the following chapter, we will describe the \fshark{} subset. Although the
+subset is just a part of \fsharp{}, we will describe it as if it was a language
+itself.
 
-HERE IS A NICE INTRODUCTION.
-% introduction
+Figures \cref{fig:fsharkstatements} shows the statements available in \fshark{}, 
+
+
+\begin{figure}
+  \centering
+  \begin{tabular}{lclr}
+    $prog$ & $::=$ & $module\ prog$ & \\
+           & $|$   & $prog'\ prog$  & \\
+           & $|$   & $\epsilon$     & \\
+
+    $prog'$ & $::=$ & $typealias$   & \\
+            & $|$   & $fun$ & \\
+
+    $progs'$ & $::=$ & $prog'\ progs'$   & \\
+             & $|$   & $\epsilon$ & \\
+    \\
+    $typealias$ & $::=$ & $\texttt{type}\ v\ = t $& \\
+    $module$ & $::=$ & $\texttt{module}\ v = prog'\ progs'$ & \\
+    \\
+    $fun$ & $::=$ & \texttt{[<FSharkEntry>]} $\texttt{let}\ id\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t = e$ & \\
+        & $|$   & $\texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t' = e,$ & \\
+        &       & \hspace{1em} \textit{(for any $i \in {1..n}$, $t_i$ is not a tuple)} \\
+    \\
+
+  \end{tabular}
+  \caption{\fshark{} statements}
+  \label{fig:fsharkstatements}
+\end{figure}
+
+
+
+\begin{figure}
+  \centering
+  \begin{tabular}{lclr}
+    $e$ & $::=$ & $(e)$ & Expression in parens \\
+        & $|$   & $k$ & Constant \\
+        & $|$   & $v$ & Variable \\
+        & $|$   & $(e_0,~\ldots,~e_n)$ & (Tuple expression) \\
+        & $|$   & $\{\texttt{id}_0=e_0 ; \ldots ; \texttt{id}_n=e_n\}$ & (Record expression) \\
+        & $|$   & $[\vert e_0 ; \ldots ; e_n\vert]$ & (Array expression) \\
+        & $|$   & $v.[e_0] \ldots .[e_n]$ & (Array indexing) \\
+        & $|$   & $v.id$ & (Record indexing) \\
+        & $|$   & $v.id$ & (Module indexing) \\
+        & $|$   & $e_1 \odot e_2$ & (Binary operator) \\
+        & $|$   & $-e$ & (Prefix minus) \\
+        & $|$   & \texttt{not} $e$ & (Logical negation) \\
+        & $|$   & \texttt{if} $e_1$ \texttt{then} $e_2$ \texttt{else} $e_3$ & (Branching) \\
+        & $|$   & \texttt{let} $p = e_1$ \texttt{in} $e_2$ & (Pattern binding) \\
+        & $|$   & $\mathtt{fun}~p_0~\ldots~p_n~\mathtt{->}~e$ & (Anonymous function) \\
+        & $|$   & $e_0~e_1$ & (Application) \\
+
+    \\
+  \end{tabular}
+  \caption{\fshark{} expressions}
+\label{fig:fsharkexpressions}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \begin{tabular}{@{}lclr}
+    $p$ & $::=$ & $id$ & (Name pattern) \\
+        & $|$   & $(p_0, \ldots, p_n)$ & (Tuple pattern) \\
+  \end{tabular}
+  \caption{\fshark{} patterns}
+\label{fig:fsharkpatters}
+\end{figure}
+
+
 
 \begin{figure}
   \centering
@@ -17,6 +86,7 @@ HERE IS A NICE INTRODUCTION.
     \\
   \end{tabular}
   \caption{\fshark{} types}
+\label{fig:fsharktypes}
 \end{figure}
 
 \begin{figure}
@@ -32,66 +102,8 @@ HERE IS A NICE INTRODUCTION.
     \\
   \end{tabular}
   \caption{\fshark{} literals}
+\label{fig:fsharkliterals}
 \end{figure}
-
-\begin{figure}
-  \centering
-  \begin{tabular}{@{}lclr}
-    $p$ & $::=$ & $id$ & (Name pattern) \\
-        & $|$   & $(p_0, \ldots, p_n)$ & (Tuple pattern) \\
-  \end{tabular}
-  \caption{\fshark{} patterns}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \begin{tabular}{lclr}
-    $e$ & $::=$ & $(e)$ & Expression in parens \\
-        & $|$   & $k$ & Constant \\
-        & $|$   & $v$ & Variable \\
-        & $|$   & $(e_0,~\ldots,~e_n)$ & (Tuple expression) \\
-        & $|$   & $\{\texttt{id}_0=e_0 ; \ldots ; \texttt{id}_n=e_n\}$ & (Record expression) \\
-        & $|$   & $[\vert e_0 ; \ldots ; e_n\vert]$ & (Array expression) \\
-        & $|$   & $e_1 \odot e_2$ & (Binary operator) \\
-        & $|$   & $-e$ & (Prefix minus) \\
-        & $|$   & \texttt{not} $e$ & (Logical negation) \\
-        & $|$   & \texttt{if} $e_1$ \texttt{then} $e_2$ \texttt{else} $e_3$ & (Branching) \\
-        & $|$   & $v.[e_0] \ldots .[e_n]$ & (Array indexing) \\
-        & $|$   & $v$.\texttt{id} & (Record indexing) \\
-        & $|$   & $v_0.v_1$ & (Module indexing) \\
-        & $|$   & \texttt{let} $p = e_1$ \texttt{in} $e_2$ & (Pattern binding) \\
-        & $|$   & $v~e_0~\ldots e_n$ & (Function call) \\
-        & $|$   & $\mathtt{fun}~p_0~\ldots~p_n~\mathtt{->}~e$ & (Anonymous function) \\
-
-    \\
-  \end{tabular}
-  \caption{\fshark{} expressions}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \begin{tabular}{lclr}
-    $fun$ & $::=$ & \texttt{[<FSharkEntry>]} $\texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t = e$ & \\
-        & $|$   & $\texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t' = e,$ & \\
-        &       & \hspace{1em} \textit{(for any $i \in {1..n}$, $t_i$ is not a tuple)} \\
-    \\
-
-    $typealias$ & $::=$ & $\texttt{type}\ v\ = t $& \\
-    $module$ & $::=$ & $\texttt{module}\ v = prog'\ progs'$ & \\
-    \\
-    $prog$ & $::=$ & $module\ prog$ & \\
-           & $|$   & $prog'\ prog$  & \\
-           & $|$   & $\epsilon$     & \\
-
-    $prog'$ & $::=$ & $typealias$   & \\
-            & $|$   & $fun$ & \\
-
-    $progs'$ & $::=$ & $prog'\ progs'$   & \\
-             & $|$   & $\epsilon$ & \\
-  \end{tabular}
-  \caption{\fshark{} statements}
-\end{figure}
-
 \clearpage
 
 \subsection*{\fsharp{} operators available in \fshark{}}
@@ -360,22 +372,99 @@ have equivalent functionality.
 However, Futhark's SOACs gets special treatment in the Futhark compiler, and are
 fused together where applicable.
 Take for instance the short code example in figure \ref{fig:futharkfusion}.
+
+\begin{figure}[h]
+  \centering
+\begin{lstlisting}[language=Futhark]
+entry main : []f32 =
+  let xs = iota 100
+  let ys = map (f32.i32) xs
+  let zs = map (+ 4.5f32) ys
+  in zs
+\end{lstlisting}
+  \caption{A short Futhark program consisting of just SOACs}
+  \label{fig:futharkfusion}
+\end{figure}
+
 For non-OpenCL programs, Futhark's compiler fuses all three expressions into one for-loop, as described
-in pseudocode in figure \ref{fig:pseudofusion}.
+in simplified Futhark \csharp{} code in figure \ref{fig:pseudofusion}.
 Similarly, in an OpenCL program, the short code example is translated into a
-single kernel, as shown in figure \ref{fig:pseudokernel}. Notice here that the global
-thread id has a similar function to the iterator variable i in the non-OpenCL
-for-loop.
+single kernel, as shown in figure \ref{fig:pseudokernel}.
+
+\begin{figure}[h]
+  \centering
+\begin{minted}{csharp}
+float[] mem = new float[100];
+for (int i = 0 ; i < 100 ;i++)
+{
+  float res = int_to_float(i);
+  res = res + 4.5f;
+  mem[i] = res;
+}
+\end{minted}[h]
+  \caption{Figure \ref{fig:futharkfusion} compiled as (simplified) non-OpenCL
+    \csharp{} code.}
+  \label{fig:pseudofusion}
+\end{figure}
+
+\begin{figure}
+  \centering
+\begin{minted}{cpp}
+__kernel void map_kernel(__global unsigned byte *mem)
+{
+   int global_thread_id = get_global_id();
+   bool thread_active = global_thread_id < 100;
+
+   float res;
+
+   if (thread_active) {
+       res = int_to_float(global_thread_id);
+       res = res + 4.5f;
+   }
+   if (thread_active) {
+       *(__global float *) &mem[global_thread_id * 4] = res;
+   }
+};
+\end{minted}
+  \caption{Figure \ref{fig:futharkfusion}, but compiled as a simplified OpenCL kernel.}
+  \label{fig:pseudokernel}
+\end{figure}
 
 
+In both of the compiled examples, we must first allocate a target array for our
+result, but note that although we obtain three different arrays in the original
+Futhark code, both of the compiled versions transform the \texttt{iota}
+expression into a for-loop instead, and inserts the operators from the two
+subsequent \texttt{map}s into the loop.
 
+This is a concrete implementation Futhark fusion rules as defined in \cite{pldi17}; which states
+that $(map~f) \circ (map~g) \equiv map (f \circ g)$
 
-\subsubsection{Aggressive SOAC fusioning}
+However, executing \fshark{} code as native \fsharp{} code will execute the
+expressions as written, which means that we are allocating and writing to an
+array three times, once for each line in the program.
 
-returns copies of the functions
- better soacs through mutable functions, however we will still miss out on
- performance gains stemming from Futhark SOAC fusion.
+\subsubsection*{Futhark and nested maps}
+Futhark's compiler also specializes in parallelizing nested SOAC
+calls\cite{pldi17}, which in example transforms nested \texttt{map} expressions into one
+single \texttt{map} expression. For Futhark programs like the one in figure
+\ref{fig:fsharpnested}, the resulting OpenCL program contains a single map
+kernel with $i * j$ active threads.
 
+\begin{figure}[h]
+  \centering
+\begin{minted}{fsharp}
+let xss = map (\row ->
+              map (fun col ->
+                row * col
+              ) <| iota j
+          ) <| iota i
+\end{minted}
+  \caption{A nested \fshark{} program}
+  \label{fig:fsharpnested}
+\end{figure}
+
+The \fsharp{} compiler doesn't make any such transformations for \fshark{} programs.
 
 \subsection*{Arguing for Futhark-equivalent functionality}
 using a test suite with both positive and negative testing
@@ -593,10 +682,6 @@ UnflattenArray (lengths : Array of int) (data : Array of a) =
   \caption{Recreating a jagged array from flat array with dimensions}
   \label{fig:unflattenarray}
 \end{figure}
-
-
-limitation on FShark types (no []a * []long)
-does not add much to invokation
 
 \subsection*{An alternative solution (FSharkArrays)}
 How they work
