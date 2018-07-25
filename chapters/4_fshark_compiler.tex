@@ -1,6 +1,13 @@
 \chapter{The \fshark{} Compiler and Wrapper}
+Although \fshark{} code can be executed directly in \fsharp{} as normal
+\fsharp{} code, our benchmarks in chapter \ref{chap:evaluation} shows
+that compiling our \fshark{} code to Futhark OpenCL modules gives us performance
+increases by several orders of magnitudes (from $\times 100~\text{to}~\times 1000$).
+
 \section*{Introduction}
 \label{sec:fsharkcompiler}
+
+
 Parsing and building a regular F\# program is trivial when using official build tools like
 \texttt{msbuild} or \texttt{fsharpc}.
 But in the case of \fshark{}, we are not interested in the final result from the
