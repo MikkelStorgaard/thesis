@@ -6,7 +6,7 @@ achieved through advances within raw computing power, as CPU's had steadily been
 doubling their number of on-chip transistors, in rough accordance to Moore's Law (citér
 her).
 
-However, as performance increases in single-CPU design has stalled due to the power
+As performance increases in single-CPU design has stalled due to the power
 wall\cite{powerwall} (among other things), developers are turning to multi-core
 processors instead. As the number of cores increases, so does the number of
 active threads available for parallel data processing.
@@ -47,8 +47,31 @@ to standalone GPU accelerated libraries or programs.
 
 Of such DSLs we have for instance:
 \begin{itemize}
-\item 
+\item Forma
+\item Ebb
+\item one more
 \end{itemize}
+
+However, DSLs such as these are always either embedded in some host language
+(such as Accelerate), or compiled to standalone executable programs. Their
+compilers are designed to optimize performance, but rarely to support
+interoperability to any significant degree.
+
+Projects like APLtail\cite{apltail} have shown new ways to obtain GPU-accelerated
+executables and libraries from source code written in  high level language. APLtail parses
+and compiles APL\footnote{more accurately a subset of the APL language} code into redistributable C or Python libraries.
+
+In summary, the hardware for massively parallel programming is widely available.
+Furthermore, solutions exists for writing efficient GPU programs in high level
+languages, but these have weak interoperability support with mainstream
+languages.
+
+\section{What \fshark{} sets out to do}
+This thesis takes inspiration from APLtail\cite{apltail}.
+Whereas APLtail allows integration of GPU Futhark-written computation kernels in C- and Python programs (by
+means of code generation), we would like to use code generation to make
+Futhark-written kernels available for use in \csharp{} and \fsharp{} programs.
+
 
 
 
