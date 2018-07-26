@@ -160,19 +160,19 @@ Figure \ref{fig:fsharpsaxpy} shows the Futhark program from
 \begin{figure}[H]
   \centering
 \begin{minted}[linenos]{fsharp}
-let saxpy (a : f32) (x : f32) (y : f32) : f32 =
-  a*x+y
-
-let main =
-  let N = 1<<20
-  let a = 2f32
-  let xs = replicate N 1f32
-  let ys = replicate N 2f32
-  let ys' = map2 (saxpy a) xs ys
-  in ys'
-  \end{lstlisting}
+let saxpy (a : single) (x : single) (y : single) : single =
+    a*x+y
+  
+  let main =
+    let N = 1<<<20
+    let a = 2.0f
+    let xs = Array.replicate N 1.0f
+    let ys = Array.replicate N 2.0f
+    let ys' = Array.map2 (saxpy a) xs ys
+    in ys'
+  \end{minted}
   \caption{$ax+y$ in Futhark}
-  \label{fig:futsaxpy}
+  \label{fig:fsharpsaxpy}
 \end{figure}
 
 \fsharp{} also supports object oriented programming, and has seamless
@@ -184,41 +184,6 @@ readily use \csharp{} libraries and classes in \fsharp{}, and vice versa.
 \csharp{} 
 \csharp{} 
 \csharp{} 
-
-\clearpage
-\subsection*{Futhark}
-Quoting from Futhark's own homepage,
-\begin{formal}
-  Futhark is a small programming language designed to be compiled to efficient parallel code. It is a statically typed, data-parallel, and purely functional array language in the ML family, and comes with a heavily optimising ahead-of-time compiler that presently generates GPU code via OpenCL, although the language itself is hardware-agnostic.
-\end{formal}
-So far, plenty of handwritten GPU benchmark programs implemented in CUDA et al,
-has been ported to Futhark, with significant performance gains as a result.
-\cite{citesomething}. With these results in mind, it makes sense to start
-implementing other parallelizable algorithms and programs in Futhark. However,
-in the grand scheme of things, Futhark is still a relatively obscure programming
-language, and is almost solely used in academic settings.
-
-With Futhark being a purely functional programming language, it has very few
-imperative language constructs available, and the few that it has, like
-in-place updates, are merely syntactic sugar for other existing library function calls.
-
-As Futhark's main functionality is generating OpenCL kernels, it is in principle
-possible to compile Futhark programs for any language that are able to interface
-with the OpenCL API.
-
-%err, måske flytte eller skrive om
-As a target language for \fsharp{} translations,
-Futhark is ideal as we can identify and relatively easily translate a subset
-of the \fsharp{} language to equivalent Futhark code, as the syntax itself is
-very similar. Even though \fsharp{} also allows plenty of imperative and object
-oriented programming,
-\fshark{} blocks the user from using these constructs, by failing at \fshark{}
-compile time.
-
-% måske tilføje noget om unsafe
-
-\section*{A primer on OpenCL}
-
 
 %%% Local Variables:
 %%% mode: latex
