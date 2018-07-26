@@ -78,13 +78,22 @@ To show that this is feasible, we first design a \csharp{} code generator for th
 Futhark compiler. This code generator must be able to generate \csharp{} source
 files, that can be compiled and used either as standalone executables, or as
 importable libraries in any other \csharp{} or \fsharp{} program.
-MERE HER
+There were several notable challenges in this process, namely 1) designing
+\csharp{} programs that could encapsulate entire Futhark programs in a single
+class, and 2) designing helper libraries to include in the generated code, and
+3) designing a way to write sequential (non-GPU) Futhark code as pure \csharp{},
+in cases where GPU devices are unavailable.
 
 The code generator alone should not convince anyone that we are creating GPU
 kernels from a high level language, which is why we also design and implement a
 compiler which takes source code written in a mainstream language, compiles it
 as efficient GPU kernels, and (together with the code generator) makes the
 resulting GPU program immediately operable from the mainstream language itself.  
+The main challenges for this was 1) identifying which parts of the \fsharp{}
+language that were suitable for Futhark translation, 2) implementing a standard
+library for Futhark targeted \fsharp{} programs, and 3) designing and implementing a compiler
+pipeline that would let users program and use GPU kernels in \fsharp{}, without
+manually using Futhark compilers or importing external libraries.
 
 Empirical evaluation demonstrates that this approach is feasible.
 We both show that that unit tests written in a high level language can be compiled and executed
@@ -92,10 +101,6 @@ correctly as computational kernels on the GPU, just as we also take complex
 benchmark programs written in a mainstream language, compile them into
 computational kernels for the GPU, and use them directly in the mainstream
 language afterwards.
-
-
-
-
 
 
 

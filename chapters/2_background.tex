@@ -168,11 +168,11 @@ let saxpy (a : single) (x : single) (y : single) : single =
   a*x+y
   
 let main =
-  let N = 1<<<20
+  let n = 1<<<20
   let a = 2.0f
-  let xs = Array.replicate N 1.0f
-  let ys = Array.replicate N 2.0f
-  let ys' = Array.map2 (saxpy a) xs ys
+  let xs = array.replicate n 1.0f
+  let ys = array.replicate n 2.0f
+  let ys' = array.map2 (saxpy a) xs ys
   in ys'
   \end{minted}
   \caption{$ax+y$ in Futhark}
