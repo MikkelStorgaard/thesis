@@ -1,0 +1,67 @@
+\chapter{Architecture and use cases}
+\section{Futhark-to-\csharp{}}
+Initially, we are interested in making Futhark-generated GPU kernels available
+in \csharp{} programs. Specifically, we want to be able to follow use cases such
+as this:
+\begin{enumerate}
+\item We write a short Futhark program, which has a single entry function
+  available. This program takes an array of integers, and
+adds 2 to each element in the array. The program is shown in figure \ref{fig:shortfutharkprogram0}. 
+\item We then compile the Futhark program into a library file, by calling the
+  Futhark compiler from the command line, like shown in figure \ref{fig:shortfutharkprogram1}.
+This compiles \mathtt{mapPlus2.fut} to a \csharp{} file called MapPlus2.cs
+
+\item Finally, we write a short \csharp{} program in which we want to integrate
+  the mapPlus2 function in our program. Such a program is shown in figure \ref{fig:shortfutharkprogram2}.
+  In this program, we are importing the Futhark library on line N and constructing
+  an instance of the contained Futhark class on line N.\\
+  On line N, we generate an array of integers from 0 to 1000000, and finally
+  on line N, we use the exposed Futhark function mapPlus2 to add 2 to every
+  element in our array.
+\end{enumerate}
+\begin{figure}[H]
+  \centering
+  \begin{lstlisting}[language=Futhark]
+entry mapPlus2 (xs : []i32) : []i32 =
+  map (+2) xs
+  \end{lstlisting}
+  \caption{A short Futhark program called mapPlus2.fut}
+  \label{fig:shortfutharkprogram0}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{lstlisting}[language=bash]
+$ futhark-cs --library -o MapPlus2.cs mapPlus2.fut
+  \end{lstlisting}
+  \caption{We call the Futhark-to-\csharp{} compiler \texttt{futhark-cs} on
+    mapPlus2.fut}
+  \label{fig:shortfutharkprogram1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+\begin{minted}[linenos]{csharp}
+using System.Linq;
+using MapPlus2;
+
+public class Program
+{
+    public static int Main(string[] args)
+    {
+        var mapplus2Class = new MapPlus2();
+        var xs = Enumerable.Range(0, 1000000).ToArray();
+        var xs_result = mapplus2Class.mapPlus2(xs)
+    }
+}
+\end{minted}
+  \caption{We use the compiled Futhark program as any other library.}
+  \label{fig:shortfutharkprogram2}
+\end{figure}
+
+We want to 
+To use this 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End:

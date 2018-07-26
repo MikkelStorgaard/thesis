@@ -108,7 +108,7 @@ computational result.
 let saxpy (a : f32) (x : f32) (y : f32) : f32 =
   a*x+y
 
-let main =
+entry main =
   let N = 1<<20
   let a = 2f32
   let xs = replicate N 1f32
@@ -123,7 +123,11 @@ let main =
 Line 1 to 2 defines a function that takes three floats (\textit{a}, \textit{x}
 and \textit{y}) and returns $ax+y$.  
 
-Line 4 to 10 defines our main function.
+Line 4 to 10 defines our main function.\\
+In line 4 we use \texttt{entry} instead of \texttt{let} to tell the compiler
+that \texttt{main} is an entry point in the compiled program. This means we can
+call this function when we import the compiled program as a library, as opposed
+to the function \texttt{saxpy}, which cannot be accessed as a library function.\\
 Line 5 sets N to $1 << 20$ (or $2^{20}$).\\
 Line 6 sets a to 2.0.\\
 Line 7 uses the built-in function \texttt{replicate}\footnote{replicate has the
@@ -161,15 +165,15 @@ Figure \ref{fig:fsharpsaxpy} shows the Futhark program from
   \centering
 \begin{minted}[linenos]{fsharp}
 let saxpy (a : single) (x : single) (y : single) : single =
-    a*x+y
+  a*x+y
   
-  let main =
-    let N = 1<<<20
-    let a = 2.0f
-    let xs = Array.replicate N 1.0f
-    let ys = Array.replicate N 2.0f
-    let ys' = Array.map2 (saxpy a) xs ys
-    in ys'
+let main =
+  let N = 1<<<20
+  let a = 2.0f
+  let xs = Array.replicate N 1.0f
+  let ys = Array.replicate N 2.0f
+  let ys' = Array.map2 (saxpy a) xs ys
+  in ys'
   \end{minted}
   \caption{$ax+y$ in Futhark}
   \label{fig:fsharpsaxpy}

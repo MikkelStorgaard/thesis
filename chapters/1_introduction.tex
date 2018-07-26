@@ -103,26 +103,6 @@ language afterwards.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \section*{Motivation}
 \fshark{} is intended to be a way of writing and utilizing Futhark, without
 actually having to write or interact with the Futhark language and compiler
@@ -175,41 +155,24 @@ adapt to Futhark programming.
 (SOME MORE MORE SOME MORE)
 
 \clearpage
+
 \section*{The contributions of this thesis}
 The contributions of this thesis are as follows:
 \begin{enumerate}
-\item The \texttt{FSharkPrelude}:\\
-  The \texttt{FSharkPrelude} is a subset of the Futhark SOACs, ported to
-  \fsharp{}. To write an \fshark{} program, the user is directed to limit
-  himself to the SOACs in the \texttt{FSharkPrelude}. This means exchanging
-  \texttt{Array.map} for \texttt{FSharkPrelude.Map}, \texttt{Array.foldBack} for
-  \texttt{FSharkPrelude.foldr}, and so on.
-  However, the \texttt{FSharkPrelude} carries the guarantee, that all
-  \texttt{FSharkPrelude} functions works equivalently to their Futhark SOAC namesakes. 
-  This prelude, together with the \fsharp{} subset chosen for \fshark{}, makes
-  it possible to write \fsharp{} programs which, when translated to Futhark
-  code, are equivalent to their Futhark counterparts.
+\item A \csharp{} code generator for the Futhark language compiler, which
+  generates GPU accelerated libraries that can integrate seamlessly in 
+  \csharp{} and \fsharp{} code bases.
 
-\item An \fsharp{} subset translatable with \fshark{}:\\
-  As \fsharp{} is not only a multi-paradigm language, but also has access to the
-  entire standard .NET library, it was required to make \fshark{} support only a
-  subset of \fsharp{}. This has been implemented by whitelisting only the
-  \fsharp{}-to-Futhark translatable types, constructs and expressions in the \fshark{}
-  compiler. Furthermore, no other module imports than \texttt{FSharkPrelude} are allowed. 
-  This subset is of course documented for users.
+\item A select subset of the \fsharp{} langauge which can be translated directly to
+  Futhark source code of equivalent functionality. This includes a
+  library which implements Futhark SOACs\cite{soacs} in \fsharp{}, allowing
+  people to write \fsharp{} code which can be ported automatically to Futhark.
 
-\item The \fshark{} Compiler and Wrapper:\\
-  The \fshark{} Compiler and Wrapper takes a module written in \fshark{} as
-  input, converts the \fshark{} module into a compiled Futhark \csharp{} module,
-  and makes it available to the \fsharp{} program, all at runtime.
-  The pipeline is described in sec \ref{chapter:fsharkcompiler}
+\item A compiler and wrapper pipeline which allows users to compile individual
+  \fsharp{} modules in their projects to GPU accelerated libraries, and load and
+  execute code from these modules in the rest of the \fsharp{} project.
 
-\item A \csharp{} backend for Futhark:\\
-  To actually use Futhark in \csharp{} projects (and transitively \fsharp{}
-  projects), it was necessary to develop and add a \csharp{} backend to
-  the Futhark compiler. This backend is equivalent in functionality to
-  the \texttt{C}- and the \texttt{Python} backends that are already available.
-
+\item A set of benchmarks and unit tests that shows that this approach is indeed feasible.
 \end{enumerate}
 
 \clearpage
