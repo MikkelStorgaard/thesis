@@ -5,11 +5,12 @@ COOL INTRODUCTION
 For a given Futhark program (such as figure \ref{fig:shortfutharkprogram3'}), we want to be able to compile the program to a
 \csharp{} library from the command line like shown in figure \ref{fig:shortfutharkprogram4'}.
 This results in a compiled \csharp{} dynamically linked library\footnote{A
-  \texttt{.ddl} file}.
+  \texttt{.dll} file}.
 Then, we can include this library in a \csharp{} project like any other external
 library, and use its functions as expected, like shown in figure \ref{fig:shortfutharkprogram5'}.
 
 \begin{figure}[H]
+\begin{subfigure}
   \centering
   \begin{lstlisting}[language=Futhark]
 entry mapPlus2 (xs : []i32) : []i32 =
@@ -17,9 +18,9 @@ entry mapPlus2 (xs : []i32) : []i32 =
   \end{lstlisting}
   \caption{A short Futhark program called mapPlus2.fut}
   \label{fig:shortfutharkprogram3'}
-\end{figure}
+\end{subfigure}
 
-\begin{figure}[H]
+\begin{subfigure}
   \centering
   \begin{lstlisting}[language=sh]
 $ futhark-cs --library -o MapPlus2.cs mapPlus2.fut
@@ -27,9 +28,9 @@ $ futhark-cs --library -o MapPlus2.cs mapPlus2.fut
   \caption{We call the Futhark-to-\csharp{} compiler \texttt{futhark-cs} on
     mapPlus2.fut}
   \label{fig:shortfutharkprogram4'}
-\end{figure}
+\end{subfigure}
 
-\begin{figure}[H]
+\begin{subfigure}
   \centering
 \begin{minted}[linenos]{csharp}
 using System.Linq;
@@ -47,7 +48,116 @@ public class Program
 \end{minted}
   \caption{We use the compiled Futhark program as any other library.}
   \label{fig:shortfutharkprogram5'}
+\end{subfigure}
 \end{figure}
+
+\subsection{Compiling and using Futhark \csharp{} executables}
+Not all users are interested in using Futhark programs as parts in other code
+projects. Instead, these users can opt to compile Futhark programs to
+executables. Recalling the Futhark example in
+\Cref{fig:shortfutharkprogram3',fig:shortfutharkprogram4',fig:shortfutharkprogram5'},
+we instead opt to compile the Futhark program as an executable program.
+
+Keeping the Futhark source file \texttt{mapPlus2.fut} from
+\ref{fig:shortfutharkprogram3'}, we use futhark-cs to compile the program into
+an executable from the command line, shown in figure \ref{fig:shortfutharkprogram4''}.
+Here, the compiler outputs an executable called \texttt{MapPlus2} next to the
+original source file.
+
+We can now execute this program in one of two ways.
+Either, we write our arguments in a string on the command line, and
+\texttt{echo} them through a pipe into the executable. This method is shown in
+figure \ref{fig:shortfutharkprogram5''}. Here, the one argument we are using is
+an integer array. We pass the array to the executable, and it prints the result
+to \texttt{stdout} after it has finished. The \texttt{i32}'s tells us that the
+integers are 32 bit signed integers.
+For multi-argument entry functions, we separate the arguments with whitespace.
+
+For the second method, we store our arguments in a dataset file. For example, we
+can store our integer array in a plain text file, shown in figure \ref{fig:array.in}.
+
+We can then use the command line to redirect the contents of the dataset file
+into our command, as shown in figure \ref{fig:shortfutharkprogram5'''}.
+
+If we want to, we can redirect the output from stdout to a file of our own
+choice, shown in figure \ref{fig:shortfutharkprogram6'}. Here, we redirect
+Futhark's output to \texttt{result.txt}, and print it to \texttt{stdout} using
+\texttt{cat} to confirm that we indeed have our correct result.
+
+
+
+
+\begin{figure}[H]
+  \centering
+\begin{subfigure}
+  
+  \begin{lstlisting}[language=sh]
+$ futhark-cs -o MapPlus2 mapPlus2.fut
+  \end{lstlisting}
+  \caption{We call the Futhark-to-\csharp{} compiler \texttt{futhark-cs} on
+    mapPlus2.fut}
+  \label{fig:shortfutharkprogram4''}
+\end{subfigure}
+
+\vspace{1em} 
+
+\begin{subfigure}
+  
+  \begin{lstlisting}[language=sh]
+$ echo "[1,2,3,4,5,6,7]" | ./MapPlus2
+[1i32, 2i32, 3i32, 4i32, 5i32, 6i32, 7i32]
+  \end{lstlisting}
+  \caption{Piping arguments wrapped in a string into our Futhark executable}
+  \label{fig:shortfutharkprogram5''}
+\end{subfigure}
+
+\vspace{1em} 
+
+\begin{subfigure}
+  
+  \begin{lstlisting}
+[1,2,3,4,5,6,7]
+  \end{lstlisting}
+  \caption{The contents of \texttt{array.in}}
+  \label{fig:array.in}
+\end{subfigure}
+
+\vspace{1em} 
+
+\begin{subfigure}
+  
+  \begin{lstlisting}[language=sh]
+$ ./MapPlus2 < array.in
+[1i32, 2i32, 3i32, 4i32, 5i32, 6i32, 7i32]
+  \end{lstlisting}
+  \caption{Redirecting arguments stored in a dataset file into our Futhark executable}
+  \label{fig:shortfutharkprogram5'''}
+\end{subfigure}
+
+\vspace{1em} 
+
+\begin{subfigure}
+  
+  \begin{lstlisting}[language=sh]
+$ ./MapPlus2 < array.in > result.txt
+$ cat result.txt
+[1i32, 2i32, 3i32, 4i32, 5i32, 6i32, 7i32]
+  \end{lstlisting}
+  \caption{Redirecting Futhark output into file, and printing said file to
+    \texttt{stdout} afterwards.}
+  \label{fig:shortfutharkprogram6'}
+\end{subfigure}
+\end{figure}
+
+\clearpage
+
+
+
+
+
+
+
+
 
 \section{The Futhark \csharp{} compiler architecture}
 In figure \ref{fig:futharkcompilerhighlevel} we showed a rough sketch of the
@@ -151,10 +261,26 @@ contributed to them. Instead, this thesis implements the code generator
 described in step 2.
 
 \subsection{Designing the Futhark \csharp{} generator}
-The implementation of the code generator itself is not especially interesting,
-as it is just a large impl
+In the grand scheme of things, the Futhark \csharp{} generator is not
+interesting by itself. The entire contribution to the Futhark compiler is
+around 4500 SLOC, split 50/50 between \csharp{} and Haskell code.
+We will instead focus on the design of the code \textit{generated} by the code generator.
 
+\clearpage
 
+\section{The \texttt{futhark-cs}-generated \csharp{} program}
+The Futhark \csharp{} compiler can compile a Futhark source file in two
+different ways. As in the examples that have been shown so far, Futhark can
+compile to a library that is usable in both \csharp{} and \fsharp{} programs.
+Furthermore, Futhark can compile Futhark programs to standalone executables,
+which takes argument inputs from the \texttt{stdin} stream, and prints the
+results to \texttt{stdout}.
+
+As this thesis focuses on interoperability, we will primarily concentrate on the
+design of the \csharp{} code generated for Futhark libraries, and second mention
+design differences in cases, where the Futhark executables differs from the libraries.
+In figure \ref{fig:futharkcsclasses} we show a high level representation of the
+generated \csharp{} classes generated to their respective specifications.
 
 \begin{figure}[h]
   \centering
@@ -163,94 +289,43 @@ as it is just a large impl
   \label{fig:futharkcsclasses}
 \end{figure}
 
-To be able to use Futhark with \fsharp{} programs, it was necessary to compile
-Futhark programs to a language that \fsharp{} could work with.
-Although the difference between running a compiled Futhark C- and \csharp{}
-executable from the command line is negliable, a Futhark \csharp{} backend would
-allow .NET projects to use Futhark libraries natively, instead of running their
-Futhark calculations through seperate C or Python modules.
+Here follows a short explanation of the different sections of the Futhark
+programs.
+\begin{description}
+\item[\texttt{various imports}] \hfill \\
+  This part is the various \texttt{using}-statements which imports the necessary
+  library into \csharp{} program.
+  
+\item[\texttt{Futhark class}] \hfill \\
+  The Futhark class is a singleton class that encapsulates the entire Futhark
+  runtime program. The Futhark class is discussed in subsec \ref{subsec:futharkclass}.
+  
+\item[\texttt{Entry functions}] \hfill \\
+  The entry functions are functions that take human readable input and passes
+  them to the internal representations of Futhark functions.
+\item[\texttt{Program class}] \hfill \\
+  In the case of Futhark libraries, the entire \csharp{} program consists
+  of the imports and the Futhark class. Only for executables do we add the entry
+  functions to the Futhark class, and the Program class to the \csharp{} source
+  file itself.
+ 
+  The Program class contains a Main method, which is necessary for the \csharp{}
+  program to be compiled as an executable. This design is discussed in \ref{subsec:programclass}
+\end{description}
 
-Because \fsharp{} has almost frictionless interoperability with \csharp{}, and \csharp{}s
-imperative constructs are very close to the intermediate code that Futhark
-generates for it's code generation, it was an easy decision to implement a
-\csharp{} generating backend for Futhark, to accompany the already existing C-
-and Python backends.
-
-A Futhark backend must be able to do two different programs from a given Futhark
-program:
-
-First, it must be able to generate standalone executables which can take input data from the \texttt{stdin} stream, and send
-the results to the \texttt{stdout} stream. Although a Futhark C, -Python or
-\csharp{} executable should have equivalent functionality, their performance may
-vary, and the users may alter between the versions depending on which platforms
-that are available on their systems.
-
-Second, and more interesting, it must be able to generate single file libraries
-which can then be imported and used in other C, Python or \csharp{} projects, in
-the same manner as any other library.
-
-\begin{figure}[h]
-  \centering
-    \begin{lstlisting}[language=Futhark]
-      let main (xs : []i32) : []i32 = map (+2) xs
-    \end{lstlisting}
-  \caption{A very small Futhark program \texttt{map2.fut}}
-  \label{fig:smallfut}
-\end{figure}
-In example, if we compile the Futhark program in figure \ref{fig:smallfut} as a
-Python library, we will be able to use it in a Python program, as showed in figure \ref{fig:smallpython}.
-Likewise, we would like to be able to do the same thing in a \csharp{} or an
-\fsharp{} context.
-\begin{figure}[h]
-  \centering
-    \begin{lstlisting}[language=python]
-      import numpy as np
-      from map2 import map2
-
-      xs = np.array([1,2,3])
-      map2object = map2()
-      xs_res = map2object.map2(xs)
-      print xs_res # prints [3,4,5]
-    \end{lstlisting}
-  \caption{A very small Python program}
-  \label{fig:smallpython}
-\end{figure}
-
-\subsection*{The anatomy of a Futhark \csharp{} program}
-In figure \ref{fig:futharkcsclasses}, we see the two different ways we can
-compile a Futhark program to \csharp{}. They're largely the same, except for
-that the executable Futhark program must have a \texttt{Program} class with a
-\texttt{Main} method defined, so that there is an entrypoint defined for the
-compiled executable. Furthermore, the Futhark class in the executable version
-contains an entry function which chooses what Futhark function to run (in cases
-where the Futhark program has more than one entry function defined.) 
-
-The Program class itself (as seen in figure \ref{fig:programclass}) is not especially
-interesting, and does only contain a main method which initialises the Futhark
-class, and calls the entry function inside the Futhark class.
-For both Futhark programs, the top consists of the various imports needed for
-the program.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics{chapters/figs/csharp/program_class.pdf}
-  \caption{The \fshark{} compilation pipeline}
-  \label{fig:programclass}
-\end{figure}
-
-This leaves us with the Futhark class itself.
-Figure \ref{fig:futharkclass} shows the different parts that make up the
-generated Futhark \csharp{} class. In the following sections we will walk
-through the individual parts.
-
+\subsection{The Futhark class design}
+\label{subsec:futharkclass}
+The Futhark class is the single class defined in the compiled Futhark library.
+It is depicted in figure \ref{fig:futharkclass}
 \begin{figure}[h]
   \centering
   \includegraphics{chapters/figs/csharp/futhark_class.pdf}
-  \caption{The layout of the \csharp{} Futhark class}
+  \caption{An overview of the Futhark class}
   \label{fig:futharkclass}
 \end{figure}
+The following subsections explains the various parts of the class.
 
-\subsection*{Global context variables}
+\subsubsection{Global context variables}
 \label{globalcontextvariables}
 Compiled Futhark programs need to keep track of several variables.
 Both normal and OpenCL-enabled Futhark \csharp{} programs can take several
@@ -284,7 +359,7 @@ The struct \texttt{futhark\_context\_config cfg} is similar to the
 \texttt{futhark\_context}, but is only used for constructing the actual
 \texttt{futhark\_context}.
 
-\subsection*{The class constructor}
+\subsubsection{The class constructor}
 The class constructor is necessary to setup the global variables needed
 throughout the Futhark class. When the Futhark program is compiled as an
 executable, the command line arguments are passed to the class constructor by
@@ -295,7 +370,7 @@ Besides setting class variables, OpenCL-enabled versions will initialize (and
 set) first the \texttt{futhark\_context\_config cfg} variable, and afterwards
 the \texttt{futhark\_context} itself.
 
-\subsection{The various runtime libraries}
+\subsubsection{The various runtime libraries}
 \label{subsec:runtimelibs}
 
 The runtime libraries are a set of seperate \csharp{} files that are written and
@@ -371,7 +446,7 @@ static long add64(long x, long y){ return x + y; }
   MAYBE WRITE ALL OF THIS ALSO? ALRIGHT THANKS
 \end{description}
 
-\subsection*{The compiled Futhark functions}
+\subsubsection{The compiled Futhark functions}
   The compiled Futhark functions are the Futhark Intermediate Code functions,
   expressed in the target language, and corresponds to the entry functions found
   in the entry functions-section of the Futhark class.
@@ -386,7 +461,7 @@ static long add64(long x, long y){ return x + y; }
   In non-OpenCL programs, the array functions and SOAC calls are not stored in
   seperate wrapper functions, but inlined in the Futhark functions.
 
-\subsection*{OpenCL kernels and wrappers}
+\subsubsection{OpenCL kernels and wrappers}
   If the Futhark program is compiled for OpenCL, all array handling function- and
   SOAC calls are compiled as OpenCL kernels. This part of the Futhark class
   has two parts:
@@ -405,7 +480,7 @@ static long add64(long x, long y){ return x + y; }
     data back and forth between host and device buffers.
   \end{enumerate}
 
-\subsection{Entry functions}
+\subsubsection{Entry functions}
 \label{csharpentries}
 Futhark's internal representation of array values are one dimensional byte
 arrays (which can represent arrays of any type and dimensionality), and an
@@ -436,25 +511,44 @@ MENTION THE INPUT ARGUMENTS SPECIFICALLY ARRAYS THAT HAVE TO BE FLATTENED FIRST
 
 \clearpage
 
-\section*{The \csharp{} backend, compared to the C- and Python counterparts}
 
-%% DESCRIBE THE DIFFERENCES BETWEEN C# AND THE REST
-THE PYTHON BACKEND HAS MUCH FUNCTIONALITY ENCAPSULATED IN PYOPENCL, AND DOESN'T
-NEED TO DECLARE VARIABLES BEFORE SETTING THEM
-LESS COMPLEX GENERATOR NEEDED AS VARIOUS OPENCL STATEMENTS ARE HANDLED
-AUTOMATICALLY BY LIBRARY
+\subsection{Futhark executables}
 
-C BACKEND MUST BE AWARE OF ALL SIZES AND EVERYTHING AT COMPILE TIME, WHICH MEANS
-STATES MUST BE ALLOCATED THROUGH COMPLEX STRUCTS AT COMPILE TIME, AND STRUCTS
-MUST BE DEFINED AT COMPILE TIME AS WELL
 
-C ALLOWS NULL POINTERS, CS DOES NOT WHICH MEANS WE NEED PLACEHOLDER VARIABLES
 
-CSHARP GENERATOR IS SOMEWHERE INBETWEEN AS IT IS CAN HANDLE OBJECTS WHICH CAN
-CARRY STATE, FURTHERMORE DYNAMIC MEMORY ALLOCATION
+\subsubsection{The Program class design}
+As shown in figure \ref{fig:futharkcsclasses}, we only add the Program class to
+the Futhark program so we have an entrypoint for the executable.
+The entire Program class is depicted in figure \ref{fig:programclass}, with the
+contained source code and all.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics{chapters/figs/csharp/program_class.pdf}
+  \caption{The complete functionality of the Program class for Futhark
+    executables.}
+  \label{fig:programclass}
+\end{figure}
+
+%%% \section*{The \csharp{} backend, compared to the C- and Python counterparts}
+%%% 
+%%% %% DESCRIBE THE DIFFERENCES BETWEEN C# AND THE REST
+%%% THE PYTHON BACKEND HAS MUCH FUNCTIONALITY ENCAPSULATED IN PYOPENCL, AND DOESN'T
+%%% NEED TO DECLARE VARIABLES BEFORE SETTING THEM
+%%% LESS COMPLEX GENERATOR NEEDED AS VARIOUS OPENCL STATEMENTS ARE HANDLED
+%%% AUTOMATICALLY BY LIBRARY
+%%% 
+%%% C BACKEND MUST BE AWARE OF ALL SIZES AND EVERYTHING AT COMPILE TIME, WHICH MEANS
+%%% STATES MUST BE ALLOCATED THROUGH COMPLEX STRUCTS AT COMPILE TIME, AND STRUCTS
+%%% MUST BE DEFINED AT COMPILE TIME AS WELL
+%%% 
+%%% C ALLOWS NULL POINTERS, CS DOES NOT WHICH MEANS WE NEED PLACEHOLDER VARIABLES
+%%% 
+%%% CSHARP GENERATOR IS SOMEWHERE INBETWEEN AS IT IS CAN HANDLE OBJECTS WHICH CAN
+%%% CARRY STATE, FURTHERMORE DYNAMIC MEMORY ALLOCATION
+%%% 
 % THE DIFFERENCES BETWEEN MEMORY HANDLING IN CS AND CSOPENCL
-\section*{Memory management in Futhark \csharp{}}
+\section{Memory management in Futhark \csharp{}}
 As Futhark stores array values around in byte arrays, it is relevant to compare
 the difference between how the array handling differs between Futhark's C
 backend, and this \csharp{} backend.
@@ -514,7 +608,7 @@ what was chosen and why
 %% FOR CS, PERFORMANCE IS VASTLY INFERIOR TO TO C
 %%% WHY IS THAT???????????
 
-\section*{Selection an OpenCL interface for \csharp{}}
+\section{Selection an OpenCL interface for \csharp{}}
 OpenCL interaction is not a part of the .NET standard library, but several
 libraries do exist for .NET/OpenCL interactions. For this thesis, I researched a
 selection of these libraries, to determine which one that would fit the best for
@@ -567,7 +661,7 @@ Given these three candidates, I chose to work with \texttt{Cloo}: It was the
 only one that had the necessary OpenCL bindings readily available, and the only
 one that was platform agnostic.
 
-\subsection*{Writing a custom OpenCL bindings library}
+\subsection{Writing a custom OpenCL bindings library}
 Though \texttt{Cloo} is a good fit for Futhark \csharp{}, it is also slightly
 risky to depend on a five year old unmaintained library in a modern project.
 Therefore, it could be a good idea to write a smaller library similar to
