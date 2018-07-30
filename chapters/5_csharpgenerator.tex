@@ -1,7 +1,10 @@
 \chapter{The Futhark \csharp{} backend}
 In this chapter we 
 COOL INTRODUCTION
+mention that the generator is implemented by me, but all the design is inspired
+by the already existing Python and C backends.
 
+\section{Recap on using Futhark \csharp{} libraries}
 For a given Futhark program (such as figure \ref{fig:shortfutharkprogram3'}), we want to be able to compile the program to a
 \csharp{} library from the command line like shown in figure \ref{fig:shortfutharkprogram4'}.
 This results in a compiled \csharp{} dynamically linked library\footnote{A
@@ -52,6 +55,7 @@ public class Program
 \end{figure}
 
 \subsection{Compiling and using Futhark \csharp{} executables}
+\label{subsec:futharkcsexe}
 Not all users are interested in using Futhark programs as parts in other code
 projects. Instead, these users can opt to compile Futhark programs to
 executables. Recalling the Futhark example in
@@ -83,8 +87,6 @@ If we want to, we can redirect the output from stdout to a file of our own
 choice, shown in figure \ref{fig:shortfutharkprogram6'}. Here, we redirect
 Futhark's output to \texttt{result.txt}, and print it to \texttt{stdout} using
 \texttt{cat} to confirm that we indeed have our correct result.
-
-
 
 
 \begin{figure}[H]
@@ -435,20 +437,43 @@ static long add64(long x, long y){ return x + y; }
   mathematical functions from Futhark's \texttt{math.fut}library, such as \texttt{exp},
   \texttt{sin} and \texttt{cos}.
 
+
 \item[\texttt{reader.cs}] \hfill\\
   The reader contains the entire functionality for recieving function parameters
-  through \texttt{stdin}. The reader reads scalars of any of the
-  Futhark-supported primitives, and also arrays and multidimensional arrays of
-  scalars.
-  The reader also supports reading streams of binary data.
+  through \texttt{stdin}, as shown in the example in subsec
+  \ref{subsec:futharkcsexe}.
+  The reader reads scalars of any of the Futhark-supported primitives, and also arrays and multidimensional arrays of scalars.
+
+  The reader also supports reading streams of binary data. This enables Futhark
+  to parse datasets that are stored as pure byte representation, instead of
+  string representations.
   It is only necessary for Futhark executables.
+  
+
 \item[\texttt{opencl.cs}] \hfill\\
-  MAYBE WRITE ALL OF THIS ALSO? ALRIGHT THANKS
+  \texttt{opencl.cs} contains wrapper functions for \texttt{OpenCL}'s memory
+  related functions. In example, instead of calling \texttt{clCreateBuffer} directly for
+  allocating an \texttt{OpenCL} buffer, we call \texttt{OpenCLAlloc} from
+  \texttt{opencl.cs}. By using a wrapper function instead of calling
+  \texttt{clCreateBuffer}, we encapsulate functionality and employ better error
+  handling.
+  The wrapper functions in \texttt{opencl.cs} also employs a \texttt{free list} for \texttt{OpenCL}
+  memory allocations. This list is stored in the \texttt{futhark\_context}, and
+  has the following functionality:
+  \\
+  1) When the Futhark program frees an \texttt{OpenCL} buffer, it is not
+  actually freed, but is instead added to the \texttt{free list}.\\
+  2) When the Futhark program later allocates an \texttt{OpenCL} buffer, it
+  first goes through the \texttt{free list} to see, whether it can use one of the already
+  existing allocations instead.
 \end{description}
 
 \subsubsection{The compiled Futhark functions}
-  The compiled Futhark functions are the Futhark Intermediate Code functions,
-  expressed in the target language, and corresponds to the entry functions found
+  The compiled Futhark functions are the Futhark functions as written in
+  \texttt{ImpCode}\footnote{See figure \ref{fig:impcode}}, expressed in the
+  target language, in this case \csharp{}.
+
+  The compiled Futhark functions corresponds to the entry functions found
   in the entry functions-section of the Futhark class.
   Only the Futhark \texttt{entry} functions are compiled to individual functions, and
   remaining helper functions are inlined here.
@@ -457,6 +482,7 @@ static long add64(long x, long y){ return x + y; }
   individual (or fused) OpenCL kernels. Therefore, the compiled Futhark
   functions in these programs consists of mainly some scalar operations and
   memory allocations, and calls to Futhark-generated kernel wrapper functions.
+  There are also mixes, in example \texttt{for-}loops that call OpenCL kernels.
   
   In non-OpenCL programs, the array functions and SOAC calls are not stored in
   seperate wrapper functions, but inlined in the Futhark functions.
@@ -480,7 +506,7 @@ static long add64(long x, long y){ return x + y; }
     data back and forth between host and device buffers.
   \end{enumerate}
 
-\subsubsection{Entry functions}
+\subsection{Entry functions}
 \label{csharpentries}
 Futhark's internal representation of array values are one dimensional byte
 arrays (which can represent arrays of any type and dimensionality), and an
@@ -503,18 +529,78 @@ Futhark function. For all array values in the arguments, the array values are
 converted into Futhark representations of them.
 When the Futhark function returns the result, the result is then printed to \texttt{stdout}.
 
-For libraries, the ``\texttt{entry\_}'' prefix is dropped, and the function
-just takes care of converting array arguments into and back-from their Futhark
-representations.
+\subsection{Entry functions in executables}
+Consider again our small Futhark program mapPlus2 (figure \ref{fig:mapplus20}).
+\begin{figure}[H]
+  \centering
+  \begin{lstlisting}[language=Futhark]
+entry main (xs : []i32) : []i32 =
+  map (+2) xs
+  \end{lstlisting}
+  \caption{A short Futhark program called mapPlus2.fut}
+  \label{fig:mapplus20}
+\end{figure}
 
-MENTION THE INPUT ARGUMENTS SPECIFICALLY ARRAYS THAT HAVE TO BE FLATTENED FIRST
+If we compile this program as an executable, we get Futhark/entry function pair
+shown in figure \ref{fig:futharkentrypairexe}
+
+\begin{figure}[H]
+  \centering
+\begin{minted}{csharp}
+    (long, byte[], int) futhark_main(long xs_mem_sizze_3357, byte[] xs_mem_3358,
+                                     int sizze_3348)
+    {
+        var out_memsizze_3367 = new long();
+        var out_mem_3366 = allocateMem(0);
+        var out_arrsizze_3368 = new int();
+        long binop_x_3360;
+        binop_x_3360 = sext_i32_i64(sizze_3348);
+        long bytes_3359;
+        bytes_3359 = (binop_x_3360 * Convert.ToInt64(4));
+        byte[] mem_3361;
+        mem_3361 = allocateMem(bytes_3359);
+        var i_3355 = Convert.ToInt32(0);
+        var one_3371 = Convert.ToInt32(1);
+        for (int counter_3370 = 0 ;counter_3370 < sizze_3348 ;counter_3370++)
+        {
+            int x_3351;
+            x_3351 = indexArray<int>(xs_mem_3358, (i_3355 * Convert.ToInt32(4)),
+                                     BitConverter.ToInt32);
+            int res_3352;
+            res_3352 = (x_3351 + Convert.ToInt32(2));
+            writeScalarArray(mem_3361, (i_3355 * Convert.ToInt32(4)),
+                             Convert.ToInt32(res_3352));
+            i_3355 += one_3371;
+        }
+        out_arrsizze_3368 = sizze_3348;
+        out_memsizze_3367 = bytes_3359;
+        out_mem_3366 = mem_3361;
+        return (out_memsizze_3367, out_mem_3366, out_arrsizze_3368);
+    }
+    void entry_main()
+    {
+        var (int_array, lengths) = ReadStrArray<int>(1, "i32");
+        var int_array_length = lengths[0];
+        var byte_array = convertToByteArray<int>(int_array);
+        var byte_array_length = byte_array.Length;
+
+        var (res_array_memsize, size, res_array, )
+        var xs_mem_3358 = unwrapArray(xs_mem_3358_ext.Item1, sizeof(int));
+        byte[] xs_mem_copy_3372;
+        var xs_mem_3358_nbytes = xs_mem_3358.Length;
+        var out_memsizze_3367 = new long();
+        var out_mem_3366 = allocateMem(0);
+        var out_arrsizze_3368 = new int();
+\end{minted}
+  
+  \caption{An Futhark/entry function pair from the mapPlus2 executable}
+  \label{fig:futharkentrypairexe}
+\end{figure}
+
+
+\subsection{Entry functions in libraries}
 
 \clearpage
-
-
-\subsection{Futhark executables}
-
-
 
 \subsubsection{The Program class design}
 As shown in figure \ref{fig:futharkcsclasses}, we only add the Program class to
