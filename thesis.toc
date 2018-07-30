@@ -14,24 +14,25 @@
 \contentsline {subsection}{\numberline {3.2.1}A use case}{19}{subsection.3.2.1}
 \contentsline {chapter}{\numberline {4}The Futhark {\texttt {C\#}}{} backend}{20}{chapter.4}
 \contentsline {section}{\numberline {4.1}The Futhark {\texttt {C\#}}{} compiler architecture}{21}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}Entry functions}{27}{subsection.4.1.1}
-\contentsline {chapter}{\numberline {5}The {\texttt {FShark}}{} subset}{31}{chapter.5}
-\contentsline {section}{\numberline {5.1}{\texttt {FShark}}{} syntax}{32}{section.5.1}
-\contentsline {section}{\numberline {5.2}{\texttt {F\#}}{} operators available in {\texttt {FShark}}{}}{34}{section.5.2}
-\contentsline {section}{\numberline {5.3}{\texttt {F\#}}{} standard library functions available in {\texttt {FShark}}{}}{34}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}On selection the {\texttt {F\#}}{} subset to include in {\texttt {FShark}}{}}{34}{subsection.5.3.1}
-\contentsline {subsection}{\numberline {5.3.2}Missing arithmetic operators in {\texttt {FShark}}{}}{35}{subsection.5.3.2}
-\contentsline {chapter}{\numberline {6}FSharkPrelude}{39}{chapter.6}
-\contentsline {section}{\numberline {6.1}Arrays in {\texttt {F\#}}{} versus in Futhark}{44}{section.6.1}
-\contentsline {section}{\numberline {6.2}Converting jagged arrays to Futhark's flat arrays, and back again}{45}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Analysis of FlattenArray}{45}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}Analysis of UnflattenArray}{46}{subsection.6.2.2}
-\contentsline {chapter}{\numberline {7}The {\texttt {FShark}}{} Compiler and Wrapper}{49}{chapter.7}
-\contentsline {section}{\numberline {7.1}Design choices in writing the FShark Compiler}{54}{section.7.1}
-\contentsline {chapter}{\numberline {8}Benchmarks and evaluation}{57}{chapter.8}
-\contentsline {chapter}{\numberline {9}Current limitations}{60}{chapter.9}
-\contentsline {chapter}{\numberline {10}Related work}{61}{chapter.10}
-\contentsline {chapter}{\numberline {11}Conclusion and future work}{62}{chapter.11}
-\contentsline {chapter}{\numberline {12}{\texttt {FShark}}{}s interoperability between {\texttt {F\#}}and Futhark ({\texttt {C\#}}{})}{63}{chapter.12}
-\contentsline {subsection}{\numberline {12.0.1}Pros and cons of the current design}{64}{subsection.12.0.1}
-\contentsline {section}{\numberline {12.1}The future of {\texttt {FShark}}{} interoperability}{65}{section.12.1}
+\contentsline {subsection}{\numberline {4.1.1}The various runtime libraries}{27}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Entry functions}{29}{subsection.4.1.2}
+\contentsline {chapter}{\numberline {5}The {\texttt {FShark}}{} subset}{33}{chapter.5}
+\contentsline {section}{\numberline {5.1}{\texttt {FShark}}{} syntax}{34}{section.5.1}
+\contentsline {section}{\numberline {5.2}{\texttt {F\#}}{} operators available in {\texttt {FShark}}{}}{36}{section.5.2}
+\contentsline {section}{\numberline {5.3}{\texttt {F\#}}{} standard library functions available in {\texttt {FShark}}{}}{36}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}On selection the {\texttt {F\#}}{} subset to include in {\texttt {FShark}}{}}{36}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Missing arithmetic operators in {\texttt {FShark}}{}}{37}{subsection.5.3.2}
+\contentsline {chapter}{\numberline {6}FSharkPrelude}{41}{chapter.6}
+\contentsline {section}{\numberline {6.1}Arrays in {\texttt {F\#}}{} versus in Futhark}{46}{section.6.1}
+\contentsline {section}{\numberline {6.2}Converting jagged arrays to Futhark's flat arrays, and back again}{47}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Analysis of FlattenArray}{47}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Analysis of UnflattenArray}{48}{subsection.6.2.2}
+\contentsline {chapter}{\numberline {7}The {\texttt {FShark}}{} Compiler and Wrapper}{51}{chapter.7}
+\contentsline {section}{\numberline {7.1}Design choices in writing the FShark Compiler}{56}{section.7.1}
+\contentsline {chapter}{\numberline {8}Benchmarks and evaluation}{59}{chapter.8}
+\contentsline {chapter}{\numberline {9}Current limitations}{62}{chapter.9}
+\contentsline {chapter}{\numberline {10}Related work}{63}{chapter.10}
+\contentsline {chapter}{\numberline {11}Conclusion and future work}{64}{chapter.11}
+\contentsline {chapter}{\numberline {12}{\texttt {FShark}}{}s interoperability between {\texttt {F\#}}and Futhark ({\texttt {C\#}}{})}{65}{chapter.12}
+\contentsline {subsection}{\numberline {12.0.1}Pros and cons of the current design}{66}{subsection.12.0.1}
+\contentsline {section}{\numberline {12.1}The future of {\texttt {FShark}}{} interoperability}{67}{section.12.1}

@@ -54,8 +54,16 @@ In figure \ref{fig:futharkcompilerhighlevel} we showed a rough sketch of the
 Futhark compiler's architecture. To sufficiently explore the contribution of
 this thesis, we will however first need a more detailed view of the architecture
 we need to implement to accomplish our goal.
-This architecture is depicted in figure \ref{fig:futharkcompilerlowerlevel}, and
-have three main steps:
+This architecture is depicted in figure \ref{fig:futharkcompilerlowerlevel}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.85]{chapters/figs/csharp/futharkcsarchitecture.pdf}
+  \caption{The Futhark \csharp{} architecture, including necessary imports.}
+  \label{fig:futharkcompilerlowerlevel}
+\end{figure}
+
+We will now describe its three main steps:
 \begin{description}
 \item[Step 1:]\hfill\\
   A Futhark source file is passed to the Futhark compiler (like in figure
@@ -75,25 +83,76 @@ have three main steps:
   basic expressions like addition and multiplication.
 
 \item[Step 2:]\hfill\\
+  The \csharp{} code generator takes the Futhark program written in
+  \texttt{ImpCode}, and expresses it as \csharp{} source code.
+  In example, we can take the simple \texttt{ImpCode} expression in figure \ref{fig:impcode},
+  and rewrite it as \csharp{} code, shown in figure \ref{fig:impcodeascs}.
+  \begin{figure}[H]
+    \centering
+\begin{minted}{lisp}
+SetScalar "x" (
+    BinOpExp Add 
+      (ValueExp (IntValue (Int32Value 4))) 
+      (ValueExp (IntValue (Int32Value 5)))
+    )
+\end{minted}
+    \caption{Setting int x to 4+5 with simplified \texttt{ImpCode}}
+    \label{fig:impcode}
+  \end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{minted}{csharp}
+int x = 4 + 5;
+\end{minted}
+\caption{Setting int x to 4+5 in \csharp{}}
+\label{fig:impcodeascs}
+  \end{figure}
+
+Besides taking an \texttt{ImpCode} program as input, it also embeds a set of
+prewritten \csharp{} libraries\footnote{\texttt{reader.cs} et al} into the generated \csharp{} code. These
+libraries are ncessary for the finished \csharp{} program, and are described in
+sec \ref{sec:runtimelibs}.\\
+The finished \csharp{} source code is passed to a \csharp{} compiler, but also
+written to disk so it is available for the developer.
+
 \item[Step 3:]\hfill\\
-\end{enumerate}
+  To use the \csharp{} code, we need to compile it using the command shown in
+  figure \ref{fig:callcsc}. We tell the compiler that we have external libraries
+  stored at the location stored at \texttt{\$MONO\_PATH}\footnote{An environment
+  variable that should be set to a directory containing external runtime
+  libraries for Mono runtime usage.}, and we tell the compiler to
+  reference two extra external libraries \texttt{Mono.Options.dll} and
+  \texttt{Cloo.clSharp.dll}, as we need these libraries in the Futhark \csharp{} programs.
 
+  We also add the library flag so \texttt{csc} compiles to a \texttt{.dll} file instead of
+  generating an executable. Finally we add the \texttt{/unsafe} flag so the
+  compiler allows us to use \texttt{unsafe} statements in the \csharp{} program.
 
-
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
-  \includegraphics[scale=0.85]{chapters/figs/csharp/futharkcsarchitecture.pdf}
-  \caption{The Futhark \csharp{} architecture, including necessary imports.}
-  \label{fig:futharkcompilerlowerlevel}
+  \begin{lstlisting}[language=sh]
+$ csc -lib:$MONO_PATH \
+      -r:Mono.Options.dll -r:Cloo.clSharp.dll /unsafe mapPlus2.cs
+  \end{lstlisting}
+  \caption{We call the \csharp{} compiler in mapPlus2.cs}
+  \label{fig:callcsc}
 \end{figure}
 
+However, the last step in \texttt{futhark-cs} does this for the user
+automatically, as long as the user has the set the required \texttt{\$MONO\_PATH}
+variable, and that the directory that \texttt{\$MONO\_PATH} points to, contains the
+required libraries.
 
+\end{enumerate}
 
+This thesis leverages the software that are used in step 1 and 3, but has not
+contributed to them. Instead, this thesis implements the code generator
+described in step 2.
 
-
-
-
-
+\subsection{Designing the Futhark \csharp{} generator}
+The implementation of the code generator itself is not especially interesting,
+as it is just a large impl
 
 
 
@@ -236,7 +295,9 @@ Besides setting class variables, OpenCL-enabled versions will initialize (and
 set) first the \texttt{futhark\_context\_config cfg} variable, and afterwards
 the \texttt{futhark\_context} itself.
 
-\subsection*{The various runtime libraries}
+\subsection{The various runtime libraries}
+\label{subsec:runtimelibs}
+
 The runtime libraries are a set of seperate \csharp{} files that are written and
 distributed through the Futhark compiler. When a Futhark program is compiled,
 these library files are concatenated and embedded directly into the rest of the
