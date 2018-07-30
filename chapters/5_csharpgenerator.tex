@@ -1,4 +1,101 @@
 \chapter{The Futhark \csharp{} backend}
+In this chapter we 
+COOL INTRODUCTION
+
+For a given Futhark program (such as figure \ref{fig:shortfutharkprogram3'}), we want to be able to compile the program to a
+\csharp{} library from the command line like shown in figure \ref{fig:shortfutharkprogram4'}.
+This results in a compiled \csharp{} dynamically linked library\footnote{A
+  \texttt{.ddl} file}.
+Then, we can include this library in a \csharp{} project like any other external
+library, and use its functions as expected, like shown in figure \ref{fig:shortfutharkprogram5'}.
+
+\begin{figure}[H]
+  \centering
+  \begin{lstlisting}[language=Futhark]
+entry mapPlus2 (xs : []i32) : []i32 =
+  map (+2) xs
+  \end{lstlisting}
+  \caption{A short Futhark program called mapPlus2.fut}
+  \label{fig:shortfutharkprogram3'}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{lstlisting}[language=sh]
+$ futhark-cs --library -o MapPlus2.cs mapPlus2.fut
+  \end{lstlisting}
+  \caption{We call the Futhark-to-\csharp{} compiler \texttt{futhark-cs} on
+    mapPlus2.fut}
+  \label{fig:shortfutharkprogram4'}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+\begin{minted}[linenos]{csharp}
+using System.Linq;
+using MapPlus2;
+
+public class Program
+{
+    public static int Main(string[] args)
+    {
+        var mapplus2Class = new MapPlus2();
+        var xs = Enumerable.Range(0, 1000000).ToArray();
+        var xs_result = mapplus2Class.mapPlus2(xs)
+    }
+}
+\end{minted}
+  \caption{We use the compiled Futhark program as any other library.}
+  \label{fig:shortfutharkprogram5'}
+\end{figure}
+
+\section{The Futhark \csharp{} compiler architecture}
+In figure \ref{fig:futharkcompilerhighlevel} we showed a rough sketch of the
+Futhark compiler's architecture. To sufficiently explore the contribution of
+this thesis, we will however first need a more detailed view of the architecture
+we need to implement to accomplish our goal.
+This architecture is depicted in figure \ref{fig:futharkcompilerlowerlevel}, and
+have three main steps:
+\begin{description}
+\item[Step 1:]\hfill\\
+  A Futhark source file is passed to the Futhark compiler (like in figure
+  \ref{fig:shortfutharkprogram4'}). Although only the main source file is passed
+  as an argument to the compiler, the compiler also includes any imports in the
+  main source file, if there should be any.
+
+  This first part of the Futhark compiler is responsible for parsing the passed
+  Futhark program, including imports, and performs all type checks, SOAC
+  optimizations, fusions and so on\ref{}. The result of this process is a
+  Futhark program expressed in Futhark's internal intermediate language called \texttt{ImpCode}.
+  The \texttt{ImpCode} grammar is included in the appendix. The \texttt{ImpCode}
+  language contains everything from memory operations like allocating and
+  deallocation memory (both on system memory and on the GPU), interfacing with
+  the OpenCL device (like copying buffers back and forth between the system and
+  the GPU, setting kernel arguments and launching computation kernels), and also
+  basic expressions like addition and multiplication.
+
+\item[Step 2:]\hfill\\
+\item[Step 3:]\hfill\\
+\end{enumerate}
+
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.85]{chapters/figs/csharp/futharkcsarchitecture.pdf}
+  \caption{The Futhark \csharp{} architecture, including necessary imports.}
+  \label{fig:futharkcompilerlowerlevel}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
 
 \begin{figure}[h]
   \centering

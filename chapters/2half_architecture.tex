@@ -44,7 +44,7 @@ This compiles \texttt{mapPlus2.fut} to a Python file called MapPlus2.py
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[H]
+    \begin{subfigure}
     \begin{lstlisting}[language=Futhark]
   entry mapPlus2 (xs : []i32) : []i32 =
     map (+2) xs
@@ -53,16 +53,16 @@ This compiles \texttt{mapPlus2.fut} to a Python file called MapPlus2.py
     \label{fig:shortfutharkprogram0}
   \end{subfigure}
 
-  \begin{subfigure}[H]
-    \begin{lstlisting}[language=sh]
+  \begin{subfigure}
+\begin{lstlisting}[language=bash]
   $ futhark-py --library -o MapPlus2.py mapPlus2.fut
     \end{lstlisting}
     \caption{We call the Futhark-to-Python compiler \texttt{futhark-py} on
       mapPlus2.fut}
     \label{fig:shortfutharkprogram1}
   \end{subfigure}
-
-  \begin{subfigure}[H]
+  
+  \begin{subfigure}
 \begin{minted}[linenos]{python}
   from MapPlus2 import MapPlus2
 
@@ -75,7 +75,7 @@ This compiles \texttt{mapPlus2.fut} to a Python file called MapPlus2.py
     \label{fig:shortfutharkprogram2}
   \end{subfigure}
   \caption{The Futhark-to-Python use case.}
-  \label{fig:shortfutharkprogram2}
+  \label{fig:shortfutharkprogram}
 \end{figure}
 \clearpage
 
