@@ -49,9 +49,11 @@
 \contentsline {section}{\numberline {5.7}Converting jagged arrays to Futhark's flat arrays, and back again}{54}{section.5.7}
 \contentsline {subsection}{\numberline {5.7.1}Analysis of FlattenArray}{57}{subsection.5.7.1}
 \contentsline {subsection}{\numberline {5.7.2}Analysis of UnflattenArray}{58}{subsection.5.7.2}
+\contentsline {subsection}{\numberline {5.7.3}An alternative solution (FSharkArrays)}{59}{subsection.5.7.3}
+\contentsline {subsection}{\numberline {5.7.4}Conclusion on arrays}{59}{subsection.5.7.4}
 \contentsline {chapter}{\numberline {6}The {\texttt {FShark}}{} Compiler and Wrapper}{60}{chapter.6}
 \contentsline {section}{\numberline {6.1}Design choices in writing the FShark Compiler}{65}{section.6.1}
-\contentsline {chapter}{\numberline {7}Benchmarks and evaluation}{68}{chapter.7}
+\contentsline {chapter}{\numberline {7}Evaluation and benchmarks}{68}{chapter.7}
 \contentsline {chapter}{\numberline {8}Current limitations}{72}{chapter.8}
 \contentsline {chapter}{\numberline {9}Related work}{73}{chapter.9}
 \contentsline {chapter}{\numberline {10}Conclusion and future work}{74}{chapter.10}

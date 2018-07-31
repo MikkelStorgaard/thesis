@@ -885,9 +885,9 @@ types, because this type is reserved.
 To circumvent this, the user is instead encouraged to return the tuple as two
 separate values.
 
-\subsection*{An alternative solution (FSharkArrays)}
+\subsection{An alternative solution (FSharkArrays)}
 Instead of using jagged arrays (or even multidimensional arrays), we initially
-considered using an \fshark{} specific array type, which could be directly
+considered implimenting an \fshark{} specific array type, which could be directly
 translated to Futhark's flat array structure.
 
 
@@ -899,7 +899,7 @@ How they would alleviate the problem
 Why they weren't chosen anyhow (hint; needing to pepper FSharkArray all over
 code, would stand in way of idiomatic FSharp style)
 
-\subsection*{Conclusion on arrays}
+\subsection{Conclusion on arrays}
 Ultimately, choosing between jagged arrays, multidimensional arrays and
 FSharkArrays became a question of simplicity vs. performance.
 For \fshark{}, I had the liberty to focus solely on simplicity, as \fshark{}
