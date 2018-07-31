@@ -102,63 +102,6 @@ benchmark programs written in a mainstream language, compile them into
 computational kernels for the GPU, and use them directly in the mainstream
 language afterwards.
 
-
-
-
-
-
-
-\section*{Motivation}
-\fshark{} is intended to be a way of writing and utilizing Futhark, without
-actually having to write or interact with the Futhark language and compiler
-itself. Besides some tooling and an \fsharp{} SOAC library, it primarily consists of the \fshark{} compiler that compiles from
-\fsharp{} source code to Futhark source code, and the Futhark \csharp{}
-generator, which compiles Futhark programs as either standalone \csharp{}
-programs or -libraries.
-
-As much as most developers are happy to increase performance on big
-computations, it is not always an option to incorporate an extra langauge into
-an already existing programming language. At this moment, using Futhark in
-either a \csharp{}- or \fsharp{} project is a contrived process that usually
-requires spawning a subprocess with a \texttt{futhark-opencl} C program from inside one of the .NET
-projects.
-
-In order to use Futhark natively in .NET languages, it is therefore
-necessary to write a backend for Futhark in a .NET language.
-For \fshark{}, I have chosen to implement this backend in \csharp{}, as the Futhark intermediate
-code \texttt{ImpCode}\footnote{which stands for Imperative Code} is trivial to
-translate into imperative \csharp{} statements and expressions.
-Also, there are \csharp{} libraries available which supply OpenCL bindings, which are
-needed to implement the necessary OpenCL constructs from \texttt{ImpCode}.
-
-It is my belief that exporting Futhark programs as .NET executables and
--libraries will lower the barrier to Futhark usage in .NET projects
-significantly, hopefully increasing the all-round number of Futhark users, and
-in the long term, increasing utilization of GPU programming and making it more
-widely available.
-
-However, one could do even more than just exporting Futhark to .NET, to increase
-accessibility:
-
-As tens of thousands of programmers worldwide (CHECK NUMBER JEEEEZ) are already
-writing \fsharp{} programs, and that most of \fsharp{}s functional language features can be
-directly translated into equivalent Futhark features, it became worthwhile to
-investigate whether it was possible to design a way for users to both write and
-utilize Futhark in \fsharp{} projects, without ever actually touching the
-Futhark language or compiler themselves.
-Instead, users can write their data parallel \fsharp{} modules in \fshark{}, and compile these
-modules into Futhark libraries automatically.
-
-In this case, it would be possible to get Futhark speeds in \fsharp{} programs,
-without doing much more than installing the Futhark compiler locally, and adding
-the required \fshark{} libraries to the \fsharp{} project.
-
-It is my belief that being able to achieve Futhark performance in regular \fsharp{}
-programs almost automatically, will make it significantly easier for people to
-adapt to Futhark programming.
-
-(SOME MORE MORE SOME MORE)
-
 \clearpage
 
 \section*{The contributions of this thesis}

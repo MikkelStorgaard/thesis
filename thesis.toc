@@ -1,60 +1,60 @@
 \select@language {english}
 \contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}
 \contentsline {section}{\numberline {1.1}What {\texttt {FShark}}{} sets out to do}{5}{section.1.1}
-\contentsline {chapter}{\numberline {2}Background}{10}{chapter.2}
-\contentsline {section}{\numberline {2.1}CUDA}{10}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}A simple CUDA program}{10}{subsection.2.1.1}
-\contentsline {subsubsection}{The CUDA kernel}{10}{section*.7}
-\contentsline {subsubsection}{The CUDA main function}{11}{section*.8}
-\contentsline {section}{\numberline {2.2}Futhark}{12}{section.2.2}
-\contentsline {section}{\numberline {2.3}{\texttt {F\#}}{}}{13}{section.2.3}
-\contentsline {chapter}{\numberline {3}Architecture and use cases}{15}{chapter.3}
-\contentsline {section}{\numberline {3.1}Generating GPU accelerated libraries}{15}{section.3.1}
-\contentsline {section}{\numberline {3.2}Obtaining and integrating GPU kernels from- and in high level languages}{19}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}A use case}{19}{subsection.3.2.1}
-\contentsline {chapter}{\numberline {4}The Futhark {\texttt {C\#}}{} backend}{20}{chapter.4}
-\contentsline {section}{\numberline {4.1}Recap on using Futhark {\texttt {C\#}}{} libraries}{20}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}Compiling and using Futhark {\texttt {C\#}}{} executables}{21}{subsection.4.1.1}
-\contentsline {section}{\numberline {4.2}The Futhark {\texttt {C\#}}{} compiler architecture}{23}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Designing the Futhark {\texttt {C\#}}{} generator}{25}{subsection.4.2.1}
-\contentsline {section}{\numberline {4.3}The \texttt {futhark-cs}-generated {\texttt {C\#}}{} program}{26}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}The Futhark class design}{27}{subsection.4.3.1}
-\contentsline {subsubsection}{Global context variables}{27}{section*.30}
-\contentsline {subsubsection}{The class constructor}{28}{section*.31}
-\contentsline {subsubsection}{The various runtime libraries}{28}{section*.32}
-\contentsline {subsubsection}{The compiled Futhark functions}{29}{section*.34}
-\contentsline {subsubsection}{OpenCL kernels and wrappers}{30}{section*.35}
-\contentsline {subsection}{\numberline {4.3.2}Entry functions}{30}{subsection.4.3.2}
-\contentsline {subsection}{\numberline {4.3.3}Entry functions in executables}{31}{subsection.4.3.3}
-\contentsline {subsection}{\numberline {4.3.4}Entry functions in libraries}{32}{subsection.4.3.4}
-\contentsline {subsubsection}{Type signature for entry functions}{33}{section*.39}
-\contentsline {subsubsection}{The Program class design}{34}{section*.40}
-\contentsline {section}{\numberline {4.4}Memory management in Futhark {\texttt {C\#}}{}}{34}{section.4.4}
-\contentsline {subsubsection}{The \texttt {unsafe} block}{35}{section*.43}
-\contentsline {subsubsection}{The \texttt {fixed} block}{35}{section*.44}
-\contentsline {subsection}{\numberline {4.4.1}Performance}{36}{subsection.4.4.1}
-\contentsline {section}{\numberline {4.5}Selecting an OpenCL interface for {\texttt {C\#}}{}}{39}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Writing a custom OpenCL bindings library}{40}{subsection.4.5.1}
-\contentsline {chapter}{\numberline {5}The {\texttt {FShark}}{} language}{41}{chapter.5}
-\contentsline {section}{\numberline {5.1}{\texttt {FShark}}{} syntax}{43}{section.5.1}
-\contentsline {section}{\numberline {5.2}Notes to the {\texttt {FShark}}{} grammar}{45}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Limits to function argument types}{45}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}{\texttt {FShark}}{} modules}{45}{subsection.5.2.2}
-\contentsline {section}{\numberline {5.3}{\texttt {F\#}}{} operators available in {\texttt {FShark}}{}}{46}{section.5.3}
-\contentsline {section}{\numberline {5.4}{\texttt {F\#}}{} standard library functions available in {\texttt {FShark}}{}}{46}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}On selection the {\texttt {F\#}}{} subset to include in {\texttt {FShark}}{}}{46}{subsection.5.4.1}
-\contentsline {subsection}{\numberline {5.4.2}Missing arithmetic operators in {\texttt {FShark}}{}}{47}{subsection.5.4.2}
-\contentsline {section}{\numberline {5.5}The {\texttt {FShark}}{} standard library}{49}{section.5.5}
-\contentsline {section}{\numberline {5.6}Arrays in {\texttt {F\#}}{} versus in Futhark}{53}{section.5.6}
-\contentsline {section}{\numberline {5.7}Converting jagged arrays to Futhark's flat arrays, and back again}{55}{section.5.7}
-\contentsline {subsection}{\numberline {5.7.1}Analysis of FlattenArray}{58}{subsection.5.7.1}
-\contentsline {subsection}{\numberline {5.7.2}Analysis of UnflattenArray}{59}{subsection.5.7.2}
-\contentsline {chapter}{\numberline {6}The {\texttt {FShark}}{} Compiler and Wrapper}{61}{chapter.6}
-\contentsline {section}{\numberline {6.1}Design choices in writing the FShark Compiler}{66}{section.6.1}
-\contentsline {chapter}{\numberline {7}Benchmarks and evaluation}{69}{chapter.7}
-\contentsline {chapter}{\numberline {8}Current limitations}{73}{chapter.8}
-\contentsline {chapter}{\numberline {9}Related work}{74}{chapter.9}
-\contentsline {chapter}{\numberline {10}Conclusion and future work}{75}{chapter.10}
-\contentsline {chapter}{\numberline {11}{\texttt {FShark}}{}s interoperability between {\texttt {F\#}}and Futhark ({\texttt {C\#}}{})}{78}{chapter.11}
-\contentsline {subsection}{\numberline {11.0.1}Pros and cons of the current design}{79}{subsection.11.0.1}
-\contentsline {section}{\numberline {11.1}The future of {\texttt {FShark}}{} interoperability}{80}{section.11.1}
+\contentsline {chapter}{\numberline {2}Background}{9}{chapter.2}
+\contentsline {section}{\numberline {2.1}CUDA}{9}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}A simple CUDA program}{9}{subsection.2.1.1}
+\contentsline {subsubsection}{The CUDA kernel}{9}{section*.6}
+\contentsline {subsubsection}{The CUDA main function}{10}{section*.7}
+\contentsline {section}{\numberline {2.2}Futhark}{11}{section.2.2}
+\contentsline {section}{\numberline {2.3}{\texttt {F\#}}{}}{12}{section.2.3}
+\contentsline {chapter}{\numberline {3}Architecture and use cases}{14}{chapter.3}
+\contentsline {section}{\numberline {3.1}Generating GPU accelerated libraries}{14}{section.3.1}
+\contentsline {section}{\numberline {3.2}Obtaining and integrating GPU kernels from- and in high level languages}{18}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}A use case}{18}{subsection.3.2.1}
+\contentsline {chapter}{\numberline {4}The Futhark {\texttt {C\#}}{} backend}{19}{chapter.4}
+\contentsline {section}{\numberline {4.1}Recap on using Futhark {\texttt {C\#}}{} libraries}{19}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Compiling and using Futhark {\texttt {C\#}}{} executables}{20}{subsection.4.1.1}
+\contentsline {section}{\numberline {4.2}The Futhark {\texttt {C\#}}{} compiler architecture}{22}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Designing the Futhark {\texttt {C\#}}{} generator}{24}{subsection.4.2.1}
+\contentsline {section}{\numberline {4.3}The \texttt {futhark-cs}-generated {\texttt {C\#}}{} program}{25}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}The Futhark class design}{26}{subsection.4.3.1}
+\contentsline {subsubsection}{Global context variables}{26}{section*.29}
+\contentsline {subsubsection}{The class constructor}{27}{section*.30}
+\contentsline {subsubsection}{The various runtime libraries}{27}{section*.31}
+\contentsline {subsubsection}{The compiled Futhark functions}{28}{section*.33}
+\contentsline {subsubsection}{OpenCL kernels and wrappers}{29}{section*.34}
+\contentsline {subsection}{\numberline {4.3.2}Entry functions}{29}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}Entry functions in executables}{30}{subsection.4.3.3}
+\contentsline {subsection}{\numberline {4.3.4}Entry functions in libraries}{31}{subsection.4.3.4}
+\contentsline {subsubsection}{Type signature for entry functions}{32}{section*.38}
+\contentsline {subsubsection}{The Program class design}{33}{section*.39}
+\contentsline {section}{\numberline {4.4}Memory management in Futhark {\texttt {C\#}}{}}{33}{section.4.4}
+\contentsline {subsubsection}{The \texttt {unsafe} block}{34}{section*.42}
+\contentsline {subsubsection}{The \texttt {fixed} block}{34}{section*.43}
+\contentsline {subsection}{\numberline {4.4.1}Performance}{35}{subsection.4.4.1}
+\contentsline {section}{\numberline {4.5}Selecting an OpenCL interface for {\texttt {C\#}}{}}{38}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Writing a custom OpenCL bindings library}{39}{subsection.4.5.1}
+\contentsline {chapter}{\numberline {5}The {\texttt {FShark}}{} language}{40}{chapter.5}
+\contentsline {section}{\numberline {5.1}{\texttt {FShark}}{} syntax}{42}{section.5.1}
+\contentsline {section}{\numberline {5.2}Notes to the {\texttt {FShark}}{} grammar}{44}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Limits to function argument types}{44}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}{\texttt {FShark}}{} modules}{44}{subsection.5.2.2}
+\contentsline {section}{\numberline {5.3}{\texttt {F\#}}{} operators available in {\texttt {FShark}}{}}{45}{section.5.3}
+\contentsline {section}{\numberline {5.4}{\texttt {F\#}}{} standard library functions available in {\texttt {FShark}}{}}{45}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}On selection the {\texttt {F\#}}{} subset to include in {\texttt {FShark}}{}}{45}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Missing arithmetic operators in {\texttt {FShark}}{}}{46}{subsection.5.4.2}
+\contentsline {section}{\numberline {5.5}The {\texttt {FShark}}{} standard library}{48}{section.5.5}
+\contentsline {section}{\numberline {5.6}Arrays in {\texttt {F\#}}{} versus in Futhark}{52}{section.5.6}
+\contentsline {section}{\numberline {5.7}Converting jagged arrays to Futhark's flat arrays, and back again}{54}{section.5.7}
+\contentsline {subsection}{\numberline {5.7.1}Analysis of FlattenArray}{57}{subsection.5.7.1}
+\contentsline {subsection}{\numberline {5.7.2}Analysis of UnflattenArray}{58}{subsection.5.7.2}
+\contentsline {chapter}{\numberline {6}The {\texttt {FShark}}{} Compiler and Wrapper}{60}{chapter.6}
+\contentsline {section}{\numberline {6.1}Design choices in writing the FShark Compiler}{65}{section.6.1}
+\contentsline {chapter}{\numberline {7}Benchmarks and evaluation}{68}{chapter.7}
+\contentsline {chapter}{\numberline {8}Current limitations}{72}{chapter.8}
+\contentsline {chapter}{\numberline {9}Related work}{73}{chapter.9}
+\contentsline {chapter}{\numberline {10}Conclusion and future work}{74}{chapter.10}
+\contentsline {chapter}{\numberline {11}{\texttt {FShark}}{}s interoperability between {\texttt {F\#}}and Futhark ({\texttt {C\#}}{})}{77}{chapter.11}
+\contentsline {subsection}{\numberline {11.0.1}Pros and cons of the current design}{78}{subsection.11.0.1}
+\contentsline {section}{\numberline {11.1}The future of {\texttt {FShark}}{} interoperability}{79}{section.11.1}
