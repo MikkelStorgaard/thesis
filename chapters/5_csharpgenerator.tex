@@ -45,7 +45,78 @@ public class Program
     {
         var mapplus2Class = new MapPlus2();
         var xs = Enumerable.Range(0, 1000000).ToArray();
-        var xs_result = mapplus2Class.mapPlus2(xs)
+        var xusing System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+
+namespace ConsoleApplication2
+{
+    internal class Program
+    {
+        static private int TEST_SIZE = 1000000;
+        
+        static void UsingBuffer()
+        {
+            byte[] target = new byte[TEST_SIZE*sizeof(int)];
+            for (int i = 0; i < TEST_SIZE; i++)
+            {
+                var intAsBytes = BitConverter.GetBytes(i);
+                Buffer.BlockCopy(intAsBytes, 0, target, i * sizeof(int), sizeof(int)); 
+            }
+        }
+        
+        static void UsingUnsafe1()
+        {
+            byte[] target = new byte[TEST_SIZE*sizeof(int)];
+            for (int i = 0; i < TEST_SIZE; i++)
+            {
+                unsafe
+                {
+                    fixed (byte* ptr = &target[i * sizeof(int)])
+                    {
+                        *(int*) ptr = i;
+                    }
+                }
+            }
+        }
+        
+        static void UsingUnsafe2()
+        {
+            byte[] target = new byte[TEST_SIZE*sizeof(int)];
+            unsafe
+            {
+                fixed (byte* ptr = &target[0])
+                {
+                    for (int i = 0; i < TEST_SIZE; i++)
+                    {
+                        *(int*) (ptr+i*sizeof(int)) = i;
+                    }
+                }
+            }
+        }
+        
+        public static void Main(string[] args)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            UsingBuffer();
+            stopwatch.Stop();
+            Console.WriteLine("Safe took {0} milliseconds", stopwatch.ElapsedTicks);
+            
+            
+            stopwatch.Restart();
+            UsingUnsafe1();
+            stopwatch.Stop();
+            Console.WriteLine("Unsafe1 took {0} milliseconds", stopwatch.ElapsedTicks);
+            
+            stopwatch.Restart();
+            UsingUnsafe2();
+            stopwatch.Stop();
+            Console.WriteLine("Unsafe2 took {0} milliseconds", stopwatch.ElapsedTicks);
+
+        }
+    }
+}s_result = mapplus2Class.mapPlus2(xs)
     }
 }
 \end{minted}
@@ -530,6 +601,7 @@ converted into Futhark representations of them.
 When the Futhark function returns the result, the result is then printed to \texttt{stdout}.
 
 \subsection{Entry functions in executables}
+\label{entryfunctionsinexecutables}
 Consider again our small Futhark program mapPlus2 (figure \ref{fig:mapplus20}).
 \begin{figure}[H]
   \centering
@@ -542,63 +614,100 @@ entry main (xs : []i32) : []i32 =
 \end{figure}
 
 If we compile this program as an executable, we get Futhark/entry function pair
-shown in figure \ref{fig:futharkentrypairexe}
+shown in figure \ref{fig:futharkentrypairexe}. The example is very simplified
+but does resembles the actual implementation in functionality.
+
+By calling entry_main(), we first call ReadStrArray<int> to parse an integers
+array from stdin. We then read the number of elements in the array into a
+variable, and then convert the integer array to a byte array, as Futhark
+functions use byte arrays for internal value array representation.
+
+We then call the internal Futhark function, which returns a byte array, the
+length of the byte array and the number of elements that the byte array
+represents.
+We reform the byte array into an integer array, and print the result to \texttt{stdout}.
 
 \begin{figure}[H]
   \centering
-\begin{minted}{csharp}
-    (long, byte[], int) futhark_main(long xs_mem_sizze_3357, byte[] xs_mem_3358,
-                                     int sizze_3348)
-    {
-        var out_memsizze_3367 = new long();
-        var out_mem_3366 = allocateMem(0);
-        var out_arrsizze_3368 = new int();
-        long binop_x_3360;
-        binop_x_3360 = sext_i32_i64(sizze_3348);
-        long bytes_3359;
-        bytes_3359 = (binop_x_3360 * Convert.ToInt64(4));
-        byte[] mem_3361;
-        mem_3361 = allocateMem(bytes_3359);
-        var i_3355 = Convert.ToInt32(0);
-        var one_3371 = Convert.ToInt32(1);
-        for (int counter_3370 = 0 ;counter_3370 < sizze_3348 ;counter_3370++)
-        {
-            int x_3351;
-            x_3351 = indexArray<int>(xs_mem_3358, (i_3355 * Convert.ToInt32(4)),
-                                     BitConverter.ToInt32);
-            int res_3352;
-            res_3352 = (x_3351 + Convert.ToInt32(2));
-            writeScalarArray(mem_3361, (i_3355 * Convert.ToInt32(4)),
-                             Convert.ToInt32(res_3352));
-            i_3355 += one_3371;
-        }
-        out_arrsizze_3368 = sizze_3348;
-        out_memsizze_3367 = bytes_3359;
-        out_mem_3366 = mem_3361;
-        return (out_memsizze_3367, out_mem_3366, out_arrsizze_3368);
-    }
-    void entry_main()
-    {
-        var (int_array, lengths) = ReadStrArray<int>(1, "i32");
-        var int_array_length = lengths[0];
-        var byte_array = convertToByteArray<int>(int_array);
-        var byte_array_length = byte_array.Length;
+\begin{minted}[linenos]{csharp}
+(int, byte[], int) futhark_main(int byte_array_length, byte[] byte_array, 
+                                int byte_array_elms)
+{
 
-        var (res_array_memsize, size, res_array, )
-        var xs_mem_3358 = unwrapArray(xs_mem_3358_ext.Item1, sizeof(int));
-        byte[] xs_mem_copy_3372;
-        var xs_mem_3358_nbytes = xs_mem_3358.Length;
-        var out_memsizze_3367 = new long();
-        var out_mem_3366 = allocateMem(0);
-        var out_arrsizze_3368 = new int();
+    // ...
+    // futhark stuff happens
+    // ...
+
+    return (out_array_length, out_array, out_array_elms);
+}
+
+void entry_main()
+{
+    var (int_array, lengths) = ReadStrArray<int>(1, "i32");
+    var int_array_elms = lengths[0];
+    var byte_array = convertToByteArray<int>(int_array);
+    var byte_array_length = byte_array.Length;
+
+    var (res_array_memsize, res_array, res_array_elms) =
+        futhark_entry(byte_array_length, byte_array, int_array_elms);
+
+    var res_array_as_ints = reform_array<int>(res_array, res_array_elms);
+    printArray(res_array_as_ints);
+    exit(0);
 \end{minted}
-  
-  \caption{An Futhark/entry function pair from the mapPlus2 executable}
+  \caption{A simplified Futhark/entry function pair from the mapPlus2 executable}
   \label{fig:futharkentrypairexe}
 \end{figure}
 
-
 \subsection{Entry functions in libraries}
+If we compile the program in fig \ref{fig:mapplus20} program as a library, we get Futhark/entry function pair
+shown in figure \ref{fig:futharkentrypairlib}. The example is very simplified
+but does resembles the actual implementation in functionality.
+
+The difference between this example and the example in subsec
+\ref{entryfunctionsinexecutables} is that function parameters are given as
+function arguments, and that the result is returned from the function as opposed
+to just writing them to \texttt{stdout}.
+\begin{figure}[H]
+  \centering
+\begin{minted}[linenos]{csharp}
+    (int, byte[], int) futhark_main(int byte_array_length, byte[] byte_array, int byte_array_elms)
+    {
+
+        ...
+        // futhark stuff happens
+        ...
+
+        return (out_array_length, out_array, out_array_elms);
+    }
+
+    (int[], int[]) entry_main(int[] int_array, int[] int_array_lengths)
+    {
+        var int_array_elms = int_array_lengths[0];
+        var byte_array = convertToByteArray<int>(int_array);
+        var byte_array_length = byte_array.Length;
+
+        var (res_array_memsize, res_array, res_array_elms) =
+            futhark_entry(byte_array_length, byte_array, int_array_elms);
+
+        var res_array_as_ints = reform_array<int>(res_array, res_array_elms);
+        var res_lengths = new int[] { res_array_as_ints.Length };
+        return (res_array_as_ints, res_lengths);
+\end{minted}
+  \caption{A simplified Futhark/entry function pair from the mapPlus2 library}
+  \label{fig:futharkentrypairlib}
+\end{figure}
+
+\subsubsection{Type signature for entry functions}
+Currently, library functions aren't callable with jagged arrays\footnote{See sec
+\ref{jaggedarrays}}, but must instead be called with a flat element array and an
+array of lengths denoting the dimensionality of the flat element array. This is
+explained in sec \ref{aaaa}.
+
+The \fshark{} implementation offers helper functions that can flatten jagged
+arrays into flat arrays/dimension array pairs, and back again.
+In the future, this might be added to the Futhark \csharp{} backend for
+usability purposes.
 
 \clearpage
 
@@ -677,22 +786,155 @@ for (int32_t i_4189 = 0; i_4189 < sizze_4135; i_4189++) {
 \end{minted}
 \caption{A short snippet from a Futhark C program}
 \label{fig:futharkcscene}
+\end{figure} 
+
+In \csharp{}, arrays and lists are accessed by indexing, i.e. \texttt{var
+  x = myArray[10];}.
+These arrays are managed by .NET's CLR\footnote{Common Language Runtime}, and
+access violations, such as indexing out of bounds, makes the CLR raise a suitable
+exception, which can be handled in the \csharp{} program by catching it
+accordingly.
+
+However, for performance reasons\ref{marshalunsafeperformance}, we are interested in writing to our \csharp{}
+arrays directly.
+To do this, we must use both \texttt{unsafe} blocks and \texttt{fixed} blocks.
+
+\subsubsection{The \texttt{unsafe} block}
+In \csharp{}, we cannot just write arbitrary values to arbitrary locations, as this
+opens the program for memory access violations by trying to access memory
+outside of \csharp{}s memory space. Such violations triggers segmentation faults
+which halts the entire program, instead of throwing an exception.
+
+Therefore we encapsulate our unsafe pointer-using code in an \texttt{unsafe}
+block.
+
+\subsubsection{The \texttt{fixed} block}
+\csharp{}s CLR manages memory locations for allocated buffers, which means that
+it also moves these memory allocations around in memory during program execution
+when necessary.
+To be able to read and write to buffers referenced by pointers, we must
+therefore fix these buffers in memory, before we are able to use them directly.
+
+An example of using the unsafe- and the fixed block is shown in figure
+\ref{fig:writeScalarArray'}. We start the function by starting an
+\texttt{unsafe} block. After we have started the \texttt{unsafe} block, we fix
+the destination buffer in memory and get a pointer to the exact location that we
+are interested in. Finally, we use a cast to treat the destination pointer as a
+\texttt{double} pointer so we can store a \texttt{double} at that location.
+\begin{figure}[h]
+\centering
+\begin{minted}[fontsize=\small]{csharp}
+void writeScalarArray(byte[] dest, int offset, double value)
+{
+    unsafe
+    {
+        fixed (byte* dest_ptr = &dest[offset])
+        {
+            *(double*) dest_ptr = value;
+        }
+    }
+}
+\end{minted}
+\caption{\texttt{writeScalarArray} writes a value at the specified offset in
+some byte array.}
+\label{fig:writeScalarArray'}
 \end{figure}
 
-WHY IS THIS NOT ALLOWED?
+\subsection{Performance}
+\label{marshalunsafeperformance}
+Although \csharp{} does offer safe methods to store values directly in byte
+arrays, we have chosen to avoid these functions as their implementations carry
+huge overhead compared to doing things the unsafe way.
+For this benchmark, we are writing N integers to a byte array, using three
+methods shown in figure \ref{fig:threemethods}.
+\begin{figure}[H]
+  \centering
+  \begin{minted}{csharp}
+static void UsingBuffer()
+{
+    byte[] target = new byte[TEST_SIZE*sizeof(int)];
+    for (int i = 0; i < TEST_SIZE; i++)
+    {
+        var intAsBytes = BitConverter.GetBytes(i);
+        Buffer.BlockCopy(intAsBytes, 0, target, i * sizeof(int), sizeof(int)); 
+    }
+}
 
-DESCRIBE TWO DIFFERENT WAYS OF DOING IT ANYHOW
-1) MARSHAL
-2) unsafe and fixed
+static void UsingUnsafe1()
+{
+    byte[] target = new byte[TEST_SIZE*sizeof(int)];
+    for (int i = 0; i < TEST_SIZE; i++)
+    {
+        unsafe
+        {
+            fixed (byte* ptr = &target[i * sizeof(int)])
+            {
+                *(int*) ptr = i;
+            }
+        }
+    }
+}
 
-what was chosen and why
+static void UsingUnsafe2()
+{
+    byte[] target = new byte[TEST_SIZE*sizeof(int)];
+    unsafe
+    {
+        fixed (byte* ptr = &target[0])
+        {
+            for (int i = 0; i < TEST_SIZE; i++)
+            {
+                *(int*) (ptr+i*sizeof(int)) = i;
+            }
+        }
+    }
+}
 
-% WHY THIS DESIGN
+\end{minted}
+  \caption{Three methods of writing integers to an array.}
+  \label{fig:threemethods}
+\end{figure}
 
-% benchmarks are available in benchmarking chapter
-%% FOR CS-OPENCL, PERFORMANCE IS COMPARABLE TO C-OPENCL
-%% FOR CS, PERFORMANCE IS VASTLY INFERIOR TO TO C
-%%% WHY IS THAT???????????
+
+The full program is available in figure \ref{fig:memoryperformancebenchmark} in the
+appendix, to compare safe and unsafe methods of writing values to byte arrays, and the
+results (as shown in fig \ref{fig:shortperformancegraph}) tells us that there
+are definite performance gains to retreive by going \texttt{unsafe}.
+
+The obvious reason for the performance difference is, that for the safe
+method, we allocate perform N byte array allocations by using the BitConverter,
+whereas the unsafe methods perform none.
+For the difference between the second and third method, we have the small
+overhead that comes from fixing the target buffer in memory.
+\begin{figure}{H}
+    \begin{tikzpicture}
+      \begin{axis}[
+        title={Safe vs. unsafe memory writes},
+        xlabel={Number of scalars written to byte array},
+        ylabel={Runtime in ticks},
+        width=1\textwidth,
+        %height=0.5,
+        scaled y ticks=false,
+        symbolic x coords={100000, 1000000, 10000000},
+        xtick=data,
+        enlargelimits=0.15,
+        ybar=2pt,% configures ‘bar shift’
+        bar width=8pt,
+        nodes near coords,
+        every node near coord/.append style={rotate=70, anchor=west,font=\scriptsize},
+        legend style={legend pos=north west}
+      ]
+      \addplot plot coordinates {(100000, 45262 ) (1000000, 284379) (10000000, 2778424)};
+      \addplot plot coordinates {(100000, 3273 ) (1000000, 26690) (10000000, 268978)};
+      \addplot plot coordinates {(100000, 3197 ) (1000000, 27478) (10000000, 238691)};
+      \legend{Safe memory access, Unsafe memory access with N fixes, Unsafe memory access with 1 fix}
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Comparison between Python and Futhark performance for simple model}
+    \label{fig:shortperformancegraph}
+\end{figure}
+
+\clearpage
 
 \section{Selection an OpenCL interface for \csharp{}}
 OpenCL interaction is not a part of the .NET standard library, but several

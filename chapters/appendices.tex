@@ -1,0 +1,100 @@
+  \begin{longlisting}
+\begin{minted}[linenos, breaklines]{csharp}
+using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+
+namespace ConsoleApplication2
+{
+    internal class Program
+    {
+        static private int TEST_SIZE = 1000000;
+        
+        static void UsingBuffer()
+        {
+            byte[] target = new byte[TEST_SIZE*sizeof(int)];
+            for (int i = 0; i < TEST_SIZE; i++)
+            {
+                var intAsBytes = BitConverter.GetBytes(i);
+                Buffer.BlockCopy(intAsBytes, 0, target, i * sizeof(int), sizeof(int)); 
+            }
+        }
+        
+        static void UsingUnsafe1()
+        {
+            byte[] target = new byte[TEST_SIZE*sizeof(int)];
+            for (int i = 0; i < TEST_SIZE; i++)
+            {
+                unsafe
+                {
+                    fixed (byte* ptr = &target[i * sizeof(int)])
+                    {
+                        *(int*) ptr = i;
+                    }
+                }
+            }
+        }
+        
+        static void UsingUnsafe2()
+        {
+            byte[] target = new byte[TEST_SIZE*sizeof(int)];
+            unsafe
+            {
+                fixed (byte* ptr = &target[0])
+                {
+                    for (int i = 0; i < TEST_SIZE; i++)
+                    {
+                        *(int*) (ptr+i*sizeof(int)) = i;
+                    }
+                }
+            }
+        }
+
+        public static void Main(string[] args)
+        {
+            var TESTS = 10;
+            var stopwatch = new Stopwatch();
+            for (int i = 0; i < TESTS; i++)
+            {
+                stopwatch.Start();
+                UsingBuffer();
+                stopwatch.Stop();
+            }
+
+            Console.WriteLine("Safe took {0} ticks on avg.", stopwatch.ElapsedTicks / 10);
+
+            stopwatch.Reset();
+
+            for (int i = 0; i < TESTS; i++)
+            {
+                stopwatch.Start();
+                UsingUnsafe1();
+                stopwatch.Stop();
+            }
+
+        Console.WriteLine("Unsafe1 took {0} ticks on avg.", stopwatch.ElapsedTicks / 10);
+            
+            stopwatch.Reset();
+            
+            for (int i = 0; i < TESTS; i++)
+            {
+            stopwatch.Start();
+            UsingUnsafe2();
+            stopwatch.Stop();
+            }
+                
+            Console.WriteLine("Unsafe2 took {0} ticks on avg.", stopwatch.ElapsedTicks / 10);
+
+        }
+    }
+}
+\end{minted}
+\caption{Short \csharp{} program that measures performance differences between
+  various methods of writing scalars to byte arrays}
+\label{fig:memoryperformancebenchmark}
+  \end{longlisting}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End:
