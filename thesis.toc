@@ -19,19 +19,19 @@
 \contentsline {subsection}{\numberline {4.2.1}Designing the Futhark {\texttt {C\#}}{} generator}{24}{subsection.4.2.1}
 \contentsline {section}{\numberline {4.3}The \texttt {futhark-cs}-generated {\texttt {C\#}}{} program}{25}{section.4.3}
 \contentsline {subsection}{\numberline {4.3.1}The Futhark class design}{26}{subsection.4.3.1}
-\contentsline {subsubsection}{Global context variables}{26}{section*.29}
-\contentsline {subsubsection}{The class constructor}{27}{section*.30}
-\contentsline {subsubsection}{The various runtime libraries}{27}{section*.31}
-\contentsline {subsubsection}{The compiled Futhark functions}{28}{section*.33}
-\contentsline {subsubsection}{OpenCL kernels and wrappers}{29}{section*.34}
+\contentsline {subsubsection}{Global context variables}{26}{section*.11}
+\contentsline {subsubsection}{The class constructor}{27}{section*.12}
+\contentsline {subsubsection}{The various runtime libraries}{27}{section*.13}
+\contentsline {subsubsection}{The compiled Futhark functions}{28}{section*.14}
+\contentsline {subsubsection}{OpenCL kernels and wrappers}{29}{section*.15}
 \contentsline {subsection}{\numberline {4.3.2}Entry functions}{29}{subsection.4.3.2}
 \contentsline {subsection}{\numberline {4.3.3}Entry functions in executables}{30}{subsection.4.3.3}
 \contentsline {subsection}{\numberline {4.3.4}Entry functions in libraries}{31}{subsection.4.3.4}
-\contentsline {subsubsection}{Type signature for entry functions}{32}{section*.38}
-\contentsline {subsubsection}{The Program class design}{33}{section*.39}
+\contentsline {subsubsection}{Type signature for entry functions}{32}{section*.16}
+\contentsline {subsubsection}{The Program class design}{33}{section*.17}
 \contentsline {section}{\numberline {4.4}Memory management in Futhark {\texttt {C\#}}{}}{33}{section.4.4}
-\contentsline {subsubsection}{The \texttt {unsafe} block}{34}{section*.42}
-\contentsline {subsubsection}{The \texttt {fixed} block}{34}{section*.43}
+\contentsline {subsubsection}{The \texttt {unsafe} block}{34}{section*.18}
+\contentsline {subsubsection}{The \texttt {fixed} block}{34}{section*.19}
 \contentsline {subsection}{\numberline {4.4.1}Performance}{35}{subsection.4.4.1}
 \contentsline {section}{\numberline {4.5}Selecting an OpenCL interface for {\texttt {C\#}}{}}{38}{section.4.5}
 \contentsline {subsection}{\numberline {4.5.1}Writing a custom OpenCL bindings library}{39}{subsection.4.5.1}

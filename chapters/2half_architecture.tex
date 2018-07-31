@@ -42,27 +42,25 @@ This compiles \texttt{mapPlus2.fut} to a Python file called MapPlus2.py
   element in our array.
 \end{enumerate}
 
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}
-    \begin{lstlisting}[language=Futhark]
-  entry mapPlus2 (xs : []i32) : []i32 =
-    map (+2) xs
-    \end{lstlisting}
-    \caption{A short Futhark program called mapPlus2.fut}
-    \label{fig:shortfutharkprogram0}
-  \end{subfigure}
+\begin{figure}
+\begin{lstlisting}[language=Futhark]
+entry mapPlus2 (xs : []i32) : []i32 =
+map (+2) xs
+\end{lstlisting}
+\caption{A short Futhark program called mapPlus2.fut}
+\label{fig:shortfutharkprogram0}
+\end{figure}
 
-  \begin{subfigure}
+  \begin{figure}
 \begin{lstlisting}[language=bash]
   $ futhark-py --library -o MapPlus2.py mapPlus2.fut
     \end{lstlisting}
     \caption{We call the Futhark-to-Python compiler \texttt{futhark-py} on
       mapPlus2.fut}
     \label{fig:shortfutharkprogram1}
-  \end{subfigure}
+  \end{figure}
   
-  \begin{subfigure}
+  \begin{figure}
 \begin{minted}[linenos]{python}
   from MapPlus2 import MapPlus2
 
@@ -73,10 +71,7 @@ This compiles \texttt{mapPlus2.fut} to a Python file called MapPlus2.py
   \end{minted}
     \caption{We use the compiled Futhark program as any other library.}
     \label{fig:shortfutharkprogram2}
-  \end{subfigure}
-  \caption{The Futhark-to-Python use case.}
-  \label{fig:shortfutharkprogram}
-\end{figure}
+  \end{figure}
 \clearpage
 
 \subsection*{How a Futhark-to-\csharp{} would be used}
@@ -87,7 +82,7 @@ We will now describe a use case for the Futhark-to-\csharp{} compiler:
 adds 2 to each element in the array. The program is shown in figure \ref{fig:shortfutharkprogram3}. 
 \item We then compile the Futhark program into a library file, by calling the
   Futhark compiler from the command line, like shown in figure \ref{fig:shortfutharkprogram4}.
-This compiles \mathtt{mapPlus2.fut} to a \csharp{} file called MapPlus2.cs
+This compiles \texttt{mapPlus2.fut} to a \csharp{} file called MapPlus2.cs
 
 \item Finally, we write a short \csharp{} program in which we want to integrate
   the mapPlus2 function in our program. Such a program is shown in figure \ref{fig:shortfutharkprogram5}.
@@ -190,10 +185,6 @@ let main =
   \caption{Compiling and using MapPlus2.fs from within an \fsharp{} program.}
   \label{fig:shortfsharkprogram1}
 \end{figure}
-
-
-
-
 
 
 

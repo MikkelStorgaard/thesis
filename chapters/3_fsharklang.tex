@@ -553,7 +553,7 @@ for (int i = 0 ; i < 100 ;i++)
   res = res + 4.5f;
   mem[i] = res;
 }
-\end{minted}[h]
+\end{minted}
   \caption{Figure \ref{fig:futharkfusion} compiled as (simplified) non-OpenCL
     \csharp{} code.}
   \label{fig:pseudofusion}
@@ -803,7 +803,7 @@ values.
 \begin{description}
 \item[\texttt{L2}]: For a one dimensional jagged array, this branch is taken once.
   For a jagged array of $d$ dimensions, it's taken
-  $\mathlarger{\prod_{n=1}^{d-1}(\text{subarrays at }d_n)}$ times.
+  $\prod_{n=1}^{d-1}(\text{subarrays at }d_n)$ times.
 
 \item[\texttt{L3}] is the base case, which takes $O(1)$ time. This is because we
 are just returning a tuple with the original array, and singleton array that holds the length of the
@@ -811,7 +811,7 @@ array (creating the singleton array is also $O(1).$)
 
 \item[\texttt{L4}]:
   For a jagged array of $d$ dimensions, this branch is taken
-  $\mathlarger{\prod_{n=1}^{d-1}(\text{subarrays at }d_n)}$ times.
+  $\prod_{n=1}^{d-1}(\text{subarrays at }d_n)$ times.
 
 \item[\texttt{L5}] is the start of the recursive case. This line is called
   $O(d)$ times, $d$ being the number of dimensions in the jagged array.
