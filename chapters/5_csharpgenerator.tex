@@ -45,78 +45,7 @@ public class Program
     {
         var mapplus2Class = new MapPlus2();
         var xs = Enumerable.Range(0, 1000000).ToArray();
-        var xusing System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-
-namespace ConsoleApplication2
-{
-    internal class Program
-    {
-        static private int TEST_SIZE = 1000000;
-        
-        static void UsingBuffer()
-        {
-            byte[] target = new byte[TEST_SIZE*sizeof(int)];
-            for (int i = 0; i < TEST_SIZE; i++)
-            {
-                var intAsBytes = BitConverter.GetBytes(i);
-                Buffer.BlockCopy(intAsBytes, 0, target, i * sizeof(int), sizeof(int)); 
-            }
-        }
-        
-        static void UsingUnsafe1()
-        {
-            byte[] target = new byte[TEST_SIZE*sizeof(int)];
-            for (int i = 0; i < TEST_SIZE; i++)
-            {
-                unsafe
-                {
-                    fixed (byte* ptr = &target[i * sizeof(int)])
-                    {
-                        *(int*) ptr = i;
-                    }
-                }
-            }
-        }
-        
-        static void UsingUnsafe2()
-        {
-            byte[] target = new byte[TEST_SIZE*sizeof(int)];
-            unsafe
-            {
-                fixed (byte* ptr = &target[0])
-                {
-                    for (int i = 0; i < TEST_SIZE; i++)
-                    {
-                        *(int*) (ptr+i*sizeof(int)) = i;
-                    }
-                }
-            }
-        }
-        
-        public static void Main(string[] args)
-        {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            UsingBuffer();
-            stopwatch.Stop();
-            Console.WriteLine("Safe took {0} milliseconds", stopwatch.ElapsedTicks);
-            
-            
-            stopwatch.Restart();
-            UsingUnsafe1();
-            stopwatch.Stop();
-            Console.WriteLine("Unsafe1 took {0} milliseconds", stopwatch.ElapsedTicks);
-            
-            stopwatch.Restart();
-            UsingUnsafe2();
-            stopwatch.Stop();
-            Console.WriteLine("Unsafe2 took {0} milliseconds", stopwatch.ElapsedTicks);
-
-        }
-    }
-}s_result = mapplus2Class.mapPlus2(xs)
+        var xs_result = mapplus2Class.mapPlus2(xs)
     }
 }
 \end{minted}
@@ -617,7 +546,7 @@ If we compile this program as an executable, we get Futhark/entry function pair
 shown in figure \ref{fig:futharkentrypairexe}. The example is very simplified
 but does resembles the actual implementation in functionality.
 
-By calling entry_main(), we first call ReadStrArray<int> to parse an integers
+By calling \texttt{entry\_main()}, we first call \texttt{ReadStrArray<int>} to parse an integers
 array from stdin. We then read the number of elements in the array into a
 variable, and then convert the integer array to a byte array, as Futhark
 functions use byte arrays for internal value array representation.
@@ -629,9 +558,8 @@ We reform the byte array into an integer array, and print the result to \texttt{
 
 \begin{figure}[H]
   \centering
-\begin{minted}[linenos]{csharp}
-(int, byte[], int) futhark_main(int byte_array_length, byte[] byte_array, 
-                                int byte_array_elms)
+\begin{minted}[linenos, breaklines]{csharp}
+(int, byte[], int) futhark_main(int byte_array_length, byte[] byte_array, int byte_array_elms)
 {
 
     // ...
@@ -670,13 +598,13 @@ function arguments, and that the result is returned from the function as opposed
 to just writing them to \texttt{stdout}.
 \begin{figure}[H]
   \centering
-\begin{minted}[linenos]{csharp}
+\begin{minted}[linenos, breaklines]{csharp}
     (int, byte[], int) futhark_main(int byte_array_length, byte[] byte_array, int byte_array_elms)
     {
 
-        ...
+        // ...
         // futhark stuff happens
-        ...
+        // ...
 
         return (out_array_length, out_array, out_array_elms);
     }
@@ -896,7 +824,7 @@ static void UsingUnsafe2()
 \end{figure}
 
 
-The full program is available in figure \ref{fig:memoryperformancebenchmark} in the
+The full program is available in listing \ref{fig:memoryperformancebenchmark} in the
 appendix, to compare safe and unsafe methods of writing values to byte arrays, and the
 results (as shown in fig \ref{fig:shortperformancegraph}) tells us that there
 are definite performance gains to retreive by going \texttt{unsafe}.

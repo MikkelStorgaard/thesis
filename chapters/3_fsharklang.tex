@@ -1,8 +1,73 @@
-\chapter{The \fshark{} subset}
+\chapter{The \fshark{} language}
 \label{chap:fsharklanguage}
-In the following chapter, we will describe the \fshark{} subset. Although the
-subset is just a part of \fsharp{}, we will describe it as if it was a language
-itself.
+The second contribution of this thesis is a high level programming language,
+which can be compiled automatically to GPU kernels that are readily usable in
+a mainstream programming language.
+
+In this chapter we present the \fshark{} language.
+The \fshark{} language is the sum of two parts: \\
+1) The \fshark{} subset, which is a defined subset of the \fsharp{} language and
+the \fsharp{} standard library.\\
+2) An accompanying standard library, which adds SOACs and array functions that
+can be used in programs written in the \fshark{} subset.
+
+The \fshark{} language can be compiled into standalone GPU kernels using the
+\fshark{} compiler \ref{chap:fsharkcompiler}. These kernels can then be integrated directly in
+\fsharp{} programs.
+
+The program in figure \ref{fig:shortfsharkprogram0'} is written in \fshark{},
+and can be used as any other \fsharp{} code in an \fsharp{} project.
+However, as it is written in \fshark{}, we can pass it through the \fshark{}
+compiler and end up with the result Futhark code shown in figure \ref{fig:shortfsharkprogram1'}
+At this moment we we will skip explaining the meaning of the code, and simply
+point out that the \fshark{} source code and the resulting source code has a
+strong resemblance.
+\begin{figure}[H]
+  \centering
+\begin{minted}{fsharp}
+let saxpy (a : int) (x : int) (y : int) : int =
+  a*x+y
+
+let getArrayPair (a : int) : (int array * int array) =
+  let xs = Iota a
+  let n = Length xs
+  let ys = Rotate (a / n) xs
+  in (xs, ys)
+
+[<FSharkEntry>]
+let entry (a : int) : int array =
+  let (xs, ys) = getArrayPair a
+  let res = Map2 (saxpy a) xs ys
+  in res
+\end{minted}
+  \caption{A short \fshark{} program}
+  \label{fig:shortfsharkprogram0'}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{lstlisting}[language=Futhark, breaklines]
+let saxpy (a : i32) (x : i32) (y : i32) : i32 =
+  ((((a * x)) + y))
+let getArrayPair (a : i32) : ([]i32, []i32) =
+  let xs = iota (a)  in
+  let n = length (xs)  in
+  let ys = rotate (((a / n))) (xs) in
+  (xs, ys)
+entry entry (a : i32) : []i32 =
+  unsafe let patternInput = getArrayPair(a) in
+         let ys = patternInput.2 in
+         let xs = patternInput.1 in
+         let res = map2 ((\(x : i32) -> (\(y : i32) -> saxpy(a) (x) (y)))) (xs) (ys) in
+         res
+\end{lstlisting}
+  \caption{The source code in figure \ref{fig:shortfsharkprogram0'} compiled to
+    Futhark source code by the \fshark{} compiler.}
+  \label{fig:shortfsharkprogram1'}
+\end{figure}
+
+In the following section, we will describe list the entire \fshark{} language. Although the
+subset is just a part of \fsharp{}, we will describe it as if it was a language itself.
 \clearpage
 \section{\fshark{} syntax}
 \Cref{fig:fsharkstatements,fig:fsharkexpressions,fig:fsharkpatterns,fig:fsharktypes,fig:fsharkliterals}
@@ -22,11 +87,12 @@ shows the complete \fshark{} syntax.
              & $|$   & $\epsilon$ & \\
     \\
     $typealias$ & $::=$ & $\texttt{type}\ v\ = t $& \\
-    $module$ & $::=$ & $\texttt{module}\ v = prog'\ progs'$ & \\
+    $module$ & $::=$ & $\texttt{module}\ v = prog'\ progs'$ & \textit{(See subsec \ref{noteonfsharkmodules} on \fshark{} modules)} \\
     \\
+  \end{tabular}
+  \begin{tabular}{lclr}
     $fun$ & $::=$ & \texttt{[<FSharkEntry>]} $\texttt{let}\ id\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t = e$ & \\
-        & $|$   & $\texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t' = e,$ & \\
-        &       & \hspace{1em} \textit{(for any $i \in {1..n}$, $t_i$ is not a tuple)} \\
+        & $|$   & $\texttt{let}\ v\ (v_1 : t_1)\ \ldots\ (v_n : t_n) : t' = e,$ & \textit{{See subsec \ref{noteonfsharktypes}}}  \\
     \\
 
   \end{tabular}
@@ -47,7 +113,7 @@ shows the complete \fshark{} syntax.
         & $|$   & $[\vert e_0 ; \ldots ; e_n\vert]$ & (Array expression) \\
         & $|$   & $v.[e_0] \ldots .[e_n]$ & (Array indexing) \\
         & $|$   & $v.id$ & (Record indexing) \\
-        & $|$   & $v.id$ & (Module indexing) \\
+        & $|$   & $v.id$ & (Module indexing (\textit{See subsec \ref{noteonfsharkmodules}})) \\
         & $|$   & $e_1 \odot e_2$ & (Binary operator) \\
         & $|$   & $-e$ & (Prefix minus) \\
         & $|$   & \texttt{not} $e$ & (Logical negation) \\
@@ -99,13 +165,73 @@ shows the complete \fshark{} syntax.
         & $|$   & $true~|~false$ & (Boolean) \\
         & $|$   & $(k_0 ,~\ldots ,~k_n)$ & (Tuple) \\
         & $|$   & $\{id_0=k_0;~\ldots;~id_n=k_n\}$ & (Record) \\
-        & $|$   & $[\vert k_0 ; \ldots ; k_n\vert]$ & (Array) \\
+        & $|$   & $[\vert k_0 ; \ldots ; k_n\vert]$ & (Array literals) \\
     \\
   \end{tabular}
   \caption{\fshark{} literals}
 \label{fig:fsharkliterals}
 \end{figure}
 \clearpage
+\section{Notes to the \fshark{} grammar}
+\subsection{Limits to function argument types}
+\label{noteonfsharktypes}
+There are several limits to the \fsharp{} compiler, which limits the types
+available in function definitions.\\
+\begin{enumerate}
+\item Tuples in entry functions, whether they are used in the arguments or in the
+return types, are allowed to contain a maximum of seven elements. This is
+because the CLR runtime uses the type \texttt{System.Tuple} for these tuples.
+Incidentally, \texttt{System.Tuple} is only defined for tuples up to seven
+elements.
+
+This limitation can be circumvented by using more tuples. In example, rewriting
+a function so it returns \\
+\texttt{((int * int * int * int) * (int * int * int * int))}\\
+instead of\\
+\texttt{(int * int * int * int * int * int * int * int)}.
+
+\item Non-entry functions cannot have tuple type arguments.
+  For functions that take tuple arguments, the \fsharp{} compiler parses these
+  tuple type arguments correctly.
+  However, the \fsharp{} compiler rewrites calls to these functions in a curried
+  way. In figures \Cref{fig:astcurried, fig:astcurried'} we see two \fsharp{}
+  functions, and a simplified representation of how they are represented in the
+  \fsharp{} intermediate language.
+
+  When translating from \fshark{} to Futhark, the Foo function is correctly
+  written in Futhark as a function with a tuple argument, but as the call
+  expression now treats \texttt{foo} as having a different type than first
+  defined, the corresponding Futhark translation will trigger a type error at
+  compile time.
+
+\begin{figure}[H]
+\centering
+\begin{minted}{fsharp}
+let foo ((x , y) : (int * int)) : int = x + y
+
+let bar = foo (4,5)
+\end{minted}
+\caption{A function calling another function in \fsharp{}}
+    \label{fig:astcurried}
+    \end{figure}
+\begin{figure}[H]
+\begin{minted}{lisp}
+Function foo ((x , y) : (int * int)) : int = x + y
+
+Function bar () : int = Call foo 4 5
+\end{minted}
+    \caption{\fsharp{} curries tuple arguments when calling tuple functions}
+    \label{fig:astcurried'}
+  \end{figure}
+
+\item Entry functions should not use record type arguments, as these have not
+  been investigated fully for \fshark{} use yet.
+\end{enumerate}
+
+\subsection{\fshark{} modules}
+\label{noteonfsharkmodules}
+The modules supported in \fshark{} are not higher-order modules as in
+\texttt{ML}, but instead just a nested namespace in the containing module.
 
 \section{\fsharp{} operators available in \fshark{}}
 The \fsharp{} subset chosen for \fshark{} is described in \ref{fig:fsharkops}.
