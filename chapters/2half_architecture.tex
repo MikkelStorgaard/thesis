@@ -1,20 +1,24 @@
-\chapter{Architecture and use cases}
+\chapter{Birds-Eye View:\\Architecture and Use Cases}
 
 \section{Generating GPU accelerated libraries}
 In this thesis, we are interested in making Futhark-generated GPU kernels available
 in \csharp{} programs.
 Currently, Futhark source code can be compiled to C and Python code.
-In example, the Futhark C compiler follows the basic architecture shown in
+For example, the Futhark C compiler follows the basic architecture shown in
 figure \ref{fig:ccompiler}.
-When we call the Futhark C compiler \texttt{futhark-c} on a Futhark source file, the compiler reads
-the source code file (and possibly imports) into the compiler.
-The compiler optimizes the input program, and expresses it in a
-compiler-internal intermediate language. This intermediate language code is then
-passed to a code generator, which is expresses the intermediate language code in
-C, and writes the result to a C source file.\\
-This file can then be used in any other C program.
+When we call the Futhark C compiler \texttt{futhark-c} on a Futhark source file, 
+the compiler reads the source code file (and possibly imports) into a high-level
+compiler representation.
+As the compiler applies different passes to optimize the program, it also 
+successively re-writes it using lower-level but still pure-functional 
+intermediate representations (IR).  The last step in the blue box is to generate
+an imperative IR, which is not subject to further Futhark optimizations.
+This imperative IR is the input to various code generators, for example, 
+the second box in the figure will perform a translation to the C language.
+The resulting C souce file contains allows the exports of the original Futhark 
+to be used in an intuitive fashion from any other C program.
 
-For Python compilation, exchange ``C'' for ``Python''.
+The Python compilation pipeline follows a similar strategy.
 
 \begin{figure}[H]
   \centering
@@ -23,45 +27,35 @@ For Python compilation, exchange ``C'' for ``Python''.
   \label{fig:ccompiler}
 \end{figure}
 
-\subsection*{Using Futhark in Python}
+\subsection{Using Futhark in Python}
 We will now describe a use case for the Futhark-to-Python compiler:
 \begin{enumerate}
 \item We write a short Futhark program, which has a single entry function
-  available. This program takes an array of integers, and
-adds 2 to each element in the array. The program is shown in figure \ref{fig:shortfutharkprogram0}. 
-\item We then compile the Futhark program into a library file, by calling the
-  Futhark compiler from the command line, like shown in figure \ref{fig:shortfutharkprogram1}.
-This compiles \texttt{mapPlus2.fut} to a Python file called MapPlus2.py
-
-\item Finally, we write a short Python program in which we want to integrate
-  the mapPlus2 function in our program. Such a program is shown in figure \ref{fig:shortfutharkprogram2}.
-  In this program, we are importing the Futhark library on line 1 and constructing
-  an instance of the contained Futhark class on line 5.\\
-  On line 4, we generate an array of integers from 0 to 1000000, and finally
-  on line 6, we use the exposed Futhark function mapPlus2 to add 2 to every
-  element in our array.
-\end{enumerate}
-
-\begin{figure}
+    available. This program takes an array of integers, and
+    adds 2 to each element in the array. The program is saved in file 
+    {\tt mapPlus2.fut} and is shown below: %in figure \ref{fig:shortfutharkprogram0}.
 \begin{lstlisting}[language=Futhark]
 entry mapPlus2 (xs : []i32) : []i32 =
 map (+2) xs
 \end{lstlisting}
-\caption{A short Futhark program called mapPlus2.fut}
-\label{fig:shortfutharkprogram0}
-\end{figure}
 
-  \begin{figure}
-\begin{lstlisting}[language=bash]
+\item We then compile the Futhark program into a library file, by calling the
+  Futhark compiler from the command line, as shown below: %in figure \ref{fig:shortfutharkprogram1}.
+  \begin{lstlisting}[language=bash]
   $ futhark-py --library -o MapPlus2.py mapPlus2.fut
-    \end{lstlisting}
-    \caption{We call the Futhark-to-Python compiler \texttt{futhark-py} on
-      mapPlus2.fut}
-    \label{fig:shortfutharkprogram1}
-  \end{figure}
-  
-  \begin{figure}
-\begin{minted}[linenos]{python}
+  \end{lstlisting}
+  This compiles \texttt{mapPlus2.fut} to a Python file called {\tt MapPlus2.py}.
+  In essence, the transpilation process gathers all the Futhark entry-points into 
+  a Python class, contained in a Python module, both named {\tt MapPlus2}.
+  For example the Python class can be instantiated with different options,  
+    which enable gathering profiling information, or, setting default values
+    for program-parameters such as tile sizes of CUDA block sizes.
+
+\item 
+    Finally, we write a short Python program, which uses the exports (entry points) 
+    of the original Futhark program, i.e., the {\tt mapPlus2} function.
+    One such simple program is shown below.
+    \begin{minted}[linenos]{python}
   from MapPlus2 import MapPlus2
 
   def main():
@@ -69,48 +63,99 @@ map (+2) xs
     mapPlus2Class = MapPlus2()
     xs2 = mapPlus2Class.mapPlus2(xs)
   \end{minted}
-    \caption{We use the compiled Futhark program as any other library.}
-    \label{fig:shortfutharkprogram2}
-  \end{figure}
-\clearpage
+%Such a program is shown in figure \ref{fig:shortfutharkprogram2}.
+  As expected, the Python program first imports the Futhark library on line 
+    1 and then it constructs an instance of the corresponding class on line 5.\\
+  On line 4, we generate an array of integers from 0 to 1000000, and finally
+  on line 6, we use the Futhark function mapPlus2 to add 2 to every
+  element in our array.
+\end{enumerate}
 
-\subsection*{How a Futhark-to-\csharp{} would be used}
-We will now describe a use case for the Futhark-to-\csharp{} compiler:
+%\begin{figure}
+%\begin{lstlisting}[language=Futhark]
+%entry mapPlus2 (xs : []i32) : []i32 =
+%map (+2) xs
+%\end{lstlisting}
+%\caption{A short Futhark program called mapPlus2.fut}
+%\label{fig:shortfutharkprogram0}
+%\end{figure}
+
+%  \begin{figure}
+%\begin{lstlisting}[language=bash]
+%  $ futhark-py --library -o MapPlus2.py mapPlus2.fut
+%    \end{lstlisting}
+%    \caption{We call the Futhark-to-Python compiler \texttt{futhark-py} on
+%      mapPlus2.fut}
+%    \label{fig:shortfutharkprogram1}
+%  \end{figure}
+  
+%  \begin{figure}
+%\begin{minted}[linenos]{python}
+%  from MapPlus2 import MapPlus2
+%
+%  def main():
+%    xs = range(1,1000000)
+%    mapPlus2Class = MapPlus2()
+%    xs2 = mapPlus2Class.mapPlus2(xs)
+%  \end{minted}
+%    \caption{We use the compiled Futhark program as any other library.}
+%    \label{fig:shortfutharkprogram2}
+%  \end{figure}
+%\clearpage
+
+\subsection{Using Futhark in \csharp{}}
+
+The intended way for using Futhark-generated libraries from \csharp{}
+follows faithfully the interface already used by Python (and C). 
+For example a use case is described below: 
+
 \begin{enumerate}
 \item We write a short Futhark program, which has a single entry function
   available. This program takes an array of integers, and
-adds 2 to each element in the array. The program is shown in figure \ref{fig:shortfutharkprogram3}. 
+adds 2 to each element in the array:
+% The program is shown in figure \ref{fig:shortfutharkprogram3}. 
+  \begin{lstlisting}[language=Futhark]
+entry mapPlus2 (xs : []i32) : []i32 =
+  map (+2) xs
+  \end{lstlisting}
+
+
 \item We then compile the Futhark program into a library file, by calling the
-  Futhark compiler from the command line, like shown in figure \ref{fig:shortfutharkprogram4}.
-This compiles \texttt{mapPlus2.fut} to a \csharp{} file called MapPlus2.cs
+  Futhark compiler from the command line, %like shown in figure \ref{fig:shortfutharkprogram4}.
+which will compile \texttt{mapPlus2.fut} to a \csharp{} file called MapPlus2.cs
+  \begin{lstlisting}[language=sh]
+$ futhark-cs --library -o MapPlus2.cs mapPlus2.fut
+  \end{lstlisting}
 
 \item Finally, we write a short \csharp{} program in which we want to integrate
-  the mapPlus2 function in our program. Such a program is shown in figure \ref{fig:shortfutharkprogram5}.
+  the {\tt mapPlus2} function in our program. Such a program is shown in 
+    figure~\ref{fig:shortfutharkprogram5}.
   In this program, we are importing the Futhark library on line 2 and constructing
   an instance of the contained Futhark class on line 8.\\
   On line 9, we generate an array of integers from 0 to 1000000, and finally
   on line 10, we use the exposed Futhark function mapPlus2 to add 2 to every
   element in our array.
 \end{enumerate}
-\begin{figure}[H]
-  \centering
-  \begin{lstlisting}[language=Futhark]
-entry mapPlus2 (xs : []i32) : []i32 =
-  map (+2) xs
-  \end{lstlisting}
-  \caption{A short Futhark program called mapPlus2.fut}
-  \label{fig:shortfutharkprogram3}
-\end{figure}
 
-\begin{figure}[H]
-  \centering
-  \begin{lstlisting}[language=sh]
-$ futhark-cs --library -o MapPlus2.cs mapPlus2.fut
-  \end{lstlisting}
-  \caption{We call the Futhark-to-\csharp{} compiler \texttt{futhark-cs} on
-    mapPlus2.fut}
-  \label{fig:shortfutharkprogram4}
-\end{figure}
+%\begin{figure}[H]
+%  \centering
+%  \begin{lstlisting}[language=Futhark]
+%entry mapPlus2 (xs : []i32) : []i32 =
+%  map (+2) xs
+%  \end{lstlisting}
+%  \caption{A short Futhark program called mapPlus2.fut}
+%  \label{fig:shortfutharkprogram3}
+%\end{figure}
+%
+%\begin{figure}[H]
+%  \centering
+%  \begin{lstlisting}[language=sh]
+%$ futhark-cs --library -o MapPlus2.cs mapPlus2.fut
+%  \end{lstlisting}
+%  \caption{We call the Futhark-to-\csharp{} compiler \texttt{futhark-cs} on
+%    mapPlus2.fut}
+%  \label{fig:shortfutharkprogram4}
+%\end{figure}
 
 \begin{figure}[H]
   \centering
@@ -135,13 +180,17 @@ public class Program
 But to be able to achieve this, we must design and implement a Futhark \csharp{}
 code generator.
 
-\section{Obtaining and integrating GPU kernels from- and in high level
-  languages}
-Our second goal of this thesis is to create an architecture which lets us obtain
-GPU kernels from high level language code, and afterwards integrate these
-kernels back into the high level language program.
-Specifically, we want to obtain GPU kernels from \fsharp{} source code, and
-use these kernels in \fsharp{} programs afterwards.
+\section{Transpiling \fsharp{} Computational Kernels to Futhark}
+%\section{Obtaining and integrating GPU kernels from- and in high level
+%  languages}
+
+The second goal of this thesis is to create an architecture which allows the
+user to express the computational kernels directly in a subset of a mainstream
+language. (These kernels can be then integrated back into a mainstream 
+program by means of the code generators discussed in the previous section.)
+Specifically, we want to obtain GPU kernels directly from \fsharp{} source 
+code, and to use these kernels in a program written in \fsharp{} (or \csharp{}) 
+afterwards.
 
 In figure \ref{}, we show such an architecture for the \fsharp{} language.
 
@@ -163,7 +212,7 @@ let run_saxpy (a : int) (xs : int array) (ys : int array): int array =
   let res = Map2 (saxpy a) xs ys
   in res
 \end{minted}
-\caption{A short \fshark{} module called MapPlus2.fs}
+\caption{A short \fshark{} module called {\tt MapPlus2.fs}, exporting a computational kernel named {\tt run\_saxpy}}
 \label{fig:shortfsharkprogram0}
 \end{figure}
 

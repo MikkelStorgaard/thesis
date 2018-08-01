@@ -17,37 +17,6 @@ function implemented as a CUDA program. In this program, we are defining the
 kernel \texttt{saxpy} itself, and also manually copying data back and forth
 between the GPU.
 
-\subsubsection{The CUDA kernel}
-Line 3's \texttt{\_\_global\_\_} signifies that the following function is a CUDA kernel.
-Line 4 to 10 contains the computational kernel for the GPU.
-Line 4 contains the kernels name and arguments. The kernel takes as arguments
-\textit{a} is a scalar constant, the pointers \textit{x} and \textit{y} are
-references to floating point arrays in the GPU device memory, and \textit{n}
-denotes the length of the arrays \textit{x} and \textit{y}.\\
-Line 6 computes the current computational thread's global id $i$. If we compare
-a parallel computational kernel with a sequential for-loop, this global id is
-the iterator variable.
-Line 8 performs the actual $f(x,y)$ calculation, and stores the result in the y
-array, but only if the if-clause in line 7 is true.
-As we have tens of thousands of threads running simultaneously on the CUDA
-device, we only want to perform any array operations if we know that our current
-global id is within the length of the array.
-\\\\
-
-\subsubsection{The CUDA main function}
-We also need a main function to run the kernel:\\
-Line 14 sets N to $1 << 20$ (or $2^{20}$).\\
-Line 16 and 17 allocates memory for two arrays x and y in system memory.\\
-Line 19 and 20 allocates memory for two arrays x and y on the CUDA device (the GPU.)\\
-Line 22 to 25 initializes the arrays x and y with scalar values 1.0 and 2.0.\\
-Line 27 and 28 copies our arrays from system memory to the corresponding arrays on
-th CUDA device.\\
-Line 31 executes the \texttt{saxpy} kernel.\\
-Line 33 copies the result from CUDA device back to the y array in the system
-memory. \\
-The remaining lines frees the allocated memory, first from the CUDA device and
-then from the system memory.
-
 \begin{figure}[H]
   \centering
 \begin{minted}[linenos]{cpp}
@@ -94,6 +63,57 @@ int main(void)
   \caption{$ax + y$ in CUDA}
   \label{fig:cudasaxpy}
 \end{figure}
+
+\subsubsection{The CUDA kernel}
+Line 3's \texttt{\_\_global\_\_} signifies that the following function is a CUDA kernel.
+Line 4 to 10 contains the computational kernel for the GPU.
+Line 4 contains the kernels name and arguments. The kernel takes several arguments:
+(1) {\tt a} is a scalar constant denoting a multiplicative constant, 
+(2) {\tt x} and {\tt y} are references (pointers) to floating point arrays 
+    located in GPU-device memory, and 
+(3) {\tt n} denotes the length of the arrays {\tt x} and {\tt y}.\\
+Line 6 computes the current computational thread's global id {\tt i}. If we compare
+a parallel computational kernel with a sequential for-loop, this global id is
+the iterator variable.
+Line 8 performs the actual $f(x,y)$ calculation, and stores the result in the {\tt y}
+array, but only if the if-clause in line 7 is true. 
+As we have tens of thousands of threads running simultaneously on the CUDA
+device, we only want to perform any array operations if we know that our current
+global id is within the length of the array.
+\\\\
+
+\subsubsection{The CUDA main function}
+We also need a main function to run the kernel:\\
+Line 14 sets {\tt N} to $1 << 20$ (or $2^{20}$).\\
+Line 16 and 17 allocate memory for two arrays {\tt x} and {\tt y} in host (CPU) memory.\\
+Line 19 and 20 allocate memory for two arrays {\tt x} and {\tt y} on the CUDA device (the GPU).\\
+Line 22 to 25 initializes the arrays {\tt x} and {\tt y} with scalar values 1.0 and 2.0.\\
+Line 27 and 28 copies our arrays from host memory to the corresponding arrays 
+{\tt d\_x} and {\tt d\_y}, which are located in (CUDA) device memory.\\
+Line 31 spawns a number of threads, each executing the code in the 
+\texttt{saxpy} function. The amount and structure of the spawned parallelism 
+is defined by the argument denoted by the {\tt <<<g, b>>>} syntax. More precisely,
+paramter {\tt b} denotes the number of threads spawned in a block~\footnote{
+Separating the parallelism into blocks and grids is useful because the threads
+in a block can be synchronized by means of barriers and can communicate with
+each other in fast/scratchpad memory. These properties do not hold across threads
+in different blocks of the grid. 
+}, and parameter
+{\tt g} denotes the number of blocks scheduled in a grid.
+It follows that the total amount of parallelism
+is {\tt g$\times$b}, and that the global thread identifier can be computed
+from the position of a thread inside its corresponding grid ({\tt blockIdx.x}) 
+and block ({\tt threadIdx.x}), by means of the formula 
+{\tt blockIdx.x*blockDim.x + threadIdx.x}.
+Finally, the grid and block can have as high as three dimensions each (denoted by 
+{\tt .x}, {\tt .y} and {\tt .z}), albeit our example uses a one-dimensional
+grid and block (i.e., {\tt .x}).
+\\
+Line 33 copies the result from CUDA device back to the y array in the system
+memory. \\
+The remaining lines frees the allocated memory, first from the CUDA device and
+then from the system memory.
+
 
 
 \section{Futhark}
@@ -159,7 +179,7 @@ them to \fsharp{} in a way that very closely resembles the original Futhark
 code.
 
 Figure \ref{fig:fsharpsaxpy} shows the Futhark program from
-\ref{sec:futharkintro} written in \fsharp{}.
+figure \ref{fig:futsaxpy} re-written in \fsharp{}.
 
 \begin{figure}[H]
   \centering
@@ -179,9 +199,9 @@ let main =
   \label{fig:fsharpsaxpy}
 \end{figure}
 
-\fsharp{} also supports object oriented programming, and has seamless
-interoperability with the rest of the .NET language family. We can therefore
-readily use \csharp{} libraries and classes in \fsharp{}, and vice versa.
+\fsharp{} also supports seamless interoperability with the rest of the .NET 
+language family. We can therefore readily use the \csharp{} libraries, which
+exports an object-oriented class structure in \fsharp{}, and vice versa.
 
 \section*{\csharp{}}
 \csharp{} 
