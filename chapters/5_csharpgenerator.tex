@@ -215,27 +215,28 @@ steps 1 and 3, hence does not bring important contributions to them.
 Instead, the contribution of this thesis refers to implementing the 
 code generator described in step 2.
 
-\subsection{Designing the Futhark \csharp{} generator}
+%\subsection{Designing the Futhark \csharp{} generator}
 In the grand scheme of things, the Futhark \csharp{} generator is not
 interesting by itself. The entire contribution to the Futhark compiler is
 around 4500 SLOC, split 50/50 between \csharp{} and Haskell code.
-We will instead focus on the design of the code \textit{generated} by the code generator.
+In the remaining of this chapter we will instead discuss at a high level
+the {\em structure of the generated code}.
 
-\clearpage
+%\clearpage
 
-\section{The \texttt{futhark-cs}-generated \csharp{} program}
-The Futhark \csharp{} compiler can compile a Futhark source file in two
-different ways. As in the examples that have been shown so far, Futhark can
-compile to a library that is usable in both \csharp{} and \fsharp{} programs.
-Furthermore, Futhark can compile Futhark programs to standalone executables,
-which takes argument inputs from the \texttt{stdin} stream, and prints the
+\section{The Structure of the Generated \csharp{} Code}
+As previously discussed, Futhark code can be compiled (1) to a library 
+that is usable in both \csharp{} and \fsharp{} programs, and (2) also
+to a standalone \csharp{} executable, which, for example, takes argument 
+inputs from the \texttt{stdin} stream, and prints the
 results to \texttt{stdout}.
 
 As this thesis focuses on interoperability, we will primarily concentrate on the
-design of the \csharp{} code generated for Futhark libraries, and second mention
-design differences in cases, where the Futhark executables differs from the libraries.
-In figure \ref{fig:futharkcsclasses} we show a high level representation of the
-generated \csharp{} classes generated to their respective specifications.
+design of the \csharp{} code generated for Futhark libraries, and mention
+design differences in the cases in which the Futhark executables differs 
+from the translation used for libraries.
+Figure \ref{fig:futharkcsclasses} shows a high level representation of the
+generated \csharp{} classes for the standalone- and library-compilation cases.
 
 \begin{figure}[h]
   \centering
@@ -248,16 +249,21 @@ Here follows a short explanation of the different sections of the Futhark
 programs.
 \begin{description}
 \item[\texttt{various imports}] \hfill \\
-  This part is the various \texttt{using}-statements which imports the necessary
-  library into \csharp{} program.
+  This part consists of \texttt{using} statements that import the
+    various libraries on which the translation relies into the \csharp{} program.
   
 \item[\texttt{Futhark class}] \hfill \\
-  The Futhark class is a singleton class that encapsulates the entire Futhark
-  runtime program. The Futhark class is discussed in subsec \ref{subsec:futharkclass}.
+  The Futhark class is a singleton class that encapsulates all needed functionality
+    for executing the exports (entry-points) defined in the original Futhark file.
+  The Futhark class is discussed in subsec \ref{subsec:futharkclass}.
   
 \item[\texttt{Entry functions}] \hfill \\
-  The entry functions are functions that take human readable input and passes
-  them to the internal representations of Futhark functions.
+  The entry functions wrappers for the exports declared in the Futhark program,
+    that are mainly responsible for converting the human-readable input into
+    the internal (``machine'') representation expected by the export implementation.
+  For example an array can be passed string, but needs to be translated to
+  a one dimensional array of bytes.
+
 \item[\texttt{Program class}] \hfill \\
   In the case of Futhark libraries, the entire \csharp{} program consists
   of the imports and the Futhark class. Only for executables do we add the entry
@@ -271,14 +277,15 @@ programs.
 \subsection{The Futhark class design}
 \label{subsec:futharkclass}
 The Futhark class is the single class defined in the compiled Futhark library.
-It is depicted in figure \ref{fig:futharkclass}
+It is depicted in figure \ref{fig:futharkclass}. 
+The following subsections explains the various parts of the class.
 \begin{figure}[h]
   \centering
   \includegraphics{chapters/figs/csharp/futhark_class.pdf}
   \caption{An overview of the Futhark class}
   \label{fig:futharkclass}
 \end{figure}
-The following subsections explains the various parts of the class.
+
 
 \subsubsection{Global context variables}
 \label{globalcontextvariables}
@@ -291,27 +298,31 @@ Futhark runtime where it should write timing information to, for example for
 benchmarking purposes.
 
 Instead of passing an argument array along throughout all the functions in the
-Futhark class, like we usually would if we were writing purely functional
-programs, we instead set these arguments as class variables at class
-initialization, so we can refer to them everywhere throughout the rest of the class.
+Futhark class, like we usually would do if we were writing purely functional
+programs, we instead represent these arguments as class variables, which 
+are set when the class is instantiated. 
+This allows to refer to them from wherever in the rest of the class
+(without passing them explicitly as arguments).
 
-For non-OpenCL programs, the variables are exclusively for benchmarking and
+For non-OpenCL programs, these variables are exclusively used for benchmarking and
 debugging purposes. For OpenCL programs however, the global variables are vital
 for the program's execution.
 In an OpenCL program, the Futhark class must keep track of two extra
 variables.
 
-The struct \texttt{futhark\_context ctx} is the struct that contains the global
-state of the current program's execution. Contained in the global state there is
-the current list of unused but allocated OpenCL buffers on the device, kernel
-handles for all the OpenCL kernels used in the Futhark program, and a counter
-for the total running time of the program.
-There is even another context contained in the \texttt{futhark\_context}, namely
-the \texttt{opencl\_context}, which contains the current state of the device,
-and also information about it's platform, it's queue and so forth.
+The first variable is \texttt{struct futhark\_context ctx} and contains 
+the global state of the current program's execution. The global state consists of 
+\begin{itemize}
+    \item[(1)] the current list of unused but allocated OpenCL buffers on the device, 
+    \item[(2)] kernel handles for all the OpenCL kernels used in the Futhark program,
+    \item[(3)] a counter for the total running time of the program.
+    \item[(4)] the  \texttt{opencl\_context}, which holds the metadata necessary for
+                OpenCL execution, for example the current state of the device, 
+                the queue of in-execution OpenCL actions, and so forth.
+\end{itemize}
 
-The struct \texttt{futhark\_context\_config cfg} is similar to the
-\texttt{futhark\_context}, but is only used for constructing the actual
+The second variable is \texttt{struct futhark\_context\_config cfg} and records
+configuration information necessary for constructing the actual 
 \texttt{futhark\_context}.
 
 \subsubsection{The class constructor}
@@ -336,14 +347,19 @@ depend on.
 The runtime libraries are the following:
 \begin{description}
 \item[\texttt{memory.cs}] \hfill\\
-  As Futhark's stores all array values (no matter the dimensionality) as a flat one-dimensional byte arrays (with an accompanying
-  array of 64-integers which denote the dimensions of the flat array), it was
-  necessary to define a set of functions to interact with these byte arrays.
-  I.e., \texttt{memory.cs} contains the \texttt{writeScalarArray} functions,
-  which writes a scalar value to a byte array. The function is overloaded so it
-  works with scalars of any integer or floating point primitive. See figure
-  \ref{fig:writeScalarArray} for an example:
-
+  Futhark's imperative IR ({\tt ImpCode}) represents all arrays---no matter of 
+    their dimensionality and primitive-element type---as a flat one-dimensional 
+    array of bytes, which are accompanied by an array of 64-bits integers 
+    recording the dimensions of the flat array.  As such it was necessary to 
+    define a set of functions that are able to interact with these byte arrays,
+    e.g., if the original array was holding {\tt float}s, than we need to be
+    able to read/write a float value from/into the byte array. 
+  For example, \texttt{memory.cs} contains the \texttt{writeScalarArray} functions,
+  which writes a scalar value to a certain location into the byte array. The 
+    function is overloaded so it works with scalars of any integer or floating 
+    point primitive types. Figure~\ref{fig:writeScalarArray} shows the instance
+    of {\tt writeScalarArray} that writes a value of type {\tt double} into the
+    byte array.
 \begin{figure}[h]
 \centering
 \begin{minted}[fontsize=\small]{csharp}
@@ -377,8 +393,8 @@ some byte array.}
   right type.
 
   Therefore, wrapper functions must be defined for even the simplest arithmetic
-  functions. I.e., integer addition in \csharp{} Futhark is actually four different
-  functions:
+  functions. For example, integer addition in \csharp{} Futhark is actually
+    implemented by four different functions:
 \begin{minted}[fontsize=\small]{csharp}
 static sbyte add8(sbyte x, sbyte y){ return Convert.ToSByte(x + y); }
 static short add16(short x, short y){ return Convert.ToInt16(x + y); }
@@ -545,10 +561,11 @@ If we compile the program in fig \ref{fig:mapplus20} program as a library, we ge
 shown in figure \ref{fig:futharkentrypairlib}. The example is very simplified
 but does resembles the actual implementation in functionality.
 
-The difference between this example and the example in subsec
-\ref{entryfunctionsinexecutables} is that function parameters are given as
-function arguments, and that the result is returned from the function as opposed
-to just writing them to \texttt{stdout}.
+The difference between this example and the example in 
+section~\ref{entryfunctionsinexecutables} is that the arguments of the Futhark export
+are passed directly to the wrapper (e.g., {\tt entry\_main}) instead of being parsed
+from {\tt stdin}. Similarly, the result of the wrapper is the type-casted result of
+the Futhark export as opposed to the result being written to \texttt{stdout}.
 \begin{figure}[H]
   \centering
 \begin{minted}[linenos, breaklines]{csharp}
@@ -580,10 +597,10 @@ to just writing them to \texttt{stdout}.
 \end{figure}
 
 \subsubsection{Type signature for entry functions}
-Currently, library functions aren't callable with jagged arrays\footnote{See sec
-\ref{jaggedarrays}}, but must instead be called with a flat element array and an
-array of lengths denoting the dimensionality of the flat element array. This is
-explained in sec \ref{aaaa}.
+Currently, library functions aren't callable with jagged arrays (arrays of 
+pointers to arrays), but must instead be called with a flat element array,
+which is paired up with an array of lengths denoting the dimensionality of 
+the flat element array. This is explained in sec \ref{aaaa}.
 
 The \fshark{} implementation offers helper functions that can flatten jagged
 arrays into flat arrays/dimension array pairs, and back again.
@@ -625,7 +642,7 @@ contained source code and all.
 %%% 
 % THE DIFFERENCES BETWEEN MEMORY HANDLING IN CS AND CSOPENCL
 \section{Memory management in Futhark \csharp{}}
-As Futhark stores array values around in byte arrays, it is relevant to compare
+As Futhark stores array values in byte arrays, it is relevant to compare
 the difference between how the array handling differs between Futhark's C
 backend, and this \csharp{} backend.
 For OpenCL programs, the memory management of \csharp{} and C is largely the
@@ -633,17 +650,17 @@ same, as the OpenCL side of these programs are the same. \csharp{} does after
 all just use C bindings for it's OpenCL interactions.
 
 However, for non-OpenCL \csharp{} programs, we have to take \csharp{}'s memory
-model into consideration
+model into consideration.
 
 C implicitly allows unsafe programming. In this case, it means interacting with system
 memory by reading and writing arbitrary values from/to arbitrary locations,
 designating the values and destinations as whatever type we want.
 In figure \ref{fig:futharkcscene}, we see a \texttt{for}-loop that
-performs a summing scan on an array of integers.
-On line 6, reading from right to left, we are first creating reference to
+performs a prefix-sum operation on an array of integers.
+On line 6, reading from right to left, we are first creating a reference to
 a location in the byte array \texttt{xs\_mem\_4223}. However, as the reference
 is a pointer to a byte in the array, we must recast it as an \texttt{int32\_t} pointer.
-After we do this, we can finally derefer the pointer to retrieve a four byte
+After we do this, we can finally dereference the pointer to retrieve a four byte
 integer from the byte array.
 
 We add the retrieved integer to our accumulating variable
@@ -676,9 +693,11 @@ access violations, such as indexing out of bounds, makes the CLR raise a suitabl
 exception, which can be handled in the \csharp{} program by catching it
 accordingly.
 
-However, for performance reasons\ref{marshalunsafeperformance}, we are interested in writing to our \csharp{}
-arrays directly.
+However, for performance reasons\ref{marshalunsafeperformance}, we are 
+interested in writing to our \csharp{} arrays directly.
 To do this, we must use both \texttt{unsafe} blocks and \texttt{fixed} blocks.
+Note that this does not necessarily result in unsafe code, because the Futhark
+generated code is performing the safety checks already.
 
 \subsubsection{The \texttt{unsafe} block}
 In \csharp{}, we cannot just write arbitrary values to arbitrary locations, as this
@@ -726,7 +745,7 @@ some byte array.}
 Although \csharp{} does offer safe methods to store values directly in byte
 arrays, we have chosen to avoid these functions as their implementations carry
 huge overhead compared to doing things the unsafe way.
-For this benchmark, we are writing N integers to a byte array, using three
+For this benchmark, we are writing N integers to a byte array, using the three
 methods shown in figure \ref{fig:threemethods}.
 \begin{figure}[H]
   \centering
@@ -783,10 +802,14 @@ results (as shown in fig \ref{fig:shortperformancegraph}) tells us that there
 are definite performance gains to retreive by going \texttt{unsafe}.
 
 The obvious reason for the performance difference is, that for the safe
-method, we allocate perform N byte array allocations by using the BitConverter,
-whereas the unsafe methods perform none.
-For the difference between the second and third method, we have the small
-overhead that comes from fixing the target buffer in memory.
+method, in each of the N iterations, the BitConverter allocates a small 
+array of bytes, where the value of integer-scalar {\tt i} is recorded,
+and then it copies this small array into the target byte array. 
+The unsafe methods do not exhibit this overhead, since they update directly
+the target byte array. 
+The performance difference between the second and third method corresponds to
+the small overhead that comes from fixing the target buffer in memory.
+
 \begin{figure}{H}
     \begin{tikzpicture}
       \begin{axis}[
@@ -811,9 +834,10 @@ overhead that comes from fixing the target buffer in memory.
       \legend{Safe memory access, Unsafe memory access with N fixes, Unsafe memory access with 1 fix}
       \end{axis}
     \end{tikzpicture}
-    \caption{Comparison between Python and Futhark performance for simple model}
+    \caption{Comparison between safe and unsafe methods for writing scalars in a byte array.}
     \label{fig:shortperformancegraph}
 \end{figure}
+
 
 \clearpage
 
