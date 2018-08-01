@@ -548,34 +548,126 @@ available in figure \ref{fig:fsharptypes0}.
 
 \begin{figure}[H]
   \centering
-\begin{tabular}{c}% to \linewidth {l c X}
-  $System.Int8$ \\
-  $System.Int16$ \\
-  \\ \\
-  $System.Int32$ \\
-  $System.Int64$ \\
-  \\ \\
-  $System.UInt8$ \\
-  $System.UInt16$ \\
-  \\ \\
-  $System.UInt32$ \\
-  $System.UInt64$ \\
-  \\ \\
-  $System.Single$ \\
-  $System.Double$ \\
-  \\ \\
-  $System.Boolean$ \\
-  $System.Array~\tau$ \\
-  \\
-  $System.Tuple~(\tau_0 \times \ldots \times \tau_n)$ \\
+\begin{tabular}{l c l}% to \linewidth {l c X}
+   $\tau$& $=$     &  \texttt{System.Int8} \\
+         & $\vert$ &  \texttt{System.Int16} \\
+         & $\vert$ &  \texttt{System.Int32} \\
+         & $\vert$ &  \texttt{System.Int64} \\
+         & $\vert$ &  \texttt{System.UInt8} \\
+         & $\vert$ &  \texttt{System.UInt16} \\
+         & $\vert$ &  \texttt{System.UInt32} \\
+         & $\vert$ &  \texttt{System.UInt64} \\
+         & $\vert$ &  \texttt{System.Single} \\
+         & $\vert$ &  \texttt{System.Double} \\
+         & $\vert$ &  \texttt{System.Boolean} \\
+         & $\vert$ &  \texttt{System.Array} $\tau$ \\
+         & $\vert$ &  \texttt{System.Tuple} $(\tau_1 \times \ldots \times \tau_n)$ \\
 \end{tabular}
 \caption{The .NET types used in the \fshark{}Compiler}
 \label{fig:fsharptypes0}
 \end{figure}
 
 
+\begin{figure}[H]
+  \centering
+  \begin{tabular}{@{}l c l}% to \linewidth {l c X}
+e & $=$ &   Const(obj, $\tau$) \\
+ & $\vert$ &   Value(v) \\
+ & $\vert$ &   AddressOf(v) \\
+ & $\vert$ &   NewTuple($\_, [e_0,...,e_n]$) \\
+ & $\vert$ &   NewRecord(($v_0 : \tau_0 * \ldots * v_n : \tau_n), [e_0,...,e_n]$) \\
+ & $\vert$ &   NewArray($\tau, [e_0,...,e_n]$) \\
+ & $\vert$ &   TupleGet($\_$, i, e) \\
+ & $\vert$ &   FSharpFieldGet($e, \_, field$) \\
+ & $\vert$ &     Call($\_, \lit{GetArray}, \_, nil, [e_0, e_1]$) \\
+ & $\vert$ &     Call($\_, name, \_, nil, [e_0, \ldots, e_n]$) \\
+ & $\vert$ &     Call($\_, name, \_, \tau, [e_0, \ldots, e_n]$) \\
+ & $\vert$ &     Call($\_, infixOp, \_, \tau, [e_0, e_1]$) \\
+ & $\vert$ &     Call($\_, unaryOp, \_, \tau, [e_0]$) \\
+ & $\vert$ &   Let($p, e_0, e_1$) \\
+ & $\vert$ &   IfThenElse($e_0, e_1, e_2$) \\
+ & $\vert$ &   Lambda($[(v_1 : \tau_1), \ldots,(v_n : \tau_n)] , e$) \\
+ & $\vert$ &   Application($func, \_, [e_0, \ldots, e_n]$) \\
+ & $\vert$ &   TypeLambda(e) \\
+ & $\vert$ &   DecisionTree($\_, \_$) \\
+ & $\vert$ &   DecisionTreeSuccess($\_, \_$) \\
+\end{tabular}
+\caption{The \texttt{FSharpExpr}s used in the \fshark{}Compiler}
+\label{fig:fsharpexprs1}
+\end{figure}
 
 \subsection{Translating from FSharpExprs to \fshark{}IL}
+Now that we have the \fsharp{} expressions and types in order, we can translate
+them into our \fshark{} intermediate language, \fshark{}IL.
+
+Continuing the example from figure \ref{fig:fsharpexprs0}, we will three
+examples of such translations in figure \ref{fsharkexprs2}.
+
+\begin{figure}[H]
+  \centering
+\begin{minted}{lisp}
+  ; example 1
+  NewTuple ([Const(79, System.Int32), Const(42.0f, System.Single)])
+
+  ; example 2
+  Let tuple (NewTuple ([Const(79, System.Int32), Const(42.0f, System.Single)]))
+  ( 
+    Let a (TupleGet 1 tuple) 
+    (
+      Let b (TupleGet 2 tuple) 
+      (
+        Call Plus System.Int32 
+          ([Value a, Value b])
+      )       
+    )
+  )
+
+  ; example 3
+  Let a Const(2.0f, System.Single)
+  (
+    Let foo (Lambda ([(x, System.Single)]) 
+                   (Call Plus System.Single 
+                     ([Value x, Const(3.0f, System.Single)])
+                   ))
+    (
+      Application foo ([Value a])
+    )
+
+  )
+\end{minted}
+\begin{minted}{lisp}
+  ; example 1
+  Tuple ([Const(79, FInt32), Const(42.0f, FSingle)])
+
+  ; example 2
+  LetIn tuple (Tuple([Const(79, FInt32), Const(42.0f, FSingle)]))
+  ( 
+    LetIn a (TupleGet tuple 1) 
+    (
+      LetIn b (TupleGet tuple 2) 
+      (
+        TypedCall FInt32 Plus ([Var a, Var b])
+      )       
+    )
+  )
+
+  ; example 3
+  Let a Const(2.0f, System.Single)
+  (
+    Let foo (Lambda ([(x, System.Single)]) 
+                   (Call Plus System.Single 
+                     ([Value x, Const(3.0f, System.Single)])
+                   ))
+    (
+      Application foo ([Value a])
+    )
+
+  )
+\end{minted}
+  \caption{Three \fsharp{} expressions, and their representation as
+    \texttt{FSharpExpr}s}
+  \label{fig:fsharpexprs0}
+\end{figure}
 
 
 \section{The \fshark{}Writer}
