@@ -1,4 +1,4 @@
-\chapter{The \fshark{} Compiler and Wrapper}
+\chapter{The \fshark{} Wrapper}
 In this chapter we will first demonstrate how to compile and use an \fshark{}
 module within an \fsharp{} project.
 Then, we will explain the \fshark{} Compiler and it's pipeline.
@@ -10,7 +10,7 @@ Although \fshark{} code can be executed directly in \fsharp{} as normal
 that compiling our \fshark{} code to Futhark OpenCL modules gives us performance
 increases by several orders of magnitudes (from $\times 100~\text{to}~\times 1000$).
 
-\section{Using the \fshark{} compiler and wrapper}
+\section{Using the \fshark{} Wrapper}
 \label{sec:fsharkcompiler}
 
 \subsection{Another short \fshark{} module}
@@ -83,6 +83,7 @@ This concludes the short \fshark{} module.
 \clearpage
 
 \subsection{Compiling and using the short \fshark{} module}
+\label{compilingandusingfsharkmodule}
 With our \fshark{} module ready, we now proceed to compile, load and use it.
 \begin{figure}[h]
   \centering
@@ -166,15 +167,129 @@ result we will get from the \texttt{InvokeFunction} call. Therefore, we use F\#s
 downcast operator \texttt{(:?>)} to declare the return value as an \texttt{int
   array}.
 
-The actual return type is always the same as the
-return type declared in the source \fshark{} file.
-and in figure \ref{fig:fsharkusageexample1} shows us how to compile and use the
-compiled GPU kernel in our program. Let us go through the lines in figure
-\ref{fig:fsharkusageexample1} step by step.
+If we are in doubt of which type to downcast to, we can always lookup the return
+type by reviewing the \fshark{} module's source code. We can downcast to any of
+the types usable in \fsharp{}, including tuples and arrays.
+
+\section{On the design decisions of the \fshark{} wrapper}
+To summary the current design of \fshark{} usage, \fshark{} is dependent on a
+wrapper object, which for all \fshark{} projects must compile the load the input
+\fshark{} modules once, and afterwards passes arguments from \fsharp{} to the
+resulting GPU kernels by using .NET reflection.
+This design has several costs for both usability and performance, and we will
+here discuss some of these costs, and what we could do to alleviate them in the
+future.
+
+\subsection{Compiling and loading \fshark{} modules at every startup}
+At this time, \fshark{} works by compiling and loading \fshark{} modules just in
+time before they are needed in the containing \fsharp{} project. However, this
+is more often than not redundant work. For the developer who is using \fshark{} to develop
+prototypes of \fshark{} GPU kernels, it is of course beneficial to continuously
+recompile the \fshark{} program under development to verify the changes being
+made.
+
+However, when the \fshark{} program is finished and ready to be used in
+projects, it isn't necessary to compile it again.
+
+\subsubsection{How much time do we spend on compiling and loading the \fshark{} modules?}
+If we, instead of loading the compiled \fshark{} GPU kernels through the
+\fshark{} wrapper, just open the compiled kernel libraries as any other
+\csharp{} \texttt{.dll} file, we can circumvent the \fshark{} compiler
+completely, and use the compiled kernel directly.
+
+For the two benchmarks \texttt{LocVolCalib} and \texttt{nbody}(see sec
+\ref{benchmarks}), we have compared the time cost of the two different
+approaches. In figure \ref{benchmarkcalculations} we see how the time is spent
+in the two different methods.
+\begin{figure}[H]
+  \centering
+  \begin{tabular}{@{}l c r c l c r}
+ Parsing \fshark{} code using \fsharp{} parser          & &   217984 ms & $\vrule$ & & & \\
+    Converting \fsharp{} declarations to FSharkIL       & &+   19129 ms & $\vrule$ & & & \\
+ Converting FSharkIL to Futhark source code             & &+   98949 ms & $\vrule$ & & & \\
+ Compiling Futhark to \csharp{} with \texttt{futhark-cs}& &+ 8037165 ms & $\vrule$ & & & \\
+ Compiling \csharp{} code using \csharp{} compiler      & &+  999251 ms & $\vrule$ & & & \\
+ Loading compiled \csharp{} class using reflection      & &+  101601 ms & $\vrule$ & Loading and constructing class from library & &  \\
+  \end{tabular}
+  \caption{Time spent on making LocVolCalib available in \fshark{}-using
+    program}
+  \label{benchmarkcalculations}
+\end{figure}
+
+MORE BENCHMARKS
+
+WE ARE OBVIOUSLY WASTING TIME
+
+\subsubsection{Suggestions for changes}
+We have two main suggestions for change.\\
+1) The easiest way would be to add a \texttt{AddModulePath} function to the
+\fshark{} wrapper. The benchmarks show that we aren't spending that much more
+time when loading compiled assemblies into \fsharp{} using reflection, than if
+we opened the assembly as a library in the project.
+
+Therefore, we could add a function that takes a path to a compiled \fshark{}
+module, and loaded the path's target into the wrapper.
+
+2) We could also go for a second, more permanent solution. Instead of relying on
+\fsharp{}s reflection functionality to load our compiled assemblies into scope
+dynamically, we could redesign the \fshark{} use case itself, so that it uses
+just the compiler, and not the wrapper.
+
+In this case, the new use case would be to compile the \fshark{} modules using
+the \fshark{} compiler, and then manually reference- and open them in \fsharp{} projects.
+This would not only remove the repeated module compilation, but also let us use
+static typing with the compiled \fshark{} modules, enabling autocompletion and
+type checking for function arguments, and also removing the need to manually
+downcast the \fshark{} invokation results.
+
+\subsection{The overhead of invoking GPU kernels}
+The second issue with the current approach is, that every single call to a
+\fshark{} function carries significant overhead for copying data back and forth
+between CPU and GPU buffers.
+This is a problem when we are chaining together GPU function calls: that is when
+we take the array output of function $f$ and use it as an argument for function
+$g$ without any changes to it.
+
+In figure \ref{fig:witharraycopying} we see a chain of three calls to a compiled \fshark{} module. 
+Although we are calling the second function with the result from the first
+function together with another array, and calling the third function with result
+from the second function, we are still moving the results from the GPU buffers to our system RAM between each call, and deallocating
+the buffers on the GPU, even though we are going to reallocate them soon
+thereafter.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=1.15]{chapters/figs/witharraycopying.pdf}
+  \caption{Buffers are copied back and forth between CPU and GPU between calls}
+  \label{fig:witharraycopying}
+\end{figure}
 
 
+In the future, we could eliminate this overhead by allowing the compiled Futhark functions
+to return references to GPU buffers instead of indiscriminately returning
+actual data arrays.
+We could then also have multiple versions of the compiled Futhark functions; one
+version that takes an actual data array as input, and one that can use a
+reference to a GPU buffer instead.
 
+In this case, we could wait until after the three function calls to actually
+copy the referenced GPU buffer back to the system RAM. This would strongly reduce the
+number of copies back and forth between the GPU and the system RAM:
+Instead of the allocations/deallocations increasing linearly with the number of
+chained GPU kernel calls, we can make do with one allocation and one
+deallocation between system RAM and GPU, pr. chain, as in figure \ref{fig:withoutarraycopying}
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=1.15]{chapters/figs/withoutarraycopying.pdf}
+  \caption{Buffers aren't copied between CPU and GPU unless necessary}
+  \label{fig:withoutarraycopying}
+\end{figure}
 
+This functionality is already implemented in Python's \texttt{PyOpenCL} library,
+and is used in Futhark programs that are compiled as Python libraries.
+\clearpage
+
+\chapter{The \fshark{} Compiler}
 
 Parsing and building a regular F\# program is trivial when using official build tools like
 \texttt{msbuild} or \texttt{fsharpc}.
@@ -198,40 +313,6 @@ The Typed Abstract Syntax Tree is merely an AST that already has tagged all the
 contained expressions with their respective types.
 
 We'll start with a detailed explanation of the \fshark{} Compiler Pipeline.
-
-\subsection*{The \fshark{} Compiler Pipeline in practice}
-To examine the compiler pipeline in action, we'll go through the motions with
-the small example program displayed in figure \ref{fig:fsharkusageexample}.
-
-\begin{figure}[h]
-  \centering
-    \begin{minted}[linenos,breaklines]{fsharp}
-module FSharkExample
-open FShark.Main
-
-[<EntryPoint>]
-let main argv =
-  let wrapper = 
-    new FSharkWrapper(
-      libName="ExampleModule",
-      tmpRoot="/home/mikkel/FShark",
-      preludePath= "/home/mikkel/Documents/fshark/FSharkPrelude/bin/Debug/FSharkPrelude.dll",
-      openCL=true,
-      unsafe=true,
-      debug=false
-      )
-  wrapper.AddSourceFile "../../srcs/ExampleModule.fs"
-  wrapper.CompileAndLoad
-  let xs = [|1;2;3;4|]
-  let input = [|xs|] : obj array
-  let xs' = wrapper.InvokeFunction "MapPlusTwo" input :?> int array
-  printfn "Mapping (+2) over %A gives us %A" xs xs'
-  0
-    \end{minted}
-  \caption{An F\# program using \fshark{}}
-  \label{fig:fsharkusageexample}
-\end{figure}
-
 
 \subsection*{When \fshark{} Wrapper Compiles}
 \label{sec:fsharkwrappercompiles}
