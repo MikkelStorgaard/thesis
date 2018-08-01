@@ -1,106 +1,231 @@
 \chapter{Introduction}
-Developers worldwide are, and have always been, on the lookout for increased
-computing performance.
+
+{\bf High-Level Problem.} 
+Developers worldwide are, and have always been, on the lookout 
+for increased computing performance.
 Until recently, the increased performance could easily be
 achieved through advances within raw computing power, as CPU's had steadily been
 doubling their number of on-chip transistors, in rough accordance to Moore's Law (citér
 her).
 
-As performance increases in single-CPU design has stalled due to the power
-wall\cite{powerwall} (among other things), developers are turning to multi-core
-processors instead. As the number of cores increases, so does the number of
+Since increasing the frequency of the single CPU has hit the power
+wall\cite{powerwall} (among other things), achieving higher performance 
+is realized nowadays by scaling the parallelism of hardware, for example
+leading to multi-core and then to many-core architectures.
+%, where each core provides support for hardware multi-threading.
+As the number of cores increases, so does the number of
 active threads available for parallel data processing.
 
-Modern mainstream GPUs can run tens of thousands of threads in
-parallel. Modern mainstream CPUs, like the current Ryzen series by AMD, usually
-support between 10 and 20 simultaneous threads.
-This makes GPUs the optimal target for data-parallel programming.
+Modern mainstream (general-purpose) graphical processing units (GPUs) can run 
+tens of thousands of hardware threads in parallel. Modern mainstream CPUs, 
+like the current Ryzen series by AMD, usually support between 10 and 20 
+simultaneous threads. This makes GPUs an attractive target for data-parallel 
+programming.
 
-GPU programming is complicated: GPU-targeting developers must not only
-write the computational kernels for the GPUs, but also often manually handle the
-memory allocations and -transfers between the main program and the GPU device.
-Such difficulties in GPU development, compared to normal (sequential) CPU
-development, severely hinders the adaption of GPU programming in general.
+While re-writing a program for multi-core execution is not without challenges,
+GPU programming is significantly more difficult. For example, the typical
+approach for multicores is to exploit (only) the parallelism of the outermost
+(parallel) loop -- this is because, the loop count is typically greater than 
+the number of cores (maximum $32$), which means that the hardware
+is fully utilized. GPUs, on the other hand, expose a massive amount of hardware
+parallelism, whose full utilization often requires to exploit multiple (nested)
+levels of the application's parallelism. Re-structuring the program in this
+manner is notoriously difficult, not only in terms of tedious work, but also
+because it requires specialized knowledge of compiler analysis.
 
-Even though most programming languages support GPU programming through various
-libraries, there are very solutions that offers GPU programming through high
-level programming \-- the users still have to write their own kernels in some
-form, and likewise declare their own buffers.
+To make matters even more unattractive, the mainstream APIs for programming
+GPUs (e.g., CUDA, OpenCL) are quite low-level and verbose.  For example, GPU
+developers must not only write the computational kernels for the GPUs, but 
+also manually handle the memory (de)allocations and transfers between the host 
+program and the GPU device.  All these difficulties in the development of GPU 
+programs, compared to normal (sequential) CPU programming, severely hinders 
+the adoption of GPU programming for the masses.
 
-Two mainstream languages which lack high level GPU programming solutions are
-\csharp{} and \fsharp{}. 
+%Even though most programming languages support GPU programming through various
+%libraries, there are several solutions that offers GPU programming through high
+%level programming -- the users still have to write their own kernels in some
+%form, and likewise declare their own buffers.
+%
+For example, \csharp{} and \fsharp{} are two mainstream languages which, to
+our knowledge, lack high-level (easy-to-use) solutions for GPU programming.
+%
+It is safe to say that there exists plenty of large, real-world projects
+developed in \csharp{} and \fsharp{}, which could greatly benefit from 
+accelerating their computational kernels on GPUs, but current, low-level
+solutions (such as CUDA and OpenCL) would demand that those parts are 
+rewritten as GPU code, and linked through foreign interfaces. 
+This process affects code modularity and maintainability, and also requires
+expert-GPU programmers; often enough this associated cost is deemed too high,
+so the acceleration benefits are discarded in favor of maintaining a more 
+accessible code base.
 
-It is safe to say that there exists plenty of \csharp{} and \fsharp{} projects
-in the real world, which could greatly benefit from parallelizing parts of their
-algorithms, but current solutions would then demand that those parts in
-particular
-should be rewritten at least partly as GPU code, depending on the libraries
-used. Depending on someone to have non-mainstream GPU coding skills on a
-conventional developer team is not feasible, so the benefits from parallelizing
-are often left alone in favor of maintaining a more accessible code base.
-\clearpage
+{\bf Relation to Related Work.}
+%
+A rich body of scientific work has been dedicated to the design of high-level 
+programming models aimed primarily at GPU acceleration.  
+%
+For example, many domain-specific language (DSL) solutions target specific 
+applications from areas such as image processing~\cite{Halide}, data 
+analytics~\cite{HPAT}, deep-learning~\cite{DeliteDSLs}, mesh 
+computations~\cite{OP2-Mesh}, iterative stencils~\cite{tang2011pochoir}. 
 
-Currently, there does exist plenty of high level solutions to this problem.
-In particular, numerous domain specific languages exists that allows programmers
-to solve their domain specific problems in a high level language, and compile it
-to standalone GPU accelerated libraries or programs.
+Various embedded libraries (DSLs) have been developed to allow high-level
+expression and transparent-GPU acceleration of (simple) computational 
+kernels written in a host (mainstream) language. For example, 
+Java $8$ supports a stream (flat-parallel) construct~\cite{StreamJava8},
+and Accelerate~\cite{Accelerate-DAMP,AccelerateStreaming} and 
+Obsidian~\cite{svensson2011obsidian} are embedded in Haskell and support 
+flat parallelism by means of operators such as map, reduce, scan, filter.
+%
+Other data-parallel and hardware-independent languages, such as 
+Nesl~\cite{blelloch1994implementation,Bergstrom:2012:NDG:2398856.2364563},
+Futhark~\cite{pldi17,Futhark:redomap,Futhark-ICFP18}, 
+SAC~\cite{SaCShared2005,GrelSchoIJPP06}, and Lift~\cite{Lift-CGO17,Lift-ICFP}
+support more complex parallel patterns (e.g., nested parallelism), 
+and follow a standalone design.
+% Cosmin says: ToDo: mention and add citations to Forma and Ebb in the 
+%                    paragraphs above. 
 
-Of such DSLs we have for instance:
-\begin{itemize}
-\item Forma
-\item Ebb
-\item one more
-\end{itemize}
+%Currently, there does exist plenty of high level solutions to this problem.
+%In particular, numerous domain specific languages exists that allows programmers
+%to solve their domain specific problems in a high level language, and compile it
+%to standalone GPU accelerated libraries or programs.
+%
+%Of such DSLs we have for instance:
+%\begin{itemize}
+%\item Forma
+%\item Ebb
+%\item one more
+%\end{itemize}
 
-However, DSLs such as these are always either embedded in some host language
-(such as Accelerate), or compiled to standalone executable programs. Their
-compilers are designed to optimize performance, but rarely to support
-interoperability to any significant degree.
+In essence, all reviewed solutions are primarily aimed at developing (often) 
+complementary techniques for optimizing parallelism in the context of GPU 
+execution, but they do not address well the practical problem of integrating 
+the use of the (now) accelerated computational kernels across different 
+mainstream, productivity-oriented (programming) environments.
+At best, they provide integration within one language (the host), 
+and at the worst they require the user to hack an interoperability 
+solution (based on a rudimentary foreign-function interface of the host). 
 
-Projects like APLtail\cite{apltail} have shown new ways to obtain GPU-accelerated
-executables and libraries from source code written in  high level language. APLtail parses
-and compiles APL\footnote{more accurately a subset of the APL language} code into redistributable C or Python libraries.
+%However, DSLs such as these are always either embedded in some host language
+%(such as Accelerate), or compiled to standalone executable programs. Their
+%compilers are designed to optimize performance, but rarely to support
+%interoperability to any significant degree.
 
-In summary, the hardware for massively parallel programming is widely available.
-Furthermore, solutions exists for writing efficient GPU programs in high level
-languages, but these have weak interoperability support with mainstream
-languages.
+This thesis investigates the latter, less-studied problem: we assume that
+there exists a standalone data-parallel language that can express and 
+execute efficiently computational kernels on GPUs (i.e., Futhark), and 
+we study two transpilation techniques aimed at aggressively integrating
+these kernels within the \fsharp{} environment, ideally to the extent that
+the user is not even aware that Futhark is even part of the picture.
+
+In this we take inspiration from early compiler 
+solutions~\cite{alma:ISSAC,mapal_synasc} for interoperating
+across computer-algebra systems, in which for example
+the large libraries of Aldor~\cite{aldor}---a strongly and statically typed 
+language supporting dependent types---have been seamlessly made available 
+for use from Maple~\cite{maple_guide}---a very dynamic language aimed at 
+ease of inspection and scripting.
+%
+Finally, perhaps the work most related to ours
+is the experiment~\cite{apltail} that showed that programs 
+written in a usefully-large subset of the old and interpreted (hence slow) APL 
+language~\cite{dyalogbook} can be automatically translated to Futhark, 
+optimized for GPU execution, and easily integrated in a mainstream application
+written in Python. This thesis aims at providing a similar solution in which
+the automatically-translated and mainstream-target languages are \fsharp{}
+and \csharp{}, respectively.
+
+ 
+%Projects like APLtail\cite{apltail} have shown new ways to obtain GPU-accelerated
+%executables and libraries from source code written in  high level language. APLtail parses
+%and compiles APL\footnote{more accurately a subset of the APL language} code into redistributable C or Python libraries.
+
+In summary, the hardware for massively parallel programming is widely available,
+and many solutions exists for writing efficient GPU programs in high level
+languages. The problem is that these solutions do not allow integration across
+different mainstream, productivity-oriented languages.
+
+
 
 \section{What \fshark{} sets out to do}
-This thesis takes inspiration from APLtail\cite{apltail}, and creates a solution
-that lets users compile efficient GPU programs from a high level programming
-language, whilst at the same time supporting a high level of interoperability
-with a mainstream language.
-Whereas APLtail allows integration of GPU Futhark-written computation kernels in
-C- and Python programs (by means of code generation), we would like to use code generation to make Futhark-written kernels available for use in \csharp{} and \fsharp{} programs.
 
-To show that this is feasible, we first design a \csharp{} code generator for the
-Futhark compiler. This code generator must be able to generate \csharp{} source
+This thesis takes inspiration from the APL-Futhark-Python experiment~\cite{apltail}, 
+and creates an interoperability solution between \fsharp{}, Futhark, and \csharp{}.
+The ultimate goal is (1) to allow computational kernels to be written in a usefully-large
+{\em subset} of the \fsharp{} language, which can be automatically (and efficiently)
+translated to Futhark, and (2) to also allow the resulting code to be integrated
+back into a mainstream \csharp{} or \fsharp{} application. 
+The advantages of this approach are that:
+\begin{itemize}
+    \item it requires a gentle learning curve for the user, who needs not learn Futhark, 
+    \item it allows full access to \fsharp{}'s productivity tools, e.g., debugger, IDE,
+            which is very useful when developing the computational kernels, and 
+    \item it allows the code to be optimized by an aggressive compiler (Futhark),
+            specialized in efficiently mapping nested data-parallelism to GPU hardware.  
+\end{itemize}
+
+%This thesis takes inspiration from the APL-Futhark-Python experiment~\cite{apltail}, 
+%and creates an interoperability solution that lets users compile efficient GPU 
+%programs from a high level programming
+%language, whilst at the same time supporting a high level of interoperability
+%with a mainstream language.
+%Whereas APLtail allows integration of GPU Futhark-written computation kernels in
+%C- and Python programs (by means of code generation), we would like to use code generation to make Futhark-written kernels available for use in \csharp{} and \fsharp{} programs.
+
+The solution proposed in this thesis is organized in two steps. 
+{\em The first step} is relatively straightforward and it refers to designing a \csharp{} 
+code generator (backend) for the Futhark compiler. Starting from a Futhark specification,
+the code generator must be able to generate \csharp{} source
 files, that can be compiled and used either as standalone executables, or as
-importable libraries in any other \csharp{} or \fsharp{} program.
-There were several notable challenges in this process, namely 1) designing
-\csharp{} programs that could encapsulate entire Futhark programs in a single
-class, and 2) designing helper libraries to include in the generated code, and
-3) designing a way to write sequential (non-GPU) Futhark code as pure \csharp{},
-in cases where GPU devices are unavailable.
+importable (\csharp{}) libraries in any other \csharp{} or \fsharp{} program.
+There were several notable challenges in this process, namely 
+\begin{itemize}
+    \item designing a layout that can encapsulate the exports of a Futhark program
+            in a single \csharp{} class, 
+    \item designing static and efficient helper libraries that help and simplify
+            the code-generation process, and
+    \item designing a way to write sequential (non-GPU) Futhark code as pure 
+            \csharp{} code, in cases where GPU devices are unavailable.
+\end{itemize}
 
-The code generator alone should not convince anyone that we are creating GPU
-kernels from a high level language, which is why we also design and implement a
-compiler which takes source code written in a mainstream language, compiles it
-as efficient GPU kernels, and (together with the code generator) makes the
-resulting GPU program immediately operable from the mainstream language itself.  
-The main challenges for this was 1) identifying which parts of the \fsharp{}
-language that were suitable for Futhark translation, 2) implementing a standard
-library for Futhark targeted \fsharp{} programs, and 3) designing and implementing a compiler
-pipeline that would let users program and use GPU kernels in \fsharp{}, without
-manually using Futhark compilers or importing external libraries.
+{\em The second step} is more challenging and refers to identifying a useful 
+subset of \fsharp{} that can be automatically transpiled to Futhark, and, of
+course, designing and implementing the transpilation scheme.
+%
+%The code generator alone should not convince anyone that we are creating GPU
+%kernels from a high level language, which is why we also design and implement a
+%compiler which takes source code written in a mainstream language, compiles it
+%as efficient GPU kernels, and (together with the code generator) makes the
+%resulting GPU program immediately operable from the mainstream language itself.  
+The main challenges here were:
+\begin{itemize} 
+    \item identifying which parts of the \fsharp{} language can be suitably
+             translated to Futhark and what the translation should be, 
+    \item implementing a standard library written in \fsharp{}, which contains
+            the implementation of Futhark's data-parallel operators.\footnote{
+             For example \fsharp{} does not support a {\tt reduce} operator of type 
+            $(\alpha\rightarrow\alpha\rightarrow\alpha)~\rightarrow~\alpha~\rightarrow~[\alpha]~\rightarrow~\alpha$.}
+            On the one hand this library publishes/fixes the types of the
+            data-parallel operators, and, on the other hand, it provides an 
+            implementation semantically-equivalent to the one of Futhark, 
+            for the case when the user is prototyping the application
+            solely within the \fsharp{} environment.
+    \item designing and implementing a compiler pipeline that would allow
+            efficient and transparent GPU execution of \fsharp{} programs
+            (via transpilation to Futhark), without the need to manually 
+            call Futhark compilers or to import external libraries.
+\end{itemize}
 
-Empirical evaluation demonstrates that this approach is feasible.
-We both show that that unit tests written in a high level language can be compiled and executed
-correctly as computational kernels on the GPU, just as we also take complex
-benchmark programs written in a mainstream language, compile them into
-computational kernels for the GPU, and use them directly in the mainstream
-language afterwards.
+Finally, we demonstrate the feasibility of the approach by means of empirical validation:
+We show that unit tests written in the identified subset of \fsharp{} can be compiled and 
+executed correctly as computational kernels on the GPU. More convincingly, we also take 
+several complex benchmark programs written in Futhark, we translate them to the identified
+subset of \fsharp{}, and show that the GPU-compiled program, not only runs correctly,
+but also achieves performances comparable to the one written natively in Futhark.
+Finally, we show that the exports of the computational kernels originally written in 
+either Futhark or the translatable subset of \fsharp{}, can be easily integrated back
+in an application written in \csharp{}.
 
 \clearpage
 
@@ -111,9 +236,9 @@ The contributions of this thesis are as follows:
   generates GPU accelerated libraries that can integrate seamlessly in 
   \csharp{} and \fsharp{} code bases.
 
-\item A select subset of the \fsharp{} langauge which can be translated directly to
+\item A select subset of the \fsharp{} language which can be translated directly to
   Futhark source code of equivalent functionality. This includes a
-  library which implements Futhark SOACs\cite{soacs} in \fsharp{}, allowing
+  library which implements Futhark SOACs~\cite{pldi17} in \fsharp{}, allowing
   people to write \fsharp{} code which can be ported automatically to Futhark.
 
 \item A compiler and wrapper pipeline which allows users to compile individual
