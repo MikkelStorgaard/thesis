@@ -1,11 +1,115 @@
 \chapter{The \fshark{} Compiler and Wrapper}
+In this chapter we will first demonstrate how to compile and use an \fshark{}
+module within an \fsharp{} project.
+Then, we will explain the \fshark{} Compiler and it's pipeline.
+
+mere here
+
 Although \fshark{} code can be executed directly in \fsharp{} as normal
 \fsharp{} code, our benchmarks in chapter \ref{chap:evaluation} shows
 that compiling our \fshark{} code to Futhark OpenCL modules gives us performance
 increases by several orders of magnitudes (from $\times 100~\text{to}~\times 1000$).
 
-\section*{Introduction}
+\section{Using the \fshark{} compiler and wrapper}
 \label{sec:fsharkcompiler}
+In figure \ref{fig:fsharkusageexample0} we see a simple \fshark{} module that we
+want to compile into a GPU kernel and use in our \fsharp{} program.
+\\
+Line by line, this module does the following:\\
+\textbf{L1:} We define the name of this module as \texttt{ExampleModule}. If we
+want to use this module in an \fsharp{} program without compiling it as
+\fshark{} first, we can refer to this module by this name.
+\\
+\textbf{L2:} We open \fshark{}s standard library \texttt{FSharkPrelude} in this
+module, so we can access the standard functions in the \fshark{} module.
+In this module, we are using the standard functions \texttt{Iota}, \texttt{Length}, \texttt{Rotate} and \texttt{Map2}.
+\\
+\textbf{L4-5:} We define the function \texttt{saxpy}.
+\\
+\textbf{L7-11:} We define the function \texttt{getArrayPair}.
+\\
+\textbf{L8:} \texttt{Iota a} returns the integer array of the numbers from $0$
+up to, but not including, $a$.
+\\
+\textbf{L9:} \texttt{Length xs} returns the length of the array \texttt{xs}.
+\\
+\textbf{L10:} \texttt{Rotate n} rotates the contents of an array n places in
+either the right or left direction.\\
+In example, \texttt{Rotate 2 [1;2;3;4;5;6] = [5;6;1;2;3;4]},\\
+and \texttt{Rotate (-2) [1;2;3;4;5;6] = [3;4;5;6;1;2]}
+\\
+\textbf{L11:} Here we return the pair of arrays \texttt{(xs, ys)}.
+
+\textbf{L13-17:} We define the entry function \texttt{entry}.\\
+\textbf{L15:} We call \texttt{getArrayPair} to get two arrays.\\
+\textbf{L16:} We use \texttt{Map2} to map the curried function \texttt{(saxpy
+  a)}
+over the arrays \texttt{xs} and \texttt{ys}.
+
+For two arrays $\mathtt{xs} =
+[\mathtt{x}_1,~\mathtt{x}_2,~\ldots,~\mathtt{x}_n]$ and $\mathtt{ys} =
+[\mathtt{y}_1,~\mathtt{y}_2,~\ldots,~\mathtt{y}_n]$,\\
+$\mathtt{Map2}~\mathtt{(saxpy~a)}~\mathtt{xs}~\mathtt{ys}} = [\mathtt{saxpy~a}~\mathtt{x}_1~\mathtt{y}_1, \mathtt{saxpy~a}~\mathtt{x}_2~\mathtt{y}_2,\ldots,~\mathtt{saxpy~a}~\mathtt{x}_n~\mathtt{y}_n]$.
+
+and in figure \ref{fig:fsharkusageexample1} shows us how to compile and use the
+compiled GPU kernel in our program. Let us go through the lines in figure
+\ref{fig:fsharkusageexample1} step by step.
+
+\begin{figure}[H]
+  \centering
+\begin{minted}[linenos]{fsharp}
+module ExampleModule
+open FSharkPrelude
+
+let saxpy (a : int) (x : int) (y : int) : int =
+  a*x+y
+
+let getArrayPair (a : int) : (int array * int array) =
+  let xs = Iota a
+  let n = Length xs
+  let ys = Rotate (n / 2) xs
+  in (xs, ys)
+
+[<FSharkEntry>]
+let entry (a : int) : int array =
+  let (xs, ys) = getArrayPair a
+  let res = Map2 (saxpy a) xs ys
+  in res
+\end{minted}
+  \caption{A short \fshark{} module in a file named ExampleModule.fs}
+  \label{fig:fsharkusageexample0}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+    \begin{minted}[linenos,breaklines]{fsharp}
+module FSharkExample
+open FShark.Main
+
+[<EntryPoint>]
+let main argv =
+  let wrapper = 
+    new FSharkWrapper(
+      libName="ExampleModule",
+      tmpRoot="/home/mikkel/FShark",
+      preludePath= "/home/mikkel/Documents/fshark/FSharkPrelude/bin/Debug/FSharkPrelude.dll",
+      openCL=true,
+      unsafe=true,
+      debug=false
+      )
+  wrapper.AddSourceFile "ExampleModule.fs"
+  wrapper.CompileAndLoad
+  let xs = [|1;2;3;4|]
+  let input = [|xs|] : obj array
+  let xs' = wrapper.InvokeFunction "MapPlusTwo" input :?> int array
+  printfn "Mapping (+2) over %A gives us %A" xs xs'
+  0
+    \end{minted}
+  \caption{An F\# program using \fshark{}}
+  \label{fig:fsharkusageexample}
+\end{figure}
+
+
 
 
 Parsing and building a regular F\# program is trivial when using official build tools like
