@@ -890,14 +890,61 @@ Instead of using jagged arrays (or even multidimensional arrays), we initially
 considered implimenting an \fshark{} specific array type, which could be directly
 translated to Futhark's flat array structure.
 
+This data type is shown in figure \ref{fig:fsharkarrays0}.
+An FSharkArray<'a> contains a flat array of <'a>, and a list of integers
+denoting the lengths of the arrays contained in the flat array.
+
+\begin{figure}[H]
+  \centering
+\begin{minted}{fsharp}
+type FSharkArray<'a> = class
+  val mutable flatArray : 'a array 
+  val mutable dimensions : int array
+  end
+\end{minted}
+  \caption{The basic structure of an FSharkArray}
+  \label{fig:fsharkarrays0}
+\end{figure}
+
+This would allow us to skip the flattening and unflattening algorithms that are
+currently used for invoking imported Futhark functions, and instead just pass
+the contents of the arrays \textit{as is}.
+
+However, this approach was deemed impractical for several reasons.
+Jagged arrays readily support getting subarrays and elements using the array
+indexing operator intuitively. I.e., for a two-dimensional array \texttt{xss :
+  int [][]}, we can expect that \texttt{xss.[1]} returns a subarray, and that \texttt{xss.[1].[4]}
+returns an integer. 
+In example, to get the same functionality for \texttt{FSharkArrays}, we would have to implement the
+array operator for \texttt{FSharkArrays} manually. The array operator would have
+to access the flat array by calculating an offset using the array operator
+operands together with the lengths stored in the \texttt{dimensions} integer
+array.
+
+Besides calculating array indexes manually, we would also have to handle that
+the index operator must be able to return either an element of some type
+\texttt{'a}, or another \texttt{FSharkArray}. This could be handled by
+implementing \texttt{FSharkArray} as a discriminated union type instead; as
+shown in figure \ref{fig:fsharkarrays1}.
+
+\begin{figure}[H]
+  \centering
+\begin{minted}{fsharp}
+type FSharkArray 'a = FlatArray of ('a array * int array)
+                    | Element of 'a
+\end{minted}
+  \caption{FSharkArray as a discriminated union type}
+  \label{fig:fsharkarrays1}
+\end{figure}
+This way, an \texttt{FSharkArray} can be either an array or an element. However,
+we then have a third problem.
+Wherever we are using \texttt{FSharkArray 'a}, our elements from the arrays will be wrapped as
+\texttt{Element of 'a}s.
+
+Write a bit more.
 
 
-How they work
 
-How they would alleviate the problem
-
-Why they weren't chosen anyhow (hint; needing to pepper FSharkArray all over
-code, would stand in way of idiomatic FSharp style)
 
 \subsection{Conclusion on arrays}
 Ultimately, choosing between jagged arrays, multidimensional arrays and
