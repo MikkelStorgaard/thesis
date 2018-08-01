@@ -349,23 +349,6 @@ declarations of members, functions and values. We don't use members in
 functions and values. For all intents and purposes, \fsharp{} values are just
 functions without arguments.
 
-In total, this means that our intermediate language must also support four
-different declarations, which are the \texttt{FSharkDecl}s. These are shown in
-figure \ref{fig:fsharkdecls}.
-
-\begin{figure}
-  \centering
-\begin{tabular}{@{}l c l}% to \linewidth {l c X}
-  $Decl$ & $:=$    & $\lit{FSharkRecord}([(field_1, decl_1),\ldots,(field_n, decl_n)])$ \\
-         & $\vert$ & $\lit{FSharkTypeAlias}(name, \tau)$ \\
-         & $\vert$ & $\lit{FSharkModule}(name, [decl_1,\ldots, decl_n])$\\
-         & $\vert$ & $\lit{FSharkVal}(name, [\tau_1, \ldots, \tau_n], [arg_1, \ldots, arg_n], \tau_{return}, e)$\\
-  ~ \\
-\end{tabular}
-\caption{The four possible \texttt{FSharkDecl}s}
-\label{fig:fsharkdecls}
-\end{figure}
-
 \subsection{FSharpDecl.Entity}
 The \fshark{}Compiler supports three different entities.
 \begin{description}
@@ -452,169 +435,153 @@ type vec3 = Vec3_Vec3single
   \label{fig:moduleflattening'}
 \end{figure}
 
+\subsection{FSharpDecl.MemberOrFunctionOrValue}
+HMMMM MERE HER.
+
+In total, this means that our intermediate language must also support four
+different declarations, which are the \texttt{FSharkDecl}s. These are shown in
+figure \ref{fig:fsharkdecls}.
+
+\begin{figure}
+  \centering
+\begin{tabular}{@{}l c l}% to \linewidth {l c X}
+  $Decl$ & $:=$    & $\lit{FSharkRecord}([(field_1, decl_1),\ldots,(field_n, decl_n)])$ \\
+         & $\vert$ & $\lit{FSharkTypeAlias}(name, \tau)$ \\
+         & $\vert$ & $\lit{FSharkModule}(name, [decl_1,\ldots, decl_n])$\\
+         & $\vert$ & $\lit{FSharkVal}(name, [\tau_1, \ldots, \tau_n], [arg_1, \ldots, arg_n], \tau_{return}, e)$\\
+  ~ \\
+\end{tabular}
+\caption{The four possible \texttt{FSharkDecl}s.}
+\label{fig:fsharkdecls}
+\end{figure}
+
+\subsection{\fsharp{} expressions}
+\label{sec:fsharpexprs}
+An \fsharp{} function or value is not without its accompanying \fsharp{}
+expression. The \fsharp{} compiler compiles these \fsharp{} expressions into
+\texttt{FSharpExpr}s, which we can parse ourselves, and rewrite as \fshark{}IL expressions.
+In figure \ref{fig:fsharpexprs0} we see three different \fsharp{} expressions,
+and their representations as \texttt{FSharpExpr}'s.
+
+For the first example, we just create a tuple literal. In the
+\texttt{FSharpExpr} version, we see how the literal is created using
+\texttt{NewTuple}. \texttt{NewTuple} takes a list of \texttt{FSharpExpr}s as
+arguments. In this case, we are using two constants, each of which takes some
+primitive object, and the .NET type of that object.
+
+In the second example, we use the \texttt{Let} expression. Semantically, \texttt{Let} takes a
+name $n$ and two expressions $e_1$ and $e_2$, and exchanges every instance of
+$n$ in $e_2$ with $e_1$.
+Then we encounter two \texttt{Let}-expressions that we didn't write ourselves.
+That is because the \fsharp{} compiler turns tuple assignments into chains of
+\texttt{Let} expressions instead. Here, we use \texttt{TupleGet} to get each
+field of the tuple.
+
+Finally, we use a typed instance of the \texttt{Call} expression to call the
+overloaded function \texttt{Plus} as the integer version of the plus function,
+giving it the two variables \texttt{Value a} and \texttt{Value b} as arguments.
+
+In the third example, we see the \texttt{Lambda} expression in use. \texttt{Lambda} takes
+a list of variables (in the form of name/type pairs), and an \texttt{FSharpExpr}. In this case,
+\texttt{Lambda} only has one variable.\\
+The innermost expression here is the \texttt{Application} expression.
+\texttt{Application} takes a function or a lambda, and a list of arguments, and
+applies the list of arguments one by one to the function or lambda.
+
+\begin{figure}[H]
+  \centering
+\begin{minted}{fsharp}
+  // example 1
+  (79, 42.0f)
+
+  // example 2
+  let tuple = (79, 42.0f)
+  let (a,b) = tuple
+  in a + a
+
+  // example 3
+  let a = 2.0f
+  let foo = fun x -> x + 3.0f
+  in foo a
+\end{minted}
+
+\begin{minted}{lisp}
+  ; example 1
+  NewTuple ([Const(79, System.Int32), Const(42.0f, System.Single)])
+
+  ; example 2
+  Let tuple (NewTuple ([Const(79, System.Int32), Const(42.0f, System.Single)]))
+  ( 
+    Let a (TupleGet 1 tuple) 
+    (
+      Let b (TupleGet 2 tuple) 
+      (
+        Call Plus System.Int32 
+          ([Value a, Value b])
+      )       
+    )
+  )
+
+  ; example 3
+  Let a Const(2.0f, System.Single)
+  (
+    Let foo (Lambda ([(x, System.Single)]) 
+                   (Call Plus System.Single 
+                     ([Value x, Const(3.0f, System.Single)])
+                   ))
+    (
+      Application foo ([Value a])
+    )
+
+  )
+\end{minted}
+  \caption{Three \fsharp{} expressions, and their representation as
+    \texttt{FSharpExpr}s}
+  \label{fig:fsharpexprs0}
+\end{figure}
+
+The entire set of \texttt{FSharpExpr}s used in the \fshark{}Compiler is
+available in figure \ref{fig:fsharpexprs1}.
+
+The entire set of .NET types used in the \fshark{}Compiler is
+available in figure \ref{fig:fsharptypes0}.
+
+\begin{figure}[H]
+  \centering
+\begin{tabular}{c}% to \linewidth {l c X}
+  $System.Int8$ \\
+  $System.Int16$ \\
+  \\ \\
+  $System.Int32$ \\
+  $System.Int64$ \\
+  \\ \\
+  $System.UInt8$ \\
+  $System.UInt16$ \\
+  \\ \\
+  $System.UInt32$ \\
+  $System.UInt64$ \\
+  \\ \\
+  $System.Single$ \\
+  $System.Double$ \\
+  \\ \\
+  $System.Boolean$ \\
+  $System.Array~\tau$ \\
+  \\
+  $System.Tuple~(\tau_0 \times \ldots \times \tau_n)$ \\
+\end{tabular}
+\caption{The .NET types used in the \fshark{}Compiler}
+\label{fig:fsharptypes0}
+\end{figure}
+
+
+
+\subsection{Translating from FSharpExprs to \fshark{}IL}
 
 
 \section{The \fshark{}Writer}
 \section{The Futhark-to-\csharp{} compiler}
 \section{The Mono \csharp{} compiler}
 
-
-
-
-
-
-We'll start with a detailed explanation of the \fshark{} Compiler Pipeline.
-
-\subsection*{When \fshark{} Wrapper Compiles}
-\label{sec:fsharkwrappercompiles}
-The general way to compile and load an \fshark{} program into the FShark Wrapper,
-is by adding \fshark{} source files to the wrapper object by calling the
-\texttt{AddSourceFile} method, and followingly calling the \texttt{CompileAndLoad}
-method. Although the \fshark{} wrapper also offers other methods of loading and
-compilation, this is the primary one, as it initiates the entire \fshark{}
-compilation pipeline.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics{chapters/figs/csharp/pipeline_step_3.pdf}
-  \caption{The \fshark{} compilation pipeline}
-  \label{fig:fsharkcompilerpipeline}
-\end{figure}
-
-
-When calling \texttt{CompileAndLoad}, the supplied \fshark{} source files are
-concatenated into one long source file, and written to a temporary location.
-An FSharpChecker is then initialized, so we can parse and type check the
-concatenated source code. The FSharpChecker is a class exported by the FSharp
-Compiler Services, and is a class that lets developers use part of the F\#
-compilation pipeline at runtime.
-
-We supply the FSharpChecker with the path to our precompiled \fshark{}Prelude
-assembly, and then call its \texttt{ParseAndCheckProject} method on to receive
-an assembly value, which contains the complete Typed Abstract Syntax Tree of our
-\fshark{} program, in the form of an \texttt{FSharpImplementationFileDeclaration}.
-
-If the \fshark{} developer followed the guidelines to write a well-formed FShark
-module, the main declaration of the program, the
-\texttt{FSharpImplementationFileDeclaration}, should contain a single
-\texttt{FSharpEntity}, which in turn contains all the remaining declarations in
-the program.
-
-\subsubsection*{The declaration types within F\#'s Typed AST}
-The \texttt{FSharpImplementationFileDeclaration} type has three union cases.
-\begin{description}
-\item[\texttt{InitAction of FSharpExpr}] \hfill\\
-  \texttt{InitAction}s are \fsharpexpr{}s that are executed at the
-  initialization of the containing entity. These are not supported in \fshark{}.
-
-\item[\texttt{Entity of FSharpEntity * FSharpImplementationFileDeclaration list}]\hfill\\
-  An \texttt{Entity} is the declaration of a type or a module. In the case of
-  \fshark{}, three different kinds of entities are supported:
-  \begin{description}
-  \item[FSharpRecords] are standard record types, and can be translated to
-    Futhark records with ease.
-    This entity has an empty \texttt{FSharpImplementationFileDeclaration list}.
-  \item[FSharpAbbreviations] are type abbreviations, and are easily translated
-    into Futhark type aliases.
-    This entity has an empty \texttt{FSharpImplementationFileDeclaration list}.
-  \item[FSharpModules] are named modules which contains subdeclarations.
-    In this case, we retrieve the subdeclarations from the \texttt{FSharpImplementationFileDeclaration list}.
-    The \fshark{} compiler supports building FShark modules, but current
-    limitations demands that modules are flattened when compiled to Futhark.
-    This also means that function name prefixes in function calls are stripped
-    when compiled to Futhark.
-  \end{description}
-\item[\texttt{MemberOrFunctionOrValue of \\ FSharpMemberOrFunctionOrValue *
-    FSharpMemberOrFunctionOrValue list list * FSharpExpr}]\hfill\\
-  F\# doesn't differ between functions and values, which means that a function
-  is merely a value with arguments.
-  A pattern matched \texttt{MemberOrFunctionOrValue} value has the form
-  \texttt{MemberOrFunctionOrValue (v, args, exp)}, where \texttt{v} contains the
-  name and the type of the variable.
-  If the \texttt{args} list is empty, \texttt{v} is simply a variable. If not,
-  \texttt{v} is a function. \texttt{exp} contains the \fsharpexpr{} that
-  \texttt{v} is bound to. An \fsharpexpr{} can be anything from a numeric
-  constant to a very long function body.
-\end{description}
-
-In figure \ref{fig:validfsharkprogram} we see a small but valid \fshark{} program. It
-reads like a regular F\# program, but contains the three vital parts that makes
-it usable as an \fshark{} program.
-
-\begin{figure}[h]
-  \centering
-  \begin{minted}[xleftmargin=5pt,linenos]{fsharp}
-    module ExampleModule
-    open FSharkPrelude
-
-    module SomeValues =
-      let Four : int = 4
-
-      let SomePlus (x : int) (y : int) : int = x + y
-
-    [<FSharkEntry>]
-    let TimesTwo (x : int) : int =
-      SomeValues.SomePlus x x
-  
-    [<FSharkEntry>]
-    let MapPlusTwo (xs : int array) : int array =
-      Map ((+)2) xs
-
-    let PlusSeven (x : int) : int =
-      SomeValues.SomePlus x 7
-  \end{minted}
-  \caption{A valid \fshark{} program}
-  \label{fig:validfsharkprogram}
-\end{figure}
-
-\begin{itemize}
-\item The module declaration on the first line declares that the following code
-  is inside a module. In this case, we are declaring the module
-  \texttt{ExampleModule}, although we could use any valid F\# module name.
-  As shown in figure \ref{fig:validfsharkprogramresult}, the top module
-  declaration falls away during compilation, so only the top module contents are
-  left.
-
-\item This \texttt{open} statement ensures that the F\# Compiler Services has
-  access to the \fshark{}Prelude during the compilation. It is possible to write an
-  \fshark{} program which doesn't use the FSharkPrelude, but this removes access to
-  the SOACs that we use to write our data parallel programs.
-
-\item The \texttt{[<\fshark{}Entry>]} attributed function \texttt{TimesTwo} ensures
-  that the resulting Futhark library from the \fshark{} compiler has at least one
-  entry point function.
-  Without any entry point functions, we won't have any functions in the final
-  compiled \fshark{} program.
-\end{itemize}
-
-\begin{figure}
-  \centering
-\begin{lstlisting}[language=Futhark]
-    let Four : i32 = 4i32
-    let SomePlus (x : i32) (y : i32) : i32 =
-      ((x i32.+ y))
-    entry TimesTwo (x : i32) : i32 =
-      unsafe SomePlus(x) (x)
-    entry MapPlusTwo (xs : []i32) : []i32 =
-      unsafe map (let x = 2i32 in
-                  (\(y : i32) -> ((x i32.+ y)))) (xs)
-    let PlusSeven (x : i32) : i32 =
-      SomePlus(x) (7i32)
-      \end{lstlisting}
-  \caption{A valid \fshark{} program, compiled to Futhark}
-  \label{fig:validfsharkprogramresult}
-\end{figure}
-
-In figure \ref{fig:validfsharkprogramresult} we see the resulting Futhark program.
-For now, we will ignore the transformations that have happened, except for two
-things: The \texttt{Map} function (called from \fshark{}Prelude) has been rewritten
-as the plain Futhark SOAC \texttt{map} in lowercase, and the module SomeValues has been
-flattened (see sec \ref{futurework:modules} for future plans.)
-
-This Futhark program is then stored in a temporary location in the user's file
-system, and compiled into as a library, using Futhark's C\# compiler, either
-with or without OpenCL support. Finally after this compilation, we can invoke
-the resulting .dll file from within the \fshark{}-using F\# program.
 
 \subsection*{Building \fshark{} from the Typed AST}
 \label{sec:fsharkcompilerrules}
@@ -626,37 +593,6 @@ INTRODUCTION HERE
 
 For these translations, we will disregard that all \fsharpexpr{}s are union
 cases of the F\# data type \texttt{BasicPatterns}.
-
-
-\begin{figure}
-  \begin{framed}
-    
-  \centering
-\begin{tabular}{@{}l c l}% to \linewidth {l c X}
-  $\evals{Entity(\lit{IsFSharpRecord}, [(field_0 : \tau_0), \ldots, (field_n : \tau_n)])}$ & & \\
-  $= \lit{FSharkRecord([}(field_0 : \evals{\tau_0}), \ldots, (field_n : \evals{\tau_n})\lit{])}$ & & \\
-  ~ \\
-\end{tabular}
-\begin{tabular}{@{}l c l}% to \linewidth {l c X}
-  $\evals{Entity(\lit{IsFSharpTypeAbbreviation}, alias, \tau)}$ & & \\
-  $= \lit{FSharkTypeAlias(} alias, \evals{\tau}\lit{)}$ & & \\
-  ~ \\
-\end{tabular}
-\begin{tabular}{@{}l c l}% to \linewidth {l c X}
-  $\evals{Entity(\lit{IsFSharpModule}, [decl_0,\ldots,decl_n])}$ & & \\
-  $= [\evals{decl_0},\ldots,\evals{decl_n}]$ & & \\
-  ~ \\
-\end{tabular}
-\begin{tabular}{@{}l c l}% to \linewidth {l c X}
-  $\evals{MemberOrFunctionOrValue((name, \tau^{*}, IsEntryFunction), [(arg_0 : \tau_0), \ldots, (arg_n : \tau_n)], e)}$ & & \\
-  $= FSharkVal(IsEntryFunction, \lit{FSharkFunction}([\evals{\tau_0}, \ldots, \evals{\tau_n}], \evals{\tau^{*}}),name, [arg_0,..,arg_n],\evals{e})$ & & \\
-  ~ \\
-\end{tabular}
-\caption{Rules for translating FSharp declarations to FShark
-    declarations}
-  \end{framed}
-
-\end{figure}
 
 
 \begin{figure}
