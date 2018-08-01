@@ -172,10 +172,10 @@ type by reviewing the \fshark{} module's source code. We can downcast to any of
 the types usable in \fsharp{}, including tuples and arrays.
 
 \section{On the design decisions of the \fshark{} wrapper}
-To summary the current design of \fshark{} usage, \fshark{} is dependent on a
-wrapper object, which for all \fshark{} projects must compile the load the input
-\fshark{} modules once, and afterwards passes arguments from \fsharp{} to the
-resulting GPU kernels by using .NET reflection.
+To summarize, the current design of \fshark{} usage is dependent on a
+wrapper object, which for all \fshark{} projects must compile and load 
+the input \fshark{} modules once, and, afterwards, it must pass arguments 
+from \fsharp{} to the resulting GPU kernels by using .NET reflection.
 This design has several costs for both usability and performance, and we will
 here discuss some of these costs, and what we could do to alleviate them in the
 future.
@@ -185,7 +185,7 @@ At this time, \fshark{} works by compiling and loading \fshark{} modules just in
 time before they are needed in the containing \fsharp{} project. However, this
 is more often than not redundant work. For the developer who is using \fshark{} to develop
 prototypes of \fshark{} GPU kernels, it is of course beneficial to continuously
-recompile the \fshark{} program under development to verify the changes being
+recompile the \fshark{} program under development to verify that changes are being
 made.
 
 However, when the \fshark{} program is finished and ready to be used in
@@ -209,12 +209,16 @@ in the two different methods.
  Converting FSharkIL to Futhark source code             & &+   98949 ms & $\vrule$ & & & \\
  Compiling Futhark to \csharp{} with \texttt{futhark-cs}& &+ 8037165 ms & $\vrule$ & & & \\
  Compiling \csharp{} code using \csharp{} compiler      & &+  999251 ms & $\vrule$ & & & \\
- Loading compiled \csharp{} class using reflection      & &+  101601 ms & $\vrule$ & Loading and constructing class from library & &  \\
+ Loading compiled \csharp{} class using reflection      & &+  101601 ms & $\vrule$ & & & \\
+ Loading and constructing class from library & & & $\vrule$ & & &
   \end{tabular}
   \caption{Time spent on making LocVolCalib available in \fshark{}-using
     program}
   \label{benchmarkcalculations}
 \end{figure}
+
+So the dynamic compilation process takes about $10$ seconds, while running the
+accelerated program on the largest dataset takes only a couple of seconds.
 
 MORE BENCHMARKS
 
