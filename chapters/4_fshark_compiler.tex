@@ -290,27 +290,178 @@ and is used in Futhark programs that are compiled as Python libraries.
 \clearpage
 
 \chapter{The \fshark{} Compiler}
+At this point in the report, we are able to generate GPU-accelerated
+computational kernels for \csharp{}. We
+have also defined a language for writing GPU kernels using \fsharp{}, and we have
+offered several methods of integrating these compiled \csharp{} kernels in
+\fsharp{} projects. What remains is to build a compiler, that takes \fshark{}
+code as input, and returns a compiled \csharp{} library that runs GPU
+computational kernels.
 
-Parsing and building a regular F\# program is trivial when using official build tools like
+In practice, we need to build an architecture that supports the functionality
+defined in figure \ref{fig:fsharkcompilerarchitecture}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=1.15]{chapters/figs/compilerarchitecture.pdf}
+  \caption{The complete architecture from \fshark{} source code to compiled
+    \csharp{} program.}
+  \label{fig:fsharkcompilerarchitecture}
+\end{figure}
+
+
+\section{The FSharp parser}
+Parsing and building a regular \fsharp{} program is trivial when using official build tools like
 \texttt{msbuild} or \texttt{fsharpc}.
-But in the case of \fshark{}, we are not interested in the final result from the
-F\# compiler, but merely its half-finished product.
+But in the case of \fshark{}, we are not interested in the final output of the
+\fsharp{} compiler. Instead, we use only part of the \fsharp{} compiler's
+pipeline: By passing our \fshark{} source code through the \fsharp{} compiler's
+parser features, we retrieve its corresponding Typed Abstract Syntax Tree.
+
+The Typed Abstract Syntax Tree (TAST) contains the function and value declarations that makes up 
+our \fshark{} program.
+The Typed Abstract Syntax Tree is merely an AST that already has tagged all the
+contained expressions with their respective types.\\
+We take this TAST and pass it on into the \texttt{FSharkCompiler}.
 
 As the F\# Software Foundation offers the official F\# Compiler as a freely
 available NuGet package for F\# projects, we can use this package
 \texttt{FSharp.Compiler.Services} to parse the entire input \fshark{} program and
-give us a Typed Abstract Syntax Tree of the FSharp expressions therein.
+give us a Typed Abstract Syntax Tree of the FSharp expressions therein, instead
+of writing our own parser. So as the \fsharp{} parser part of the pipeline amounts to calling some library
+functions from an imported library, we will not use more time on this part.
 
-The F\# Software Foundation actively encourages developers to create projects
-using the F\# compiler library, they have published the collected F\# compiler
-as a NuGet package, alongside a tutorial\ref{fsharptutorial}on the usage of the
-various compiler parts.
+\section{The \fshark{}Compiler}
+For the \fshark{}Compiler, we need to build a module that takes an \fsharp{}
+TAST as input, and returns the corresponding program as written in an
+intermediate language defined for \fshark{}, called \fshark{}IL.\\
+The declarations in the TAST are called \texttt{FSharpDecl}s, and in \fshark{}
+we work with two kinds of \texttt{FSharpDecl}s.
 
-For \fshark{}, the Compiler Services package is used to compile a Typed Abstract
-Syntax Tree from a wellformed \fshark{} source code file, which we then
-convert into- and print as a valid Futhark program.
-The Typed Abstract Syntax Tree is merely an AST that already has tagged all the
-contained expressions with their respective types.
+The first kind is the \texttt{FSharpDecl.Entity}. Entities are \fsharp{}
+declarations that are neither functions or values
+themselves, but instead alterations to the present \fsharp{} program. 
+The \fshark{}Compiler supports three different entities.
+
+The other kind of FSharpDecl that \fshark{} supports is the \texttt{FSharpDecl.MemberOrFunctionOrValue}, which are
+declarations of members, functions and values. We don't use members in
+\fshark{}, as they are for object oriented \fsharp{} programming, but we do use
+functions and values. For all intents and purposes, \fsharp{} values are just
+functions without arguments.
+
+In total, this means that our intermediate language must also support four
+different declarations, which are the \texttt{FSharkDecl}s. These are shown in
+figure \ref{fig:fsharkdecls}.
+
+\begin{figure}
+  \centering
+\begin{tabular}{@{}l c l}% to \linewidth {l c X}
+  $Decl$ & $:=$    & $\lit{FSharkRecord}([(field_1, decl_1),\ldots,(field_n, decl_n)])$ \\
+         & $\vert$ & $\lit{FSharkTypeAlias}(name, \tau)$ \\
+         & $\vert$ & $\lit{FSharkModule}(name, [decl_1,\ldots, decl_n])$\\
+         & $\vert$ & $\lit{FSharkVal}(name, [\tau_1, \ldots, \tau_n], [arg_1, \ldots, arg_n], \tau_{return}, e)$\\
+  ~ \\
+\end{tabular}
+\caption{The four possible \texttt{FSharkDecl}s}
+\label{fig:fsharkdecls}
+\end{figure}
+
+\subsection{FSharpDecl.Entity}
+The \fshark{}Compiler supports three different entities.
+\begin{description}
+\item[FSharpRecords] are standard record types, and can be translated to
+  Futhark records with ease.
+  This entity has an empty \texttt{FSharpImplementationFileDeclaration list}.
+\item[FSharpAbbreviations] are type abbreviations, and are easily translated
+  into Futhark type aliases.
+  This entity has an empty \texttt{FSharpImplementationFileDeclaration list}.
+\item[FSharpModules] are named modules which contains subdeclarations. In
+  \fshark{} we don't support parameterized modules, so in reality the just work
+  as namespaces for functions and values.
+  The \fshark{} compiler supports building FShark modules, but current
+  limitations demands that modules are flattened when compiled to Futhark.
+  This also means that function name prefixes in function calls are stripped
+  when compiled to Futhark.
+
+  An example of this module flattening is shown in
+  figure \ref{fig:moduleflattening}. Here, the \texttt{Vec3} module is flattened
+  and made part of the outer scope of the file. 
+  Due to time constraints, this current solution was chosen.
+  The solution does introduce the danger of namespace collisions. I.e.,
+  we could get in trouble by having a function further down in figure
+  \ref{fig:moduleflattening} which was also called \texttt{plus}.
+
+  A later version of the \fshark{}Compiler could very well contain a better
+  solution to the module problem, either by translating \fshark{} modules to
+  Futhark modules, or at least by naming the flattened module declarations in a
+  special way; i.e. by keeping the containing module's name in the flattened
+  declarations' name, like in figure \ref{fig:moduleflattening'}.
+\end{description}
+
+\begin{figure}[H]
+  \centering
+\begin{minted}{fsharp}
+module Vec3 =
+    type Vec3single = {x:single ; y:single ; z:single}
+    let plus (a : Vec3single) (b : Vec3single) : Vec3single =
+        {x=a.x+b.x; y=a.y+b.y; z=a.z+b.z}
+            
+type vec3 = Vec3.Vec3single
+type mass = single
+type position = vec3
+type acceleration = vec3
+type velocity = vec3
+\end{minted}
+
+\begin{lstlisting}[language=Futhark]
+type Vec3single = {x : f32, y : f32, z : f32}
+let plus (a : Vec3single) (b : Vec3single) : Vec3single =
+  {x=((a.x + b.x)), y=((a.y + b.y)), z=((a.z + b.z))}
+
+type vec3 = Vec3single
+type mass = f32
+type position = Vec3single
+type acceleration = Vec3single
+type velocity = Vec3single
+\end{lstlisting}
+  \caption{An \fshark{} module is flattened when compiled to Futhark}
+  \label{fig:moduleflattening}
+\end{figure}
+
+  
+\begin{figure}[H]
+  \centering
+\begin{minted}{fsharp}
+module Vec3 =
+    type Vec3single = {x:single ; y:single ; z:single}
+    let plus (a : Vec3single) (b : Vec3single) : Vec3single =
+        {x=a.x+b.x; y=a.y+b.y; z=a.z+b.z}
+            
+type vec3 = Vec3.Vec3single
+\end{minted}
+
+\begin{lstlisting}[language=Futhark]
+type Vec3_Vec3single = {x : f32, y : f32, z : f32}
+let Vec3_plus (a : Vec3_Vec3single) (b : Vec3_Vec3single) : Vec3_Vec3single =
+  {x=((a.x + b.x)), y=((a.y + b.y)), z=((a.z + b.z))}
+
+type vec3 = Vec3_Vec3single
+\end{lstlisting}
+  \caption{A better way of flattening modules, so that the risk of name
+    less An \fshark{} module is flattened when compiled to Futhark}
+  \label{fig:moduleflattening'}
+\end{figure}
+
+
+
+\section{The \fshark{}Writer}
+\section{The Futhark-to-\csharp{} compiler}
+\section{The Mono \csharp{} compiler}
+
+
+
+
+
 
 We'll start with a detailed explanation of the \fshark{} Compiler Pipeline.
 
