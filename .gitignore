@@ -26,3 +26,7 @@ thesis\.toc
 thesis\.pdf
 thesis\.bbl
 thesis\.blg
+
+thesis\.out\.pyg
+
+thesis\.pyg
