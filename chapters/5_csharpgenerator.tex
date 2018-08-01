@@ -5,7 +5,8 @@ mention that the generator is implemented by me, but all the design is inspired
 by the already existing Python and C backends.
 
 \section{Recap on using Futhark \csharp{} libraries}
-For a given Futhark program (such as figure \ref{fig:shortfutharkprogram3'}), we want to be able to compile the program to a
+For a given Futhark program (such as the one shown in figure \ref{fig:shortfutharkprogram3'}), 
+we want to be able to compile the program to a
 \csharp{} library from the command line like shown in figure \ref{fig:shortfutharkprogram4'}.
 This results in a compiled \csharp{} dynamically linked library\footnote{A
   \texttt{.dll} file}.
@@ -57,112 +58,63 @@ public class Program
 \subsection{Compiling and using Futhark \csharp{} executables}
 \label{subsec:futharkcsexe}
 Not all users are interested in using Futhark programs as parts in other code
-projects. Instead, these users can opt to compile Futhark programs to
+projects. Instead, these users can opt to compile Futhark programs into
 executables. Recalling the Futhark example in
 \Cref{fig:shortfutharkprogram3',fig:shortfutharkprogram4',fig:shortfutharkprogram5'},
 we instead opt to compile the Futhark program as an executable program.
 
 Keeping the Futhark source file \texttt{mapPlus2.fut} from
 \ref{fig:shortfutharkprogram3'}, we use futhark-cs to compile the program into
-an executable from the command line, shown in figure \ref{fig:shortfutharkprogram4''}.
-Here, the compiler outputs an executable called \texttt{MapPlus2} next to the
-original source file.
-
-We can now execute this program in one of two ways.
-Either, we write our arguments in a string on the command line, and
-\texttt{echo} them through a pipe into the executable. This method is shown in
-figure \ref{fig:shortfutharkprogram5''}. Here, the one argument we are using is
-an integer array. We pass the array to the executable, and it prints the result
-to \texttt{stdout} after it has finished. The \texttt{i32}'s tells us that the
-integers are 32 bit signed integers.
-For multi-argument entry functions, we separate the arguments with whitespace.
-
-For the second method, we store our arguments in a dataset file. For example, we
-can store our integer array in a plain text file, shown in figure \ref{fig:array.in}.
-
-We can then use the command line to redirect the contents of the dataset file
-into our command, as shown in figure \ref{fig:shortfutharkprogram5'''}.
-
-If we want to, we can redirect the output from stdout to a file of our own
-choice, shown in figure \ref{fig:shortfutharkprogram6'}. Here, we redirect
-Futhark's output to \texttt{result.txt}, and print it to \texttt{stdout} using
-\texttt{cat} to confirm that we indeed have our correct result.
-
-
-\begin{figure}[H]
-  \centering
-\begin{subfigure}
-  
+an executable; the command line is shown below: %in figure \ref{fig:shortfutharkprogram4''}.
   \begin{lstlisting}[language=sh]
 $ futhark-cs -o MapPlus2 mapPlus2.fut
   \end{lstlisting}
-  \caption{We call the Futhark-to-\csharp{} compiler \texttt{futhark-cs} on
-    mapPlus2.fut}
-  \label{fig:shortfutharkprogram4''}
-\end{subfigure}
+%
+Here, the compiler produces an executable named \texttt{MapPlus2} from the
+original source file, named {\tt mapPlus2.fut}.
 
-\vspace{1em} 
-
-\begin{subfigure}
-  
+We can now execute this program in one of two ways.
+The first way is to write our arguments in a string in the command line, and
+to \texttt{echo} them through a pipe into the executable, as shown below:
   \begin{lstlisting}[language=sh]
 $ echo "[1,2,3,4,5,6,7]" | ./MapPlus2
-[1i32, 2i32, 3i32, 4i32, 5i32, 6i32, 7i32]
+[3i32, 4i32, 5i32, 6i32, 7i32, 8i32, 9i32]
   \end{lstlisting}
-  \caption{Piping arguments wrapped in a string into our Futhark executable}
-  \label{fig:shortfutharkprogram5''}
-\end{subfigure}
+%This method is shown in figure \ref{fig:shortfutharkprogram5''}. 
+Here, the one argument we are using is 
+an integer array. We pass the array to the executable, and it prints the result
+to \texttt{stdout} after it has finished. The \texttt{i32}'s tells us that the
+result array holds 32 bit signed integers.
+For multi-argument entry functions, we separate the arguments with whitespace.
 
-\vspace{1em} 
-
-\begin{subfigure}
-  
+For the second method, we store our arguments in a dataset file. For example, we
+can store our integer array in a plain text file, named {\tt array.in}, 
+as shown below: %shown in figure \ref{fig:array.in}.
   \begin{lstlisting}
 [1,2,3,4,5,6,7]
   \end{lstlisting}
-  \caption{The contents of \texttt{array.in}}
-  \label{fig:array.in}
-\end{subfigure}
-
-\vspace{1em} 
-
-\begin{subfigure}
-  
+We can then use the command line to redirect the contents of the dataset file
+into our command:
+%as shown in figure \ref{fig:shortfutharkprogram5'''}.
   \begin{lstlisting}[language=sh]
 $ ./MapPlus2 < array.in
-[1i32, 2i32, 3i32, 4i32, 5i32, 6i32, 7i32]
+[3i32, 4i32, 5i32, 6i32, 7i32, 8i32, 9i32]
   \end{lstlisting}
-  \caption{Redirecting arguments stored in a dataset file into our Futhark executable}
-  \label{fig:shortfutharkprogram5'''}
-\end{subfigure}
-
-\vspace{1em} 
-
-\begin{subfigure}
-  
+If we want to, we can redirect the output from stdout to a file of our own
+choice: %shown in figure \ref{fig:shortfutharkprogram6'}. 
   \begin{lstlisting}[language=sh]
 $ ./MapPlus2 < array.in > result.txt
 $ cat result.txt
-[1i32, 2i32, 3i32, 4i32, 5i32, 6i32, 7i32]
+[3i32, 4i32, 5i32, 6i32, 7i32, 8i32, 9i32]
   \end{lstlisting}
-  \caption{Redirecting Futhark output into file, and printing said file to
-    \texttt{stdout} afterwards.}
-  \label{fig:shortfutharkprogram6'}
-\end{subfigure}
-\end{figure}
+Here, we redirect Futhark's output to \texttt{result.txt}, and print it to 
+\texttt{stdout} by using \texttt{cat} to confirm that we have obtained indeed 
+the correct result.
 
 \clearpage
 
-
-
-
-
-
-
-
-
 \section{The Futhark \csharp{} compiler architecture}
-In figure \ref{fig:futharkcompilerhighlevel} we showed a rough sketch of the
+In figure \ref{fig:ccompiler} we showed a rough sketch of the
 Futhark compiler's architecture. To sufficiently explore the contribution of
 this thesis, we will however first need a more detailed view of the architecture
 we need to implement to accomplish our goal.
@@ -185,8 +137,8 @@ We will now describe its three main steps:
 
   This first part of the Futhark compiler is responsible for parsing the passed
   Futhark program, including imports, and performs all type checks, SOAC
-  optimizations, fusions and so on\ref{}. The result of this process is a
-  Futhark program expressed in Futhark's internal intermediate language called \texttt{ImpCode}.
+  optimizations, fusions and so on~\cite{pldi17}. The result of this process is a
+  Futhark program expressed in imperative internal intermediate called \texttt{ImpCode}.
   The \texttt{ImpCode} grammar is included in the appendix. The \texttt{ImpCode}
   language contains everything from memory operations like allocating and
   deallocation memory (both on system memory and on the GPU), interfacing with
@@ -197,7 +149,7 @@ We will now describe its three main steps:
 \item[Step 2:]\hfill\\
   The \csharp{} code generator takes the Futhark program written in
   \texttt{ImpCode}, and expresses it as \csharp{} source code.
-  In example, we can take the simple \texttt{ImpCode} expression in figure \ref{fig:impcode},
+  For example, we can take the simple \texttt{ImpCode} expression in figure \ref{fig:impcode},
   and rewrite it as \csharp{} code, shown in figure \ref{fig:impcodeascs}.
   \begin{figure}[H]
     \centering
@@ -224,8 +176,8 @@ int x = 4 + 5;
 Besides taking an \texttt{ImpCode} program as input, it also embeds a set of
 prewritten \csharp{} libraries\footnote{\texttt{reader.cs} et al} into the generated \csharp{} code. These
 libraries are ncessary for the finished \csharp{} program, and are described in
-sec \ref{sec:runtimelibs}.\\
-The finished \csharp{} source code is passed to a \csharp{} compiler, but also
+section~\ref{sec:runtimelibs}.\\
+The resulted \csharp{} source code is passed to a \csharp{} compiler, but also
 written to disk so it is available for the developer.
 
 \item[Step 3:]\hfill\\
@@ -237,30 +189,31 @@ written to disk so it is available for the developer.
   reference two extra external libraries \texttt{Mono.Options.dll} and
   \texttt{Cloo.clSharp.dll}, as we need these libraries in the Futhark \csharp{} programs.
 
-  We also add the library flag so \texttt{csc} compiles to a \texttt{.dll} file instead of
+  We also add the library flag ({\tt -lib}) so that \texttt{csc} compiles to a \texttt{.dll} file instead of
   generating an executable. Finally we add the \texttt{/unsafe} flag so the
   compiler allows us to use \texttt{unsafe} statements in the \csharp{} program.
 
 \begin{figure}[H]
   \centering
   \begin{lstlisting}[language=sh]
-$ csc -lib:$MONO_PATH \
-      -r:Mono.Options.dll -r:Cloo.clSharp.dll /unsafe mapPlus2.cs
+$ csc -lib:$MONO_PATH -r:Mono.Options.dll \
+      -r:Cloo.clSharp.dll /unsafe mapPlus2.cs
   \end{lstlisting}
-  \caption{We call the \csharp{} compiler in mapPlus2.cs}
+  \caption{Calling the \csharp{} compiler on the resulted {\tt mapPlus2.cs} file.}
   \label{fig:callcsc}
 \end{figure}
 
 However, the last step in \texttt{futhark-cs} does this for the user
-automatically, as long as the user has the set the required \texttt{\$MONO\_PATH}
+automatically, as long as the user has set the required \texttt{\$MONO\_PATH}
 variable, and that the directory that \texttt{\$MONO\_PATH} points to, contains the
 required libraries.
 
 \end{description}
 
-This thesis leverages the software that are used in step 1 and 3, but has not
-contributed to them. Instead, this thesis implements the code generator
-described in step 2.
+This thesis leverages the already existent Futhark codebase to implement 
+steps 1 and 3, hence does not bring important contributions to them. 
+Instead, the contribution of this thesis refers to implementing the 
+code generator described in step 2.
 
 \subsection{Designing the Futhark \csharp{} generator}
 In the grand scheme of things, the Futhark \csharp{} generator is not
