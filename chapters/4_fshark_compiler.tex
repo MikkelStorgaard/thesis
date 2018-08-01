@@ -579,7 +579,7 @@ e & $=$ &   Const(obj, $\tau$) \\
  & $\vert$ &   Value(v) \\
  & $\vert$ &   AddressOf(v) \\
  & $\vert$ &   NewTuple($\_, [e_0,...,e_n]$) \\
- & $\vert$ &   NewRecord(($v_0 : \tau_0 * \ldots * v_n : \tau_n), [e_0,...,e_n]$) \\
+ & $\vert$ &   NewRecord([$(v_0 , e_0),~\ldots,~(v_n , e_n)$]) \\
  & $\vert$ &   NewArray($\tau, [e_0,...,e_n]$) \\
  & $\vert$ &   TupleGet($\_$, i, e) \\
  & $\vert$ &   FSharpFieldGet($e, \_, field$) \\
@@ -604,8 +604,11 @@ e & $=$ &   Const(obj, $\tau$) \\
 Now that we have the \fsharp{} expressions and types in order, we can translate
 them into our \fshark{} intermediate language, \fshark{}IL.
 
-Continuing the example from figure \ref{fig:fsharpexprs0}, we will three
-examples of such translations in figure \ref{fsharkexprs2}.
+Continuing the example from figure \ref{fig:fsharpexprs0}, we will see three
+examples of such translations in figure \ref{fig:fsharkexprs2}.
+As expressions in \fshark{}IL happens to look very much like \fshark{}s own
+expressions, I will refer to sec \ref{sec:fsharpexprs} for the explanation of the
+code in the figure.
 
 \begin{figure}[H]
   \centering
@@ -656,42 +659,27 @@ examples of such translations in figure \ref{fsharkexprs2}.
   )
 
   ; example 3
-  Let a Const(2.0f, System.Single)
+  LetIn a Const(2.0f, FSingle)
   (
-    Let foo (Lambda ([(x, System.Single)]) 
-                   (Call Plus System.Single 
-                     ([Value x, Const(3.0f, System.Single)])
+    LetIn foo (Lambda ([(x, FSingle)]) 
+                   (TypedCall FSingle Plus
+                     ([Var x, Const(3.0f, FSingle)])
                    ))
     (
-      Application foo ([Value a])
+      Application foo ([Var a])
     )
 
   )
 \end{minted}
-  \caption{Three \fsharp{} expressions, and their representation as
-    \texttt{FSharpExpr}s}
-  \label{fig:fsharpexprs0}
+  \caption{Three \texttt{FSharpExpr}s expressions, and their representation as \texttt{FSharkExpr}s}
+  \label{fig:fsharpexprs2}
 \end{figure}
 
+The complete set of rules for translating .NET types to \fshark{} types are
+available in figure \ref{fig:.nettofsharktypes}, and the complete set of rules
+for translating \texttt{FSharpExpr}s to \texttt{FSharkExpr}s are shown in figure \ref{fig:fsharpexprstofsharkexprs}.
 
-\section{The \fshark{}Writer}
-\section{The Futhark-to-\csharp{} compiler}
-\section{The Mono \csharp{} compiler}
-
-
-\subsection*{Building \fshark{} from the Typed AST}
-\label{sec:fsharkcompilerrules}
-Only the supported FSharpExpr's has been listed here, but the full range of
-FSharpExpr's are available on \cite{typedtree}.
-
-\subsection*{FSharp-to-\fshark{}IL rules}
-INTRODUCTION HERE
-
-For these translations, we will disregard that all \fsharpexpr{}s are union
-cases of the F\# data type \texttt{BasicPatterns}.
-
-
-\begin{figure}
+\begin{figure}[H]
   \centering
 \begin{tabular}{@{}l c l}% to \linewidth {l c X}
   $\evals{System.Int8}$ & $=$ & $\lit{FInt8} $ \\ 
@@ -714,11 +702,60 @@ cases of the F\# data type \texttt{BasicPatterns}.
   \\
   $\evals{System.Tuple~(\tau_0 \times \ldots \times \tau_n)}$ & $=$ & $\lit{\fshark{}Tuple}~(\evals{\tau_0}~\times~\ldots~\times~\evals{\tau_n)}$ \\ ~ \\
 \end{tabular}
+\caption{Translation rules for .NET-types to \fshark{}IL-types translations.}
+\label{fig:.nettofsharktypes}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{tabular}{@{}l c l}% to \linewidth {l c X}
+  $\evals{Const(obj, \tau)}$ & $=$ & $\lit{Const(}obj, \evals{\tau} \lit{)}$ \\
+  $\evals{Value(v)}$ & $=$ & $\lit{Var(}v{)}$ \\
+  $\evals{AddressOf(v)}$ & $=$ & $\evals{v}$ \\
+  $\evals{NewTuple(\_, [e_0,...,e_n])}$ & $=$ & $\lit{Tuple([}\evals{e_0},\ldots, \evals{e_n}\lit{])}$ \\
+  $\evals{NewRecord([(v_0 , e_0),~\ldots,~(v_n , e_n)])}$ & $=$ & $\lit{Record([}(v_0,\evals{e_0}),\ldots,(v_n,\evals{e_n})\lit{])}$ \\
+  $\evals{NewArray(\tau, [e_0,...,e_n])}$ & $=$ & $\lit{List(}\evals{\tau},\lit{[}\evals{e_0},\ldots, \evals{e_n}\lit{]}\lit{)}$ \\
+  $\evals{TupleGet(\_, i, e)}$ & $=$ & $\lit{TupleGet(}\evals{e}, i{)}$ \\
+  $\evals{FSharpFieldGet(e, \_, field)}$ & $=$ & $\lit{RecordGet(}field, \evals{e}{)}$ \\
+    $\evals{Call(\_, \lit{GetArray}, \_, nil, [e_0, e_1])}$ & $=$ & $\lit{ArrayIndex(}\evals{e_0},\evals{e_1}]\lit{)}$ \\
+    $\evals{Call(\_, name, \_, nil, [e_0, \ldots, e_n])}$ & $=$ & $\lit{Call(}name, [\evals{e_0},\ldots,\evals{e_n}]\lit{)}$ \\
+    $\evals{Call(\_, name, \_, \tau, [e_0, \ldots, e_n])}$ & $=$ & $\lit{TypedCall(}\evals{\tau},name, [\evals{e_0}, \ldots, \evals{e_n}]\lit{)}$ \\
+    $\evals{Call(\_, infixOp, \_, \tau, [e_0, e_1])}$ & $=$ & $\lit{InfixOp(}infixOp, \evals{\tau}, \evals{e_0}, \evals{e_1}\lit{)}$ \\
+    $\evals{Call(\_, unaryOp, \_, \tau, [e_0])}$ & $=$ & $\lit{UnaryOp(}unaryOp, \evals{\tau}, \evals{e_0}\lit{)}$ \\
+  $\evals{Let(v, e_0, e_1)}$ & $=$ & $\lit{LetIn(}v, \evals{e_0}, \evals{e_1}\lit{)}$ \\
+  $\evals{IfThenElse(e_0, e_1, e_2)}$ & $=$ & $\lit{If(}\evals{e_0}, \evals{e_1}, \evals{e_2}\lit{)}$ \\
+  $\evals{Lambda((v : \tau), e)}$ & $=$ & $\lit{Lambda(}v, \evals{\tau}, \evals{e} \lit{)}$ \\
+  $\evals{Application(func, \_, [e_0, \ldots, e_n])}$ & $=$ & $\lit{Application(}\evals{func}, \lit{[}\evals{e_0},\ldots, \evals{e_n}\lit{])}$ \\
+  $\evals{TypeLambda(e)}$ & $=$ & $\evals{e}$ \\
+  $\evals{DecisionTree(\_, \_)}$ & $=$ & $\lit{Pass}$ \\
+  $\evals{DecisionTreeSuccess(\_, \_)}$ & $=$ & $\lit{Pass}$ \\ ~ \\
+\end{tabular}
+\caption{Translation rules for FSharp expressions to FSharkIL expressions}
+\label{fig:fsharpexprstofsharkexprs}
+\end{figure}
+  
+
+
+
+\section{The \fshark{}Writer}
+\section{The Futhark-to-\csharp{} compiler}
+\section{The Mono \csharp{} compiler}
+
+
+\subsection*{Building \fshark{} from the Typed AST}
+\label{sec:fsharkcompilerrules}
+Only the supported FSharpExpr's has been listed here, but the full range of
+FSharpExpr's are available on \cite{typedtree}.
+
+\subsection*{FSharp-to-\fshark{}IL rules}
+INTRODUCTION HERE
+
+For these translations, we will disregard that all \fsharpexpr{}s are union
+cases of the F\# data type \texttt{BasicPatterns}.
+
+
 
 INSERT NOTE ON RULE FOR TUPLE ('a [] * long [])
-
-\caption{Rules for translating .NET types to FSharkIL types}
-\end{figure}
 
 \begin{figure}
   \centering
@@ -745,34 +782,6 @@ INSERT NOTE ON RULE FOR TUPLE ('a [] * long [])
 \caption{\texttt{\fshark{}IL} types to Futhark types}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \begin{tabular}{@{}l c l}% to \linewidth {l c X}
-  $\evals{Const(obj, \tau)}$ & $=$ & $\lit{Const(}obj, \evals{\tau} \lit{)}$ \\
-  $\evals{Value(v)}$ & $=$ & $\lit{Var(}v{)}$ \\
-  $\evals{AddressOf(v)}$ & $=$ & $\evals{v}$ \\
-  $\evals{NewTuple(\_, [e_0,...,e_1])}$ & $=$ & $\lit{Tuple([}\evals{e_0},\ldots, \evals{e_n}\lit{])}$ \\
-  $\evals{NewRecord((v_0 : \tau_0 * \ldots * v_n : \tau_n), [e_0,...,e_1])}$ & $=$ & $\lit{Record([}(v_0,\evals{e_0}),\ldots,(v_n,\evals{e_n})\lit{])}$ \\
-  $\evals{NewArray(\tau, [e_0,...,e_1])}$ & $=$ & $\lit{List(}\evals{\tau},\lit{[}\evals{e_0},\ldots, \evals{e_n}\lit{]}\lit{)}$ \\
-  $\evals{TupleGet(\_, i, e)}$ & $=$ & $\lit{TupleGet(}\evals{e}, i{)}$ \\
-  $\evals{FSharpFieldGet(e, \_, field)}$ & $=$ & $\lit{RecordGet(}field, \evals{e}{)}$ \\
-    $\evals{Call(\_, \lit{GetArray}, \_, nil, [e_0, e_1])}$ & $=$ & $\lit{ArrayIndex(}\evals{e_0},\evals{e_1}]\lit{)}$ \\
-    $\evals{Call(\_, name, \_, nil, [e_0, \ldots, e_n])}$ & $=$ & $\lit{Call(}name, [\evals{e_0},\ldots,\evals{e_n}]\lit{)}$ \\
-    $\evals{Call(\_, name, \_, \tau, [e_0, \ldots, e_n])}$ & $=$ & $\lit{TypedCall(}\evals{\tau},name, [\evals{e_0}, \ldots, \evals{e_n}]\lit{)}$ \\
-    $\evals{Call(\_, infixOp, \_, \tau, [e_0, e_1])}$ & $=$ & $\lit{InfixOp(}infixOp, \evals{\tau}, \evals{e_0}, \evals{e_1}\lit{)}$ \\
-    $\evals{Call(\_, unaryOp, \_, \tau, [e_0])}$ & $=$ & $\lit{UnaryOp(}unaryOp, \evals{\tau}, \evals{e_0}\lit{)}$ \\
-  $\evals{Let(v, e_0, e_1)}$ & $=$ & $\lit{LetIn(}v, \evals{e_0}, \evals{e_1}\lit{)}$ \\
-  $\evals{IfThenElse(e_0, e_1, e_2)}$ & $=$ & $\lit{If(}\evals{e_0}, \evals{e_1}, \evals{e_2}\lit{)}$ \\
-  $\evals{Lambda((v : \tau), e)}$ & $=$ & $\lit{Lambda(}v, \evals{\tau}, \evals{e} \lit{)}$ \\
-  $\evals{Application(func, \_, [e_0, \ldots, e_n])}$ & $=$ & $\lit{Application(}\evals{func}, \lit{[}\evals{e_0},\ldots, \evals{e_n}\lit{])}$ \\
-  $\evals{TypeLambda(e)}$ & $=$ & $\evals{e}$ \\
-  $\evals{DecisionTree(\_, \_)}$ & $=$ & $\lit{Pass}$ \\
-  $\evals{DecisionTreeSuccess(\_, \_)}$ & $=$ & $\lit{Pass}$ \\ ~ \\
-\end{tabular}
-\caption{Translation rules for FSharp expressions to FSharkIL expressions}
-\end{figure}
-
-  
 \begin{figure}
   \centering
   \begin{tabular}{@{}l c l}% to \linewidth {l c X}
