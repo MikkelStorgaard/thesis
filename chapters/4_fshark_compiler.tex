@@ -1,21 +1,25 @@
 \chapter{The \fshark{} Wrapper}
 In this chapter we will first demonstrate how to compile and use an \fshark{}
 module within an \fsharp{} project.
-Then, we will explain the \fshark{} Compiler and it's pipeline.
+We will then delve further into how and why compiled \fshark{} functions are actually
+invoked through through a wrapper class called the \fsharkwrapper{}.
 
-mere here
-
-Although \fshark{} code can be executed directly in \fsharp{} as normal
-\fsharp{} code, our benchmarks in chapter \ref{chap:evaluation} shows
-that compiling our \fshark{} code to Futhark OpenCL modules gives us performance
-increases by several orders of magnitudes (from $\times 100~\text{to}~\times 1000$).
+Finally, we will discuss the performance disadvantages that comes with the
+current implementation of the \fshark{} wrapper.
 
 \section{Using the \fshark{} Wrapper}
 \label{sec:fsharkcompiler}
+Although \fshark{} code can be executed directly in \fsharp{} as normal
+\fsharp{} code, our benchmarks in chapter \ref{chap:evaluation} shows
+that compiling our \fshark{} code to Futhark GPU modules gives us performance
+increases by several orders of magnitudes (from $\times 100~\text{to}~\times 1000$).
 
+We therefore need to implement a wrapper which enables us to compile our
+\fshark{} programs as well as utilize them in our \fsharp{} programs.
 \subsection{Another short \fshark{} module}
-\begin{figure}[H]
-  \centering
+Below we see a simple \fshark{} module that we
+want to compile into a GPU kernel and use in our \fsharp{} program.
+
 \begin{minted}[linenos]{fsharp}
 module ExampleModule
 open FSharkPrelude
@@ -35,12 +39,6 @@ let entry (a : int) : int array =
   let res = Map2 (saxpy a) xs ys
   in res
 \end{minted}
-  \caption{A short \fshark{} module in a file named ExampleModule.fs}
-  \label{fig:fsharkusageexample0}
-\end{figure}
-
-In figure \ref{fig:fsharkusageexample0} we see a simple \fshark{} module that we
-want to compile into a GPU kernel and use in our \fsharp{} program.
 \\
 Line by line, this module does the following:\\
 \textbf{L1:} We define the name of this module as \texttt{ExampleModule}. If we
@@ -294,6 +292,13 @@ and is used in Futhark programs that are compiled as Python libraries.
 \clearpage
 
 \chapter{The \fshark{} Compiler}
+In this chapter, we present the \fshark{} compiler pipeline.
+We first present the compiler architecture, and followingly describe the four
+parts of the compiler piece by piece, with accompanying compilation and
+translation examples.
+
+\section{The \fshark{} compiler architecture}
+
 At this point in the report, we are able to generate GPU-accelerated
 computational kernels for \csharp{}. We
 have also defined a language for writing GPU kernels using \fsharp{}, and we have
@@ -370,23 +375,8 @@ The \fshark{}Compiler supports three different entities.
   This also means that function name prefixes in function calls are stripped
   when compiled to Futhark.
 
-  An example of this module flattening is shown in
-  figure \ref{fig:moduleflattening}. Here, the \texttt{Vec3} module is flattened
-  and made part of the outer scope of the file. 
-  Due to time constraints, this current solution was chosen.
-  The solution does introduce the danger of namespace collisions. I.e.,
-  we could get in trouble by having a function further down in figure
-  \ref{fig:moduleflattening} which was also called \texttt{plus}.
+  An example of this module flattening is shown below.
 
-  A later version of the \fshark{}Compiler could very well contain a better
-  solution to the module problem, either by translating \fshark{} modules to
-  Futhark modules, or at least by naming the flattened module declarations in a
-  special way; i.e. by keeping the containing module's name in the flattened
-  declarations' name, like in figure \ref{fig:moduleflattening'}.
-\end{description}
-
-\begin{figure}[H]
-  \centering
 \begin{minted}{fsharp}
 module Vec3 =
     type Vec3single = {x:single ; y:single ; z:single}
@@ -411,13 +401,21 @@ type position = Vec3single
 type acceleration = Vec3single
 type velocity = Vec3single
 \end{lstlisting}
-  \caption{An \fshark{} module is flattened when compiled to Futhark}
-  \label{fig:moduleflattening}
-\end{figure}
 
-  
-\begin{figure}[H]
-  \centering
+  Here, the \texttt{Vec3} module is flattened
+  and made part of the outer scope of the file. 
+  Due to time constraints, this current solution was chosen.
+  The solution does introduce the danger of namespace collisions. I.e.,
+  we could get in trouble by having a function further down in figure
+  \ref{fig:moduleflattening} which was also called \texttt{plus}.
+
+  A later version of the \fshark{}Compiler could very well contain a better
+  solution to the module problem, either by translating \fshark{} modules to
+  Futhark modules, or at least by naming the flattened module declarations in a
+  special way; i.e. by keeping the containing module's name in the flattened
+  declarations' name, like in the example below:
+\end{description}
+
 \begin{minted}{fsharp}
 module Vec3 =
     type Vec3single = {x:single ; y:single ; z:single}
@@ -434,10 +432,6 @@ let Vec3_plus (a : Vec3_Vec3single) (b : Vec3_Vec3single) : Vec3_Vec3single =
 
 type vec3 = Vec3_Vec3single
 \end{lstlisting}
-  \caption{A better way of flattening modules, so that the risk of name
-    less An \fshark{} module is flattened when compiled to Futhark}
-  \label{fig:moduleflattening'}
-\end{figure}
 
 \subsection{FSharpDecl.MemberOrFunctionOrValue}
 HMMMM MERE HER.
@@ -531,10 +525,8 @@ applies the list of arguments one by one to the function or lambda.
   \label{fig:fsharpexprs0}
 \end{figure}
 
-The entire set of \texttt{FSharpExpr}s used in the \fshark{}Compiler is
-available in figure \ref{fig:fsharpexprs1}.
-
-The entire set of .NET types used in the \fshark{}Compiler is
+The entire set of \texttt{FSharpExpr}s used in the \fsharkcompiler{} is
+available in figure \ref{fig:fsharpexprs1}, and the entire set of .NET types used in the \fshark{}Compiler is
 available in figure \ref{fig:fsharptypes0}.
 
 \subsection{Translating from FSharpExprs to \fshark{}IL}
