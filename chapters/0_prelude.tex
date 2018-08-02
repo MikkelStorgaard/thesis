@@ -1,26 +1,49 @@
 \maketitle{}
 
-\clearpage
-
-
-
 \begin{abstract}
-  \large{ Here is a nice abstract} \\
-  prut prut
+  Futhark is a purely functional programming language, designed to be compiled
+  to efficient GPU code.
+  The GPU code has both C and Python interfaces, but does not interoperate with
+  larger mainstream languages.
 
+  We first describe and implement a \csharp{} code generator that allows GPU kernels
+  written in Futhark to be compiled and used as external libraries in \csharp{}-
+  and \fsharp{} programs.
+
+  We then describe and implement the language \fshark{}, which lets developers
+  write and prototype their own GPU code entirely as declarative \fsharp{} code.
+  The language comes with a compiler of its own, which compiles \fshark{}
+  programs to Futhark code.
+
+  We argue that the \fshark{}-to-Futhark translations are correct by comparing
+  the results of \fsharp{}-evaluated \fshark{} code with their Futhark-evaluated
+  counterparts.
+
+  We show that Futhark can be compiled to \csharp{} GPU code without significant
+  ($\pm 1\%$)
+  runtime reductions (speedups) compared to C- and Python GPU code,
+  by comparing runtimes across over 30 Futhark benchmark programs ported from other array
+  programming.
+
+  Finally, we show that complex GPU benchmarks can be
+  succesfully ported from Futhark to \fshark{} without significant rewriting.
+  The benchmarks are compiled to GPU code and executed in an \fsharp{} context
+  without significant speed decreases compared to the original Futhark versions.
 \end{abstract}
 
-
-
-
-
-
-
-
 \clearpage
+ 
 \tableofcontents
 
-\chapter*{}
+\clearpage
+
+\chapter*{Preface}
+This thesis is submitted in fulfillment of a 30 ECTS master's thesis in Computer
+Science (Datalogi) at the University of Copenhagen, for Mikkel Storgaard Knudsen.
+
+(Front page picture: The humble hedgehog is a peaceful omnivore firmly placed in
+the lower-middle part of the food chain. However, sneaky disguises occasionally allows it
+to partake in feasts that are otherwise reserved for apex predators.)
 
 %%% Local Variables:
 %%% mode: latex

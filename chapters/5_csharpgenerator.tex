@@ -1,8 +1,17 @@
 \chapter{The Futhark \csharp{} backend}
-In this chapter we 
-COOL INTRODUCTION
-mention that the generator is implemented by me, but all the design is inspired
-by the already existing Python and C backends.
+In this chapter we first demonstrate how we want to use Futhark-generated
+\csharp{} GPU libraries in \csharp{} programs. We then describe the architecture
+needed for compiling such \csharp{} libraries using the Futhark compiler, and
+what features we need in our code generator to successfully generate standalone
+\csharp{} programs embedded Futhark-generated GPU kernels. 
+We then show the finished design of the generated Futhark \csharp{} code, and
+describe the segments in the code segment by segment.
+
+We discuss choices taken for memory management in Futhark \csharp{} programs,
+and compare different methods of memory management by their runtime performance.
+
+Finally, we discuss how and why the OpenCL library ``\texttt{Cloo}'' was chosen
+as a backend for Futhark's \csharp{} compiler.
 
 \section{Recap on using Futhark \csharp{} libraries}
 For a given Futhark program (such as the one shown in figure \ref{fig:shortfutharkprogram3'}), 

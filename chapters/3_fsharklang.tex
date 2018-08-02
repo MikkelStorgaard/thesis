@@ -1,10 +1,24 @@
 \chapter{The \fshark{} language}
+In this chapter we present the \fshark{} language and it's standard library.
+We start out by presenting \fshark{}'s syntax and discussing the syntax's
+limitations.
+Afterwards we present first the built-in \fsharp{} operators and \fsharp{}
+standard library functions available in \fshark{}.
+We then present our own standard library written specifically for \fshark{}, and
+discuss why we implemented our own standard library instead of using the
+standard library already available in \fsharp{}.
+
+Then, we discuss how array types are implemented in \fshark{}, and how
+\fsharp{} arrays differ from Futhark arrays.
+Finally, we describe and solve the implementation challenges caused by our
+design choices, and discuss alternative solutions to the one that was chosen.
+
+\section{What the \fshark{} language is}
 \label{chap:fsharklanguage}
 The second contribution of this thesis is a high level programming language,
 which can be compiled automatically to GPU kernels that are readily usable in
 a mainstream programming language.
 
-In this chapter we present the \fshark{} language.
 The \fshark{} language is the sum of two parts: \\
 1) The \fshark{} subset, which is a defined subset of the \fsharp{} language and
 the \fsharp{} standard library.\\
