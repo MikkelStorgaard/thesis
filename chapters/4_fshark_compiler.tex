@@ -602,9 +602,15 @@ them into our \fshark{} intermediate language, \fshark{}IL.
 
 Continuing the example from figure \ref{fig:fsharpexprs0}, we will see three
 examples of such translations in figure \ref{fig:fsharkexprs2}.
-As expressions in \fshark{}IL happens to look very much like \fshark{}s own
-expressions, I will refer to sec \ref{sec:fsharpexprs} for the explanation of the
-code in the figure.
+The expressions as written in \fshark{}IL happens to look very much like \fshark{}s own
+expressions, except for one thing. In \fsharp{}, infix operators are translated
+into normal function calls at compilation.
+
+Therefore, the \fshark{}Compiler detects these specific function calls (the calls to infix operators), and 
+translates them back into infix operations.
+Although it would possible to treat infix operators as functions in the
+\fshark{} generated Futhark code, we have chosen to write the
+operator calls as infix operations, for readability.
 
 \begin{figure}[H]
   \centering
@@ -649,7 +655,7 @@ code in the figure.
     (
       LetIn b (TupleGet tuple 2) 
       (
-        TypedCall FInt32 Plus ([Var a, Var b])
+        InfixOp Plus FInt32 (Var a) (Var b)
       )       
     )
   )
@@ -658,9 +664,8 @@ code in the figure.
   LetIn a Const(2.0f, FSingle)
   (
     LetIn foo (Lambda ([(x, FSingle)]) 
-                   (TypedCall FSingle Plus
-                     ([Var x, Const(3.0f, FSingle)])
-                   ))
+                   (InfixOp Plus FSingle (Var x) (Const(3.0f, FSingle)))
+              )
     (
       Application foo ([Var a])
     )
@@ -674,6 +679,10 @@ code in the figure.
 The complete set of rules for translating .NET types to \fshark{} types are
 available in figure \ref{fig:.nettofsharktypes}, and the complete set of rules
 for translating \texttt{FSharpExpr}s to \texttt{FSharkExpr}s are shown in figure \ref{fig:fsharpexprstofsharkexprs}.
+
+With the \texttt{FSharpExpr}s translated to \texttt{FSharkExpr}s, we can pass
+the entire program as written in \fshark{} intermediate code onto the next part
+of the compiler pipeline; the \fshark{}Writer.
 
 \begin{figure}[H]
   \centering
@@ -729,13 +738,82 @@ for translating \texttt{FSharpExpr}s to \texttt{FSharkExpr}s are shown in figure
 \caption{Translation rules for FSharp expressions to FSharkIL expressions}
 \label{fig:fsharpexprstofsharkexprs}
 \end{figure}
-  
-
-
 
 \section{The \fshark{}Writer}
-\section{The Futhark-to-\csharp{} compiler}
-\section{The Mono \csharp{} compiler}
+The \fshark{}Writer takes programs written in \fshark{}s intermediate language,
+and translates them into valid Futhark source code.
+
+Continuing the example from figure \ref{fig:fsharpexprs2}, we will see three
+examples of such translations in figure \ref{fig:fsharkexprs3}.
+
+\begin{figure}[H]
+  \centering
+\begin{minted}{lisp}
+  ; example 1
+  Tuple ([Const(79, FInt32), Const(42.0f, FSingle)])
+
+  ; example 2
+  LetIn tuple (Tuple([Const(79, FInt32), Const(42.0f, FSingle)]))
+  ( 
+    LetIn a (TupleGet tuple 1) 
+    (
+      LetIn b (TupleGet tuple 2) 
+      (
+        InfixOp Plus FInt32 (Var a) (Var b)
+      )       
+    )
+  )
+
+  ; example 3
+  LetIn a Const(2.0f, FSingle)
+  (
+    LetIn foo (Lambda ([(x, FSingle)]) 
+                   (InfixOp Plus FSingle (Var x) (Const(3.0f, FSingle)))
+              )
+    (
+      Application foo ([Var a])
+    )
+
+  )
+\end{minted}
+\begin{lstlisting}[language=Futhark]
+-- example 1
+(79i32, 42.0f32)
+
+-- example 2
+let tuple = (79i32, 42.0f32) in
+let a = tuple.1 in
+let b = tuple.2 in
+a i32.+ b
+
+-- example 3
+let a = 2.0f32 in
+let foo = (\(x : f32) -> x i32.+ 3.0f32)
+in foo a
+\end{lstlisting}
+  \caption{Three \texttt{FSharkExpr}s expressions translated to Futhark by
+    \fshark{}Writer}
+  \label{fig:fsharpexprs3}
+\end{figure}
+
+The \fshark{}Compiler creates a temporary folder at the temporary root folder\footnote{see the \texttt{tmpRoot} variable in sec \ref{compilingandusingfsharkmodule}}
+that was passed as an argument when initializing the \fshark{}Wrapper, and
+writes the finished string of Futhark source code to a Futhark file in this
+directory.
+The name of the Futhark file is taken from the \texttt{libName} variable we
+passed to the \fshark{}Wrapper at its initialization.
+
+\subsection{The Futhark-to-\csharp{} compiler}
+The \fshark{}Wrapper now calls the Futhark-to-\csharp{} compiler
+\texttt{futhark-cs}. If we named our \fshark{} module ``MyLib'', the command
+used be like shown below:\\
+\begin{lstlisting}[language=sh]
+$ futhark-cs --library -o MyLib.cs MyLib.fut
+\end{lstlisting}
+
+
+
+\subsection{The Mono \csharp{} compiler}
 
 
 \subsection*{Building \fshark{} from the Typed AST}
