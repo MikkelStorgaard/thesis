@@ -20,7 +20,7 @@ and can be used as any other \fsharp{} code in an \fsharp{} project.
 However, as it is written in \fshark{}, we can pass it through the \fshark{}
 compiler and end up with the result Futhark code shown in figure \ref{fig:shortfsharkprogram1'}
 At this moment we we will skip explaining the meaning of the code, and simply
-point out that the \fshark{} source code and the resulting source code has a
+point out that the \fshark{} source code and the resulting source code have a
 strong resemblance.
 \begin{figure}[H]
   \centering
@@ -66,8 +66,8 @@ entry entry (a : i32) : []i32 =
   \label{fig:shortfsharkprogram1'}
 \end{figure}
 
-In the following section, we will describe list the entire \fshark{} language. Although the
-subset is just a part of \fsharp{}, we will describe it as if it was a language itself.
+In the following section, we will describe the entire \fshark{} language. Although the
+subset is just a part of \fsharp{}, we will describe it as if it was a new language.
 \clearpage
 \section{\fshark{} syntax}
 \Cref{fig:fsharkstatements,fig:fsharkexpressions,fig:fsharkpatterns,fig:fsharktypes,fig:fsharkliterals}
@@ -194,15 +194,16 @@ instead of\\
   For functions that take tuple arguments, the \fsharp{} compiler parses these
   tuple type arguments correctly.
   However, the \fsharp{} compiler rewrites calls to these functions in a curried
-  way. In figures \Cref{fig:astcurried, fig:astcurried'} we see two \fsharp{}
-  functions, and a simplified representation of how they are represented in the
-  \fsharp{} intermediate language.
+  way. Figure~\Cref{fig:astcurried} shows two two \fsharp{} functions, {\tt foo}
+    and {\tt bar}, and figure~\Cref{fig:astcurried'} shows a simplified 
+    representation of how these functions are represented in the
+    \fsharp{}-compiler intermediate representation.
 
   When translating from \fshark{} to Futhark, the Foo function is correctly
-  written in Futhark as a function with a tuple argument, but as the call
-  expression now treats \texttt{foo} as having a different type than first
-  defined, the corresponding Futhark translation will trigger a type error at
-  compile time.
+  written in Futhark as a function with a tuple argument, but since the call
+  expression {\tt Call foo 4 5} now treats \texttt{foo} as having a different 
+  type than first defined, the corresponding Futhark translation will trigger 
+  a type error at compile time.
 
 \begin{figure}[H]
 \centering
@@ -220,7 +221,7 @@ Function foo ((x , y) : (int * int)) : int = x + y
 
 Function bar () : int = Call foo 4 5
 \end{minted}
-    \caption{\fsharp{} curries tuple arguments when calling tuple functions}
+    \caption{\fsharp{} compiler curries tuple arguments when calling tuple functions}
     \label{fig:astcurried'}
   \end{figure}
 
@@ -330,7 +331,7 @@ and \texttt{async}, most of the functions and operators
 \texttt{FSharp.Core.Operators} have direct counterparts in Futhark's prelude,
 with equivalent functionality: All except for four of operators and functions chosen for
 \fshark{} are in fact implemented in Futhark's \texttt{math.fut} library.
-It was therefore aan obvious decision to support these functions and operators in
+It was therefore an obvious decision to support these functions and operators in
 \fshark{}.
 
 However, for the remaining four functions\footnote{\texttt{compare}, \texttt{cosh}, \texttt{sinh}, \texttt{tanh}} that didn't have equivalents in
@@ -428,8 +429,8 @@ different ways.
   \item Functions like \texttt{map} and array functions like
     \texttt{length} have direct \fsharp{} equivalents. The
     \texttt{FSharkPrelude} versions therefore simply pass their arguments on to
-    the existing functions. In example, FSharkPrelude.Map is shown in figure
-    \ref{fig:fsharkpreludemap}.
+    the existing functions. In example, FSharkPrelude.Map is shown in 
+    figure~\ref{fig:fsharkpreludemap}.
     Other functions, like the \texttt{map} functions which takes multiple arrays as
     arguments, require a bit of assembly first. For those \texttt{map} functions,
     we zip the arguments before using \texttt{Array.map} as usual:
@@ -442,16 +443,15 @@ different ways.
     (\texttt{Array.reduce}) does only take an operator and an array as
     arguments.
     In such cases, the \texttt{FSharkPrelude} version changes the input slightly
-    before passing it on to the existing function. See figure
-    \ref{fsharkpreludereduce}.
+    before passing it on to the existing function. See figure~\ref{fig:fsharkpreludereduce}.
 
   \item Lastly, some functions does not have \fsharp{} counterparts at all, such
     as scatter. In these cases, we manually implement an equivalent function in
     \fsharp{}.
     Note that we are not limited to the \fshark{} subset in the
     \texttt{FSharkPrelude}, as the prelude functions are not translated by the
-    \fshark{} compiler, but detected caught and exchanged for
-    Futhark functions during the \fshark{} compilation (see \ref{removingpreludecalls}).
+    \fshark{} compiler, but detected and exchanged for
+    Futhark functions during the \fshark{} compilation (see~\ref{removingpreludecalls}).
     FSharkPrelude.Scatter is shown in figure \ref{fig:fsharkpreludescatter}.
 
 \end{enumerate}
@@ -474,7 +474,7 @@ let Map (f : 'a -> 'b) (xs : 'a array) : 'b array =
 \begin{figure}[H]
 \begin{minted}{fsharp}
 let Reduce (op: 'a -> 'a -> 'a) (neutral : 'a) (xs : 'a array) =
-  if null then neutral 
+  if null xs then neutral 
   else Array.reduce op xs
 \end{minted}
 \caption{\texttt{FSharkPrelude.Reduce}}
@@ -619,12 +619,13 @@ let xss = map (\row ->
 The \fsharp{} compiler doesn't make any such transformations for \fshark{} programs.
 
 \section{Arrays in \fsharp{} versus in Futhark}
+
 As Futhark is an array language, designing the array handling for \fshark{} was
-a non-inconsequential part of the design process.
-Whereas multidimensional array types in Futhark are written as i.e. \texttt{[][]i32}
-for a two dimensional integer array, their actual representation in the compiled
-code is a flat array of bytes, and an array of integers denoting the lengths of
-the dimensions.
+an important part of the design process.
+Whereas multidimensional array types in Futhark are written as, for example,
+\texttt{[][]i32} for a two dimensional integer array, their actual representation 
+in the compiled code is a flat array of bytes, and an array of integers denoting 
+the lengths of the dimensions.
 Accessing the array at runtime can be done in $O(1)$, whether it's
 either at some constant or a variable index (i.e. \texttt{let second\_x = xs[2]} or \texttt{let n = xs[i,j]}).
 The indexes are resolved during the Futhark compilation, either as scalars, or
@@ -711,10 +712,12 @@ let some_two = xss.[2].[3]
   \label{fig:jaggedarrayfsharp}
 \end{figure}
 
-The lookup takes $O(r)$ time\footnote{where $r$ is the rank of the jagged array} as we access arrays in $O(1)$ time, and have to follow $r$
-references to get to our element. If we just wanted a reference to the second
-array in \texttt{xss}, we would be chasing the first reference to \texttt{arr},
-and then return one of the references stored within.
+Denoting by $r$ the rank of the jagged array, the lookup requires $r$ 
+queries to memory, because accessing an array requires a memory acces, 
+and we have to follow $r$ references to get to our element. If we just 
+wanted a reference to the second array in \texttt{xss}, we would be 
+chasing the first reference to \texttt{arr}, and then return one of 
+the references stored within.
 
 \fsharp{} also offers actual multidimensional arrays, of up to 32 dimensions.
 As opposed to jagged arrays, the elements of these multidimensional arrays are
@@ -724,7 +727,7 @@ references may introduce cache misses which carries cache penalties and
 therefore a slower performance.
 
 However, using multidimensional arrays in \fshark{} would make it much harder to
-implement \fshark{}s SOACs to the standard library. 
+implement \fshark{}s SOACs in the standard library. 
 When we apply functions from \fsharp{}s \texttt{Array} module to a jagged
 array, we treat the jagged array as an array of elements.\\
 In example, this means that applying \texttt{Array.map f} to a two-dimensional
@@ -740,6 +743,7 @@ effort, as opposed to with jagged arrays, where most SOACs already had
 equivalent or near-equivalent counterparts in the \fsharp{} library.
 
 \section{Converting jagged arrays to Futhark's flat arrays,  and back again}
+
 As mentioned in section \ref{csharpentries}, we cannot just pass jagged arrays
 as arguments to the Futhark \csharp{} entry functions.
 Instead, we must convert our jagged array into a flat array and an array of
@@ -762,7 +766,7 @@ To reshape the flattened array, just follow the arrows backwards.
   \centering
   \includegraphics[scale=1.4, angle=270]{chapters/figs/jaggedtoflat.pdf}
   \caption{The memory representation of an 8 by 5 jagged array in \csharp{}.}
-  \label{fig:jaggedarraydrawing}
+  \label{fig:jaggedtoflat}
 \end{figure}
 
 
@@ -891,7 +895,7 @@ considered implimenting an \fshark{} specific array type, which could be directl
 translated to Futhark's flat array structure.
 
 This data type is shown in figure \ref{fig:fsharkarrays0}.
-An FSharkArray<'a> contains a flat array of <'a>, and a list of integers
+An {\tt FSharkArray<'a>} contains a flat array of {\tt <'a>}, and a list of integers
 denoting the lengths of the arrays contained in the flat array.
 
 \begin{figure}[H]
