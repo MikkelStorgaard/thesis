@@ -23,7 +23,7 @@ the SOACs must traverse the list sequentially.
 For example, calling $\texttt{map} f$ on a singly linked list \texttt{(x::xs)}
 means computing $f \texttt{x}$ and inserting the result into $\texttt{map} f
 \texttt{xs}$ recursively. We can do some parallel computations for these kinds
-of SOACs, i.e. by making the main thread traverse the list and spawn
+of SOACs, for example by making the main thread traverse the list and spawn
 a thread for each element computation. However we will still have suboptimal
 memory access performance, as the elements in the singly linked list doesn't
 have any guarantees regarding their location in RAM, which means we are going to

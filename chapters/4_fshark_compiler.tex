@@ -418,13 +418,13 @@ type velocity = Vec3single
   Here, the \texttt{Vec3} module is flattened
   and made part of the outer scope of the file. 
   Due to time constraints, this current solution was chosen.
-  The solution does introduce the danger of namespace collisions. I.e.,
+  The solution does introduce the danger of namespace collisions. for example,
   we could get in trouble by having a function further down which was also called \texttt{plus}.
 
   A later version of the \fshark{}Compiler could very well contain a better
   solution to the module problem, either by translating \fshark{} modules to
   Futhark modules, or at least by naming the flattened module declarations in a
-  special way; i.e. by keeping the containing module's name in the flattened
+  special way; for example by keeping the containing module's name in the flattened
   declarations' name, like in the example below:
 \end{description}
 

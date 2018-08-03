@@ -431,7 +431,7 @@ let Map (f : 'a -> 'b) (xs : 'a array) : 'b array =
 
   \item Some Futhark SOACs have \fsharp{} counterparts that are very close to
     their original definition.
-    I.e., Futhark's \texttt{reduce} takes a neutral element\footnote{For
+    for example, Futhark's \texttt{reduce} takes a neutral element\footnote{For
       parallelization purposes} as one of the
     arguments in their function calls, whilst their \fsharp{} counterparts
     (\texttt{Array.reduce}) does only take an operator and an array as
@@ -599,7 +599,7 @@ Whereas multidimensional array types in Futhark are written as, for example,
 in the compiled code is a flat array of bytes, and an array of integers denoting 
 the lengths of the dimensions.
 Accessing the array at runtime can be done in $O(1)$, whether it's
-either at some constant or a variable index (i.e. \texttt{let second\_x = xs[2]} or \texttt{let n = xs[i,j]}).
+either at some constant or a variable index (for example \texttt{let second\_x = xs[2]} or \texttt{let n = xs[i,j]}).
 The indexes are resolved during the Futhark compilation, either as scalars, or
 as a variable calculated from other variables.
 
@@ -892,7 +892,7 @@ the contents of the arrays \textit{as is}.
 
 However, this approach was deemed impractical for several reasons.
 Jagged arrays readily support getting subarrays and elements using the array
-indexing operator intuitively. I.e., for a two-dimensional array \texttt{xss :
+indexing operator intuitively. for example, for a two-dimensional array \texttt{xss :
   int [][]}, we can expect that \texttt{xss.[1]} returns a subarray, and that \texttt{xss.[1].[4]}
 returns an integer. 
 For example, to get the same functionality for \texttt{FSharkArrays}, we would have to implement the
