@@ -185,7 +185,7 @@ int x = 4 + 5;
 Besides taking an \texttt{ImpCode} program as input, it also embeds a set of
 prewritten \csharp{} libraries\footnote{\texttt{reader.cs} et al} into the generated \csharp{} code. These
 libraries are ncessary for the finished \csharp{} program, and are described in
-section~\ref{sec:runtimelibs}.\\
+section~\ref{subsec:runtimelibs}.\\
 The resulted \csharp{} source code is passed to a \csharp{} compiler, but also
 written to disk so it is available for the developer.
 
@@ -619,7 +619,8 @@ usability purposes.
 
 \clearpage
 
-\subsubsection{The Program class design}
+\subsection{The Program class design}
+\label{subsec:programclass}
 As shown in figure \ref{fig:futharkcsclasses}, we only add the Program class to
 the Futhark program so we have an entrypoint for the executable.
 The entire Program class is depicted in figure \ref{fig:programclass}, with the
@@ -881,7 +882,7 @@ through the library.
 \item[\texttt{OpenCL.NET}]\hfill\\
 \texttt{OpenCL.NET} also has a test suite, is available through NuGet, and is
 used as the backend for other libraries, such as the \fsharp{} GPU library
-\texttt{Brahma.FSharp}\ref{relatedwork:brahma}.
+\texttt{Brahma.FSharp}.
 
 However, this library hardcoded to work on a in a Windows context, and has not been
 updated for more than five years.

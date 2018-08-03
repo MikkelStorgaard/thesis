@@ -14,42 +14,19 @@ The success of this thesis should be measured on three accounts.
 
 
 \section{The performance of Futhark \csharp{} programs}
+\label{subsec:futharkcsharpperformance}
 
+\subsection{Correctness of the Futhark csharp{} generator}
+\label{subsec:futharkcsharpcorrectness}
+based on futhark test \texttt{futhark-test} 
 
 
 
 \section{The usability and design of the \fshark{} language}
 
-\subsubsection*{Testing arithmetic operators}
-For all arithmetic operators available in \fshark{}, I have written an
-accompanying test, suitably located in the directory
-\texttt{FSharkTests/UnitTests/Operators} in the \fshark{} project.
-
-The test suite for the operators are quite rudimentary, and are primarily
-designed to confirm that the types of the operands are preserved when passed to
-Futhark \csharp{} and back again.
-
-The test suite does not test edges (such as integer overflows or dividing
-decimals by zero) behaves equally in natively executed \fshark{} code and
-translated Futhark \csharp{} code.
-These edge cases has been left out for SOME reasons.
-
-(THESE ARE NOT ACTUALLY DONE YET)
-(Are unit tests enough?)
-
-all convertion functions pass through i64. this might be a mistake, as real
-supports f32 to f64
-
-thoughts on correctness of translations
-testing correctness of these translations
-
-\subsubsection*{Testing \fsharp{} standard library functions}
-
-\subsubsection*{On comparing floating point values}
-
-
 \clearpage
-\subsection*{The correctness of the \fshark{} subset.}
+\subsection{The correctness of the \fshark{} subset.}
+\label{subsec:fsharkcorrectness}
 When transpiling code from one language to another, it is absolutely vital that
 the programmer can trust that the target language result
 is semantically equivalent to the source language code.
@@ -100,9 +77,43 @@ let sameValue =
   \caption{The unit test for the \fshark{} division operator}
   \label{fig:fsharkdivtest}
 \end{figure}
+\subsection{Correctness of \fshark{} translations }
+- tested by comprehensive suite of unit tests
+\subsubsection{Testing arithmetic operators}
+For all arithmetic operators available in \fshark{}, I have written an
+accompanying test, suitably located in the directory
+\texttt{FSharkTests/UnitTests/Operators} in the \fshark{} project.
+
+The test suite for the operators are quite rudimentary, and are primarily
+designed to confirm that the types of the operands are preserved when passed to
+Futhark \csharp{} and back again.
+
+The test suite does not test edges (such as integer overflows or dividing
+decimals by zero) behaves equally in natively executed \fshark{} code and
+translated Futhark \csharp{} code.
+These edge cases has been left out for SOME reasons.
+
+(THESE ARE NOT ACTUALLY DONE YET)
+(Are unit tests enough?)
+
+all convertion functions pass through i64. this might be a mistake, as real
+supports f32 to f64
+
+thoughts on correctness of translations
+testing correctness of these translations
+
+\subsubsection*{Testing \fsharp{} standard library functions}
+
+\subsubsection*{On comparing floating point values}
+
+
+\subsection{Evaluating the \fshark{} language design}
+- compare benchmarks written in \fshark{} with benchmarks written in Futhark.
+
 
 
 \section{The performance of \fshark{} generated GPU kernels}
+\label{sec:fsharkgpubenchmarks}
 
 Appendices show 
 \section*{The \texttt{LocVolCalib} benchmark}

@@ -433,8 +433,7 @@ The guarantee is on the condition that we know that the
 individual parts of the \fshark{} language and standard library,  are correctly
 translated to Futhark counterparts.
 We can check that this condition still holds by running the \fshark{} test
-suite. See sec \ref{testingequivalency} for an elaboration on these tests.
-
+suite. See sec \ref{subsec:fsharkcorrectness} for an elaboration on these tests.
 
 
 The \texttt{FSharkPrelude} versions of Futhark functions are defined in three
@@ -463,9 +462,10 @@ different ways.
     as scatter. In these cases, we manually implement an equivalent function in
     \fsharp{}.
     Note that we are not limited to the \fshark{} subset in the
-    \texttt{FSharkPrelude}, as the prelude functions are not translated by the
+    \texttt{FSharkPrelude}, as the prelude function calls are not translated by the
     \fshark{} compiler, but detected and exchanged for
-    Futhark functions during the \fshark{} compilation (see~\ref{removingpreludecalls}).
+    Futhark function calls of the same name during the \fshark{} compilation.
+
     FSharkPrelude.Scatter is shown in figure \ref{fig:fsharkpreludescatter}.
 
 \end{enumerate}
