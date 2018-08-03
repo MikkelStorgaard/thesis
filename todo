@@ -53,9 +53,25 @@ Fokuspunkter fra i dag:
   
 Før forsvaret: Lav futhark-bench færdig for C#-generatoren, så netop denne del er færdig og i rigtig anvendelse.
 
+
+add references to F# book, C# book and CLR book
+
+add refererence to SPJ paper in introduction
+
+cite finpar paper
+cite nbody paper
+
+
+
+
+
 forsvar:
   futhark-logo og FSharp-logo
 
 
   live-demo
   to logoer smelter sammen til FShark-logo, ligesom Mr. Sparkle
+
+  oversæt srad og pathfinder
+
+
