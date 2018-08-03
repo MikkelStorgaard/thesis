@@ -33,6 +33,8 @@
 \usepackage{titling}
 \usepackage{cleveref}
 \usepackage[parfill]{parskip}
+\usepackage[toc,page]{appendix}
+
 
 \newcommand{\fshark}{{\texttt{FShark}}}
 \newcommand{\fsharp}{{\texttt{F\#}}}
@@ -45,8 +47,8 @@
 
 \newenvironment{longlisting}{\captionsetup{type=listing}}{}
 
-\setminted{fontsize=\small,baselinestretch=1,frame=lines,framerule=0.3pt}
-\lstset{basicstyle=\small,frame=lines}
+\setminted{fontsize=\small,baselinestretch=1,frame=lines,framerule=0.3pt,linenos}
+\lstset{basicstyle=\small,frame=lines,numbers=left}
 \usepackage[english, science, titlepage]{ku-frontpage}
 
 \title{FShark}
