@@ -4,7 +4,7 @@
   Futhark is a purely functional programming language, designed to be compiled
   to efficient GPU code.
   The GPU code has both C and Python interfaces, but does not interoperate with
-  larger mainstream languages.
+  other mainstream languages such as \csharp{}, \fsharp{} or Java.
 
   We first describe and implement a \csharp{} code generator that allows GPU kernels
   written in Futhark to be compiled and used as external libraries in \csharp{}-
@@ -17,18 +17,18 @@
 
   We argue that the \fshark{}-to-Futhark translations are correct by comparing
   the results of \fsharp{}-evaluated \fshark{} code with their Futhark-evaluated
-  counterparts.
+  counterparts, by running a comprehensive suite of NUMBER unit tests.
 
-  We show that Futhark can be compiled to \csharp{} GPU code without significant
-  ($\pm 1\%$)
-  runtime reductions (speedups) compared to C- and Python GPU code,
+  We show that Futhark can be compiled to \csharp{} GPU code, resulting in
+  comparable performance with the C- and Python OpenCL backends ($\pm 1\%$),
   by comparing runtimes across over 30 Futhark benchmark programs ported from other array
-  programming.
+  programming languages.
 
-  Finally, we show that complex GPU benchmarks can be
-  succesfully ported from Futhark to \fshark{} without significant rewriting.
-  The benchmarks are compiled to GPU code and executed in an \fsharp{} context
-  without significant speed decreases compared to the original Futhark versions.
+  Finally, we show that complex GPU benchmarks can be easily written in
+  \fshark{} in a way that preserves the idiomatic \fsharp{} style.
+  The GPU benchmarks are compiled to GPU code and executed in an \fsharp{}
+  context, where they are shown to perform comparably with benchmarks written in
+  Futhark.
 \end{abstract}
 
 \clearpage
