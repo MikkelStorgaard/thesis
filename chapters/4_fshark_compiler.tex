@@ -39,7 +39,7 @@ let entry (a : int) : int array =
   let res = Map2 (saxpy a) xs ys
   in res
 \end{minted}
-\\
+
 Line by line, this module does the following:\\
 \textbf{L1:} We define the name of this module as \texttt{ExampleModule}. If we
 want to use this module in an \fsharp{} program without compiling it as
@@ -711,7 +711,7 @@ To implement the \fsharkcompiler{}, we had the choice between implementing a
 lexer and parser manually, or using \fsharp{}'s own compiler as a parser library.
 Furthermore, \fsharp{}'s Typed Abstract Syntax Trees shows the types of any
 functions and operators used in an \fsharp{} program. This means, that even for
-the program shown in \ref{fig:shortprogrammmm}, the \fharp{} compiler's type
+the program shown in \ref{fig:shortprogrammmm}, the \fsharp{} compiler's type
 inference tells us that the plus operator used in the expression on line 3 is
 the \texttt{int} plus operator.
 

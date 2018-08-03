@@ -9,7 +9,7 @@ doubling their number of on-chip transistors, in rough accordance to Moore's Law
 her).
 
 Since increasing the frequency of the single CPU has hit the power
-wall\cite{powerwall} (among other things), achieving higher performance 
+wall\cite{Dubois:ParCompDesign} (among other things), achieving higher performance 
 is realized nowadays by scaling the parallelism of hardware, for example
 leading to multi-core and then to many-core architectures.
 %, where each core provides support for hardware multi-threading.
@@ -46,8 +46,9 @@ the adoption of GPU programming for the masses.
 %level programming -- the users still have to write their own kernels in some
 %form, and likewise declare their own buffers.
 %
-For example, \csharp{} and \fsharp{} are two mainstream languages which, to
-our knowledge, lack high-level (easy-to-use) solutions for GPU programming.
+For example, \csharp{} and \fsharp{}~\cite{CLR-Generics} are two mainstream 
+languages which, to our knowledge, lack high-level (easy-to-use) solutions 
+for GPU programming.
 %
 It is safe to say that there exists plenty of large, real-world projects
 developed in \csharp{} and \fsharp{}, which could greatly benefit from 
