@@ -423,10 +423,20 @@ different ways.
     Other functions, like the \texttt{map} functions which takes multiple arrays as
     arguments, require a bit of assembly first. For those \texttt{map} functions,
     we zip the arguments before using \texttt{Array.map} as usual.
-    For example, FSharkPrelude.Map is shown in below:
+    For example, FSharkPrelude.Map, -Map3 and -Map4 are shown below:
 \begin{minted}{fsharp}
 let Map (f : 'a -> 'b) (xs : 'a array) : 'b array =
   Array.map f xs
+
+let Map3 f aa bb cc =
+    let curry f (a,b,c) = f a b c
+    let xs = Zip3 aa bb cc
+    in Array.map (curry f) xs
+
+let Map4 f aa bb cc dd =
+    let curry f (a,b,c,d) = f a b c d
+    let xs = Zip4 aa bb cc dd
+    in Array.map (curry f) xs
 \end{minted}
 
   \item Some Futhark SOACs have \fsharp{} counterparts that are very close to
