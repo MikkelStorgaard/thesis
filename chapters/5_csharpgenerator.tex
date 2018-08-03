@@ -298,7 +298,7 @@ The following subsections explains the various parts of the class.
 \label{globalcontextvariables}
 Compiled Futhark programs need to keep track of several variables.
 Both normal and OpenCL-enabled Futhark \csharp{} programs can take several
-options when they're launched from the command line. In example,
+options when they're launched from the command line. For example,
 \texttt{num\_runs} tells the Futhark runtime how many times the chosen entry
 function should be executed, and the variable \texttt{runtime\_file} tells the
 Futhark runtime where it should write timing information to, for example for
@@ -428,7 +428,7 @@ static long add64(long x, long y){ return x + y; }
 
 \item[\texttt{opencl.cs}] \hfill\\
   \texttt{opencl.cs} contains wrapper functions for \texttt{OpenCL}'s memory
-  related functions. In example, instead of calling \texttt{clCreateBuffer} directly for
+  related functions. For example, instead of calling \texttt{clCreateBuffer} directly for
   allocating an \texttt{OpenCL} buffer, we call \texttt{OpenCLAlloc} from
   \texttt{opencl.cs}. By using a wrapper function instead of calling
   \texttt{clCreateBuffer}, we encapsulate functionality and employ better error
@@ -458,7 +458,7 @@ static long add64(long x, long y){ return x + y; }
   individual (or fused) OpenCL kernels. Therefore, the compiled Futhark
   functions in these programs consists of mainly some scalar operations and
   memory allocations, and calls to Futhark-generated kernel wrapper functions.
-  There are also mixes, in example \texttt{for-}loops that call OpenCL kernels.
+  There are also mixes, for example \texttt{for-}loops that call OpenCL kernels.
   
   In non-OpenCL programs, the array functions and SOAC calls are not stored in
   seperate wrapper functions, but inlined in the Futhark functions.
@@ -478,7 +478,7 @@ static long add64(long x, long y){ return x + y; }
     generates a kernel wrapper function. These wrapper functions takes the
     kernel arguments (such as scalar values, array values and indexes) as input,
     and performs all the OpenCL specific work necessary for the actual kernel
-    launch; in example setting the kernel arguments on the device, and copying
+    launch; for example setting the kernel arguments on the device, and copying
     data back and forth between host and device buffers.
   \end{enumerate}
 
@@ -856,7 +856,7 @@ the OpenCL developer library.
 
 The .NET libraries I took into consideration was \texttt{NOpenCL}, \texttt{OpenCL.NET} and \texttt{Cloo}.
 All three libraries have been designed to aide OpenCL usage in \csharp{}
-programs, by simplifying OpenCL calls behind abstractions, in example by
+programs, by simplifying OpenCL calls behind abstractions, for example by
 wrapping pointer operations in private methods.
 \\
 \\

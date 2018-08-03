@@ -2,7 +2,7 @@
 % introduction
 \fsharp{} is a functional programming language on top of the .NET framework, which
 means that it's primitive types like \texttt{int, float} and \texttt{list} all
-correspond to already existing classes in the .NET framework. In example,
+correspond to already existing classes in the .NET framework. For example,
 \fsharp{}'s \texttt{int} is an alias for .NET's \texttt{System.Int32} and
 \texttt{float} is an alias for \texttt{System.Double}.
 
@@ -20,7 +20,7 @@ rather parallelizing computations across entire arrays of data simultaneously.
 The \texttt{FSharp.Collections.FSharpList} is implemented as a singly-linked
 list. SOACs called on singly-linked lists are inherently unparallelizable, as
 the SOACs must traverse the list sequentially.
-In example, calling $\texttt{map} f$ on a singly linked list \texttt{(x::xs)}
+For example, calling $\texttt{map} f$ on a singly linked list \texttt{(x::xs)}
 means computing $f \texttt{x}$ and inserting the result into $\texttt{map} f
 \texttt{xs}$ recursively. We can do some parallel computations for these kinds
 of SOACs, i.e. by making the main thread traverse the list and spawn

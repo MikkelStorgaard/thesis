@@ -199,7 +199,7 @@ because the CLR runtime uses the type \texttt{System.Tuple} for these tuples.
 Incidentally, \texttt{System.Tuple} is only defined for tuples up to seven
 elements.
 
-This limitation can be circumvented by using more tuples. In example, rewriting
+This limitation can be circumvented by using more tuples. For example, rewriting
 a function so it returns \\
 \texttt{((int * int * int * int) * (int * int * int * int))}\\
 instead of\\
@@ -352,7 +352,7 @@ It was therefore an obvious decision to support these functions and operators in
 However, for the remaining four functions\footnote{\texttt{compare}, \texttt{cosh}, \texttt{sinh}, \texttt{tanh}} that didn't have equivalents in
 Futhark's \texttt{math.fut}, their function calls are replaced with their
 identities instead.
-In example, the \fshark{} code shown below:
+For example, the \fshark{} code shown below:
 \begin{minted}{fsharp}
   exp x
 \end{minted}
@@ -423,7 +423,7 @@ different ways.
     Other functions, like the \texttt{map} functions which takes multiple arrays as
     arguments, require a bit of assembly first. For those \texttt{map} functions,
     we zip the arguments before using \texttt{Array.map} as usual.
-    In example, FSharkPrelude.Map is shown in below:
+    For example, FSharkPrelude.Map is shown in below:
 \begin{minted}{fsharp}
 let Map (f : 'a -> 'b) (xs : 'a array) : 'b array =
   Array.map f xs
@@ -475,7 +475,7 @@ equivalent functions\footnote{like \texttt{fold} and \texttt{foldBack} vs.
 
 1) From a user experience point of view, it is awkward to maintain a whitelist
 of accepted functions from certain classes.
-In example, \texttt{Array.map} is exchangable with Futhark's
+For example, \texttt{Array.map} is exchangable with Futhark's
 \texttt{map}, but there are no immediate Futhark version of \fsharp{}s
 \texttt{Array.sortInPlace}. Therefore, the \fshark{} compiler would succesfully
 exchange a call to \texttt{Array.map} with a call to \texttt{map}, but it would
@@ -570,7 +570,7 @@ array three times, once for each line in the program.
 
 \subsubsection*{Futhark and nested maps}
 Futhark's compiler also specializes in parallelizing nested SOAC
-calls\cite{pldi17}, which in example transforms nested \texttt{map} expressions into one
+calls\cite{pldi17}, which for example transforms nested \texttt{map} expressions into one
 single \texttt{map} expression. For Futhark programs like the one in figure
 \ref{fig:fsharpnested}, the resulting OpenCL program contains a single map
 kernel with $i * j$ active threads.
@@ -702,7 +702,7 @@ However, using multidimensional arrays in \fshark{} would make it much harder to
 implement \fshark{}s SOACs in the standard library. 
 When we apply functions from \fsharp{}s \texttt{Array} module to a jagged
 array, we treat the jagged array as an array of elements.\\
-In example, this means that applying \texttt{Array.map f} to a two-dimensional
+For example, this means that applying \texttt{Array.map f} to a two-dimensional
 jagged array \texttt{xss} will apply \texttt{f} to each array referred to by
 \texttt{xss}.\\\\
 If on the other hand, we used \texttt{Array2D.map} to map f over a
@@ -895,7 +895,7 @@ Jagged arrays readily support getting subarrays and elements using the array
 indexing operator intuitively. I.e., for a two-dimensional array \texttt{xss :
   int [][]}, we can expect that \texttt{xss.[1]} returns a subarray, and that \texttt{xss.[1].[4]}
 returns an integer. 
-In example, to get the same functionality for \texttt{FSharkArrays}, we would have to implement the
+For example, to get the same functionality for \texttt{FSharkArrays}, we would have to implement the
 array operator for \texttt{FSharkArrays} manually. The array operator would have
 to access the flat array by calculating an offset using the array operator
 operands together with the lengths stored in the \texttt{dimensions} integer
