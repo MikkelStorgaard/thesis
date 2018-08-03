@@ -603,7 +603,7 @@ the Futhark export as opposed to the result being written to \texttt{stdout}.
   \label{fig:futharkentrypairlib}
 \end{figure}
 
-\subsection{Type signature for entry functions}
+\subsection{On calling Futhark entry functions that takes arrays as arguments}
 \label{subsec:flatarraysinentryfuncs}
 Currently, library functions aren't callable with jagged arrays (arrays of 
 pointers to arrays), but must instead be called with a flat element array,
@@ -619,16 +619,16 @@ usability purposes.
 \label{subsec:programclass}
 As shown in figure \ref{fig:futharkcsclasses}, we only add the Program class to
 the Futhark program so we have an entrypoint for the executable.
-The entire Program class is depicted in figure \ref{fig:programclass}, with the
-contained source code and all.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics{chapters/figs/csharp/program_class.pdf}
-  \caption{The complete functionality of the Program class for Futhark
-    executables.}
-  \label{fig:programclass}
-\end{figure}
+The Program class is a \csharp{} necessity for compiling executable \csharp{}
+programs, as the \csharp{} standard demands that executable programs must have a
+\texttt{Program} class with a public \texttt{Main} method, that it can use as an
+entrypoint.
+In Futhark's case, the Main method initializes the internal Futhark class and
+calls the entry function in the class. The class is shown in the figure
+below:
+
+\includegraphics{chapters/figs/csharp/program_class.pdf}
 
 %%% \section*{The \csharp{} backend, compared to the C- and Python counterparts}
 %%% 

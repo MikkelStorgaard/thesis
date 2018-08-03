@@ -419,13 +419,11 @@ different ways.
   \item Functions like \texttt{map} and array functions like
     \texttt{length} have direct \fsharp{} equivalents. The
     \texttt{FSharkPrelude} versions therefore simply pass their arguments on to
-    the existing functions. In example, FSharkPrelude.Map is shown in 
-    figure~\ref{fig:fsharkpreludemap}.
+    the existing functions.
     Other functions, like the \texttt{map} functions which takes multiple arrays as
     arguments, require a bit of assembly first. For those \texttt{map} functions,
     we zip the arguments before using \texttt{Array.map} as usual.
-    See below:
-
+    In example, FSharkPrelude.Map is shown in below:
 \begin{minted}{fsharp}
 let Map (f : 'a -> 'b) (xs : 'a array) : 'b array =
   Array.map f xs
@@ -484,7 +482,7 @@ exchange a call to \texttt{Array.map} with a call to \texttt{map}, but it would
 have to halt with an error message, if the user tried to use \texttt{Array.sortInPlace}.
 
 2) Some Array functions have subtle differences compared to their
-Futhark counterparts. As shown in figure \ref{fig:fsharkpreludereduce},
+Futhark counterparts. As shown in \texttt{FSharkPrelude.Reduce} example,
 \texttt{Array.reduce} is slightly different in \fsharp{}.
 
 We are slightly hypocritical, as we DO let users use a subset of \fsharp{}s
