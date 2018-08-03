@@ -200,17 +200,21 @@ Specifically, we want to obtain GPU kernels directly from \fsharp{} source
 code, and to use these kernels in a program written in \fsharp{} (or \csharp{}) 
 afterwards.
 
-In figure \ref{}, we show such an architecture for the \fsharp{} language.
+In figure \ref{fig:fsharkcompiler}, we show such an architecture for the \fsharp{} language.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics{chapters/figs/fsharkarchitecture.pdf}
+  \caption{The \fshark{} architecture}
+  \label{fig:fsharkcompiler}
+\end{figure}
 
 \subsection{A use case}
+Following the architecture shown above, we demonstrate a use case which follows
+the steps shown in the architecture.
 \begin{enumerate}
-\item  source code
-\item  send for translation
-\item  use function immediately
-\end{enumerate}
-
-\begin{figure}[h]
-  \centering
+\item  We write a small \fshark{} program that we wish to use in our \fsharp{}
+  program to a file called \texttt{MapPlus2.fs}. Such an \fshark{} program is shown below:
 \begin{minted}[linenos]{fsharp}
 let saxpy (a : int) (x : int) (y : int) : int =
   a*x+y
@@ -220,10 +224,16 @@ let run_saxpy (a : int) (xs : int array) (ys : int array): int array =
   let res = Map2 (saxpy a) xs ys
   in res
 \end{minted}
-\caption{A short \fshark{} module called {\tt MapPlus2.fs}, exporting a computational kernel named {\tt run\_saxpy}}
-\label{fig:shortfsharkprogram0}
-\end{figure}
 
+\item We create an instance of the \fshark{} wrapper class, add the file path
+  of our \fshark{} program to it. Then we run the \fshark{} compilation to
+  compile and load the \fshark{} program into the wrapper.
+  This corresponds to step one and two in the architecture sketch, and is done
+  in line 3-5 in figure \ref{fig:shortfsharkprogram1}.
+
+\item Finally in line 7-10, we declare some arguments for our \fshark{} function, and pass
+  them to the compiled \fshark{} program through the \fshark{} wrapper.
+\end{enumerate}
 
 \begin{figure}[h]
   \centering

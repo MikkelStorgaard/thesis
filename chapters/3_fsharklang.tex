@@ -470,9 +470,7 @@ different ways.
 
 \end{enumerate}
 The complete list of available SOACs and array functions is available in
-appendix \ref{appendix:soacs}. MAYBE
-
-Note that calls to \texttt{FSharkPrelude} functions 
+appendix \ref{appendix:soacs}.
 
 \clearpage
 \begin{figure}[H]
@@ -757,7 +755,7 @@ effort, as opposed to with jagged arrays, where most SOACs already had
 equivalent or near-equivalent counterparts in the \fsharp{} library.
 
 \section{Converting jagged arrays to Futhark's flat arrays,  and back again}
-
+\label{sec:convertingarrays}
 As mentioned in section \ref{csharpentries}, we cannot just pass jagged arrays
 as arguments to the Futhark \csharp{} entry functions.
 Instead, we must convert our jagged array into a flat array and an array of
@@ -779,7 +777,8 @@ To reshape the flattened array, just follow the arrows backwards.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=1.4, angle=270]{chapters/figs/jaggedtoflat.pdf}
-  \caption{The memory representation of an 8 by 5 jagged array in \csharp{}.}
+  \caption{Flattening a three dimensional jagged array into one flat contiguous
+    array.}
   \label{fig:jaggedtoflat}
 \end{figure}
 
@@ -885,7 +884,9 @@ dimension in the lengths array, we chunk our data array into multiple smaller
 arrays. Each of the $n$ elements in the initial array is moved to a new and smaller array
 $d$ times, which makes the complexity of this algorithm $O(n*d)$.
 
-\subsubsection*{Why UnflattenArray hinders a specific tuple type}
+\subsection{Why UnflattenArray hinders a specific tuple type}
+\label{subsec:hinderedtupletype}
+
 When an \fshark{} function is invoked, it's arguments are prepared by an
 argument converter first. For scalar arguments, the argument is simply returned.
 But for array arguments, we must flatten the jagged array into a tuple that
@@ -959,10 +960,12 @@ we then have a third problem.
 Wherever we are using \texttt{FSharkArray 'a}, our elements from the arrays will be wrapped as
 \texttt{Element of 'a}s.
 
-Write a bit more.
-
-
-
+This means that we will have to either implement a custom set of \fsharp{}
+operators and standard library functions which unwraps \texttt{Elements} before
+passing them on to the actual operator or function, or at least implement an
+unwrapper function of type $unwrap : Element~of~'a~\to~'a$, which must be applied
+everywhere in functions that uses both \texttt{FSharkArrays} and \fsharp{}
+standard library functions.
 
 \subsection{Conclusion on arrays}
 Ultimately, choosing between jagged arrays, multidimensional arrays and

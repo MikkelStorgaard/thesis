@@ -1,4 +1,53 @@
 \chapter{Current limitations}
+In the chapter, we describe the current known limitations of both our code
+generator, the \fshark{} language design and of the \fshark{} compiler. The
+limitations are divided into two categories; those caused by our design choices,
+and those caused by a lacking implementation.
+
+\section{The \csharp{} code generator}
+Both of the code generator limitations listed below are caused by lack of
+implementation.
+
+\subsection{Cumbersome array entry functions in Futhark libraries}
+\label{cumbersomearrays}
+As described in sec. \ref{subsec:flatarraysinentryfuncs}, we currently have to
+flatten our jagged arrays before we can pass them to our Futhark library
+functions. Likewise, we have to unflatten the results if we want to use them as
+jagged arrays again afterwards.
+
+In sec. \ref{sec:convertingarrays}, we presented a solution for both flattening
+and unflattening such arrays, and thus solving this limitation is merely a
+question of porting and implementing these algorithms in the Futhark generated
+\csharp{} libraries.
+
+\subsection{Unnecessary memory allocations in chained Futhark function calls}
+The current implementation of the code generator causes significant overhead
+when chaining together GPU function calls, as discussed in sec.
+\ref{invocationoverhead}.
+Whilst not being a functional limitation, implementing an
+opaque return type for Futhark GPU calls would increase runtime
+performance in any programs that chain together such calls.
+
+The Python code generator for Futhark already has such an opaque data type
+implemented, and one could look to this implementation for inspiration on how to
+design a similar data type for Futhark \csharp{}.
+
+\section{The \fshark{} language}
+
+
+\section{The \fshark{} compiler}
+
+\subsection{Disallowing certain types of \fshark{} entry functions}
+As the \fshark{} wrapper relies on the flattening algorithms shown in sec.
+\ref{sec:convertingarrays} to make \fsharp{}s jagged arrays compatible with
+Futhark's flat arrays (sec. \ref{subsec:flatarraysinentryfuncs}), we currently
+prohibit \fshark{} entry functions have return types that are either
+\texttt{('a[] * int64[])} tuples, or tuples or arrays that contains such
+tuples. This is described in detail in subsec. \ref{subsec:hinderedtupletype}.
+
+This could be solved by moving the array flattening into the generated Futhark
+\csharp{} libraries as described in subsec. \ref{cumbersomearrays}, solving two
+limitations at the same time.
 
 
 %%% Local Variables:

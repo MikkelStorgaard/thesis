@@ -204,10 +204,19 @@ language family. We can therefore readily use the \csharp{} libraries, which
 exports an object-oriented class structure in \fsharp{}, and vice versa.
 
 \section*{\csharp{}}
-\csharp{} 
-\csharp{} 
-\csharp{} 
-\csharp{} 
+\csharp{} is an multi-paradigm programming language developed by Microsoft.
+In this thesis we implement a Futhark code generator that generates
+\csharp{}-integrable GPU code. For this thesis, \csharp{} was chosen for
+multiple reasons:
+\begin{itemize}
+\item \csharp{} is a mainstream programming language, and widely used in
+  commercial and academic settings.
+
+\item \csharp{} supports imperative \texttt{C}-style programming, which is
+  suitable for writing concrete implementations of programs written in Futhark's
+  intermediate language \texttt{ImpCode}, as \texttt{ImpCode}
+  itself is an imperative language.
+\end{itemize}
 
 %%% Local Variables:
 %%% mode: latex

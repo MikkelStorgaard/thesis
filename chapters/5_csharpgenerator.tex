@@ -605,7 +605,8 @@ the Futhark export as opposed to the result being written to \texttt{stdout}.
   \label{fig:futharkentrypairlib}
 \end{figure}
 
-\subsubsection{Type signature for entry functions}
+\subsection{Type signature for entry functions}
+\label{subsec:flatarraysinentryfuncs}
 Currently, library functions aren't callable with jagged arrays (arrays of 
 pointers to arrays), but must instead be called with a flat element array,
 which is paired up with an array of lengths denoting the dimensionality of 
@@ -756,7 +757,7 @@ arrays, we have chosen to avoid these functions as their implementations carry
 huge overhead compared to doing things the unsafe way.
 For this benchmark, we are writing N integers to a byte array, using the three
 methods shown in figure \ref{fig:threemethods}.
-\begin{figure}[H]
+\begin{figure}
   \centering
   \begin{minted}{csharp}
 static void UsingBuffer()
@@ -819,7 +820,7 @@ the target byte array.
 The performance difference between the second and third method corresponds to
 the small overhead that comes from fixing the target buffer in memory.
 
-\begin{figure}{H}
+\begin{figure}
     \begin{tikzpicture}
       \begin{axis}[
         title={Safe vs. unsafe memory writes},
@@ -847,9 +848,6 @@ the small overhead that comes from fixing the target buffer in memory.
     \label{fig:shortperformancegraph}
 \end{figure}
 
-
-\clearpage
-
 \section{Selecting an OpenCL interface for \csharp{}}
 OpenCL interaction is not a part of the .NET standard library, but several
 libraries do exist for .NET/OpenCL interactions. For this thesis, I researched a
@@ -861,9 +859,11 @@ the OpenCL developer library.
 
 The .NET libraries I took into consideration was \texttt{NOpenCL}, \texttt{OpenCL.NET} and \texttt{Cloo}.
 All three libraries have been designed to aide OpenCL usage in \csharp{}
-programs, by simplifying OpenCL calls behind methods GØR BEDRE.
+programs, by simplifying OpenCL calls behind abstractions, in example by
+wrapping pointer operations in private methods.
 \\
 \\
+
 \begin{description}
 \item[\texttt{NOpenCL}]\hfill\\
 \texttt{NOpenCL} was the first candidate for the \csharp{} backend, and had
@@ -894,22 +894,14 @@ passing arguments on to the OpenCL library, using \csharp{}s \texttt{DllImport}
 attribute. It is immediately possible to skip most of \texttt{Cloo}s features,
 and just use the library for it's OpenCL bindings.
 
-Even then, \texttt{Cloo} has not been updated within the last five years, and
-probably won't be in the future either.
+Furthermore, the \texttt{Cloo} project is still alive, and the \texttt{Cloo}
+\texttt{develop} branch on Github is actively being updated as per July 2018\footnote{\href{https://github.com/clSharp/Cloo/commits/develop/Cloo/Source}}.
 \\
 \\
 \end{description}
 Given these three candidates, I chose to work with \texttt{Cloo}: It was the
 only one that had the necessary OpenCL bindings readily available, and the only
 one that was platform agnostic.
-
-\subsection{Writing a custom OpenCL bindings library}
-Though \texttt{Cloo} is a good fit for Futhark \csharp{}, it is also slightly
-risky to depend on a five year old unmaintained library in a modern project.
-Therefore, it could be a good idea to write a smaller library similar to
-\texttt{Cloo}, specifically for Futhark - or maybe even just include it with
-Futhark as one of the \csharp{} runtime libraries. 
-
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"

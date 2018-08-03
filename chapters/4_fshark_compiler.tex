@@ -74,16 +74,20 @@ over the arrays \texttt{xs} and \texttt{ys}.
 For two arrays $\mathtt{xs} =
 [\mathtt{x}_1,~\mathtt{x}_2,~\ldots,~\mathtt{x}_n]$ and $\mathtt{ys} =
 [\mathtt{y}_1,~\mathtt{y}_2,~\ldots,~\mathtt{y}_n]$,\\
-$\mathtt{Map2}~\mathtt{(saxpy~a)}~\mathtt{xs}~\mathtt{ys} = [\mathtt{saxpy~a}~\mathtt{x}_1~\mathtt{y}_1, \mathtt{saxpy~a}~\mathtt{x}_2~\mathtt{y}_2,\ldots,~\mathtt{saxpy~a}~\mathtt{x}_n~\mathtt{y}_n]$.
+$\mathtt{Map2}~\mathtt{(saxpy~a)}~\mathtt{xs}~\mathtt{ys} =
+[\mathtt{saxpy~a}~\mathtt{x}_1~\mathtt{y}_1,
+\mathtt{saxpy~a}~\mathtt{x}_2~\mathtt{y}_2,\ldots,~\mathtt{saxpy~a}~\mathtt{x}_n~\mathtt{y}_n]$.
+\\
+\\
 \textbf{L17:} The entry function returns the result of the call to \texttt{Map2}.
 
 This concludes the short \fshark{} module.
-\clearpage
 
 \subsection{Compiling and using the short \fshark{} module}
 \label{compilingandusingfsharkmodule}
 With our \fshark{} module ready, we now proceed to compile, load and use it.
-\begin{figure}[h]
+This is shown in figure \ref{fig:fsharkusageexample}.
+\begin{figure}[H]
   \centering
     \begin{minted}[linenos,breaklines]{fsharp}
 module FSharkExample
@@ -111,6 +115,7 @@ let main argv =
   \label{fig:fsharkusageexample}
 \end{figure}
 
+Let us now explain line by line what is happening in the figure:\\
 \textbf{L6:} We begin by constructing an instance of the \fshark{}Wrapper. It has the following
 mandatory arguments:
 
@@ -153,10 +158,10 @@ mandatory arguments:
 \textbf{L15:} Now we can pass a source file to the \fshark{} wrapper. \\
 \textbf{L16:} We tell the wrapper to compile the source file that we have added
 to the wrapper object, and load the compiled library into the wrapper
-afterwards.
+afterwards.\\
 \textbf{L17:} As our entry function defined in the module in figure
 \ref{fig:fsharkusageexample0} takes an integer as argument, we define an integer
-variable we can pass to it.
+variable we can pass to it.\\
 \textbf{L18:} We use the wrapper to invoke the entry function from the compiled
 and loaded library, using our previously declared \texttt{a} as the only
 argument. As the \fshark{} wrapper uses reflection to dynamically load compiled
@@ -245,6 +250,7 @@ type checking for function arguments, and also removing the need to manually
 downcast the \fshark{} invokation results.
 
 \subsection{The overhead of invoking GPU kernels}
+\label{invocationoverhead}
 The second issue with the current approach is, that every single call to a
 \fshark{} function carries significant overhead for copying data back and forth
 between CPU and GPU buffers.
@@ -268,8 +274,10 @@ thereafter.
 
 
 In the future, we could eliminate this overhead by allowing the compiled Futhark functions
-to return references to GPU buffers instead of indiscriminately returning
-actual data arrays.
+to opaque arrays instead of actual data arrays. Opaque arrays are merely
+references to already allocated GPU buffers, and can be resolved into actual
+data arrays only when the data is needed in the remaining program. 
+
 We could then also have multiple versions of the compiled Futhark functions; one
 version that takes an actual data array as input, and one that can use a
 reference to a GPU buffer instead.
@@ -347,16 +355,20 @@ intermediate language defined for \fshark{}, called \fshark{}IL.\\
 The declarations in the TAST are called \texttt{FSharpDecl}s, and in \fshark{}
 we work with two kinds of \texttt{FSharpDecl}s.
 
-The first kind is the \texttt{FSharpDecl.Entity}. Entities are \fsharp{}
-declarations that are neither functions or values
-themselves, but instead alterations to the present \fsharp{} program. 
-The \fshark{}Compiler supports three different entities.
-
-The other kind of FSharpDecl that \fshark{} supports is the \texttt{FSharpDecl.MemberOrFunctionOrValue}, which are
+The first kind of FSharpDecl that \fshark{} supports is the \texttt{FSharpDecl.MemberOrFunctionOrValue}, which are
 declarations of members, functions and values. We don't use members in
 \fshark{}, as they are for object oriented \fsharp{} programming, but we do use
 functions and values. For all intents and purposes, \fsharp{} values are just
 functions without arguments.
+
+The other kind is the \texttt{FSharpDecl.Entity}. Entities are \fsharp{}
+declarations that are neither functions or values
+themselves, but instead alterations to the present \fsharp{} program. 
+The \fshark{}Compiler supports three different entities.
+
+In total, this means that our intermediate language must also support four
+different declarations, which are the \texttt{FSharkDecl}s. These are shown in
+figure \ref{fig:fsharkdecls}.
 
 \subsection{FSharpDecl.Entity}
 The \fshark{}Compiler supports three different entities.
@@ -433,12 +445,7 @@ let Vec3_plus (a : Vec3_Vec3single) (b : Vec3_Vec3single) : Vec3_Vec3single =
 type vec3 = Vec3_Vec3single
 \end{lstlisting}
 
-\subsection{FSharpDecl.MemberOrFunctionOrValue}
-HMMMM MERE HER.
 
-In total, this means that our intermediate language must also support four
-different declarations, which are the \texttt{FSharkDecl}s. These are shown in
-figure \ref{fig:fsharkdecls}.
 
 \subsection{\fsharp{} expressions}
 \label{sec:fsharpexprs}
