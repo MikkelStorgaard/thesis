@@ -100,28 +100,54 @@ namespace ConsoleApplication2
   various methods of writing scalars to byte arrays}
 \label{fig:memoryperformancebenchmark}
 
-\chapter{LocVolCalib benchmark written in \fshark{} and Futhark}
-\noindent\begin{minipage}{.45\textwidth}
-\begin{lstlisting}[caption=code 1,frame=tlrb]{Name}
-void code()
-{
+\chapter{LocVolCalib benchmark written in \fshark{}}
+\label{app:fsharklocvolcalib}
+\chapter{LocVolCalib benchmark written in Futhark}
+\label{app:futharklocvolcalib}
 
-}
-\end{lstlisting}
-\end{minipage}\hfill
-\begin{minipage}{.45\textwidth}
-\begin{lstlisting}[caption=code 2,frame=tlrb]{Name}
-void code()
-{
-
-}
-\end{lstlisting}
-\end{minipage}
+\chapter{nbody benchmark written in \fshark{}}
+\label{app:fsharknbody}
+\chapter{nbody benchmark written in Futhark}
+\label{app:futharknbody}
 
 
+
+
+
+
+
+
+
+
+
+
+\chapter{Numbers for LocVolCalib benchmarks}
+
+
+
+
+\subsubsection{\fshark{} LocVolCalib with OpenCL (10 runs)}
+Runtimes for compiled \fshark{} version of LocVolCalib with OpenCL enabled.\\
+\begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{small.in} & \texttt{medium.in} & \texttt{large.in}\\ \hline \hline
+187972 $\mu s$& 269265 $\mu s$ &5052080 $\mu s$\\ \hline
+\end{tabular}
+
+\subsubsection{\fshark{} LocVolCalib with OpenCL (10 runs)}
+Runtimes for compiled \fshark{} version of LocVolCalib with OpenCL enabled.\\
+\begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{small.in} & \texttt{medium.in} & \texttt{large.in}\\ \hline \hline
+80214397 $\mu s$& 269265 $\mu s$ &5052080 $\mu s$\\ \hline
+\end{tabular}
 \chapter{nbody benchmark written in \fshark{} and Futhark}
 The contents...
 \end{appendices}
+
+
+
+
 
 
 %%% Local Variables:
