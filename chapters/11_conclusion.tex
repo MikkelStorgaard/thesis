@@ -22,7 +22,8 @@ developing efficient GPU kernels, by porting multiple existing GPU benchmarks to
 \section*{Future work}
 As described in section~\ref{sec:currentlimitations}, the current
 implementations of our code generator and \fshark{} suite is limited in several
-ways. To reiterate:
+ways. The following prioritized list shows the future work of the \fshark{}
+project.
 \begin{itemize}
 \item The \csharp{} code generator for Futhark is not finished. Although we can
   succesfully compile and run a large majority of the Futhark benchmark suite,
@@ -31,13 +32,10 @@ ways. To reiterate:
   have not been implemented yet.
   We plainly need to identify and fix these issues.
 
-\item csharp without opencl is slow but it is not a priority
-  
-\item The current iteration of the \fshark{} language lacks several of Futhark's
-  language features.
-  For example, as seen in section~\ref{subsec:locvolcalib}, we currently have to emulate \texttt{for-}loops by rewriting them into folds instead.
-  It should be possible to add equivalent loop semantics to the \fshark{} language,
-  but it does require more time and experiments with the \fsharp{} language and -compiler.
+\item As described in section~\ref{invocationoverhead}, chaining GPU kernel
+  calls currently adds an unnecessary overhead. We want to develop an opaque
+  array type which merely contains references to already allocated GPU buffers,
+  and which aren't copied back from GPU to RAM until strictly necessary.
 
 \item The current version of \fshark{} prohibits certain function types and
   reserves them for the \fshark{} wrapper, as the wrapper needs to handle jagged
@@ -45,23 +43,36 @@ ways. To reiterate:
   We are interested in finding a better way of handling this, so we can remove
   this seemingly arbitrary language restriction.
   
+\item Section~\ref{sec:fsharkgpubenchmarks} shows that the sequential \csharp{}
+  backend is significantly slower than the sequential \C{} backend. We want to
+  determine whether the current implementation contains any easy fixes for
+  better performance. This is not a top priority though, as Futhark is primarily
+  intended for OpenCL use anyhow.
+
+\item The current iteration of the \fshark{} language lacks several of Futhark's
+  language features.
+  For example, as seen in section~\ref{subsec:locvolcalib}, we currently have to emulate \texttt{for-}loops by rewriting them into folds instead.
+  It should be possible to add equivalent loop semantics to the \fshark{} language,
+  but it does require more time and experiments with the \fsharp{} language and -compiler.
+
 \item \fshark{} currently uses jagged arrays to emulate multidimensional
   arrays, even though jagged arrays themselves bring multiple design problems to
-  \fshark{}. The primary reason for using the jagged arrays is, that they are easy to develop SOACs for.
-  In the future, we want to develop a library of SOACS for the
+  \fshark{}. The primary reason for using the jagged arrays is that they are easy to develop SOACs for.
+  In the future we want to develop a library of SOACS for the
   multidimensional array type in \fsharp{}, so we eventually will be able to
   exclude jagged arrays from \fshark{} completely.
 
 \item The current implementation of the \csharp{} code generator generates
   \csharp{} libraries that takes flat array/integer array pairs as arguments,
-  when multidimensional arrays are needed.
-  Although this does not have an effect on program performance, it is unpleasant
-  for programmers to manually reform their multidimensional arrays, before they
-  can be used with Futhark libraries.
-  We want to 
-
-\item add reference types
-  
+  when multidimensional arrays are needed.\\
+  It is unpleasant for programmers to manually convert their multidimensional (or jagged) arrays
+  before calling Futhark library functions.\\
+  We want to change the entry functions for Futhark \csharp{} libraries, so they
+  can be called with multidimensional or jagged arrays.
+  \\
+  Alternatively, we can alleviate the problem by making the flattening algorithms from
+  section~\ref{sec:convertingarrays} available through the Futhark generated
+  \csharp{} programs.
 
 \end{itemize}
 
