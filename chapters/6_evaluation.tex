@@ -45,7 +45,7 @@ To determine whether Futhark \csharp{} programs have similar performance to
 Futhark C and Futhark Python programs, we have used Futhark's own benchmark
 suite.
 Using this benchmark suite, we have compared the runtime of over 30 different
-benchmarks when executed as \csharp{}-, C- and Python Futhark OpenCL programs
+benchmarks whenFSharkSOACS executed as \csharp{}-, C- and Python Futhark OpenCL programs
 respectively.
 
 HOW CAN THEY BE RUN
@@ -63,6 +63,7 @@ We will not elaborate on the functionality of the benchmarks in these two
 examples. Instead we will focus on the code style used in \fshark{} programs.
 
 \subsection{LocVolCalib}
+\label{subsec:locvolcalib}
 First, we present the \fshark{} version of the LocVolCalib benchmark (respectively
 FSharpTests/Benchmarks/LocVolCalib.fs and finpar/LocVolCalib.fut in the
 \fshark{} and Futhark benchmarks repository.) from the Finpar\cite{finpar}
@@ -228,8 +229,9 @@ records similar to Futhark.
 
 The examples from the nbody benchmark are shown below:
 
-\begin{minted}{fsharp}
--- Snippet from FShark's nbody
+\begin{minted}[linenos]{fsharp}
+// Snippet from FShark's nbody
+
 module Vec3 =
     type Vec3single = {x:single ; y:single ; z:single}
     let plus (a : Vec3single) (b : Vec3single) : Vec3single =
@@ -271,12 +273,12 @@ let advance_body (time_step: single) (body: body) (acc: acceleration): body =
   let velocity = Vec3.plus body.velocity <| Vec3.scale time_step acceleration
   in {position=position; mass=body.mass; velocity=velocity; acceleration=acceleration}
 
-let advance_bodies (epsilon: single) (time_step: single) (bodies: body array): body array =
+let advance_bodies (epsilon: single) (time_step: single) (bodies: body []): body [] =
   let accels = calc_accels epsilon bodies
   in Map2 (fun body acc -> advance_body time_step body acc) bodies accels
 
 let advance_bodies_steps (n_steps: int) (epsilon: single) (time_step: single)
-                             (bodies: body array): body array =
+                             (bodies: body []): body [] =
   let steps = Iota n_steps
   in Foldr (fun _ bodies' -> advance_bodies epsilon time_step bodies') bodies steps
 
@@ -296,7 +298,7 @@ let unwrap_body (b: body): (single * single * single * single * single * single 
 
 // ...
 
-let rotatePointByMatrix (rotation: single array array) (p: position): position =
+let rotatePointByMatrix (rotation: single [] []) (p: position): position =
   let x = p.x
   let y = p.y
   let z = p.z
@@ -304,29 +306,28 @@ let rotatePointByMatrix (rotation: single array array) (p: position): position =
    y= x*rotation.[0].[1] + y*rotation.[1].[1] + z*rotation.[2].[1];
    z= x*rotation.[0].[2] + y*rotation.[1].[2] + z*rotation.[2].[2]}
 
-let rotatePointsByMatrix (rotation: single array array) (ps: position array): position array =
+let rotatePointsByMatrix (rotation: single [] []) (ps: position []): position [] =
   Map (rotatePointByMatrix rotation) ps
 
-let rotateXMatrix (angle: single): single array array =
+let rotateXMatrix (angle: single): single [] [] =
   [|
     [|1.0f;       0.0f;          0.0f|];
     [|0.0f;  cos angle;   - sin angle|];
     [|0.0f;  sin angle;     cos angle|]
   |]
 
-let rotateYMatrix (angle: single): single array array =
+let rotateYMatrix (angle: single): single [] [] =
   [|
     [|cos angle  ; 0.0f; sin angle|];
     [|0.0f       ; 1.0f; 0.0f     |];
     [|- sin angle; 0.0f; cos angle|]
   |]
 
-let matmult (x: single array array) (y: single array array) : single array array =
+let matmult (x: single [] []) (y: single [] []) : single [] [] =
   let Sum = Reduce (+) 0.0f
   Map (fun xr ->
         Map (fun yc -> Sum (Map2 (fun x y -> x*y) xr yc)) (Transpose y)
-            ) x
-
+  ) x
 \end{minted}
 
 \begin{lstlisting}[language=Futhark]
@@ -409,43 +410,44 @@ fake it by implementing a simple 3D vector module manually.
 Then, for both the \fshark{} and the Futhark version, we state a list of type
 aliases for the rest of the program.
 
+We then see five functions \texttt{advance\_body}, \texttt{advance\_bodies},
+\texttt{advance\_bodies\_steps}, \texttt{wrap\_body} and \texttt{unwrap\_body}.
+The differences between the \fshark{} and Futhark versions are negliable, with
+one except.
+As in the LocVolCalib example, we don't support for-loops in \fshark{}.
+Therefore we have replaced the for-loop with a fold instead, obtaining the same functionality. 
+
+Finally, we see five matrix helper functions. For both of the rotation functions
+\texttt{rotateXMatrix} and \texttt{rotateYMatrix}, the \fshark{} version infers
+the types of the overloaded \texttt{cos} and \texttt{sin} functions
+automatically, whereas the Futhark developer must access those two functions
+through their containing modules instead.
+
+Also, \fshark{} doesn't have a \texttt{sum} operator in it's standard library
+like Futhark has, so we implement it ourselves by defining it in the \fshark{}
+version at line 95.
+
+The complete \fshark{} version is available in
+appendix~\ref{app:fsharknbody}, with the Futhark version available in
+appendix~\ref{app:futharknbody} for reference.
 
 
+\subsection{Conclusion on \fshark{} language design}
+As shown in the two example benchmarks above, we can now write complex GPU
+benchmarks in \fsharp{} using purely functional idiomatic \fsharp{}.
+We can use nested SOACs as we like, and use records and type aliases to improve
+the readibility of the code.
 
-
-
-
-
-\section{The usability and design of the \fshark{} language}
-
-\subsection{The correctness of the \fshark{} subset.}
+\section{The correctness of the \fshark{} subset.}
 \label{subsec:fsharkcorrectness}
-When transpiling code from one language to another, it is absolutely vital that
-the programmer can trust that the target language result
-is semantically equivalent to the source language code.
-
-In \fshark{}s case, it means that any program written using the \fshark{}
-subset must have the same result no matter whether it is run natively as
-\fsharp{} code, or run as \fshark{} compiled Futhark code.
-
-Take for example the logarithm function \texttt{log}. In both \fsharp{} and
-Futhark, this function denotes the natural logarithm. If we were translating
-from a careless language $l$, where \texttt{log} instead denoted the binary
-logarithm, the translation would still be succesfull and not trigger any type
-errors.
-However, the native result and the Futhark result would be wildly different.
-
 To ensure that every operator and function in the \fshark{} subset has
 equivalent results, no matter whether the \fshark{} code is run as native
-\fsharp{} code, or compiled into Futhark, I have written a test suite with unit
-tests for each element in the \fsharp{} subset. 
+\fsharp{} code, or compiled into Futhark, I have written a comprehensive test suite with unit
+tests for each 
 
-An \fshark{} test is an \fshark{} module, but with two extra values added,
+An \fshark{} test is an \fshark{} program, but with two extra values added,
 namely an input and an output value for the test. For example, the test written for the
-division operator is shown in figure \ref{fig:fsharkdivtest}.
-
-\begin{figure}[h]
-  \centering
+division operator is shown below:
 \begin{minted}[breaklines=true, fontsize=\footnotesize]{fsharp}
 module Div
 open FSharkPrelude.FSharkPrelude
@@ -467,12 +469,6 @@ let value = [|5y; 5s; 5; 5L; 5.0f; 5.0|] : obj array
 let sameValue = 
   (2y, 2s, 2, 2L, 2.5f, 2.5) : (int8 * int16 * int * int64 * single * double)
 \end{minted}
-  \caption{The unit test for the \fshark{} division operator}
-  \label{fig:fsharkdivtest}
-\end{figure}
-\subsection{Correctness of \fshark{} translations }
-- tested by comprehensive suite of unit tests
-\subsubsection{Testing arithmetic operators}
 For all arithmetic operators available in \fshark{}, I have written an
 accompanying test, suitably located in the directory
 \texttt{FSharkTests/UnitTests/Operators} in the \fshark{} project.
@@ -486,18 +482,13 @@ decimals by zero) behaves equally in natively executed \fshark{} code and
 translated Futhark \csharp{} code.
 These edge cases has been left out for SOME reasons.
 
-(THESE ARE NOT ACTUALLY DONE YET)
-(Are unit tests enough?)
-
 all convertion functions pass through i64. this might be a mistake, as real
 supports f32 to f64
 
-thoughts on correctness of translations
-testing correctness of these translations
-
 \subsubsection*{Testing \fsharp{} standard library functions}
 
-\subsubsection*{On comparing floating point values}
+\subsubsection{On comparing floating point values}
+
 
 
 \subsection{Evaluating the \fshark{} language design}
@@ -520,7 +511,7 @@ Native took 438 929 311 microseconds.
       \begin{axis}[
         title={LocVolCalib performance},
         xlabel={Dataset},
-        ylabel={Runtime in seconds},
+        ylabel={Runtime in milliseconds},
         width=1\textwidth,
         %height=0.5,
         symbolic x coords={small.in,medium.in,large.in},
@@ -532,55 +523,21 @@ Native took 438 929 311 microseconds.
         every node near coord/.append style={rotate=70, anchor=west,font=\scriptsize},
         legend style={legend pos=north west}
       ]
-      \addplot plot coordinates {(small.in, 0.21 ) (medium.in, 0.31 ) (large.in, 200.0 )};
-      \addplot plot coordinates {(small.in, 79.265 ) (medium.in, 154.488 ) (large.in, 2448.660 )};
-      \addplot plot coordinates {(small.in, 84.537 ) (medium.in, 157.735 ) (large.in, 3716.097 )};
-      \addplot plot coordinates {(small.in, 0.14 ) (medium.in, 0.16 ) (large.in, 2.14 )};
-      \addplot plot coordinates {(small.in, 0.13 ) (medium.in, 0.13 ) (large.in, 2.14 )};
-      \addplot plot coordinates {(small.in, 3.02 ) (medium.in, 5.84 ) (large.in, 96.47 )};
+      \addplot plot coordinates {(small.in, 187.972) (medium.in, 269.265 ) (large.in, 5052.080 )};
+      \addplot plot coordinates {(small.in, 79265 ) (medium.in, 154488 ) (large.in, 2448660 )};
 
-      \legend{FShark (OpenCL), FShark (non-OpenCL), Native FSharp Version, futhark-bench (futhark-csopencl), futhark-bench (futhark-opencl), futhark-bench (futhark-c)}
+      \addplot plot coordinates {(small.in, 84537 ) (medium.in, 157735 ) (large.in, 3716097 )};
+
+      \addplot plot coordinates {(small.in, 134.032 ) (medium.in, 134.761  ) (large.in,  1925.001 )};
+      \addplot plot coordinates {(small.in, 135.192 ) (medium.in, 134.428 ) (large.in, 1911.079 )};
+      \addplot plot coordinates {(small.in, 3020.588 ) (medium.in, 5842.482 ) (large.in, 96476.520 )};
+
+      \legend{FShark (OpenCL), FShark (non-OpenCL), FShark executed as FSharp, futhark-bench (futhark-csopencl), futhark-bench (futhark-opencl), futhark-bench (futhark-c)}
       \end{axis}
     \end{tikzpicture}
-    \caption{Comparison between Python and Futhark performance for simple model}
+    \caption{Comparison of LocVolCalib benchmark for multiple versions}
     \label{fig:line-graph}
 \end{figure}
-
-medium.in:
-(Fshark opencl)invokation time was 310833 microseconds
-Fshark nonopencl Average invokation time was 154 141 321 ms
-Native took 900 643005 microseconds.
-
-large.in:
-
-fshark with opencl Memory Allocation Error
-fshark sans opencl 2450 637 053 microseconds
-Native took 24757 874 577 microseconds.
-
-
-for all three datasets
-%% master ●  futhark-bench --compiler=futhark-csopencl LocVolCalib.fut 
-%%Compiling LocVolCalib.fut...
-%%Results for LocVolCalib.fut:
-%dataset LocVolCalib-data/small.in:   143015.70us (avg. of 10 runs; RSD: 0.02)
-%dataset LocVolCalib-data/medium.in:  143581.70us (avg. of 10 runs; RSD: 0.00)
-%dataset LocVolCalib-data/large.in:  1987195.20us (avg. of 10 runs; RSD: 0.00)
-%%
-%% master ●  futhark-bench --compiler=futhark-opencl LocVolCalib.fut 
-%%Compiling LocVolCalib.fut...
-%%Results for LocVolCalib.fut:
-%%dataset LocVolCalib-data/small.in:   134473.30us (avg. of 10 runs; RSD: 0.02)
-%%dataset LocVolCalib-data/medium.in:  134796.20us (avg. of 10 runs; RSD: 0.01)
-%%dataset LocVolCalib-data/large.in:  1924412.20us (avg. of 10 runs; RSD: 0.01)
-
-%% master ●  futhark-bench --compiler=futhark-c LocVolCalib.fut     
-%%Compiling LocVolCalib.fut...
-%%Results for LocVolCalib.fut:
-%%dataset LocVolCalib-data/small.in:  3 020588.60us (avg. of 10 runs; RSD: 0.01)
-%%dataset LocVolCalib-data/medium.in: 5 842482.00us (avg. of 10 runs; RSD: 0.01)
-%%dataset LocVolCalib-data/large.in:  96 476520.00us (avg. of 10 runs; RSD: 0.00)
-%%
-
 
 \section*{The \texttt{nbody} benchmark}
 

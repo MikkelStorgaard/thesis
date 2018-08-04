@@ -126,7 +126,7 @@ namespace ConsoleApplication2
 
 
 
-\subsubsection{\fshark{} LocVolCalib with OpenCL (10 runs)}
+\subsubsection{\fshark{} LocVolCalib with OpenCL (avg. of 10 runs)}
 Runtimes for compiled \fshark{} version of LocVolCalib with OpenCL enabled.\\
 \begin{tabular}{|c|c|c|}
   \hline
@@ -134,12 +134,30 @@ Runtimes for compiled \fshark{} version of LocVolCalib with OpenCL enabled.\\
 187972 $\mu s$& 269265 $\mu s$ &5052080 $\mu s$\\ \hline
 \end{tabular}
 
-\subsubsection{\fshark{} LocVolCalib with OpenCL (10 runs)}
-Runtimes for compiled \fshark{} version of LocVolCalib with OpenCL enabled.\\
+\subsubsection{\fshark{} LocVolCalib without OpenCL (avg. of 10 runs)}
+Runtimes for compiled \fshark{} version of LocVolCalib with OpenCL disabled.\\
 \begin{tabular}{|c|c|c|}
   \hline
   \textbf{small.in} & \texttt{medium.in} & \texttt{large.in}\\ \hline \hline
-80214397 $\mu s$& 269265 $\mu s$ &5052080 $\mu s$\\ \hline
+79265000 $\mu s$& 154488000 $\mu s$ & 2448660 $\mu s$\\ \hline
+\end{tabular}
+
+\subsubsection{Futhark benchmark version of LocVolCalib with \csharp{} OpenCL (avg. of 10 runs)}
+These benchmarks are for the futhark-benchmarks version of the LocVolCalib
+benchmark, compiled with the \csharp{} OpenCL code generator.
+\begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{small.in} & \texttt{medium.in} & \texttt{large.in}\\ \hline \hline
+134031 $\mu s$& 134761 $\mu s$ & 1925001 $\mu s$\\ \hline
+\end{tabular}
+
+\subsubsection{Futhark benchmark version of LocVolCalib with \C{} OpenCL (avg. of 10 runs)}
+These benchmarks are for the futhark-benchmarks version of the LocVolCalib
+benchmark, compiled with the existing \C{} OpenCL code generator.
+\begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{small.in} & \texttt{medium.in} & \texttt{large.in}\\ \hline \hline
+135190 $\mu s$& 134428 $\mu s$ & 1911079 $\mu s$\\ \hline
 \end{tabular}
 \chapter{nbody benchmark written in \fshark{} and Futhark}
 The contents...
