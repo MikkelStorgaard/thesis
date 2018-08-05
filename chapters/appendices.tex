@@ -19,7 +19,8 @@ We have been testing the code generator using the test suite located in the
 The \fshark{} language, compiler and test suite is all located on Github:\\
 \url{https://github.com/diku-dk/fshark}. It is structured as a single \fsharp{}
 solution containing five \fsharp{} projects.\\
-This thesis is based on the commit CCCCCCCCCCCCCCCCCCCCCC, see\\
+This thesis is based on the commit \texttt{cc223733703f20a313fb5fddef51b697619504d3}, see\\
+{\scriptsize \url{https://github.com/diku-dk/fshark/tree/cc223733703f20a313fb5fddef51b697619504d3}}
 
 The \fshark{} test suite can be found in the \texttt{FSharkTests} folder.\\
 An executable example is shown in \texttt{Examples/Program.fs} folder.
@@ -28,10 +29,12 @@ Jetbrains' \texttt{Rider}.
 
 \chapter{\fshark{} standard library}
 \label{appendix:soacs}
-The \fshark{} standard library is available in the \fshark{} repository in the file \texttt{FSharkPrelude/FSharkPrelude.fs}.
+The \fshark{} standard library is available in the \fshark{} repository in the
+file \texttt{FSharkPrelude/FSharkPrelude.fs}.\\
+See {\scriptsize\url{https://github.com/diku-dk/fshark/blob/cc223733703f20a313fb5fddef51b697619504d3/FSharkPrelude/FSharkPrelude.fs}}
 
 \chapter{Program for benchmarking byte memory writes in \csharp{}}
-\begin{minted}[linenos, breaklines]{csharp}
+\begin{minted}[linenos, breaklines,fontsize=\scriptsize]{csharp}
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -131,20 +134,20 @@ To avoid adding hundreds of lines of source code to the appendices, we instead
 link to the two different versions of the LocVolCalib benchmark:
 
 The \fshark{} version is available on:\\
-\url{https://github.com/diku-dk/fshark/blob/d41e5d99f37dc6c77b565ec89ee58533bb264232/FSharkTests/Benchmarks/LocVolCalib.fs}
+{\scriptsize\url{https://github.com/diku-dk/fshark/blob/d41e5d99f37dc6c77b565ec89ee58533bb264232/FSharkTests/Benchmarks/LocVolCalib.fs}}
 \\
 The Futhark version used is available on:\\
-\url{https://github.com/diku-dk/futhark-benchmarks/blob/fd4dec357bb51d8109fed67c2e14bc5da9b20179/finpar/LocVolCalib.fut}
+{\scriptsize\url{https://github.com/diku-dk/futhark-benchmarks/blob/fd4dec357bb51d8109fed67c2e14bc5da9b20179/finpar/LocVolCalib.fut}}
 
 \chapter{nbody benchmark written in \fshark{} and Futhark}
 \label{app:fsharknbody}
 
 
 The \fshark{} version is available on\\
-\url{https://github.com/diku-dk/fshark/blob/d41e5d99f37dc6c77b565ec89ee58533bb264232/FSharkTests/Benchmarks/Nbody.fs}
+{\scriptsize \url{https://github.com/diku-dk/fshark/blob/d41e5d99f37dc6c77b565ec89ee58533bb264232/FSharkTests/Benchmarks/Nbody.fs}}
 
 The Futhark version used is available on:\\
-\url{https://github.com/diku-dk/futhark-benchmarks/blob/fd4dec357bb51d8109fed67c2e14bc5da9b20179/accelerate/nbody/nbody.fut}
+{\scriptsize\url{https://github.com/diku-dk/futhark-benchmarks/blob/fd4dec357bb51d8109fed67c2e14bc5da9b20179/accelerate/nbody/nbody.fut}}
 \end{appendices}
 
 

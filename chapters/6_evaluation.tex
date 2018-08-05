@@ -144,7 +144,7 @@ as expected. The example below is taken from the file \texttt{Program.cs} in the
 \texttt{CSharpTest} folder in the \fshark{} repository.
 In this folder, we find a compiled \csharp{} .dll file which is the result of
 compiling the LocVolCalib benchmark with the \texttt{futhark-csopencl} compiler.
-\begin{minted}[breaklines]{csharp}
+\begin{minted}[fontsize=\scriptsize, breaklines]{csharp}
 using System;
 using LocVolCalib;
 namespace CSharpTest
@@ -788,7 +788,7 @@ Finally, we run the Futhark benchmark program with our code by calling the
 command:
 
 \begin{minted}{bash}
-$ $futhark-bench --compiler=futhark-csopencl fsharkNbody.fut
+$ futhark-bench --compiler=futhark-csopencl fsharkNbody.fut
 \end{minted}
 
 Unfortunately, the \texttt{nbody} benchmark is one of the benchmarks that are
