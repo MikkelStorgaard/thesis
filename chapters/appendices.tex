@@ -1,9 +1,34 @@
 \begin{appendices}
+\chapter{Implementation}
+\section{Code generator}
+The \csharp{} code generator is part of the Futhark project.
+The Futhark implementation is located on Github:
+\url{https://github.com/diku-dk/futhark}
+
+The code generator is stored in the Futhark branch \texttt{mknu/csharp}, and
+this thesis is based
+on the commit \texttt{0d363e9572b1c32299332a30cadfc31d5427817a}, see\\
+\url{https://github.com/diku-dk/futhark/tree/0d363e9572b1c32299332a30cadfc31d5427817a}.\\
+Our implementation is located in the folder
+\texttt{src/Futhark/CodeGen/Backends}.
+
+We have been testing the code generator using the test suite located in the 
+\texttt{tests} directory in Futhark's root directory.
+
+\section{\fshark{} language and compiler}
+The \fshark{} language, compiler and test suite is all located on Github:\\
+\url{https://github.com/diku-dk/fshark}. It is structured as a single \fsharp{}
+solution containing five \fsharp{} projects.\\
+This thesis is based on the commit CCCCCCCCCCCCCCCCCCCCCC, see\\
+
+The \fshark{} test suite can be found in the \texttt{FSharkTests} folder.\\
+An executable example is shown in \texttt{Examples/Program.fs} folder.
+We recommend opening and using the \fshark{} solution through an IDE such as
+Jetbrains' \texttt{Rider}.
+
 \chapter{\fshark{} standard library}
 \label{appendix:soacs}
-
-
-
+The \fshark{} standard library is available in the \fshark{} repository in the file \texttt{FSharkPrelude/FSharkPrelude.fs}.
 
 \chapter{Program for benchmarking byte memory writes in \csharp{}}
 \begin{minted}[linenos, breaklines]{csharp}
@@ -100,19 +125,26 @@ namespace ConsoleApplication2
   various methods of writing scalars to byte arrays}
 \label{fig:memoryperformancebenchmark}
 
-\chapter{LocVolCalib benchmark written in \fshark{}}
+\chapter{LocVolCalib benchmark written in \fshark{} and Futhark}
 \label{app:fsharklocvolcalib}
-\chapter{LocVolCalib benchmark written in Futhark}
-\label{app:futharklocvolcalib}
+To avoid adding hundreds of lines of source code to the appendices, we instead
+link to the two different versions of the LocVolCalib benchmark:
 
-\chapter{nbody benchmark written in \fshark{}}
+The \fshark{} version is available on:\\
+\url{https://github.com/diku-dk/fshark/blob/d41e5d99f37dc6c77b565ec89ee58533bb264232/FSharkTests/Benchmarks/LocVolCalib.fs}
+\\
+The Futhark version used is available on:\\
+\url{https://github.com/diku-dk/futhark-benchmarks/blob/fd4dec357bb51d8109fed67c2e14bc5da9b20179/finpar/LocVolCalib.fut}
+
+\chapter{nbody benchmark written in \fshark{} and Futhark}
 \label{app:fsharknbody}
-\chapter{nbody benchmark written in Futhark}
-\label{app:futharknbody}
 
 
+The \fshark{} version is available on\\
+\url{https://github.com/diku-dk/fshark/blob/d41e5d99f37dc6c77b565ec89ee58533bb264232/FSharkTests/Benchmarks/Nbody.fs}
 
-
+The Futhark version used is available on:\\
+\url{https://github.com/diku-dk/futhark-benchmarks/blob/fd4dec357bb51d8109fed67c2e14bc5da9b20179/accelerate/nbody/nbody.fut}
 
 
 
@@ -151,16 +183,15 @@ benchmark, compiled with the \csharp{} OpenCL code generator.
 134031 $\mu s$& 134761 $\mu s$ & 1925001 $\mu s$\\ \hline
 \end{tabular}
 
-\subsubsection{Futhark benchmark version of LocVolCalib with \C{} OpenCL (avg. of 10 runs)}
+\subsubsection{Futhark benchmark version of LocVolCalib with \c{} OpenCL (avg. of 10 runs)}
 These benchmarks are for the futhark-benchmarks version of the LocVolCalib
-benchmark, compiled with the existing \C{} OpenCL code generator.
+benchmark, compiled with the existing \c{} OpenCL code generator.
 \begin{tabular}{|c|c|c|}
   \hline
   \textbf{small.in} & \texttt{medium.in} & \texttt{large.in}\\ \hline \hline
 135190 $\mu s$& 134428 $\mu s$ & 1911079 $\mu s$\\ \hline
 \end{tabular}
-\chapter{nbody benchmark written in \fshark{} and Futhark}
-The contents...
+
 \end{appendices}
 
 
