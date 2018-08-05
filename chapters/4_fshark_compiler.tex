@@ -200,10 +200,9 @@ If we, instead of loading the compiled \fshark{} GPU kernels through the
 \csharp{} \texttt{.dll} file, we can circumvent the \fshark{} compiler
 completely, and use the compiled kernel directly.
 
-For the two benchmarks \texttt{LocVolCalib} and \texttt{nbody}(see sec
-\ref{sec:fsharkgpubenchmarks}), we have compared the time cost of the two different
-approaches. In figure \ref{benchmarkcalculations} we see how the time is spent
-in the two different methods.
+For the benchmark \texttt{LocVolCalib}~\ref{sec:fsharkgpubenchmarks}), we have
+measured the average time cost of the program compilation time.
+In figure \ref{benchmarkcalculations} we see how the time is spent during the compilation.
 \begin{figure}[H]
   \centering
   \begin{tabular}{@{}l c r c l c r}
@@ -213,19 +212,14 @@ in the two different methods.
  Compiling Futhark to \csharp{} with \texttt{futhark-cs}& &+ 8037165 ms & $\vrule$ & & & \\
  Compiling \csharp{} code using \csharp{} compiler      & &+  999251 ms & $\vrule$ & & & \\
  Loading compiled \csharp{} class using reflection      & &+  101601 ms & $\vrule$ & & & \\
- Loading and constructing class from library & & & $\vrule$ & & &
   \end{tabular}
-  \caption{Time spent on making LocVolCalib available in \fshark{}-using
-    program}
+  \caption{Time spent on compiling LocVolCalib at runtime in \fshark{}-using program}
   \label{benchmarkcalculations}
 \end{figure}
 
 So the dynamic compilation process takes about $10$ seconds, while running the
 accelerated program on the largest dataset takes only a couple of seconds.
-
-MORE BENCHMARKS
-
-WE ARE OBVIOUSLY WASTING TIME
+This is a costly affair, which we could definitely live without.
 
 \subsubsection{Suggestions for changes}
 We have two main suggestions for change.\\

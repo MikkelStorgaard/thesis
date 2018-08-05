@@ -822,7 +822,9 @@ array (creating the singleton array is also $O(1).$)
   The result of \texttt{map FlattenArray array} is an array of \texttt{a} array references
   and integer array references.
 
-\item[\texttt{L6}] MORE HERE
+\item[\texttt{L6:}] As the array in the function call was an array of arrays, we
+  call the flattening algorithm recursively on the subarrays.
+
 \item[\texttt{L7}] simply retrieves a reference to the first array in the array
   of subarray lengths. This is $O(1)$.
 \item[\texttt{L8}] is by far the most costly line in the function.

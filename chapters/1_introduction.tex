@@ -5,8 +5,8 @@ Developers worldwide are, and have always been, on the lookout
 for increased computing performance.
 Until recently, the increased performance could easily be
 achieved through advances within raw computing power, as CPU's had steadily been
-doubling their number of on-chip transistors, in rough accordance to Moore's Law (citér
-her).
+doubling their number of on-chip transistors, in rough accordance to Moore's
+Law~\cite{MooresLaw}.
 
 Since increasing the frequency of the single CPU has hit the power
 wall\cite{Dubois:ParCompDesign} (among other things), achieving higher performance 
@@ -46,9 +46,9 @@ the adoption of GPU programming for the masses.
 %level programming -- the users still have to write their own kernels in some
 %form, and likewise declare their own buffers.
 %
-For example, \csharp{} and \fsharp{}~\cite{CLR-Generics} are two mainstream 
+For example, \csharp{}~\cite{Hejlsberg} and \fsharp{}~\cite{Fsharp-Hansen} are two mainstream 
 languages which, to our knowledge, lack high-level (easy-to-use) solutions 
-for GPU programming.
+for GPU programming. 
 %
 It is safe to say that there exists plenty of large, real-world projects
 developed in \csharp{} and \fsharp{}, which could greatly benefit from 
@@ -133,11 +133,11 @@ is the experiment~\cite{apltail} that showed that programs
 written in a usefully-large subset of the old and interpreted (hence slow) APL 
 language~\cite{dyalogbook} can be automatically translated to Futhark, 
 optimized for GPU execution, and easily integrated in a mainstream application
-written in Python. This thesis aims at providing a similar solution in which
+written in Python. Whereas others have translated of \fsharp{}\cite{Shaikhha} into
+efficient \clang{} code, this thesis aims at providing a similar solution in which
 the automatically-translated and mainstream-target languages are \fsharp{}
 and \csharp{}, respectively.
 
- 
 %Projects like APLtail\cite{apltail} have shown new ways to obtain GPU-accelerated
 %executables and libraries from source code written in  high level language. APLtail parses
 %and compiles APL\footnote{more accurately a subset of the APL language} code into redistributable C or Python libraries.
@@ -250,38 +250,6 @@ The principal contributions of this thesis are as follows:
 %\clearpage
 
 %\clearpage
-\section{Vocabulary}
-Unless otherwise specified, these are the terms used in the thesis:
-\begin{description}
-\item[For \fshark{}]\hfill
-  \begin{itemize}
-  \item The \fshark{} \textit{subset} is the subset of the \fsharp{} language
-    that is supported by the \fshark{} compiler.
-
-  \item The FShark Prelude is the library of \fsharp{}-ported Futhark array
-    functions and SOACs, and is included with \fshark{}.
-
-  \item \fshark{} code is \fsharp{} code which exclusively uses the \fshark{}
-    subset and FSharkPrelude.
-
-  \item \fshark{} modules are \fsharp{} modules written entirely in \fshark{}
-    code.
-    
-  \item \fshark{} projects are \fsharp{} projects which uses \fshark{} and
-    \fshark{} modules.
-    \\
-  \end{itemize}
-
-\item[For Futhark]\hfill
-  \begin{itemize}
-
-  \item Futhark code is code written in the Futhark language.
-
-  \item Futhark C-, Python- or \csharp{} code refers to Futhark code that has been compiled
-    into C-, Python or \csharp{} source code.
-
-  \end{itemize}
-\end{description}
 
 \section{Roadmap}
 \begin{itemize}

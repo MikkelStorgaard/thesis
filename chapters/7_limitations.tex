@@ -9,9 +9,107 @@ and those caused by a lacking implementation.
 Both of the code generator limitations listed below are caused by lack of
 implementation.
 
+\subsection{Errors in the implementation}
+\label{sec:errorsintheimplementation}
+Using Futhark's own test suite, we have tested and evaluated the current
+implementation of the code generator.
+These tests have made it apparent that the \csharp{} code
+generator does not yet generate fully correct Futhark programs. 
+
+The Futhark test suite contains 961 tests, which tests everything from the
+Futhark compiler itself (for example whether type aliases,
+higher order modules et al. handled correctly?),
+to whether the individual mathematical and bitwise operations are correctly
+translated from Futhark to desired target language (\csharp{} in our case), and
+whether types, be they array types or scalar types, are retained throughout the
+entire program.
+\\
+It also tests the \texttt{stdin/stdout} functionality of the generated programs.
+\\
+The current implementation does not pass all tests correctly: for the Futhark
+\csharp{} compiler for non-OpenCL programs, we are passing 840 out of 961 tests.\\
+For the Futhark \csharp{} compiler for OpenCL programs, we are passing just 833
+out of 961 tests.
+
+For many of these tests, we can immediately see what the issue is. In example,
+we our stdin reader for \csharp{} programs does not currently read empty
+arrays\footnote{such as example \texttt{empty(i32)} or \texttt{empty(f32)}.}
+correctly. Such errors are caused by lack of implementation in the stdin reader, and can be
+corrected with relative ease by implementing the missing features.\\
+The test suite also reveals various \textit{off-by-one} errors in edge cases of
+the implementation, which should be simple to debug and fix.
+
+Despite of these temporary bad test results, we are still confident that our
+code generator is mostly correct. After all, the current implementation does
+pass more than 86\% of the test suite.
+\\
+More importantly, although we have 128 failing tests, the test results also show
+that many of these tests have the same point of failure.
+
+For example, we have 16 failing tests caused by the missing reader features, and 8
+\texttt{off-by-one} errors stemming from a certain helper function in the
+\csharp{} class.
+\\
+If this is representative for the other failing tests as well, it is likely that
+the remaining number of (known) bugs in the implementation is closer to ten, than
+to a hundred.
+
+\subsection{Errors in the benchmarking functionality}
+\label{sec:errorsinbenchmark}
+The current implementation contains an error which hinders us in reliably
+testing all benchmarks in the Futhark benchmark suite. In rare cases, a
+benchmark program will both compile and execute correctly, but
+return the wrong runtime measurements.
+
+In principle, this bug should disqualify us from being able to report any
+reliable benchmarks from our solution at all, but repeated testing shows that
+the bug is indeed only present for certain benchmark programs.
+
+For example, the \texttt{Crystal} benchmark executes correctly for both Futhark
+\clang{} and Futhark \csharp{}, but the runtimes reported are obviously
+wrong for the Futhark \csharp{} case:
+
+\begin{minted}[breaklines]{bash}
+$ futhark-bench --compiler=futhark-opencl crystal.fut
+Compiling ./crystal.fut...
+Results for ./crystal.fut:
+dataset #0 ("200i32 30.0f32 5i32 1i32 1.0f32"):        32.00us (avg. of 10 runs; RSD: 0.37)
+dataset #1 ("20i32 30.0f32 5i32 50i32 0.5f32"):        21.20us (avg. of 10 runs; RSD: 0.04)
+dataset #2 ("40i32 30.0f32 5i32 50i32 0.5f32"):        40.70us (avg. of 10 runs; RSD: 0.02)
+dataset #3 ("40i32 30.0f32 50i32 50i32 0.5f32"):      263.40us (avg. of 10 runs; RSD: 0.27)
+dataset #4 ("2000i32 30.0f32 50i32 1i32 1.0f32"):   10800.40us (avg. of 10 runs; RSD: 0.04)
+
+$ futhark-bench --compiler=futhark-csopencl crystal.fut
+Compiling ./crystal.fut...
+Results for ./crystal.fut:
+dataset #0 ("200i32 30.0f32 5i32 1i32 1.0f32"):        32.20us (avg. of 10 runs; RSD: 0.54)
+dataset #1 ("20i32 30.0f32 5i32 50i32 0.5f32"):        31.90us (avg. of 10 runs; RSD: 0.58)
+dataset #2 ("40i32 30.0f32 5i32 50i32 0.5f32"):        29.30us (avg. of 10 runs; RSD: 0.57)
+dataset #3 ("40i32 30.0f32 50i32 50i32 0.5f32"):       31.60us (avg. of 10 runs; RSD: 0.65)
+dataset #4 ("2000i32 30.0f32 50i32 1i32 1.0f32"):      28.70us (avg. of 10 runs; RSD: 0.62)
+\end{minted}
+
+On the other hand, the Hotspot benchmark works as expected:
+\begin{minted}{fsharp}
+$ futhark-bench --compiler=futhark-opencl hotspot.fut  
+Compiling ./hotspot.fut...
+Results for ./hotspot.fut:
+dataset data/64.in:      1686.00us (avg. of 10 runs; RSD: 0.07)
+dataset data/512.in:    13064.60us (avg. of 10 runs; RSD: 0.01)
+dataset data/1024.in:   42276.30us (avg. of 10 runs; RSD: 0.01)
+$ futhark-bench --compiler=futhark-csopencl hotspot.fut
+Compiling ./hotspot.fut...
+Results for ./hotspot.fut:
+dataset data/64.in:      2172.10us (avg. of 10 runs; RSD: 0.06)
+dataset data/512.in:     9172.20us (avg. of 10 runs; RSD: 0.42)
+dataset data/1024.in:   33946.10us (avg. of 10 runs; RSD: 0.46)
+\end{minted}
+
+
+
 \subsection{Cumbersome array entry functions in Futhark libraries}
 \label{cumbersomearrays}
-As described in sec. \ref{subsec:flatarraysinentryfuncs}, we currently have to
+As described in section~\ref{subsec:flatarraysinentryfuncs}, we currently have to
 flatten our jagged arrays before we can pass them to our Futhark library
 functions. Likewise, we have to unflatten the results if we want to use them as
 jagged arrays again afterwards.
@@ -36,8 +134,17 @@ design a similar data type for Futhark \csharp{}.
 \section{The \fshark{} language}
 \subsection{Scatter}
 \label{subsec:badscatter}
+The current implementation of the \fshark{} language allows users to use the
+SOAC \texttt{Scatter}. However, the actual \texttt{scatter} SOAC from Futhark
+has certain usage constraints concerning uniqueness\footnote{See \url{https://futhark.readthedocs.io/en/latest/language-reference.html#in-place-updates}}, which we currently do not enforce
+in \fshark{}.
 
-An errornous Scatter-function!
+This means that users can unknowingly write valid \fshark{} programs, that are
+not valid Futhark programs, if they accidentally break the rules of scatter
+usage. This is not a nice position for the \fshark{} language to be in, so we
+should in principle either remove the \texttt{Scatter} SOAC from the \fshark{} standard
+library, or enforce the uniqueness constraint in the \fshark{} compiler.
+This might take some time.
 
 \section{The \fshark{} compiler}
 
@@ -53,6 +160,16 @@ This could be solved by moving the array flattening into the generated Futhark
 \csharp{} libraries as described in subsec. \ref{cumbersomearrays}, solving two
 limitations at the same time.
 
+\subsection{Allow compiler usage outside of \fshark{} wrapper}
+As discussed in section~\ref{invocationoverhead}, we would like to be able to use just the \fshark{}
+compiler, without having to go through the \fshark{} wrapper.
+Our goal is to be able to compile \fshark{} programs directly from the
+command-line like so:
+\begin{minted}{bash}
+$ fshark -o MyModule.dll MyModule.fs
+\end{minted}
+This should be relatively easy to achieve, as the compiler architecture already
+exists within the \fshark{} project.
 
 %%% Local Variables:
 %%% mode: latex

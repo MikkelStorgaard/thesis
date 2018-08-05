@@ -146,7 +146,7 @@ We will now describe its three main steps:
   Futhark program, including imports, and performs all type checks, SOAC
   optimizations, fusions and so on~\cite{pldi17}. The result of this process is a
   Futhark program expressed in imperative internal intermediate called \texttt{ImpCode}.
-  The \texttt{ImpCode} grammar is included in the appendix. The \texttt{ImpCode}
+  The \texttt{ImpCode} grammar is available in the Futhark repository\footnote{\url{https://github.com/diku-dk/futhark/blob/master/src/Futhark/CodeGen/ImpCode.hs}}. The \texttt{ImpCode}
   language contains everything from memory operations like allocating and
   deallocation memory (both on system memory and on the GPU), interfacing with
   the OpenCL device (like copying buffers back and forth between the system and
@@ -695,7 +695,7 @@ for (int32_t i_4189 = 0; i_4189 < sizze_4135; i_4189++) {
 
 In \csharp{}, arrays and lists are accessed by indexing, for example \texttt{var
   x = myArray[10];}.
-These arrays are managed by .NET's CLR\footnote{Common Language Runtime}, and
+These arrays are managed by .NET's CLR\cite{CLR}, and
 access violations, such as indexing out of bounds, makes the CLR raise a suitable
 exception, which can be handled in the \csharp{} program by catching it
 accordingly.

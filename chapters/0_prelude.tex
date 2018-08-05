@@ -17,17 +17,17 @@
 
   We argue that the \fshark{}-to-Futhark translations are correct by comparing
   the results of \fsharp{}-evaluated \fshark{} code with their Futhark-evaluated
-  counterparts, by running a comprehensive suite of NUMBER unit tests.
+  counterparts, by running a comprehensive suite of 128 unit tests.
 
   We show that Futhark can be compiled to \csharp{} GPU code, resulting in
-  comparable performance with the C- and Python OpenCL backends ($\pm 1\%$),
-  by comparing runtimes across over 30 Futhark benchmark programs ported from other array
+  comparable performance with the \clang{} OpenCL backends ($0-3\%$ for complex benchmarks),
+  by comparing runtimes across over 20 Futhark benchmark programs ported from other array
   programming languages.
 
   Finally, we show that complex GPU benchmarks can be easily written in
   \fshark{} in a way that preserves the idiomatic \fsharp{} style.
   The GPU benchmarks are compiled to GPU code and executed in an \fsharp{}
-  context, where they are shown to perform comparably with benchmarks written in
+  context, where they are shown to perform comparably with benchmarks handwritten in
   Futhark.
 \end{abstract}
  

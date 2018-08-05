@@ -13,126 +13,32 @@ Finally, we evaluate the \fshark{} compiler itself. First we test whether the
 they are functionally equivalent.
 We then compile and compare the performance of GPU benchmarks written in
 \fshark{} with equivalent benchmarks written in Futhark.
-
+\subsubsection*{Specifications for benchmark}
+For all benchmarks in this section, we have run the benchmarks on a system with
+these attributes:
+\begin{itemize}
+\item CPU: 4 cores of Intel Core i5-6500 at 3.20GHz
+  \begin{itemize}
+  \item L1 cache: 128 KiB 
+  \item L2 cache: 1024 KiB 
+  \item L3 cache: 6144 KiB 
+  \end{itemize}
+\item GPU: GeForce GTX 970
+\end{itemize}
 
 \section{Correctness of the Futhark csharp{} generator}
 \label{subsec:futharkcsharpcorrectness}
 To show that the Futhark \csharp{} code generator correctly translates Futhark
 to \csharp{} programs, we have chosen to test our solution using the already existing Futhark test
-suite.
+suite, as described in section~\ref{sec:errorsintheimplementation}.
 
-The Futhark test suite is located in the folder \texttt{./tests} in the Futhark
-repository. It is a comprehensive test suite.
-It tests everything from the Futhark compiler itself (i.e. are type aliases,
-higher order modules et al. handled correctly?),
-to whether the individual mathematical and bitwise operations are correctly
-translated from Futhark to desired target language (\csharp{} in our case), and
-whether types, be they array types or scalar types, are retained throughout the
-entire program.
-\\
-It also tests the \texttt{stdin/stdout} functionality of the generated programs.
-\\
-We have chosen this approach for validating our code generator, as we deem it
-most feasible to validate our generator through the architecture it will be part
-of. Consequently, it is most fitting to use that architecture's test suite to
-decide whether the code generator has the expected behaviour. 
+Although the \csharp{} code generator currently \textit{does not} pass all the
+tests in the test suite, we believe that the Futhark-to-\csharp{} translation
+itself is correct.
 
-
-For our evalutations, we first apply the test suite to our \csharp{}
-code generator for non-OpenCL programs using the following command from the
-Futhark root folder:
-\begin{minted}{bash}
-$ futhark-test --compiler=futhark-cs tests/
-\end{minted}
-
-Then, we apply the test suite on our code generator for \csharp{} OpenCL
-programs, like so:
-\begin{minted}{bash}
-$ futhark-test --compiler=futhark-csopencl tests/
-\end{minted}
-
-The Futhark test suite contains 961 tests.
-The current implementation does not pass all tests correctly: for the Futhark
-\csharp{} compiler for non-OpenCL programs, we are passing 840 out of 961 tests.\\
-For the Futhark \csharp{} compiler for OpenCL programs, we are passing just 833
-out of 961 tests.
-
-For many of these tests, we can immediately see what the issue is. In example,
-we our stdin reader for \csharp{} programs does not currently read empty
-arrays\footnote{such as example \texttt{empty(i32)} or \texttt{empty(f32)}.}
-correctly. Such errors are caused by lack of implementation in the stdin reader, and can be
-corrected with relative ease by implementing the missing features.\\
-The test suite also reveals various \textit{off-by-one} errors in edge cases of
-the implementation, which should be simple to debug and fix.
-
-Despite of these temporary bad test results, we are still confident that our
-code generator is mostly correct. After all, the current implementation does
-pass more than 86\% of the test suite.
-\\
-More importantly, although we have 128 failing tests, the test results also show
-that many of these tests have the same point of failure.
-
-For example, we have 16 failing tests caused by the missing reader features, and 8
-\texttt{off-by-one} errors stemming from a certain helper function in the
-\csharp{} class.
-\\
-If this is representative for the other failing tests as well, it is likely that
-the remaining number of (known) bugs in the implementation is closer to ten, than
-to a hundred.
-
-\subsection{Errors in the benchmarking functionality}
-\label{sec:errorsinbenchmark}
-The current implementation contains an error which hinders us in reliably
-testing all benchmarks in the Futhark benchmark suite. In rare cases, a
-benchmark program will both compile and execute correctly, but
-return the wrong runtime measurements.
-
-In principle, this bug should disqualify us from being able to report any
-reliable benchmarks from our solution at all, but repeated testing shows that
-the bug is indeed only present for certain benchmark programs.
-
-For example, the \texttt{Crystal} benchmark executes correctly for both Futhark
-\clang{} and Futhark \csharp{}, but the runtimes reported are obviously
-wrong for the Futhark \csharp{} case:
-
-\begin{minted}[breaklines]{bash}
-$ futhark-bench --compiler=futhark-opencl crystal.fut
-Compiling ./crystal.fut...
-Results for ./crystal.fut:
-dataset #0 ("200i32 30.0f32 5i32 1i32 1.0f32"):        32.00us (avg. of 10 runs; RSD: 0.37)
-dataset #1 ("20i32 30.0f32 5i32 50i32 0.5f32"):        21.20us (avg. of 10 runs; RSD: 0.04)
-dataset #2 ("40i32 30.0f32 5i32 50i32 0.5f32"):        40.70us (avg. of 10 runs; RSD: 0.02)
-dataset #3 ("40i32 30.0f32 50i32 50i32 0.5f32"):      263.40us (avg. of 10 runs; RSD: 0.27)
-dataset #4 ("2000i32 30.0f32 50i32 1i32 1.0f32"):   10800.40us (avg. of 10 runs; RSD: 0.04)
-
-$ futhark-bench --compiler=futhark-csopencl crystal.fut
-Compiling ./crystal.fut...
-Results for ./crystal.fut:
-dataset #0 ("200i32 30.0f32 5i32 1i32 1.0f32"):        32.20us (avg. of 10 runs; RSD: 0.54)
-dataset #1 ("20i32 30.0f32 5i32 50i32 0.5f32"):        31.90us (avg. of 10 runs; RSD: 0.58)
-dataset #2 ("40i32 30.0f32 5i32 50i32 0.5f32"):        29.30us (avg. of 10 runs; RSD: 0.57)
-dataset #3 ("40i32 30.0f32 50i32 50i32 0.5f32"):       31.60us (avg. of 10 runs; RSD: 0.65)
-dataset #4 ("2000i32 30.0f32 50i32 1i32 1.0f32"):      28.70us (avg. of 10 runs; RSD: 0.62)
-\end{minted}
-
-On the other hand, the Hotspot benchmark works as expected:
-\begin{minted}{fsharp}
-$ futhark-bench --compiler=futhark-opencl hotspot.fut  
-Compiling ./hotspot.fut...
-Results for ./hotspot.fut:
-dataset data/64.in:      1686.00us (avg. of 10 runs; RSD: 0.07)
-dataset data/512.in:    13064.60us (avg. of 10 runs; RSD: 0.01)
-dataset data/1024.in:   42276.30us (avg. of 10 runs; RSD: 0.01)
-$ futhark-bench --compiler=futhark-csopencl hotspot.fut
-Compiling ./hotspot.fut...
-Results for ./hotspot.fut:
-dataset data/64.in:      2172.10us (avg. of 10 runs; RSD: 0.06)
-dataset data/512.in:     9172.20us (avg. of 10 runs; RSD: 0.42)
-dataset data/1024.in:   33946.10us (avg. of 10 runs; RSD: 0.46)
-\end{minted}
-
-
-
+However, there are still parts of the generated Futhark \csharp{} programs which
+contains errors. Therefore we cannot say that the current implementation is
+completely correct.
 
 \section{The performance of Futhark \csharp{} programs}
 \label{subsec:futharkcsharpperformance}
@@ -229,8 +135,43 @@ disprove it.
   \texttt{Canny Edge Detection} & Lena ($512 \times 512$) \\
   \texttt{Raytracer} & dataset \#0 \\
   \caption{Datasets used for benchmarks}
-  \label{table:csharpbenchmarks}
+  \label{table:csharpbenchmarksdatasets}
 \end{figure}
+
+\section{Futhark \csharp{} integration in \csharp{} programs}
+Our implemented code generator allows us to use Futhark libraries in \csharp{},
+as expected. The example below is taken from the file \texttt{Program.cs} in the
+\texttt{CSharpTest} folder in the \fshark{} repository.
+In this folder, we find a compiled \csharp{} .dll file which is the result of
+compiling the LocVolCalib benchmark with the \texttt{futhark-csopencl} compiler.
+\begin{minted}[breaklines]{csharp}
+using System;
+using LocVolCalib;
+namespace CSharpTest
+{
+    internal class Program
+    {
+        public static void Main(string[] args)
+        {
+            var lvc = new LocVolCalib.LocVolCalib(args);
+            var res = lvc.main(256, 256, 256, 64, 0.03f, 5.0f, 0.6f, 0.5f, 0.2f);
+            var result_array = res.Item1;
+            Console.WriteLine(result_array);
+        }
+    }
+}
+\end{minted}
+First we instantiate an instance of the LocVolCalib class from the Futhark
+\csharp{} class with the arguments that we passed to the main method of our
+Program class. This lets us pass flags to the LocVolCalib class, which for
+example lets us specify the number of runs we want our benchmark to execute.
+
+Then we run the benchmark by calling the \texttt{lvc.main} method as shown.
+The program behaves as expected, and prints the benchmark results after the
+benchmark run.
+
+As discussed in section~\ref{subsec:flatarraysinentryfuncs}, the current return
+type is cumbersome, but such is the current state of affairs.
 
 \section{The design of the \fshark{} language}
 \label{sec:fsharklanguageeval}
@@ -291,7 +232,7 @@ let implicitMethod (myD:  float32 [] [])  (myDD:  float32 [] [])
   ) myMu myVar u
 \end{minted}
 
-\begin{lstlisting}[language=Futhark]
+\begin{lstlisting}[language=Futhark, basicstyle=\footnotesize\ttfamily]
 -- Snippet from Futhark's LocVolCalib
 let explicitMethod [m][n] (myD:    [m][3]f32,  myDD: [m][3]f32,
                            myMu:   [n][m]f32,  myVar: [n][m]f32,
@@ -334,7 +275,7 @@ if-expression on line 12.
 
 The second difference is on line 31 of the Futhark version. Here, we copy the
 array used for our function call, which is a feature used for Futhark's
-uniqueness types\cite{uniqueness}.
+uniqueness types\cite{pldi17}.
 As we don't have uniqueness types in \fshark{}, we can leave out this copy in
 the \fshark{} version, as shown in line 33.
 
@@ -345,8 +286,9 @@ version, as \fshark{} doesn't have that kind of boundary checks.
 
 The second pair of snippets are shown below.
 
-\begin{minted}{fsharp}
-let value (numX: int) (numY: int) (numT: int) (s0: float32) (strike: float32) (t: float32) (alpha: float32) (nu: float32) (beta: float32): float32 =
+\begin{minted}[fontsize=\scriptsize, breaklines]{fsharp}
+let value (numX: int) (numY: int) (numT: int) (s0: float32) (strike: float32) 
+          (t: float32) (alpha: float32) (nu: float32) (beta: float32): float32 =
   let (myXindex, myYindex, myX, myY, myTimeline) = initGrid s0 alpha nu t numX numY numT
   let (myDx, myDxx) = initOperator myX
   let (myDy, myDyy) = initOperator myY
@@ -364,8 +306,9 @@ let value (numX: int) (numY: int) (numT: int) (s0: float32) (strike: float32) (t
   in myResult'.[myYindex].[myXindex]
 \end{minted}
 
-\begin{lstlisting}[language=Futhark]
-let value(numX: i32, numY: i32, numT: i32, s0: f32, strike: f32, t: f32, alpha: f32, nu: f32, beta: f32): f32 =
+\begin{lstlisting}[language=Futhark, basicstyle=\footnotesize\ttfamily]
+let value(numX: i32, numY: i32, numT: i32, s0: f32, strike: f32, 
+          t: f32, alpha: f32, nu: f32, beta: f32): f32 =
   let (myXindex, myYindex, myX, myY, myTimeline) =
     initGrid(s0, alpha, nu, t, numX, numY, numT)
   let (myDx, myDxx) = initOperator(myX)
@@ -394,13 +337,12 @@ version of \fshark{} doesn't support \texttt{for-loops}.
 Otherwise, the two expressions are equivalent.
 
 The complete \fshark{} version is available in
-appendix~\ref{app:fsharklocvolcalib}, with the Futhark version available in
-appendix~\ref{app:futharklocvolcalib} for reference.
+appendix~\ref{app:fsharklocvolcalib}, with the Futhark version available for reference.
 
 \subsection{nbody}
 Below, we present the \fshark{} version of the nbody benchmark (respectively
 FSharpTests/Benchmarks/nbody.fs and accelerate/nbody/nbody.fut in the
-\fshark{} and Futhark benchmarks repository.) from the Accelerate\cite{finpar}
+\fshark{} and Futhark benchmarks repository.) from the Accelerate\cite{Accelerate}
 benchmark suite.
 
 We have chosen this benchmark to show how matrix manipulation functions can be
@@ -409,7 +351,7 @@ records similar to Futhark.
 
 The examples from the nbody benchmark are shown below:
 
-\begin{minted}[linenos]{fsharp}
+\begin{minted}[linenos, breaklines, fontsize=\scriptsize]{fsharp}
 // Snippet from FShark's nbody
 
 module Vec3 =
@@ -510,7 +452,7 @@ let matmult (x: single [] []) (y: single [] []) : single [] [] =
   ) x
 \end{minted}
 
-\begin{lstlisting}[language=Futhark]
+\begin{lstlisting}[language=Futhark, basicstyle=\footnotesize\ttfamily]
 -- Snippet from Futhark's nbody
 module vec3 = mk_vec3 f32
 
@@ -608,8 +550,7 @@ like Futhark has, so we implement it ourselves by defining it in the \fshark{}
 version at line 95.
 
 The complete \fshark{} version is available in
-appendix~\ref{app:fsharknbody}, with the Futhark version available in
-appendix~\ref{app:futharknbody} for reference.
+appendix~\ref{app:fsharknbody}, with the Futhark version available for reference.
 
 \subsection{Conclusion on \fshark{} language design}
 As shown in the two example benchmarks above, we can now write complex GPU
@@ -621,13 +562,15 @@ the readibility of the code.
 \label{subsec:fsharkcorrectness}
 To ensure that every operator and function in the \fshark{} subset has
 equivalent results, no matter whether the \fshark{} code is run as native
-\fsharp{} code, or compiled into Futhark, I have written a comprehensive test suite with unit
-tests for each 
+\fsharp{} code, or compiled into Futhark, we have written a comprehensive test suite with unit
+tests for each operator, standard library function and SOAC in the \fshark{}
+language.
 
 An \fshark{} test is an \fshark{} program, but with two extra values added,
 namely an input and an output value for the test. For example, the test written for the
 division operator is shown below. It is a unit test for the division operator,
-and contains six test cases, namely division for signed integers of (8, 16, 32, 64 bits)
+and contains six test cases, namely division for signed integers of (8, 16, 32,
+64 bits) and single- and double precision floating points
 \begin{minted}[breaklines=true, fontsize=\footnotesize]{fsharp}
 module Div
 open FSharkPrelude.FSharkPrelude
@@ -652,13 +595,15 @@ let sameValue =
 For all arithmetic operators available in \fshark{}, I have written an
 accompanying test, suitably located in the directory
 \texttt{FSharkTests/UnitTests/Operators} in the \fshark{} project.
-The strategy is ---
 
 We also test that edge cases, such as dividing floating point numbers by zero,
 has the correct results (namely \texttt{infinity} or \texttt{-infinity}.)
 We also test that \fshark{} inlined functions such (see
 section~\ref{sec:rewritess} and~\ref{functionmeaning}) behaves as expected.
 The rewritten functions are tested in \texttt{FSharkTests/UnitTests/InlinedFuns}
+
+At the moment, the \fshark{} test suite (\texttt{UnitTests} +
+\texttt{FSharkPreludeTests}) contains 128 unit tests, spread across 248 test cases.
 
 
 \subsection{Testing the \fshark{} standard library}
@@ -673,7 +618,7 @@ features such as lambdas, to see whether they break when used in more complex wa
 In example, we use the test \texttt{Filter3}\footnote{\texttt{FSharkTests/UnitTests/FSharkSOACS/Filter/Filter3.fs}} to test whether
 Zip, Map, Filter and Unzip, anonymous functions and tuple outputs work well
 together, which they do. The test is shown below.
-\begin{minted}{fsharp}
+\begin{minted}[fontsize=\scriptsize, breaklines]{fsharp}
 module Filter3
 open FSharkPrelude.FSharkPrelude
 open FShark.TestTypes.TestTypes
@@ -715,6 +660,9 @@ let Map3 f aa bb cc =
 \subsubsection{FSharkPreludeTests}
 Besides the \texttt{FSharkSOACS} tests in the \texttt{FSharkTests} folder, the
 \texttt{FSharkPrelude} also comes with a test suite on it's own.
+We have implemented this test suite to verify that our \fshark{} SOACs have the
+same behaviour as their Futhark counterparts.
+
 This test suite contains 53 unit tests of the SOACs in the
 \texttt{FSharkPrelude}.
 As opposed to the unit tests in the \texttt{FSharkTests}, the unit tests here
@@ -724,17 +672,72 @@ compare their results with a predefined expected result.
 Nevertheless, this suite contains 53 test cases spread across all the SOACs, except for near-identical cases, like in the Map2/Map3 example from before.
 
 \subsection{Conclusion on \fshark{} language correctness}
+We have written a comprehensive test suite which covers all parts of the \fshark{}
+language. All our 248 test cases passes our tests, which makes us confident that
+the \fshark{} compiler does indeed translate all parts of the \fshark{} language
+correctly to Futhark.
+More importantly, our test cases tells us that we can trust that an expression
+written in \fshark{} will evaluate to the same result, no matter whether it's
+executed in \fsharp{} or in Futhark.
 
+We still have one blind spot though; namely that we haven't written many test
+cases for unsigned integers.
+These have not been written due to time constraints, but shouldn't be inherently
+difficult to add to the existing test suite.
 
 \section{The performance of \fshark{} generated GPU kernels}
 \label{sec:fsharkgpubenchmarks}
+In the following section, we used the \fshark{} compiler to compile complex GPU
+benchmarks written in \fshark{}, to valid Futhark source code.
 
-Appendices show 
-\section*{The \texttt{LocVolCalib} benchmark}
-small.in:
-FShark (openCL) took 211882 microseconds.
-Average invokation (fshark non openCL) time was 81194767 microseconds.
-Native took 438 929 311 microseconds.
+We have then used the \texttt{futhark-bench} program to run benchmarks on the
+\fshark{} generated Futhark code, to compare the \fshark{}-generated Futhark
+programs with equivalent handwritten Futhark programs.
+
+The first benchmark tested is the LocVolCalib benchmark.
+\subsection{The \texttt{LocVolCalib} benchmark}
+In figure~\ref{fig:line-graph} \refwe see the benchmark results of the LocVolCalib benchmark, located in \texttt{FSharkTests/Benchmarks/LocVolCalib.fs}.\\
+For the \fsharp{} results in this benchmark, we have used the \texttt{FSharkTests} program in the
+\fshark{} repository to first run the compilation, and pass the dataset
+arguments to the resulting loaded library.
+
+The first two columns represent the compiled \fshark{} code being executed as
+\csharp{} libraries, both with and without OpenCL support.
+The third column represents the \fshark{} code being executed natively as
+\fsharp{} code.
+The three last columns show the benchmark results of the handwritten Futhark
+version.
+
+Based on the benchmarks, we can make the following conclusions:
+\begin{enumerate}
+\item \fshark{} code is significantly faster when compiled to OpenCL than when
+  compiled to sequential \csharp{} code. The speed increase is $\times 420$,
+  $\times 571$ and $\times 483$ for the small, medium and large dataset respectively.
+
+\item Running \fshark{} code natively in \fsharp{} is slower than compiling the
+  \fshark{} code to sequential \csharp{} code.
+  This is not surprising, as the Futhark compiler makes various optimizations like fusing SOAC calls during
+  compilation, whilst \fsharp{} executes the code as it is written.\\
+  The speed increase from native \fshark{} to compiled \fshark{} is $\times 1.06$,
+  $\times 1.02$ and $\times 1.51$ for the small, medium and large dataset respectively.
+
+  It is surprising that the \fsharp{} version is not that much slower than
+  the compiled \csharp{} version.
+
+\item The \fshark{} version of the LocVolCalib benchmark is significantly slower
+  than the already existing Futhark version (upto $\times 2.5$ slower.)
+  This is strange, as the two versions are almost the same. We are currently not
+  sure why, as the only major difference is the rewriting of Futhark's loop
+  expression into a foldl expression (section~\ref{subsec:locvolcalib}).
+  We will have to investigate this.
+
+\item The sequential \csharp{} version of the benchmark is up to $\times 37\%$ slower than
+  the sequential \csharp{} version. We do not currently know where precisely
+  where this slow down appears, but investigating the fact is definitely
+  worthwhile. It is our best guess that the speed difference comes from the
+  sequential version's array reading and writing functions, as these are
+  currently call-by-value, instead of call-by-reference. 
+\end{enumerate}
 
 \begin{figure}
     \begin{tikzpicture}
@@ -755,9 +758,7 @@ Native took 438 929 311 microseconds.
       ]
       \addplot plot coordinates {(small.in, 187.972) (medium.in, 269.265 ) (large.in, 5052.080 )};
       \addplot plot coordinates {(small.in, 79265 ) (medium.in, 154488 ) (large.in, 2448660 )};
-
       \addplot plot coordinates {(small.in, 84537 ) (medium.in, 157735 ) (large.in, 3716097 )};
-
       \addplot plot coordinates {(small.in, 134.032 ) (medium.in, 134.761  ) (large.in,  1925.001 )};
       \addplot plot coordinates {(small.in, 135.192 ) (medium.in, 134.428 ) (large.in, 1911.079 )};
       \addplot plot coordinates {(small.in, 3020.588 ) (medium.in, 5842.482 ) (large.in, 96476.520 )};
@@ -769,34 +770,107 @@ Native took 438 929 311 microseconds.
     \label{fig:line-graph}
 \end{figure}
 
-\section*{The \texttt{nbody} benchmark}
+\subsection{The \texttt{nbody} benchmark}
+Whereas the LocVolCalib benchmark takes nine scalars as input to run, the
+\texttt{nbody} benchmark takes multiple arrays of inputs, each containing
+thousands of scalars.
+We have not implemented a nice way of handling inputs of this size in the
+\fshark{} architecture yet.
 
-for all three datasets
+However, we can still run accurate benchmarks on the \fshark{} version of nbody,
+by taking the \fshark{} program out of the \fsharp{} context.
 
+First, we compile the \fshark{} version of nbody to Futhark source code by using
+the \fshark{} compiler. Then we add the benchmark annotations
+(shown in figure \ref{fig:nbodyannotations})
+from the Futhark version of nbody, to the \fshark{} generated version.
+Finally, we run the Futhark benchmark program with our code by calling the
+command:
 
-\subsection*{Specifications for benchmark}
-We have run the benchmarks on a system with these attributes:
-\begin{itemize}
-\item CPU: 4 cores of Intel Core i5-6500 at 3.20GHz
-  \begin{itemize}
-  \item L1 cache: 128 KiB 
-  \item L2 cache: 1024 KiB 
-  \item L3 cache: 6144 KiB 
-  \end{itemize}
-\item GPU: GeForce GTX 970
-\end{itemize}
+\begin{minted}{bash}
+$ $futhark-bench --compiler=futhark-csopencl fsharkNbody.fut
+\end{minted}
 
+Unfortunately, the \texttt{nbody} benchmark is one of the benchmarks that are
+affected by the measurement described in section~\ref{sec:errorsinbenchmark}.
+Therefore we cannot present a representative comparison between the
+\fshark{}/\csharp{} GPU kernel, and it's Futhark/\clang{} counterpart in this report.
 
-Introduction for the two benchmarks LocVolCalib and nbody
+However, we can show a runtime comparison between the original Futhark nbody
+implementation and the translated \fshark{} version, by running them both with
+the Futhark \clang{} OpenCL compiler. We see the results of this benchmark in
+figure~\ref{fig:nbodygraphh}.
 
+We see that the \fshark{} version compiles to a Futhark program, that has
+performance very close to the original Futhark program.
 
+\subsection{Conclusion on performance of \fshark{} generated GPU kernels}
+\label{sec:fsharkgpubenchmarks}
+Based on our two benchmarks, we conclude that \fshark{} is indeed a viable GPU
+programming language. Although we lose a lot of performance in the LocVolCalib
+benchmark, we see no loss of performance in the nbody benchmark.
+At this point we cannot safely conclude whether \fshark{} generated Futhark
+programs are inherently inferior to Futhark programs.
+LocVolCalib says that \fshark{} versions are inferior, and nbody says that they
+aren't, so we will have to write more benchmarks before we can make a conclusion
+either way.
 
-why are they faster in general
+\begin{figure}
+    \begin{tikzpicture}
+      \begin{axis}[
+        title={nbody performance},
+        xlabel={N},
+        ylabel={Runtime in microseconds},
+        width=1\textwidth,
+        %height=0.5,
+        symbolic x coords={100,1000,10000,100000},
+        xtick=data,
+        enlargelimits=0.15,
+        ybar=2pt,% configures ‘bar shift’
+        bar width=8pt,
+        nodes near coords,
+        every node near coord/.append style={rotate=70, anchor=west,font=\scriptsize},
+        legend style={legend pos=north west}
+      ]
+      \addplot plot coordinates {(100, 26) (1000,89) (10000,1310) (100000,101401)};
+      \addplot plot coordinates {(100, 27) (1000,92) (10000,1306) (100000,101967)};
 
+      \legend{FShark version, Futhark version}
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Two versions of the nbody benchmark compared}
+    \label{fig:nbodygraphh}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+\begin{lstlisting}[language=Futhark, basicstyle=\footnotesize\ttfamily]
+-- ==
+-- tags { futhark-opencl futhark-c }
+--
+-- input @ data/nbody-acc-t0.in
+-- output @ data/nbody-acc-t0.out
+--
+-- input @ data/nbody-acc-t10.in
+-- output @ data/nbody-acc-t10.out
+--
+-- input @ data/100-bodies.in
+-- input @ data/1000-bodies.in
+-- input @ data/10000-bodies.in
+-- input @ data/100000-bodies.in
+
+-- "data/N-bodies.in" all have the other attributes n_steps=1, timestep=1.0, and
+-- epsilon=50.0.
+
+-- rest of source code goes here
+-- ..
+\end{lstlisting}
+  \caption{Annotations like these shows \texttt{futhark-bench} where it can find
+    datasets for its benchmarks}
+  \label{fig:nbodyannotations}
+\end{figure}
 
 
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../thesis"
-%%% End:
