@@ -40,6 +40,7 @@
 \setbeamertemplate{title page}
 {
   \begin{minipage}[b][\paperheight]{\textwidth}
+    \ifx\inserttitlegraphic\@empty\else\usebeamertemplate*{title graphic}\fi
     \vfill
     \ifx\inserttitle\@empty%
     \else%
