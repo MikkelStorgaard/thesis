@@ -1,16 +1,36 @@
 \documentclass[10pt, compress]{beamer}
-\usetheme[titleprogressbar]{m}
+\usetheme[progressbar=frametitle]{metropolis}
+
+\usetheme[progressbar=frametitle]{metropolis}
+\usepackage{appendixnumberbeamer}
 
 \usepackage{booktabs}
 \usepackage[scale=2]{ccicons}
-\usepackage{minted}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+\usepackage{xspace}
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+\usepackage[langlinenos]{minted}
 
 \usepgfplotslibrary{dateplot}
 
 \usemintedstyle{trac}
 
+
+\setbeamercolor{framesubtitle}{fg=mDarkTeal}
+\addtobeamertemplate{frametitle}{}{%
+  \ifx\insertframesubtitle\@empty\else%
+  \usebeamerfont{framesubtitle}%
+  \usebeamercolor[fg]{framesubtitle}%
+  \insertframesubtitle%
+  \fi%
+}
+
 \title{FShark}
-\titlegraphic{\includegraphics[width=\textwidth,height=.5\textheight]{fsharklogo.png}}
+\titlegraphic{\hfill
+  \includegraphics[height=.3\textheight]{fsharklogo.png}}
 \subtitle{Effortless GPU Programming in F\#}
 \author{Mikkel Storgaard Knudsen}
 \institute{Master's Thesis presentation, University of Copenhagen}
@@ -20,52 +40,192 @@
 \maketitle
 
 \begin{frame}[fragile]
-\frametitle{Introduction}
-The future demands more efficient computing
+\frametitle{What's the deal?}
+\pause
+\begin{itemize}
+\item<+-> The future demands more efficient computing
+\item<+-> not achievable by common sequential programming 
+\end{itemize}
 \pause 
-not achievable by common sequential programming 
 
 % CUDA and OpenCL exists, but is a nuisance to write, and to use in mainstream languages
 
 % we want a way to both develop and use efficient GPU computational kernels
 % within mainstream language contexts.
 
-
-\begin{figure}
-  \centering
- \includegraphics[width=6cm,height=6cm]{firstex.png}
-\end{figure}
-
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{birds eye}
-  % what is the contribution of fshark
+\frametitle{Bird's eye view - A C\# Code Generator}
   
-  %% c# computational kernel generator for futhark
-  %%% short explanation of current state of futhark
-  %%% use case for futhark c# code generator
+\begin{columns}[T] % align columns
+\begin{column}{.48\textwidth}
+  {\scriptsize
+  \begin{align*}
+    A &=& \begin{bmatrix}
+      1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+      1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+      1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+      1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+      1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+      1 & 2 & 3 & 4 & 5 & 6 & 7
+        \end{bmatrix} \\
+    B &=& \begin{bmatrix}
+      1 & 2 & 3 & 4 & 5 & 6 \\
+      1 & 2 & 3 & 4 & 5 & 6 \\
+      1 & 2 & 3 & 4 & 5 & 6 \\
+      1 & 2 & 3 & 4 & 5 & 6 \\
+      1 & 2 & 3 & 4 & 5 & 6 \\
+      1 & 2 & 3 & 4 & 5 & 6 \\
+      1 & 2 & 3 & 4 & 5 & 6
+        \end{bmatrix} \\
+    AB &=&
+           \begin{bmatrix}
+28 & 56 & 84 & 112 & 140 & 168 \\
+28 & 56 & 84 & 112 & 140 & 168 \\
+28 & 56 & 84 & 112 & 140 & 168 \\
+28 & 56 & 84 & 112 & 140 & 168 \\
+28 & 56 & 84 & 112 & 140 & 168
+           \end{bmatrix}
+  \end{align*}
+  }%
+\end{column}%
+\hfill%
+\pause
+\begin{column}{.48\textwidth}
+\begin{minted}[fontsize=\tiny, breaklines]{csharp}
+using System;
+using Matrix;
+namespace Example
+{
+  internal class Program
+  {
+    public static void Main(string[] args)
+    {
+      var n = 5;
+      var m = 7;
+      var p = 6;
+      var matrix = new Matrix.Matrix(args);
+
+      var A = 
+        matrix.replicateRows(n,m);
+      var B = 
+        matrix.replicateRows(m,p);
+      var AB = 
+        matrix.multiply(A,B);
+    }
+  }
+}
+\end{minted}
+\end{column}%
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[plain,c]
+\frametitle{Bird's eye view - A C\# Code Generator}
+\begin{center}
+  \Huge A Futhark extension
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Bird's eye view - A C\# Code Generator}
+    \begin{figure}
+      \begin{overprint}
+        \onslide<1>\includegraphics{./images/futhark_diagram_before.pdf}
+        \onslide<2>\includegraphics{./images/futhark_diagram_after.pdf}
+      \end{overprint}
+    \end{figure}
+
   %%% show diagram of futhark compilation pipeline
   %%%% for each part, elaborate and show example
+\end{frame}
 
-  %% language with library
-  %%% explain use case
-  %%% show short code example
+\begin{frame}[plain,c]
+  \frametitle{Bird's eye view - The FShark Language}
+  \begin{center}
+    \Huge A language for GPU kernel programming
+  \end{center}
+\end{frame}
 
+\begin{frame}[fragile, plain]
+  \frametitle{Bird's eye view - The FShark Language}
+\begin{columns}[T] % align columns
+\begin{column}{.48\textwidth}
+Prelude functions:\\
+\begin{minted}[fontsize=\tiny, breaklines]{fsharp}
+Replicate : int -> 't -> 't []
+
+Iota : int -> int []
+
+Transpose : 't [][] -> 't [][]
+
+Map : (a -> b) -> a [] -> b []
+
+Foldr : (a -> b -> b) -> b -> a [] -> b
+
+zipWith : (a -> b -> c) -> a [] -> b [] -> c []
+\end{minted}
+\end{column}%
+\hfill%
+\pause
+\begin{column}{.48\textwidth}
+\texttt{matrix.fs}:
+\begin{minted}[fontsize=\tiny, breaklines, linenos=true]{fsharp}
+open FSharkPrelude
+module Matrix
+\end{minted}
+\pause
+\begin{minted}[fontsize=\tiny, breaklines, linenos=true, firstnumber=last]{fsharp}
+type replicateRows : int -> int -> int [][] 
+type multiply : int [][] 
+                -> int [][] 
+                -> int [][]
+\end{minted}
+\pause
+\begin{minted}[fontsize=\tiny, breaklines, linenos=true, firstnumber=last]{fsharp}
+let replicateRows n m = Replicate n (Iota m)
+\end{minted}
+\pause
+\begin{minted}[fontsize=\tiny, breaklines, linenos=true, firstnumber=last]{fsharp}
+let multiply A B =
+  let BT = Transpose B
+\end{minted}
+\pause
+\begin{minted}[fontsize=\tiny, breaklines, linenos=true, firstnumber=last]{fsharp}
+  let Sum = Foldr (+) 0
+\end{minted}
+\pause
+\begin{minted}[fontsize=\tiny, breaklines, linenos=true, firstnumber=last]{fsharp}
+  in Map (fun row ->
+       Map (fun col -> 
+         Sum <| zipWith (*) row col
+       ) BT
+     ) A
+\end{minted}
+\end{column}%
+\end{columns}
+\end{frame}
+
+\begin{frame}[plain,c]
+  \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
+  \begin{center}
+    \Huge An FShark compilation/invokation pipeline
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
+  \begin{center}
+    \Huge An FShark compilation/invokation pipeline
+  \end{center}
+\end{frame}
   %% fshark transpiler and wrapping framework
   %%% explain use case
   %%% show large diagram of components, and explain individual parts
   %%%% for each part, elaborate and show example
   
-
-\begin{figure}
-  \centering
- \includegraphics[width=11cm,height=4cm]{intro2.png}
-\end{figure}
-\tiny
-source: "spacefilling curves and phases of the loewner equation", j.lind, s.rohde
-\normalsize
-\end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Challenging aspects of the implementation}
