@@ -1,0 +1,3426 @@
+Latexmk: applying rule 'pdflatex'...
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex)
+ \write18 enabled.
+entering extended mode
+(./thesis.tex
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo))
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+
+Package inputenc Warning: inputenc package ignored with utf8 based engines.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/atbegshi.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/xetex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/pgfplots/pgfplots.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.revision.tex)
+(/home/mikkel/texmf/tex/latex/pgf/frontendlayer/tikz.sty
+(/home/mikkel/texmf/tex/latex/pgf/basiclayer/pgf.sty
+(/home/mikkel/texmf/tex/latex/pgf/utilities/pgfrcs.sty
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfutil-common.tex
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfutil-common-lists.tex))
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfutil-latex.def
+(/usr/share/texlive/texmf-dist/tex/latex/ms/everyshi.sty))
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfrcs.code.tex))
+(/home/mikkel/texmf/tex/latex/pgf/basiclayer/pgfcore.sty
+(/home/mikkel/texmf/tex/latex/pgf/systemlayer/pgfsys.sty
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgf.cfg)
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys-xetex.def
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys-dvipdfmx.def
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def))))
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcore.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmath.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathparser.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.te
+x) (/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.random.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.base.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.round.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.co
+de.tex))) (/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfloat.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex)
+ (/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorequick.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex)))
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmoduleshapes.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmoduleplot.code.tex)
+(/home/mikkel/texmf/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty)
+(/home/mikkel/texmf/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty))
+(/home/mikkel/texmf/tex/latex/pgf/utilities/pgffor.sty
+(/home/mikkel/texmf/tex/latex/pgf/utilities/pgfkeys.sty
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex))
+(/home/mikkel/texmf/tex/latex/pgf/math/pgfmath.sty
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmath.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgffor.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmath.code.tex)))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmodulematrix.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytop
+aths.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotscore.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgfplotssysgeneric.code
+.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/pgfplotslibrary.code.t
+ex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
+gfsupp_loader.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/pgflibraryfpu.code.tex)
+Package pgfplots: loading complementary arithmetics for your pgf version...
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
+gfsupp_pgflibraryfpu.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
+gfsupp_pgfmathfloat.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotslists
+tructure.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotslists
+tructureext.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsarray
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsmatri
+x.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/numtable/pgfplotstableshare
+d.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsdeque
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.code.te
+x
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.data.co
+de.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.verb.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/pgflibrarypgfplots.sur
+fshading.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots.surf
+shading.pgfsys-xetex.def
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots.surf
+shading.pgfsys-dvipdfmx.def))))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotscolormap.code.
+tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotscolor.code.tex
+))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsstackedplots.code.t
+ex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsplothandlers.code.t
+ex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplothandler.cod
+e.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplotimage.code.
+tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.scaling.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotscoordprocessing.cod
+e.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.errorbars.code.tex
+) (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.markers.code.tex
+) (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsticks.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.paths.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydec
+orations.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmoduledecorations.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydec
+orations.pathmorphing.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/decorations/pgflibrarydecorations
+.pathmorphing.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydec
+orations.pathreplacing.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/decorations/pgflibrarydecorations
+.pathreplacing.code.tex)))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryplo
+tmarks.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/pgflibraryplotmarks.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hxetex.def
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/stringenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/mdframed/mdframed.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3-code.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3xdvipdfmx.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/zref-abspage.sty
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/zref-base.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/needspace/needspace.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/mdframed/md-frame-0.mdf))
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/base/flafter.sty)
+(/home/mikkel/texmf/tex/latex/blindtext/blindtext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty))
+(/home/mikkel/texmf/tex/latex/seqsplit/seqsplit.sty)
+(/home/mikkel/texmf/tex/latex/minted/minted.sty
+(/home/mikkel/texmf/tex/latex/fvextra/fvextra.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)) (/home/mikkel/texmf/tex/latex/upquote/upquote.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/lineno/lineno.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/shellesc.sty)
+(/home/mikkel/texmf/tex/latex/ifplatform/ifplatform.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/catchfile.sty)
+(./thesis.w18)) (/home/mikkel/texmf/tex/generic/xstring/xstring.sty
+(/home/mikkel/texmf/tex/generic/xstring/xstring.tex))
+(/home/mikkel/texmf/tex/latex/framed/framed.sty))
+(/home/mikkel/texmf/tex/latex/hyphenat/hyphenat.sty
+
+Package hyphenat Warning: *******************************
+(hyphenat)                * You have used the htt option.
+(hyphenat)                * You are likely to get many Font Warning messages.
+(hyphenat)                * These can usually be ignored.
+(hyphenat)                *******************************.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/home/mikkel/texmf/tex/latex/stmaryrd/stmaryrd.sty)
+(/home/mikkel/texmf/tex/latex/semantic/semantic.sty
+Semantic Package v2.0(epsilon) [2003/10/28]
+CVSId: $Id: semantic.dtx,v 1.11 2003/10/28 13:45:57 turtle Exp $
+Loading features: 
+(/home/mikkel/texmf/tex/latex/semantic/ligature.sty)  math mode ligatures,
+(/home/mikkel/texmf/tex/latex/semantic/infernce.sty)  inference rules,
+(/home/mikkel/texmf/tex/latex/semantic/tdiagram.sty)  T diagrams,
+(/home/mikkel/texmf/tex/latex/semantic/reserved.sty)  reserved words,
+(/home/mikkel/texmf/tex/latex/semantic/shrthand.sty)  short hands,
+and general definitions.
+
+) (/home/mikkel/texmf/tex/latex/sttools/flushend.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.sty
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/svg/svg.sty
+(/usr/share/texlive/texmf-dist/tex/latex/koma-script/scrbase.sty
+(/usr/share/texlive/texmf-dist/tex/latex/koma-script/scrlfile.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/transparent.sty
+
+Package transparent Warning: Loading aborted, because pdfTeX is not running in 
+PDF mode.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pdfpages/ppxetex.def))
+(/usr/share/texlive/texmf-dist/tex/latex/titling/titling.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/cleveref/cleveref.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/parskip/parskip.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/appendix/appendix.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.sty
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/tuenc.def))
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+(./ku-frontpage.sty (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
+(/usr/share/texlive/texmf-dist/tex/generic/babel/switch.def)
+(/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
+(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
+(/usr/share/texlive/texmf-dist/tex/generic/babel/xebabel.def
+(/usr/share/texlive/texmf-dist/tex/generic/babel/txtbabel.def))))
+(/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf))
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/textpos/textpos.sty
+Package: textpos 2016/06/07 1.8, absolute positioning of text on the page
+Grid set 16 x 16 = 37.34424pt x 52.81541pt
+TextBlockOrigin set to 0pt x 0pt
+)
+Grid set 12 x 24 = 49.79231pt x 35.21028pt
+) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
+(/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty)))
+(/home/mikkel/texmf/tex/latex/changepage/changepage.sty)/usr/local/bin/pygmentize
+ (./thesis.aux)
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+
+LaTeX Font Warning: Font shape `TU/ptm/m/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 221.
+
+ABD: EveryShipout initializing macros
+
+Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
+ick labels; missing features). Consider writing \pgfplotsset{compat=1.15} into 
+your preamble.
+ on input line 221.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/it' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/sl' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/sc' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/it' undefined
+(Font)              using `TU/pcr/b/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/sl' undefined
+(Font)              using `TU/pcr/b/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/sc' undefined
+(Font)              using `TU/pcr/b/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/it' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/sl' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/sc' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/it' undefined
+(Font)              using `TU/pcr/sb/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/sl' undefined
+(Font)              using `TU/pcr/sb/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/sc' undefined
+(Font)              using `TU/pcr/sb/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/it' undefined
+(Font)              using `TU/pcr/c/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/sl' undefined
+(Font)              using `TU/pcr/c/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/sc' undefined
+(Font)              using `TU/pcr/c/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/it' undefined
+(Font)              using `TU/pcr/l/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/sl' undefined
+(Font)              using `TU/pcr/l/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/sc' undefined
+(Font)              using `TU/pcr/l/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/ui' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/ui' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/In' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/pdflscape.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/lscape.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/se-ascii-print.def)
+(./chapters/0_prelude.tex
+
+LaTeX Font Warning: Font shape `TU/phv/bx/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 1.
+
+
+LaTeX Font Warning: Font shape `TU/phv/sb/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 1.
+
+[1] [2]
+
+LaTeX Font Warning: Font shape `TU/ptm/bx/n' undefined
+(Font)              using `TU/ptm/m/n' instead on input line 3.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/home/mikkel/texmf/tex/latex/stmaryrd/Ustmry.fd)
+Overfull \hbox (2.27693pt too wide) in paragraph at lines 27--32
+[]\TU/ptm/m/n/10 Finally, we show that complex GPU benchmarks can be easily wri
+tten in \TU/FreeMono(0)/m/n/10 FShark
+[1] [1]) [2] (./chapters/1_introduction.tex
+Chapter 1.
+
+LaTeX Warning: Citation `Dubois:ParCompDesign' on page 3 undefined on input lin
+e 12.
+
+[3]
+
+LaTeX Warning: Citation `CLR-Generics' on page 4 undefined on input line 49.
+
+
+LaTeX Warning: Citation `Halide' on page 4 undefined on input line 69.
+
+
+LaTeX Warning: Citation `HPAT' on page 4 undefined on input line 70.
+
+
+LaTeX Warning: Citation `DeliteDSLs' on page 4 undefined on input line 70.
+
+
+LaTeX Warning: Citation `OP2-Mesh' on page 4 undefined on input line 71.
+
+
+LaTeX Warning: Citation `tang2011pochoir' on page 4 undefined on input line 71.
+
+
+
+LaTeX Warning: Citation `StreamJava8' on page 4 undefined on input line 76.
+
+
+LaTeX Warning: Citation `Accelerate-DAMP' on page 4 undefined on input line 77.
+
+
+
+LaTeX Warning: Citation `AccelerateStreaming' on page 4 undefined on input line
+ 77.
+
+
+LaTeX Warning: Citation `svensson2011obsidian' on page 4 undefined on input lin
+e 78.
+
+
+LaTeX Warning: Citation `blelloch1994implementation' on page 4 undefined on inp
+ut line 82.
+
+
+LaTeX Warning: Citation `Bergstrom:2012:NDG:2398856.2364563' on page 4 undefine
+d on input line 82.
+
+
+LaTeX Warning: Citation `pldi17' on page 4 undefined on input line 83.
+
+
+LaTeX Warning: Citation `Futhark:redomap' on page 4 undefined on input line 83.
+
+
+
+LaTeX Warning: Citation `Futhark-ICFP18' on page 4 undefined on input line 83.
+
+
+LaTeX Warning: Citation `SaCShared2005' on page 4 undefined on input line 84.
+
+
+LaTeX Warning: Citation `GrelSchoIJPP06' on page 4 undefined on input line 84.
+
+
+LaTeX Warning: Citation `Lift-CGO17' on page 4 undefined on input line 84.
+
+
+LaTeX Warning: Citation `Lift-ICFP' on page 4 undefined on input line 84.
+
+
+LaTeX Warning: Citation `alma:ISSAC' on page 4 undefined on input line 124.
+
+
+LaTeX Warning: Citation `mapal_synasc' on page 4 undefined on input line 124.
+
+
+LaTeX Warning: Citation `aldor' on page 4 undefined on input line 126.
+
+
+LaTeX Warning: Citation `maple_guide' on page 4 undefined on input line 128.
+
+
+LaTeX Warning: Citation `apltail' on page 4 undefined on input line 132.
+
+
+LaTeX Warning: Citation `dyalogbook' on page 4 undefined on input line 134.
+
+[4]
+
+LaTeX Warning: Citation `apltail' on page 5 undefined on input line 154.
+
+
+LaTeX Font Warning: Font shape `TU/ptm/m/it' undefined
+(Font)              using `TU/ptm/m/n' instead on input line 157.
+
+[5]
+Underfull \hbox (badness 1540) in paragraph at lines 209--209
+[][][] \TU/ptm/m/n/8 For example \TU/FreeMono(0)/m/n/8 F# \TU/ptm/m/n/8 does no
+t support a \TU/FreeMono(0)/m/n/8 reduce \TU/ptm/m/n/8 operator of type $\OT1/c
+mr/m/n/8 (\OML/cmm/m/it/8 ^^K \OMS/cmsy/m/n/8 ! \OML/cmm/m/it/8 ^^K \OMS/cmsy/m
+/n/8 !
+
+LaTeX Warning: Citation `pldi17' on page 6 undefined on input line 240.
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 270--273
+
+[7]) [8] (./chapters/2_background.tex
+Chapter 2.
+
+LaTeX Warning: Reference `fig:cudasaxpy' on page 9 undefined on input line 15.
+
+(./thesis.out.pyg) (./thesis.out.pyg) (./thesis.out.pyg) [9]
+Underfull \hbox (badness 10000) in paragraph at lines 68--84
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--84
+
+[10]
+
+LaTeX Warning: Reference `fig:futsaxpy' on page 11 undefined on input line 122.
+
+
+[11]
+
+LaTeX Warning: Reference `fig:cudasaxpy' on page 12 undefined on input line 168
+.
+
+
+LaTeX Warning: Reference `fig:futsaxpy' on page 12 undefined on input line 169.
+
+
+[12]
+
+LaTeX Warning: Reference `fig:fsharpsaxpy' on page 13 undefined on input line 1
+81.
+
+
+LaTeX Warning: Reference `fig:futsaxpy' on page 13 undefined on input line 182.
+
+
+(./thesis.out.pyg)) [13] (./chapters/2half_architecture.tex
+Chapter 3.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 1.
+
+
+LaTeX Warning: Reference `fig:ccompiler' on page 14 undefined on input line 16.
+
+
+[14] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
+Overfull \hbox (0.97876pt too wide) in paragraph at lines 53--54
+[][][][][][][][][][][][][][][][][][][][][][][][][] 
+(./thesis.out.pyg [15])
+Overfull \hbox (15.36403pt too wide) in paragraph at lines 131--134
+\TU/ptm/m/it/10 Futhark compiler from the command line, which will compile \TU/
+FreeMono(0)/m/n/10 mapPlus2.fut
+
+LaTeX Warning: Reference `fig:shortfutharkprogram5' on page 16 undefined on inp
+ut line 140.
+
+(./thesis.out.pyg) [16]
+Overfull \hbox (19.8963pt too wide) in paragraph at lines 191--191
+[]\TU/ptm/bx/n/14.4 Transpiling \TU/FreeMono(0)/bx/n/14.4 F# \TU/ptm/bx/n/14.4 
+Computational Kernels to Futhark 
+
+LaTeX Warning: Reference `fig:fsharkcompiler' on page 17 undefined on input lin
+e 203.
+
+
+Overfull \hbox (32.40907pt too wide) in paragraph at lines 207--208
+ [][] 
+[17] (./thesis.out.pyg)
+
+LaTeX Warning: Reference `fig:shortfsharkprogram1' on page 18 undefined on inpu
+t line 232.
+
+(./thesis.out.pyg)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) [18] [19] (./chapters/5_csharpgenerator.tex
+Chapter 4.
+
+LaTeX Warning: Reference `fig:shortfutharkprogram3'' on page 20 undefined on in
+put line 17.
+
+
+LaTeX Warning: Reference `fig:shortfutharkprogram4'' on page 20 undefined on in
+put line 19.
+
+
+LaTeX Warning: Reference `fig:shortfutharkprogram5'' on page 20 undefined on in
+put line 23.
+
+(./thesis.out.pyg) [20]
+
+LaTeX Warning: Reference `fig:shortfutharkprogram5'' on page 1 undefined on inp
+ut line 72.
+
+
+LaTeX Warning: Reference `fig:shortfutharkprogram4'' on page 1 undefined on inp
+ut line 72.
+
+
+LaTeX Warning: Reference `fig:shortfutharkprogram3'' on page 1 undefined on inp
+ut line 72.
+
+
+LaTeX Warning: Reference `fig:shortfutharkprogram3'' on page 21 undefined on in
+put line 76.
+
+[21]
+
+LaTeX Warning: Reference `fig:ccompiler' on page 22 undefined on input line 124
+.
+
+
+LaTeX Warning: Reference `fig:futharkcompilerlowerlevel' on page 22 undefined o
+n input line 128.
+
+[22]
+
+LaTeX Warning: Reference `fig:shortfutharkprogram4'' on page 23 undefined on in
+put line 141.
+
+
+LaTeX Warning: Citation `pldi17' on page 23 undefined on input line 147.
+
+
+LaTeX Warning: Reference `fig:impcode' on page 23 undefined on input line 159.
+
+
+LaTeX Warning: Reference `fig:impcodeascs' on page 23 undefined on input line 1
+60.
+
+(./thesis.out.pyg) [23] (./thesis.out.pyg)
+
+LaTeX Warning: Reference `subsec:runtimelibs' on page 24 undefined on input lin
+e 186.
+
+
+LaTeX Warning: Reference `fig:callcsc' on page 24 undefined on input line 192.
+
+
+Overfull \hbox (0.48538pt too wide) in paragraph at lines 190--198
+\TU/ptm/m/it/10 extra external libraries \TU/FreeMono(0)/m/n/10 Mono.Options.dl
+l \TU/ptm/m/it/10 and \TU/FreeMono(0)/m/n/10 Cloo.clSharp.dll\TU/ptm/m/it/10 ,
+[24]
+
+LaTeX Warning: Reference `fig:futharkcsclasses' on page 25 undefined on input l
+ine 245.
+
+
+Overfull \hbox (5.66173pt too wide) in paragraph at lines 250--251
+ [][] 
+
+LaTeX Warning: Reference `subsec:futharkclass' on page 25 undefined on input li
+ne 265.
+
+[25]
+
+LaTeX Warning: Reference `subsec:programclass' on page 26 undefined on input li
+ne 281.
+
+
+LaTeX Warning: Reference `fig:futharkclass' on page 26 undefined on input line 
+287.
+
+[26]
+Overfull \hbox (0.71938pt too wide) in paragraph at lines 320--322
+[]\TU/ptm/m/it/10 The first variable is \TU/FreeMono(0)/m/n/10 struct futhark_-
+context ctx \TU/ptm/m/it/10 and contains the global
+
+Overfull \hbox (6.43806pt too wide) in paragraph at lines 331--334
+[]\TU/ptm/m/it/10 The second variable is \TU/FreeMono(0)/m/n/10 struct futhark_
+-context_-config cfg \TU/ptm/m/it/10 and records
+
+LaTeX Warning: Reference `fig:writeScalarArray' on page 27 undefined on input l
+ine 367.
+
+(./thesis.out.pyg) [27] (./thesis.out.pyg)
+
+LaTeX Warning: Reference `subsec:futharkcsexe' on page 28 undefined on input li
+ne 420.
+
+[28]
+
+LaTeX Warning: Reference `fig:impcode' on page 29 undefined on input line 449.
+
+
+Overfull \hbox (11.63171pt too wide) in paragraph at lines 448--451
+\TU/ptm/m/it/10 The compiled Futhark functions are the Futhark functions as wri
+tten in \TU/FreeMono(0)/m/n/10 ImpCode[][][]\TU/ptm/m/it/10 ,
+[29]
+Underfull \hbox (badness 10000) in paragraph at lines 487--500
+
+
+LaTeX Warning: Reference `fig:mapplus20' on page 30 undefined on input line 510
+.
+
+
+LaTeX Warning: Reference `fig:futharkentrypairexe' on page 30 undefined on inpu
+t line 522.
+
+[30] (./thesis.out.pyg)
+
+LaTeX Warning: Reference `fig:mapplus20' on page 31 undefined on input line 567
+.
+
+
+LaTeX Warning: Reference `fig:futharkentrypairlib' on page 31 undefined on inpu
+t line 568.
+
+
+LaTeX Warning: Reference `entryfunctionsinexecutables' on page 31 undefined on 
+input line 572.
+
+(./thesis.out.pyg) [31]
+
+LaTeX Warning: Reference `sec:convertingarrays' on page 32 undefined on input l
+ine 611.
+
+
+LaTeX Warning: Reference `fig:futharkcsclasses' on page 32 undefined on input l
+ine 620.
+
+[32]
+
+LaTeX Warning: Reference `fig:futharkcscene' on page 33 undefined on input line
+ 665.
+
+(./thesis.out.pyg)
+Overfull \hbox (38.29271pt too wide) in paragraph at lines 696--702
+[]\TU/ptm/m/it/10 In \TU/FreeMono(0)/m/n/10 C#\TU/ptm/m/it/10 , arrays and list
+s are accessed by indexing, for example \TU/FreeMono(0)/m/n/10 var x = myArray[
+10];\TU/ptm/m/it/10 .
+[33]
+
+LaTeX Warning: Reference `marshalunsafeperformance' on page 34 undefined on inp
+ut line 703.
+
+
+Overfull \hbox (12.04602pt too wide) in paragraph at lines 715--717
+[]\TU/ptm/m/it/10 Therefore we encapsulate our unsafe pointer-using code in an 
+\TU/FreeMono(0)/m/n/10 unsafe \TU/ptm/m/it/10 block. 
+
+LaTeX Warning: Reference `fig:writeScalarArray'' on page 34 undefined on input 
+line 726.
+
+(./thesis.out.pyg)
+
+LaTeX Warning: Reference `fig:threemethods' on page 34 undefined on input line 
+756.
+
+(./thesis.out.pyg) [34]
+
+LaTeX Warning: Reference `fig:memoryperformancebenchmark' on page 35 undefined 
+on input line 806.
+
+
+LaTeX Warning: Reference `fig:shortperformancegraph' on page 35 undefined on in
+put line 808.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 857--863
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 857--863
+
+[35] [36] [37]
+Underfull \hbox (badness 10000) in paragraph at lines 894--898
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 894--898
+
+) [38] (./chapters/3_fsharklang.tex
+Chapter 5.
+
+LaTeX Warning: Reference `chap:fsharkcompiler' on page 39 undefined on input li
+ne 29.
+
+
+LaTeX Warning: Reference `fig:shortfsharkprogram0'' on page 39 undefined on inp
+ut line 32.
+
+
+LaTeX Warning: Reference `fig:shortfsharkprogram1'' on page 39 undefined on inp
+ut line 35.
+
+(./thesis.out.pyg) [39]
+
+LaTeX Warning: Reference `fig:shortfsharkprogram0'' on page 40 undefined on inp
+ut line 79.
+
+
+LaTeX Warning: Reference `fig:shortfsharkprogram0'' on page 40 undefined on inp
+ut line 79.
+
+[40]
+
+LaTeX Warning: Reference `fig:fsharkliterals' on page 1 undefined on input line
+ 88.
+
+
+LaTeX Warning: Reference `fig:fsharktypes' on page 1 undefined on input line 88
+.
+
+
+LaTeX Warning: Reference `fig:fsharkpatterns' on page 1 undefined on input line
+ 88.
+
+
+LaTeX Warning: Reference `fig:fsharkexpressions' on page 1 undefined on input l
+ine 88.
+
+
+LaTeX Warning: Reference `fig:fsharkstatements' on page 1 undefined on input li
+ne 88.
+
+
+LaTeX Warning: Reference `noteonfsharkmodules' on page 41 undefined on input li
+ne 105.
+
+
+LaTeX Warning: Reference `noteonfsharktypes' on page 41 undefined on input line
+ 110.
+
+
+Overfull \hbox (28.58113pt too wide) in paragraph at lines 93--114
+ [][] 
+
+Overfull \hbox (42.79195pt too wide) in paragraph at lines 93--114
+ [] 
+
+LaTeX Warning: Reference `noteonfsharkmodules' on page 41 undefined on input li
+ne 131.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (11.0538pt too wide) in paragraph at lines 176--186
+ [][] 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[41] [42]
+Underfull \hbox (badness 10000) in paragraph at lines 193--195
+
+
+LaTeX Warning: Reference `fig:astcurried' on page 1 undefined on input line 212
+.
+
+
+LaTeX Warning: Reference `fig:astcurried'' on page 1 undefined on input line 21
+3.
+
+(./thesis.out.pyg) (./thesis.out.pyg) [43]
+
+LaTeX Warning: Reference `fig:fsharkops' on page 44 undefined on input line 253
+.
+
+
+Overfull \hbox (20.47832pt too wide) in paragraph at lines 290--290
+[]\TU/FreeMono(0)/bx/n/14.4 F# \TU/ptm/bx/n/14.4 standard library functions ava
+ilable in \TU/FreeMono(0)/bx/n/14.4 FShark 
+
+LaTeX Warning: Reference `fig:fsharkfuns' on page 44 undefined on input line 29
+3.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: Reference `fig:fsharkops' on page 44 undefined on input line 342
+.
+
+
+Overfull \hbox (5.87741pt too wide) in paragraph at lines 343--343
+[][][]\TU/pcr/m/n/8 except for some convertion functions, found in \TU/FreeMono
+(0)/m/n/8 FSharp.Core.ExtraTopLevelOperators| 
+
+LaTeX Warning: Reference `fig:fsharkfuns' on page 44 undefined on input line 34
+3.
+
+
+Overfull \hbox (75.1214pt too wide) in paragraph at lines 339--351
+[]\TU/ptm/m/it/10 The primary module used in my supported \TU/FreeMono(0)/m/n/1
+0 F# \TU/ptm/m/it/10 subset is the module \TU/FreeMono(0)/m/n/10 FSharp.Core.Op
+erators\TU/ptm/m/it/10 .
+[44] (./thesis.out.pyg) (./thesis.out.pyg) [45]
+Overfull \hbox (23.29272pt too wide) in paragraph at lines 395--401
+\TU/FreeMono(0)/m/n/10 FShark \TU/ptm/m/it/10 was chosen, the SOACs and array f
+unction included in the \TU/FreeMono(0)/m/n/10 FSharkPrelude
+
+LaTeX Warning: Reference `subsec:fsharkcorrectness' on page 46 undefined on inp
+ut line 412.
+
+(./thesis.out.pyg [46]) (./thesis.out.pyg)
+
+LaTeX Warning: Reference `subsec:badscatter' on page 47 undefined on input line
+ 465.
+
+(./thesis.out.pyg
+Overfull \hbox (7.96071pt too wide) in paragraph at lines 457--1
+\TU/ptm/m/it/10 Note that we are not limited to the \TU/FreeMono(0)/m/n/10 FSha
+rk \TU/ptm/m/it/10 subset in the \TU/FreeMono(0)/m/n/10 FSharkPrelude\TU/ptm/m/
+it/10 ,
+)
+
+LaTeX Warning: Reference `appendix:soacs' on page 47 undefined on input line 47
+5.
+
+[47]
+
+LaTeX Warning: Reference `fig:futharkfusion' on page 48 undefined on input line
+ 507.
+
+
+LaTeX Warning: Reference `fig:pseudofusion' on page 48 undefined on input line 
+523.
+
+
+LaTeX Warning: Reference `fig:pseudokernel' on page 48 undefined on input line 
+525.
+
+(./thesis.out.pyg)
+
+LaTeX Warning: Reference `fig:futharkfusion' on page 48 undefined on input line
+ 539.
+
+(./thesis.out.pyg)
+
+LaTeX Warning: Reference `fig:futharkfusion' on page 48 undefined on input line
+ 562.
+
+[48]
+
+LaTeX Warning: Citation `pldi17' on page 49 undefined on input line 573.
+
+
+LaTeX Warning: Citation `pldi17' on page 49 undefined on input line 582.
+
+
+LaTeX Warning: Reference `fig:fsharpnested' on page 49 undefined on input line 
+584.
+
+(./thesis.out.pyg) [49]
+
+LaTeX Warning: Reference `fig:initarray0' on page 50 undefined on input line 63
+2.
+
+(./thesis.out.pyg)
+
+LaTeX Warning: Reference `fig:jaggedarrayfsharp' on page 50 undefined on input 
+line 652.
+
+
+LaTeX Warning: Reference `fig:jaggedarraydrawing' on page 50 undefined on input
+ line 653.
+
+(./thesis.out.pyg)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[50] [51]
+Underfull \hbox (badness 10000) in paragraph at lines 710--721
+
+
+LaTeX Warning: Reference `csharpentries' on page 52 undefined on input line 728
+.
+
+[52]
+
+LaTeX Warning: Reference `fig:jaggedtoflat' on page 53 undefined on input line 
+733.
+
+[53]
+
+LaTeX Warning: Reference `fig:flattenarray' on page 54 undefined on input line 
+756.
+
+[54] (./thesis.out.pyg)
+Overfull \hbox (14.91098pt too wide) in paragraph at lines 798--801
+[]\TU/ptm/m/it/10 : For a jagged array of $\OML/cmm/m/it/10 d$ \TU/ptm/m/it/10 
+dimensions, this branch is taken $[][]\OT1/cmr/m/n/10 ([]\OML/cmm/m/it/10 d[]\O
+T1/cmr/m/n/10 )$
+[55]
+
+LaTeX Warning: Reference `fig:unflattenarray' on page 56 undefined on input lin
+e 830.
+
+(./thesis.out.pyg) [56]
+
+LaTeX Warning: Reference `fig:fsharkarrays0' on page 57 undefined on input line
+ 882.
+
+(./thesis.out.pyg)
+Overfull \hbox (2.63403pt too wide) in paragraph at lines 902--912
+\TU/ptm/m/it/10 turns an integer. For example, to get the same functionality fo
+r \TU/FreeMono(0)/m/n/10 FSharkArrays\TU/ptm/m/it/10 ,
+
+LaTeX Warning: Reference `fig:fsharkarrays1' on page 57 undefined on input line
+ 917.
+
+
+Overfull \hbox (3.86871pt too wide) in paragraph at lines 913--918
+\TU/ptm/m/it/10 another \TU/FreeMono(0)/m/n/10 FSharkArray\TU/ptm/m/it/10 . Thi
+s could be handled by implementing \TU/FreeMono(0)/m/n/10 FSharkArray
+(./thesis.out.pyg)
+Overfull \hbox (16.28401pt too wide) in paragraph at lines 941--947
+\TU/ptm/m/it/10 Ultimately, choosing between jagged arrays, multidimensional ar
+rays and FSharkAr-
+[57]) [58] (./chapters/4_fshark_compiler.tex
+Chapter 6.
+
+LaTeX Warning: Reference `sec:fsharkgpubenchmarks' on page 59 undefined on inpu
+t line 13.
+
+(./thesis.out.pyg [59])
+Underfull \hbox (badness 10000) in paragraph at lines 74--83
+
+
+LaTeX Warning: Reference `fig:fsharkusageexample' on page 60 undefined on input
+ line 89.
+
+(./thesis.out.pyg
+Overfull \hbox (121.65375pt too wide) in paragraph at lines 11--11
+[]\TU/FreeMono(0)/m/n/9 ”/home/mikkel/Documents/fshark/FSharkPrelude/bin/Debug/
+FSharkPrelude.dll”[][],[]|  
+) [60]
+
+LaTeX Warning: Reference `sec:fsharkgpubenchmarks' on page 61 undefined on inpu
+t line 141.
+
+[61]
+
+LaTeX Warning: Reference `fig:fsharkusageexample' on page 62 undefined on input
+ line 163.
+
+
+Overfull \hbox (2.75636pt too wide) in paragraph at lines 177--177
+[]\TU/ptm/bx/n/14.4 On the design decisions of the \TU/FreeMono(0)/bx/n/14.4 FS
+hark \TU/ptm/bx/n/14.4 wrapper 
+
+Overfull \hbox (7.877pt too wide) in paragraph at lines 186--186
+[]\TU/ptm/bx/n/12 Compiling and loading \TU/FreeMono(0)/bx/n/12 FShark \TU/ptm/
+bx/n/12 modules at every startup 
+
+Overfull \hbox (1.07295pt too wide) in paragraph at lines 198--202
+\TU/ptm/m/it/10 If we, instead of loading the compiled \TU/FreeMono(0)/m/n/10 F
+Shark \TU/ptm/m/it/10 GPU kernels through the \TU/FreeMono(0)/m/n/10 FShark
+[62]
+
+LaTeX Warning: Reference `sec:fsharkgpubenchmarks' on page 63 undefined on inpu
+t line 204.
+
+
+LaTeX Warning: Reference `benchmarkcalculations' on page 63 undefined on input 
+line 205.
+
+[63]
+
+LaTeX Warning: Reference `fig:witharraycopying' on page 64 undefined on input l
+ine 261.
+
+
+Overfull \hbox (12.83409pt too wide) in paragraph at lines 270--271
+ [][] 
+
+LaTeX Warning: Reference `fig:withoutarraycopying' on page 64 undefined on inpu
+t line 290.
+
+
+Overfull \hbox (12.83409pt too wide) in paragraph at lines 293--294
+ [][] 
+[64] [65]
+Chapter 7.
+
+LaTeX Warning: Reference `fig:fsharkcompilerarchitecture' on page 66 undefined 
+on input line 320.
+
+[66] [67]
+Overfull \hbox (64.32607pt too wide) in paragraph at lines 345--351
+\TU/ptm/m/it/10 able NuGet package for F# projects, we can use this package \TU
+/FreeMono(0)/m/n/10 FSharp.Compiler.Services
+
+Overfull \hbox (116.68677pt too wide) in paragraph at lines 359--364
+[]\TU/ptm/m/it/10 The first kind of FSharpDecl that \TU/FreeMono(0)/m/n/10 FSha
+rk \TU/ptm/m/it/10 supports is the \TU/FreeMono(0)/m/n/10 FSharpDecl.MemberOrFu
+nctionOrValue\TU/ptm/m/it/10 ,
+
+LaTeX Warning: Reference `fig:fsharkdecls' on page 68 undefined on input line 3
+72.
+
+
+Overfull \hbox (83.98341pt too wide) in paragraph at lines 377--380
+\TU/ptm/m/it/10 records with ease. This entity has an empty \TU/FreeMono(0)/m/n
+/10 FSharpImplementationFileDeclaration
+
+Overfull \hbox (97.45341pt too wide) in paragraph at lines 380--383
+\TU/ptm/m/it/10 Futhark type aliases. This entity has an empty \TU/FreeMono(0)/
+m/n/10 FSharpImplementationFileDeclaration
+
+Overfull \hbox (2.19603pt too wide) in paragraph at lines 383--390
+[]\TU/ptm/m/it/10 are named modules which contains subdeclarations. In \TU/Free
+Mono(0)/m/n/10 FShark
+[68] (./thesis.out.pyg)
+Overfull \hbox (30.9945pt too wide) in paragraph at lines 408--409
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (7.15143pt too wide) in paragraph at lines 409--411
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+(./thesis.out.pyg)
+Overfull \hbox (129.44788pt too wide) in paragraph at lines 442--443
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+[69]
+
+LaTeX Warning: Reference `fig:fsharpexprs0' on page 70 undefined on input line 
+455.
+
+
+Overfull \hbox (2.51872pt too wide) in paragraph at lines 476--482
+\TU/ptm/m/it/10 The innermost expression here is the \TU/FreeMono(0)/m/n/10 App
+lication \TU/ptm/m/it/10 expression. \TU/FreeMono(0)/m/n/10 Application
+(./thesis.out.pyg) (./thesis.out.pyg) [70]
+
+LaTeX Warning: Reference `fig:fsharpexprs1' on page 71 undefined on input line 
+536.
+
+
+LaTeX Warning: Reference `fig:fsharptypes0' on page 71 undefined on input line 
+537.
+
+
+LaTeX Warning: Reference `fig:fsharpexprs0' on page 71 undefined on input line 
+543.
+
+
+LaTeX Warning: Reference `fig:fsharpexprs2' on page 71 undefined on input line 
+544.
+
+[71] (./thesis.out.pyg) (./thesis.out.pyg) [72]
+Overfull \vbox (42.10973pt too high) has occurred while \output is active
+[73]
+
+LaTeX Warning: Reference `fig:.nettofsharktypes' on page 74 undefined on input 
+line 620.
+
+
+LaTeX Warning: Reference `fig:fsharpexprstofsharkexprs' on page 74 undefined on
+ input line 621.
+
+
+LaTeX Warning: Reference `fig:fsharpexprs2' on page 74 undefined on input line 
+630.
+
+
+LaTeX Warning: Reference `fig:fsharkexprs3' on page 74 undefined on input line 
+631.
+
+
+LaTeX Warning: Reference `fig:fsharkexprstofutharkcode' on page 74 undefined on
+ input line 634.
+
+
+LaTeX Warning: Reference `fig:fsharkiltofutharktypes' on page 74 undefined on i
+nput line 635.
+
+(./thesis.out.pyg)
+Underfull \hbox (badness 1281) in paragraph at lines 683--683
+[]\TU/ptm/m/it/10 Figure 7.4: []Three \TU/FreeMono(0)/m/n/10 FSharkExpr\TU/ptm/
+m/it/10 s expressions translated to Futhark by
+[74]
+
+LaTeX Warning: Reference `compilingandusingfsharkmodule' on page 75 undefined o
+n input line 687.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 695--698
+
+[75]
+Overfull \hbox (20.11606pt too wide) in paragraph at lines 702--705
+[]\TU/FreeMono(0)/m/n/10 futhark-cs \TU/ptm/m/it/10 compiles a \TU/FreeMono(0)/
+m/n/10 C# \TU/ptm/m/it/10 dynamically linked library and writes it to \TU/FreeM
+ono(0)/m/n/10 MyLib.dll\TU/ptm/m/it/10 ,
+
+Overfull \hbox (25.2067pt too wide) in paragraph at lines 702--705
+\TU/ptm/m/it/10 and also writes the \TU/FreeMono(0)/m/n/10 C# \TU/ptm/m/it/10 s
+ource code from the Futhark compilation to \TU/FreeMono(0)/m/n/10 MyLib.cs\TU/p
+tm/m/it/10 . 
+
+LaTeX Warning: Reference `fig:shortprogrammmm' on page 76 undefined on input li
+ne 714.
+
+(./thesis.out.pyg) [76]
+Overfull \hbox (43.75606pt too wide) in paragraph at lines 829--851
+ [][] 
+) [77] [78] [79] [80] (./chapters/7_limitations.tex
+Chapter 8.
+
+LaTeX Warning: Reference `subsec:flatarraysinentryfuncs' on page 81 undefined o
+n input line 14.
+
+
+LaTeX Warning: Reference `sec:convertingarrays' on page 81 undefined on input l
+ine 19.
+
+
+LaTeX Warning: Reference `invocationoverhead' on page 81 undefined on input lin
+e 27.
+
+[81]
+
+LaTeX Warning: Reference `sec:convertingarrays' on page 82 undefined on input l
+ine 46.
+
+
+LaTeX Warning: Reference `subsec:flatarraysinentryfuncs' on page 82 undefined o
+n input line 47.
+
+
+LaTeX Warning: Reference `subsec:hinderedtupletype' on page 82 undefined on inp
+ut line 50.
+
+
+LaTeX Warning: Reference `cumbersomearrays' on page 82 undefined on input line 
+53.
+
+) [82] (./chapters/6_evaluation.tex
+Chapter 9.
+(./thesis.out.pyg) (./thesis.out.pyg [83])
+Overfull \hbox (1.90535pt too wide) in paragraph at lines 44--50
+\TU/ptm/m/it/10 To determine whether Futhark \TU/FreeMono(0)/m/n/10 C# \TU/ptm/
+m/it/10 programs have similar performance to Futhark
+
+LaTeX Warning: Citation `finpar' on page 84 undefined on input line 69.
+
+(./thesis.out.pyg [84])
+Overfull \hbox (41.33533pt too wide) in paragraph at lines 116--117
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (48.35559pt too wide) in paragraph at lines 117--118
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (96.60681pt too wide) in paragraph at lines 124--125
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][] 
+
+Overfull \hbox (96.60681pt too wide) in paragraph at lines 127--128
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][] 
+
+Overfull \hbox (96.88934pt too wide) in paragraph at lines 129--130
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+
+Overfull \hbox (56.22345pt too wide) in paragraph at lines 133--134
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (35.16266pt too wide) in paragraph at lines 134--135
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (36.01025pt too wide) in paragraph at lines 135--136
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][] 
+[85]
+
+LaTeX Warning: Citation `uniqueness' on page 86 undefined on input line 157.
+
+(./thesis.out.pyg)
+Overfull \hbox (333.38544pt too wide) in paragraph at lines 188--189
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (140.94562pt too wide) in paragraph at lines 194--196
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (126.34003pt too wide) in paragraph at lines 196--197
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (6.8421pt too wide) in paragraph at lines 200--201
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+
+Overfull \hbox (6.8421pt too wide) in paragraph at lines 201--203
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+
+LaTeX Warning: Reference `noteonfsharktypes' on page 86 undefined on input line
+ 209.
+
+[86]
+
+LaTeX Warning: Reference `app:fsharklocvolcalib' on page 87 undefined on input 
+line 217.
+
+
+LaTeX Warning: Reference `app:futharklocvolcalib' on page 87 undefined on input
+ line 218.
+
+
+LaTeX Warning: Citation `finpar' on page 87 undefined on input line 223.
+
+
+Overfull \hbox (17.40602pt too wide) in paragraph at lines 221--225
+\TU/ptm/m/it/10 FSharpTests/Benchmarks/nbody.fs and accelerate/nbody/nbody.fut 
+in the \TU/FreeMono(0)/m/n/10 FShark
+
+Overfull \hbox (18.49002pt too wide) in paragraph at lines 221--225
+\TU/ptm/m/it/10 and Futhark benchmarks repository.) from the Accelerate[[]] ben
+chmark suite. 
+(./thesis.out.pyg [87] [88])
+Overfull \hbox (110.08228pt too wide) in paragraph at lines 346--347
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (80.06653pt too wide) in paragraph at lines 348--349
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (73.89386pt too wide) in paragraph at lines 349--350
+[][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (164.7887pt too wide) in paragraph at lines 352--353
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][] 
+
+Overfull \hbox (115.40735pt too wide) in paragraph at lines 356--357
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (6.8421pt too wide) in paragraph at lines 357--358
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] 
+[89]
+Overfull \hbox (170.35327pt too wide) in paragraph at lines 370--371
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 374--376
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (128.60028pt too wide) in paragraph at lines 378--379
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 379--380
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 380--381
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 381--383
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (159.46362pt too wide) in paragraph at lines 383--384
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (46.6604pt too wide) in paragraph at lines 396--397
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][] 
+[90]
+
+LaTeX Warning: Reference `app:fsharknbody' on page 91 undefined on input line 4
+31.
+
+
+LaTeX Warning: Reference `app:futharknbody' on page 91 undefined on input line 
+432.
+
+(./thesis.out.pyg)
+Overfull \hbox (22.03473pt too wide) in paragraph at lines 472--475
+\TU/ptm/m/it/10 ing test, suitably located in the directory \TU/FreeMono(0)/m/n
+/10 FSharkTests/UnitTests/Operators
+[91]
+Overfull \hbox (25.53601pt too wide) in paragraph at lines 496--497
+\TU/ptm/m/it/10 - compare benchmarks written in \TU/FreeMono(0)/m/n/10 FShark \
+TU/ptm/m/it/10 with benchmarks written in Futhark. 
+
+Overfull \hbox (6.70552pt too wide) in paragraph at lines 538--539
+[][]
+[92] [93]) [94] (./chapters/9_related_work.tex
+Chapter 10.
+) [95] (./chapters/11_conclusion.tex
+Chapter 11.
+
+LaTeX Warning: Reference `sec:currentlimitations' on page 96 undefined on input
+ line 23.
+
+
+LaTeX Warning: Reference `invocationoverhead' on page 96 undefined on input lin
+e 35.
+
+[96]
+
+LaTeX Warning: Reference `sec:fsharkgpubenchmarks' on page 97 undefined on inpu
+t line 46.
+
+
+LaTeX Warning: Reference `subsec:locvolcalib' on page 97 undefined on input lin
+e 54.
+
+
+LaTeX Warning: Reference `sec:convertingarrays' on page 97 undefined on input l
+ine 74.
+
+) [97] (./thesis.bbl [98] [99]) [100] (./chapters/appendices.tex [101]
+Appendix A.
+
+Overfull \hbox (7.73573pt too wide) in paragraph at lines 4--7
+\TU/ptm/m/it/10 tion is located on Github: []$[][][][][] [] [] [] [][][][][][] 
+[] [][][] [] [][][][][][][][] [] [][][][][][][]$[] 
+
+Overfull \hbox (30.99675pt too wide) in paragraph at lines 8--14
+\TU/ptm/m/it/10 thesis is based on the commit \TU/FreeMono(0)/m/n/10 0d363e9572
+b1c32299332a30cadfc31d5427817a\TU/ptm/m/it/10 ,
+
+Overfull \hbox (152.09348pt too wide) in paragraph at lines 8--14
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[][] [] [][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][]$[]\TU/ptm/m/it/10 . 
+
+Overfull \hbox (46.5747pt too wide) in paragraph at lines 8--14
+\TU/ptm/m/it/10 Our implementation is located in the folder \TU/FreeMono(0)/m/n
+/10 src/Futhark/CodeGen/Backends\TU/ptm/m/it/10 . 
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--23
+
+[102]
+Appendix B.
+[103]
+Appendix C.
+(./thesis.out.pyg [104] [105]) [106]
+Appendix D.
+
+Overfull \hbox (149.31348pt too wide) in paragraph at lines 133--138
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[] [] [][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] []
+
+Overfull \hbox (223.8855pt too wide) in paragraph at lines 133--138
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[][][][][][][][][][][][][][] [] [][][][] [] [][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][] []
+[107]
+Appendix E.
+
+Overfull \hbox (149.31348pt too wide) in paragraph at lines 143--145
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[] [] [][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] []
+
+Overfull \hbox (223.8855pt too wide) in paragraph at lines 146--148
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[][][][][][][][][][][][][][] [] [][][][] [] [][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][] []
+[108]
+Appendix F.
+
+Overfull \hbox (17.64917pt too wide) in paragraph at lines 177--177
+[][]\TU/ptm/m/it/10 Futhark benchmark version of LocVolCalib with \TU/FreeMono(
+0)/bx/n/10 C# \TU/ptm/m/it/10 OpenCL (avg. of 10 runs) 
+
+Overfull \hbox (126.01459pt too wide) in paragraph at lines 178--185
+\TU/ptm/m/it/10 benchmark, compiled with the \TU/FreeMono(0)/m/n/10 C# \TU/ptm/
+m/it/10 OpenCL code generator. [] 
+
+Overfull \hbox (10.8689pt too wide) in paragraph at lines 186--186
+[][]\TU/ptm/m/it/10 Futhark benchmark version of LocVolCalib with  ̧ OpenCL (av
+g. of 10 runs) 
+
+Overfull \hbox (154.55925pt too wide) in paragraph at lines 187--194
+\TU/ptm/m/it/10 benchmark, compiled with the existing  ̧ OpenCL code generator.
+ [] 
+) [109] (./thesis.aux (./chapters/0_prelude.aux) (./chapters/1_introduction.aux
+) (./chapters/2_background.aux) (./chapters/2half_architecture.aux)
+(./chapters/5_csharpgenerator.aux) (./chapters/3_fsharklang.aux)
+(./chapters/4_fshark_compiler.aux) (./chapters/7_limitations.aux)
+(./chapters/6_evaluation.aux) (./chapters/9_related_work.aux)
+(./chapters/11_conclusion.aux) (./chapters/appendices.aux))
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ )
+(see the transcript file for additional information)
+Output written on thesis.pdf (112 pages).
+Transcript written on thesis.log.
+Latexmk: applying rule 'bibtex thesis'...
+For rule 'bibtex thesis', running '&run_bibtex(  )' ...
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
+The top-level auxiliary file: thesis.aux
+A level-1 auxiliary file: chapters/0_prelude.aux
+A level-1 auxiliary file: chapters/1_introduction.aux
+A level-1 auxiliary file: chapters/2_background.aux
+A level-1 auxiliary file: chapters/2half_architecture.aux
+A level-1 auxiliary file: chapters/5_csharpgenerator.aux
+A level-1 auxiliary file: chapters/3_fsharklang.aux
+A level-1 auxiliary file: chapters/4_fshark_compiler.aux
+A level-1 auxiliary file: chapters/7_limitations.aux
+A level-1 auxiliary file: chapters/6_evaluation.aux
+A level-1 auxiliary file: chapters/9_related_work.aux
+A level-1 auxiliary file: chapters/11_conclusion.aux
+The style file: abbrv.bst
+A level-1 auxiliary file: chapters/appendices.aux
+Database file #1: report/references.bib.bib
+Warning--I didn't find a database entry for "finpar"
+Warning--I didn't find a database entry for "uniqueness"
+(There were 2 warnings)
+Latexmk: applying rule 'pdflatex'...
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex)
+ \write18 enabled.
+entering extended mode
+(./thesis.tex
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo))
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+
+Package inputenc Warning: inputenc package ignored with utf8 based engines.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/atbegshi.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/xetex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/pgfplots/pgfplots.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.revision.tex)
+(/home/mikkel/texmf/tex/latex/pgf/frontendlayer/tikz.sty
+(/home/mikkel/texmf/tex/latex/pgf/basiclayer/pgf.sty
+(/home/mikkel/texmf/tex/latex/pgf/utilities/pgfrcs.sty
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfutil-common.tex
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfutil-common-lists.tex))
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfutil-latex.def
+(/usr/share/texlive/texmf-dist/tex/latex/ms/everyshi.sty))
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfrcs.code.tex))
+(/home/mikkel/texmf/tex/latex/pgf/basiclayer/pgfcore.sty
+(/home/mikkel/texmf/tex/latex/pgf/systemlayer/pgfsys.sty
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgf.cfg)
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys-xetex.def
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys-dvipdfmx.def
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def))))
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcore.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmath.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathparser.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.te
+x) (/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.random.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.base.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.round.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.co
+de.tex))) (/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfloat.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex)
+ (/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorequick.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex)))
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmoduleshapes.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmoduleplot.code.tex)
+(/home/mikkel/texmf/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty)
+(/home/mikkel/texmf/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty))
+(/home/mikkel/texmf/tex/latex/pgf/utilities/pgffor.sty
+(/home/mikkel/texmf/tex/latex/pgf/utilities/pgfkeys.sty
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex))
+(/home/mikkel/texmf/tex/latex/pgf/math/pgfmath.sty
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmath.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgffor.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmath.code.tex)))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmodulematrix.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytop
+aths.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotscore.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgfplotssysgeneric.code
+.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/pgfplotslibrary.code.t
+ex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
+gfsupp_loader.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/pgflibraryfpu.code.tex)
+Package pgfplots: loading complementary arithmetics for your pgf version...
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
+gfsupp_pgflibraryfpu.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
+gfsupp_pgfmathfloat.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotslists
+tructure.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotslists
+tructureext.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsarray
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsmatri
+x.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/numtable/pgfplotstableshare
+d.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsdeque
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.code.te
+x
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.data.co
+de.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.verb.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/pgflibrarypgfplots.sur
+fshading.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots.surf
+shading.pgfsys-xetex.def
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots.surf
+shading.pgfsys-dvipdfmx.def))))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotscolormap.code.
+tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotscolor.code.tex
+))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsstackedplots.code.t
+ex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsplothandlers.code.t
+ex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplothandler.cod
+e.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplotimage.code.
+tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.scaling.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotscoordprocessing.cod
+e.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.errorbars.code.tex
+) (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.markers.code.tex
+) (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsticks.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.paths.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydec
+orations.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmoduledecorations.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydec
+orations.pathmorphing.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/decorations/pgflibrarydecorations
+.pathmorphing.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydec
+orations.pathreplacing.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/decorations/pgflibrarydecorations
+.pathreplacing.code.tex)))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryplo
+tmarks.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/pgflibraryplotmarks.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hxetex.def
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/stringenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/mdframed/mdframed.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3-code.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3xdvipdfmx.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/zref-abspage.sty
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/zref-base.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/needspace/needspace.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/mdframed/md-frame-0.mdf))
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/base/flafter.sty)
+(/home/mikkel/texmf/tex/latex/blindtext/blindtext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty))
+(/home/mikkel/texmf/tex/latex/seqsplit/seqsplit.sty)
+(/home/mikkel/texmf/tex/latex/minted/minted.sty
+(/home/mikkel/texmf/tex/latex/fvextra/fvextra.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)) (/home/mikkel/texmf/tex/latex/upquote/upquote.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/lineno/lineno.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/shellesc.sty)
+(/home/mikkel/texmf/tex/latex/ifplatform/ifplatform.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/catchfile.sty)
+(./thesis.w18)) (/home/mikkel/texmf/tex/generic/xstring/xstring.sty
+(/home/mikkel/texmf/tex/generic/xstring/xstring.tex))
+(/home/mikkel/texmf/tex/latex/framed/framed.sty))
+(/home/mikkel/texmf/tex/latex/hyphenat/hyphenat.sty
+
+Package hyphenat Warning: *******************************
+(hyphenat)                * You have used the htt option.
+(hyphenat)                * You are likely to get many Font Warning messages.
+(hyphenat)                * These can usually be ignored.
+(hyphenat)                *******************************.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/home/mikkel/texmf/tex/latex/stmaryrd/stmaryrd.sty)
+(/home/mikkel/texmf/tex/latex/semantic/semantic.sty
+Semantic Package v2.0(epsilon) [2003/10/28]
+CVSId: $Id: semantic.dtx,v 1.11 2003/10/28 13:45:57 turtle Exp $
+Loading features: 
+(/home/mikkel/texmf/tex/latex/semantic/ligature.sty)  math mode ligatures,
+(/home/mikkel/texmf/tex/latex/semantic/infernce.sty)  inference rules,
+(/home/mikkel/texmf/tex/latex/semantic/tdiagram.sty)  T diagrams,
+(/home/mikkel/texmf/tex/latex/semantic/reserved.sty)  reserved words,
+(/home/mikkel/texmf/tex/latex/semantic/shrthand.sty)  short hands,
+and general definitions.
+
+) (/home/mikkel/texmf/tex/latex/sttools/flushend.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.sty
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/svg/svg.sty
+(/usr/share/texlive/texmf-dist/tex/latex/koma-script/scrbase.sty
+(/usr/share/texlive/texmf-dist/tex/latex/koma-script/scrlfile.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/transparent.sty
+
+Package transparent Warning: Loading aborted, because pdfTeX is not running in 
+PDF mode.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pdfpages/ppxetex.def))
+(/usr/share/texlive/texmf-dist/tex/latex/titling/titling.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/cleveref/cleveref.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/parskip/parskip.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/appendix/appendix.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.sty
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/tuenc.def))
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+(./ku-frontpage.sty (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
+(/usr/share/texlive/texmf-dist/tex/generic/babel/switch.def)
+(/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
+(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
+(/usr/share/texlive/texmf-dist/tex/generic/babel/xebabel.def
+(/usr/share/texlive/texmf-dist/tex/generic/babel/txtbabel.def))))
+(/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf))
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/textpos/textpos.sty
+Package: textpos 2016/06/07 1.8, absolute positioning of text on the page
+Grid set 16 x 16 = 37.34424pt x 52.81541pt
+TextBlockOrigin set to 0pt x 0pt
+)
+Grid set 12 x 24 = 49.79231pt x 35.21028pt
+) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
+(/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty)))
+(/home/mikkel/texmf/tex/latex/changepage/changepage.sty)/usr/local/bin/pygmentize
+ (./thesis.aux
+(./chapters/0_prelude.aux) (./chapters/1_introduction.aux)
+(./chapters/2_background.aux) (./chapters/2half_architecture.aux)
+(./chapters/5_csharpgenerator.aux) (./chapters/3_fsharklang.aux)
+(./chapters/4_fshark_compiler.aux) (./chapters/7_limitations.aux)
+(./chapters/6_evaluation.aux) (./chapters/9_related_work.aux)
+(./chapters/11_conclusion.aux) (./chapters/appendices.aux))
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+
+LaTeX Font Warning: Font shape `TU/ptm/m/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 221.
+
+ABD: EveryShipout initializing macros
+
+Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
+ick labels; missing features). Consider writing \pgfplotsset{compat=1.15} into 
+your preamble.
+ on input line 221.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
+(./thesis.out) (./thesis.out)
+
+LaTeX Font Warning: Font shape `TU/pcr/m/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/it' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/sl' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/sc' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/it' undefined
+(Font)              using `TU/pcr/b/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/sl' undefined
+(Font)              using `TU/pcr/b/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/sc' undefined
+(Font)              using `TU/pcr/b/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/it' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/sl' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/sc' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/it' undefined
+(Font)              using `TU/pcr/sb/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/sl' undefined
+(Font)              using `TU/pcr/sb/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/sc' undefined
+(Font)              using `TU/pcr/sb/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/it' undefined
+(Font)              using `TU/pcr/c/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/sl' undefined
+(Font)              using `TU/pcr/c/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/sc' undefined
+(Font)              using `TU/pcr/c/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/it' undefined
+(Font)              using `TU/pcr/l/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/sl' undefined
+(Font)              using `TU/pcr/l/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/sc' undefined
+(Font)              using `TU/pcr/l/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/ui' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/ui' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/In' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/pdflscape.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/lscape.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/se-ascii-print.def)
+(./chapters/0_prelude.tex
+
+LaTeX Font Warning: Font shape `TU/phv/bx/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 1.
+
+
+LaTeX Font Warning: Font shape `TU/phv/sb/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 1.
+
+[1] [2]
+
+LaTeX Font Warning: Font shape `TU/ptm/bx/n' undefined
+(Font)              using `TU/ptm/m/n' instead on input line 3.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/home/mikkel/texmf/tex/latex/stmaryrd/Ustmry.fd)
+Overfull \hbox (2.27693pt too wide) in paragraph at lines 27--32
+[]\TU/ptm/m/n/10 Finally, we show that complex GPU benchmarks can be easily wri
+tten in \TU/FreeMono(0)/m/n/10 FShark
+[1] (./thesis.toc [1] [2]) [3]) [4] (./chapters/1_introduction.tex
+Chapter 1.
+[5] [6]
+
+LaTeX Font Warning: Font shape `TU/ptm/m/it' undefined
+(Font)              using `TU/ptm/m/n' instead on input line 157.
+
+[7]
+Underfull \hbox (badness 1540) in paragraph at lines 209--209
+[][][] \TU/ptm/m/n/8 For example \TU/FreeMono(0)/m/n/8 F# \TU/ptm/m/n/8 does no
+t support a \TU/FreeMono(0)/m/n/8 reduce \TU/ptm/m/n/8 operator of type $\OT1/c
+mr/m/n/8 (\OML/cmm/m/it/8 ^^K \OMS/cmsy/m/n/8 ! \OML/cmm/m/it/8 ^^K \OMS/cmsy/m
+/n/8 !
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 270--273
+
+[9]) [10] (./chapters/2_background.tex
+Chapter 2.
+(./thesis.out.pyg) (./thesis.out.pyg) (./thesis.out.pyg) [11]
+Underfull \hbox (badness 10000) in paragraph at lines 68--84
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--84
+
+[12] [13] [14] (./thesis.out.pyg)) [15] (./chapters/2half_architecture.tex
+Chapter 3.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 1.
+
+[16] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
+Overfull \hbox (0.97876pt too wide) in paragraph at lines 53--54
+[][][][][][][][][][][][][][][][][][][][][][][][][] 
+(./thesis.out.pyg [17])
+Overfull \hbox (15.36403pt too wide) in paragraph at lines 131--134
+\TU/ptm/m/it/10 Futhark compiler from the command line, which will compile \TU/
+FreeMono(0)/m/n/10 mapPlus2.fut
+(./thesis.out.pyg) [18]
+Overfull \hbox (19.8963pt too wide) in paragraph at lines 191--191
+[]\TU/ptm/bx/n/14.4 Transpiling \TU/FreeMono(0)/bx/n/14.4 F# \TU/ptm/bx/n/14.4 
+Computational Kernels to Futhark 
+
+Overfull \hbox (32.40907pt too wide) in paragraph at lines 207--208
+ [][] 
+[19] (./thesis.out.pyg) (./thesis.out.pyg)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) [20] [21] (./chapters/5_csharpgenerator.tex
+Chapter 4.
+(./thesis.out.pyg) [22] [23] [24] (./thesis.out.pyg) [25] (./thesis.out.pyg)
+Overfull \hbox (0.48538pt too wide) in paragraph at lines 190--198
+\TU/ptm/m/it/10 extra external libraries \TU/FreeMono(0)/m/n/10 Mono.Options.dl
+l \TU/ptm/m/it/10 and \TU/FreeMono(0)/m/n/10 Cloo.clSharp.dll\TU/ptm/m/it/10 ,
+[26]
+Overfull \hbox (5.66173pt too wide) in paragraph at lines 250--251
+ [][] 
+[27] [28]
+Overfull \hbox (0.71938pt too wide) in paragraph at lines 320--322
+[]\TU/ptm/m/it/10 The first variable is \TU/FreeMono(0)/m/n/10 struct futhark_-
+context ctx \TU/ptm/m/it/10 and contains the global
+
+Overfull \hbox (6.43806pt too wide) in paragraph at lines 331--334
+[]\TU/ptm/m/it/10 The second variable is \TU/FreeMono(0)/m/n/10 struct futhark_
+-context_-config cfg \TU/ptm/m/it/10 and records
+(./thesis.out.pyg) [29] (./thesis.out.pyg) [30]
+Overfull \hbox (11.63171pt too wide) in paragraph at lines 448--451
+\TU/ptm/m/it/10 The compiled Futhark functions are the Futhark functions as wri
+tten in \TU/FreeMono(0)/m/n/10 ImpCode[][][]\TU/ptm/m/it/10 ,
+[31]
+Underfull \hbox (badness 10000) in paragraph at lines 487--500
+
+[32] (./thesis.out.pyg) (./thesis.out.pyg) [33] [34] (./thesis.out.pyg)
+Overfull \hbox (38.29271pt too wide) in paragraph at lines 696--702
+[]\TU/ptm/m/it/10 In \TU/FreeMono(0)/m/n/10 C#\TU/ptm/m/it/10 , arrays and list
+s are accessed by indexing, for example \TU/FreeMono(0)/m/n/10 var x = myArray[
+10];\TU/ptm/m/it/10 .
+[35]
+Overfull \hbox (12.04602pt too wide) in paragraph at lines 715--717
+[]\TU/ptm/m/it/10 Therefore we encapsulate our unsafe pointer-using code in an 
+\TU/FreeMono(0)/m/n/10 unsafe \TU/ptm/m/it/10 block. 
+(./thesis.out.pyg) (./thesis.out.pyg) [36]
+Underfull \hbox (badness 10000) in paragraph at lines 857--863
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 857--863
+
+[37] [38] [39]
+Underfull \hbox (badness 10000) in paragraph at lines 894--898
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 894--898
+
+) [40] (./chapters/3_fsharklang.tex
+Chapter 5.
+(./thesis.out.pyg) [41] [42]
+Overfull \hbox (39.70113pt too wide) in paragraph at lines 93--114
+ [][] 
+
+Overfull \hbox (53.91194pt too wide) in paragraph at lines 93--114
+ [] 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (11.0538pt too wide) in paragraph at lines 176--186
+ [][] 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[43] [44]
+Underfull \hbox (badness 10000) in paragraph at lines 193--195
+
+(./thesis.out.pyg) (./thesis.out.pyg) [45]
+Overfull \hbox (20.47832pt too wide) in paragraph at lines 290--290
+[]\TU/FreeMono(0)/bx/n/14.4 F# \TU/ptm/bx/n/14.4 standard library functions ava
+ilable in \TU/FreeMono(0)/bx/n/14.4 FShark 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (5.87741pt too wide) in paragraph at lines 343--343
+[][][]\TU/pcr/m/n/8 except for some convertion functions, found in \TU/FreeMono
+(0)/m/n/8 FSharp.Core.ExtraTopLevelOperators| 
+
+Overfull \hbox (75.1214pt too wide) in paragraph at lines 339--351
+[]\TU/ptm/m/it/10 The primary module used in my supported \TU/FreeMono(0)/m/n/1
+0 F# \TU/ptm/m/it/10 subset is the module \TU/FreeMono(0)/m/n/10 FSharp.Core.Op
+erators\TU/ptm/m/it/10 .
+[46] (./thesis.out.pyg) (./thesis.out.pyg) [47]
+Overfull \hbox (23.29272pt too wide) in paragraph at lines 395--401
+\TU/FreeMono(0)/m/n/10 FShark \TU/ptm/m/it/10 was chosen, the SOACs and array f
+unction included in the \TU/FreeMono(0)/m/n/10 FSharkPrelude
+(./thesis.out.pyg [48]) (./thesis.out.pyg) (./thesis.out.pyg
+Overfull \hbox (7.96071pt too wide) in paragraph at lines 457--1
+\TU/ptm/m/it/10 Note that we are not limited to the \TU/FreeMono(0)/m/n/10 FSha
+rk \TU/ptm/m/it/10 subset in the \TU/FreeMono(0)/m/n/10 FSharkPrelude\TU/ptm/m/
+it/10 ,
+) [49] (./thesis.out.pyg) (./thesis.out.pyg) [50] (./thesis.out.pyg) [51]
+(./thesis.out.pyg) (./thesis.out.pyg)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[52] [53]
+Underfull \hbox (badness 10000) in paragraph at lines 710--721
+
+[54] [55] [56] (./thesis.out.pyg)
+Overfull \hbox (14.91098pt too wide) in paragraph at lines 798--801
+[]\TU/ptm/m/it/10 : For a jagged array of $\OML/cmm/m/it/10 d$ \TU/ptm/m/it/10 
+dimensions, this branch is taken $[][]\OT1/cmr/m/n/10 ([]\OML/cmm/m/it/10 d[]\O
+T1/cmr/m/n/10 )$
+[57] (./thesis.out.pyg) [58] (./thesis.out.pyg)
+Overfull \hbox (2.63403pt too wide) in paragraph at lines 902--912
+\TU/ptm/m/it/10 turns an integer. For example, to get the same functionality fo
+r \TU/FreeMono(0)/m/n/10 FSharkArrays\TU/ptm/m/it/10 ,
+
+Overfull \hbox (3.86871pt too wide) in paragraph at lines 913--918
+\TU/ptm/m/it/10 another \TU/FreeMono(0)/m/n/10 FSharkArray\TU/ptm/m/it/10 . Thi
+s could be handled by implementing \TU/FreeMono(0)/m/n/10 FSharkArray
+(./thesis.out.pyg)
+Overfull \hbox (16.28401pt too wide) in paragraph at lines 941--947
+\TU/ptm/m/it/10 Ultimately, choosing between jagged arrays, multidimensional ar
+rays and FSharkAr-
+[59]) [60] (./chapters/4_fshark_compiler.tex
+Chapter 6.
+(./thesis.out.pyg [61])
+Underfull \hbox (badness 10000) in paragraph at lines 74--83
+
+(./thesis.out.pyg
+Overfull \hbox (121.65375pt too wide) in paragraph at lines 11--11
+[]\TU/FreeMono(0)/m/n/9 ”/home/mikkel/Documents/fshark/FSharkPrelude/bin/Debug/
+FSharkPrelude.dll”[][],[]|  
+) [62] [63]
+Overfull \hbox (2.75636pt too wide) in paragraph at lines 177--177
+[]\TU/ptm/bx/n/14.4 On the design decisions of the \TU/FreeMono(0)/bx/n/14.4 FS
+hark \TU/ptm/bx/n/14.4 wrapper 
+
+Overfull \hbox (7.877pt too wide) in paragraph at lines 186--186
+[]\TU/ptm/bx/n/12 Compiling and loading \TU/FreeMono(0)/bx/n/12 FShark \TU/ptm/
+bx/n/12 modules at every startup 
+
+Overfull \hbox (1.07295pt too wide) in paragraph at lines 198--202
+\TU/ptm/m/it/10 If we, instead of loading the compiled \TU/FreeMono(0)/m/n/10 F
+Shark \TU/ptm/m/it/10 GPU kernels through the \TU/FreeMono(0)/m/n/10 FShark
+[64] [65]
+Overfull \hbox (12.83409pt too wide) in paragraph at lines 270--271
+ [][] 
+
+Overfull \hbox (12.83409pt too wide) in paragraph at lines 293--294
+ [][] 
+[66] [67]
+Chapter 7.
+[68] [69]
+Overfull \hbox (64.32607pt too wide) in paragraph at lines 345--351
+\TU/ptm/m/it/10 able NuGet package for F# projects, we can use this package \TU
+/FreeMono(0)/m/n/10 FSharp.Compiler.Services
+
+Overfull \hbox (116.68677pt too wide) in paragraph at lines 359--364
+[]\TU/ptm/m/it/10 The first kind of FSharpDecl that \TU/FreeMono(0)/m/n/10 FSha
+rk \TU/ptm/m/it/10 supports is the \TU/FreeMono(0)/m/n/10 FSharpDecl.MemberOrFu
+nctionOrValue\TU/ptm/m/it/10 ,
+
+Overfull \hbox (83.98341pt too wide) in paragraph at lines 377--380
+\TU/ptm/m/it/10 records with ease. This entity has an empty \TU/FreeMono(0)/m/n
+/10 FSharpImplementationFileDeclaration
+
+Overfull \hbox (97.45341pt too wide) in paragraph at lines 380--383
+\TU/ptm/m/it/10 Futhark type aliases. This entity has an empty \TU/FreeMono(0)/
+m/n/10 FSharpImplementationFileDeclaration
+
+Overfull \hbox (2.19603pt too wide) in paragraph at lines 383--390
+[]\TU/ptm/m/it/10 are named modules which contains subdeclarations. In \TU/Free
+Mono(0)/m/n/10 FShark
+[70] (./thesis.out.pyg)
+Overfull \hbox (30.9945pt too wide) in paragraph at lines 408--409
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (7.15143pt too wide) in paragraph at lines 409--411
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+(./thesis.out.pyg)
+Overfull \hbox (129.44788pt too wide) in paragraph at lines 442--443
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+[71]
+Overfull \hbox (2.51872pt too wide) in paragraph at lines 476--482
+\TU/ptm/m/it/10 The innermost expression here is the \TU/FreeMono(0)/m/n/10 App
+lication \TU/ptm/m/it/10 expression. \TU/FreeMono(0)/m/n/10 Application
+(./thesis.out.pyg) (./thesis.out.pyg) [72] [73] (./thesis.out.pyg)
+(./thesis.out.pyg) [74]
+Overfull \vbox (42.10973pt too high) has occurred while \output is active
+[75] (./thesis.out.pyg)
+Underfull \hbox (badness 1281) in paragraph at lines 683--683
+[]\TU/ptm/m/it/10 Figure 7.4: []Three \TU/FreeMono(0)/m/n/10 FSharkExpr\TU/ptm/
+m/it/10 s expressions translated to Futhark by
+[76]
+Underfull \hbox (badness 10000) in paragraph at lines 695--698
+
+[77]
+Overfull \hbox (20.11606pt too wide) in paragraph at lines 702--705
+[]\TU/FreeMono(0)/m/n/10 futhark-cs \TU/ptm/m/it/10 compiles a \TU/FreeMono(0)/
+m/n/10 C# \TU/ptm/m/it/10 dynamically linked library and writes it to \TU/FreeM
+ono(0)/m/n/10 MyLib.dll\TU/ptm/m/it/10 ,
+
+Overfull \hbox (25.2067pt too wide) in paragraph at lines 702--705
+\TU/ptm/m/it/10 and also writes the \TU/FreeMono(0)/m/n/10 C# \TU/ptm/m/it/10 s
+ource code from the Futhark compilation to \TU/FreeMono(0)/m/n/10 MyLib.cs\TU/p
+tm/m/it/10 . 
+(./thesis.out.pyg) [78]
+Overfull \hbox (43.75606pt too wide) in paragraph at lines 829--851
+ [][] 
+) [79] [80] [81] [82] (./chapters/7_limitations.tex
+Chapter 8.
+[83]) [84] (./chapters/6_evaluation.tex
+Chapter 9.
+(./thesis.out.pyg) (./thesis.out.pyg [85])
+Overfull \hbox (1.90535pt too wide) in paragraph at lines 44--50
+\TU/ptm/m/it/10 To determine whether Futhark \TU/FreeMono(0)/m/n/10 C# \TU/ptm/
+m/it/10 programs have similar performance to Futhark
+
+LaTeX Warning: Citation `finpar' on page 86 undefined on input line 69.
+
+(./thesis.out.pyg [86])
+Overfull \hbox (41.33533pt too wide) in paragraph at lines 116--117
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (48.35559pt too wide) in paragraph at lines 117--118
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (96.60681pt too wide) in paragraph at lines 124--125
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][] 
+
+Overfull \hbox (96.60681pt too wide) in paragraph at lines 127--128
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][] 
+
+Overfull \hbox (96.88934pt too wide) in paragraph at lines 129--130
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+
+Overfull \hbox (56.22345pt too wide) in paragraph at lines 133--134
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (35.16266pt too wide) in paragraph at lines 134--135
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (36.01025pt too wide) in paragraph at lines 135--136
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][] 
+[87]
+
+LaTeX Warning: Citation `uniqueness' on page 88 undefined on input line 157.
+
+(./thesis.out.pyg)
+Overfull \hbox (333.38544pt too wide) in paragraph at lines 188--189
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (140.94562pt too wide) in paragraph at lines 194--196
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (126.34003pt too wide) in paragraph at lines 196--197
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (6.8421pt too wide) in paragraph at lines 200--201
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+
+Overfull \hbox (6.8421pt too wide) in paragraph at lines 201--203
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+[88]
+
+LaTeX Warning: Reference `app:futharklocvolcalib' on page 89 undefined on input
+ line 218.
+
+
+LaTeX Warning: Citation `finpar' on page 89 undefined on input line 223.
+
+
+Overfull \hbox (17.40602pt too wide) in paragraph at lines 221--225
+\TU/ptm/m/it/10 FSharpTests/Benchmarks/nbody.fs and accelerate/nbody/nbody.fut 
+in the \TU/FreeMono(0)/m/n/10 FShark
+
+Overfull \hbox (18.49002pt too wide) in paragraph at lines 221--225
+\TU/ptm/m/it/10 and Futhark benchmarks repository.) from the Accelerate[[]] ben
+chmark suite. 
+(./thesis.out.pyg [89] [90])
+Overfull \hbox (110.08228pt too wide) in paragraph at lines 346--347
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (80.06653pt too wide) in paragraph at lines 348--349
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (73.89386pt too wide) in paragraph at lines 349--350
+[][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (164.7887pt too wide) in paragraph at lines 352--353
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][] 
+
+Overfull \hbox (115.40735pt too wide) in paragraph at lines 356--357
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (6.8421pt too wide) in paragraph at lines 357--358
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] 
+[91]
+Overfull \hbox (170.35327pt too wide) in paragraph at lines 370--371
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 374--376
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (128.60028pt too wide) in paragraph at lines 378--379
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 379--380
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 380--381
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 381--383
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (159.46362pt too wide) in paragraph at lines 383--384
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (46.6604pt too wide) in paragraph at lines 396--397
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][] 
+[92]
+
+LaTeX Warning: Reference `app:futharknbody' on page 93 undefined on input line 
+432.
+
+(./thesis.out.pyg)
+Overfull \hbox (22.03473pt too wide) in paragraph at lines 472--475
+\TU/ptm/m/it/10 ing test, suitably located in the directory \TU/FreeMono(0)/m/n
+/10 FSharkTests/UnitTests/Operators
+[93]
+Overfull \hbox (25.53601pt too wide) in paragraph at lines 496--497
+\TU/ptm/m/it/10 - compare benchmarks written in \TU/FreeMono(0)/m/n/10 FShark \
+TU/ptm/m/it/10 with benchmarks written in Futhark. 
+
+Overfull \hbox (6.70552pt too wide) in paragraph at lines 538--539
+[][]
+[94] [95]) [96] (./chapters/9_related_work.tex
+Chapter 10.
+) [97] (./chapters/11_conclusion.tex
+Chapter 11.
+[98]) [99] (./thesis.bbl [100] [101]) [102] (./chapters/appendices.tex [103]
+Appendix A.
+
+Overfull \hbox (7.73573pt too wide) in paragraph at lines 4--7
+\TU/ptm/m/it/10 tion is located on Github: []$[][][][][] [] [] [] [][][][][][] 
+[] [][][] [] [][][][][][][][] [] [][][][][][][]$[] 
+
+Overfull \hbox (30.99675pt too wide) in paragraph at lines 8--14
+\TU/ptm/m/it/10 thesis is based on the commit \TU/FreeMono(0)/m/n/10 0d363e9572
+b1c32299332a30cadfc31d5427817a\TU/ptm/m/it/10 ,
+
+Overfull \hbox (152.09348pt too wide) in paragraph at lines 8--14
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[][] [] [][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][]$[]\TU/ptm/m/it/10 . 
+
+Overfull \hbox (46.5747pt too wide) in paragraph at lines 8--14
+\TU/ptm/m/it/10 Our implementation is located in the folder \TU/FreeMono(0)/m/n
+/10 src/Futhark/CodeGen/Backends\TU/ptm/m/it/10 . 
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--23
+
+[104]
+Appendix B.
+[105]
+Appendix C.
+(./thesis.out.pyg [106] [107]) [108]
+Appendix D.
+
+Overfull \hbox (149.31348pt too wide) in paragraph at lines 133--138
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[] [] [][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] []
+
+Overfull \hbox (223.8855pt too wide) in paragraph at lines 133--138
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[][][][][][][][][][][][][][] [] [][][][] [] [][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][] []
+[109]
+Appendix E.
+
+Overfull \hbox (149.31348pt too wide) in paragraph at lines 143--145
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[] [] [][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] []
+
+Overfull \hbox (223.8855pt too wide) in paragraph at lines 146--148
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[][][][][][][][][][][][][][] [] [][][][] [] [][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][] []
+[110]
+Appendix F.
+
+Overfull \hbox (17.64917pt too wide) in paragraph at lines 177--177
+[][]\TU/ptm/m/it/10 Futhark benchmark version of LocVolCalib with \TU/FreeMono(
+0)/bx/n/10 C# \TU/ptm/m/it/10 OpenCL (avg. of 10 runs) 
+
+Overfull \hbox (126.01459pt too wide) in paragraph at lines 178--185
+\TU/ptm/m/it/10 benchmark, compiled with the \TU/FreeMono(0)/m/n/10 C# \TU/ptm/
+m/it/10 OpenCL code generator. [] 
+
+Overfull \hbox (10.8689pt too wide) in paragraph at lines 186--186
+[][]\TU/ptm/m/it/10 Futhark benchmark version of LocVolCalib with  ̧ OpenCL (av
+g. of 10 runs) 
+
+Overfull \hbox (154.55925pt too wide) in paragraph at lines 187--194
+\TU/ptm/m/it/10 benchmark, compiled with the existing  ̧ OpenCL code generator.
+ [] 
+) [111] (./thesis.aux (./chapters/0_prelude.aux) (./chapters/1_introduction.aux
+) (./chapters/2_background.aux) (./chapters/2half_architecture.aux)
+(./chapters/5_csharpgenerator.aux) (./chapters/3_fsharklang.aux)
+(./chapters/4_fshark_compiler.aux) (./chapters/7_limitations.aux)
+(./chapters/6_evaluation.aux) (./chapters/9_related_work.aux)
+(./chapters/11_conclusion.aux) (./chapters/appendices.aux))
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ )
+(see the transcript file for additional information)
+Output written on thesis.pdf (114 pages).
+Transcript written on thesis.log.
+Latexmk: applying rule 'bibtex thesis'...
+For rule 'bibtex thesis', running '&run_bibtex(  )' ...
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
+The top-level auxiliary file: thesis.aux
+A level-1 auxiliary file: chapters/0_prelude.aux
+A level-1 auxiliary file: chapters/1_introduction.aux
+A level-1 auxiliary file: chapters/2_background.aux
+A level-1 auxiliary file: chapters/2half_architecture.aux
+A level-1 auxiliary file: chapters/5_csharpgenerator.aux
+A level-1 auxiliary file: chapters/3_fsharklang.aux
+A level-1 auxiliary file: chapters/4_fshark_compiler.aux
+A level-1 auxiliary file: chapters/7_limitations.aux
+A level-1 auxiliary file: chapters/6_evaluation.aux
+A level-1 auxiliary file: chapters/9_related_work.aux
+A level-1 auxiliary file: chapters/11_conclusion.aux
+The style file: abbrv.bst
+A level-1 auxiliary file: chapters/appendices.aux
+Database file #1: report/references.bib.bib
+Warning--I didn't find a database entry for "finpar"
+Warning--I didn't find a database entry for "uniqueness"
+(There were 2 warnings)
+Latexmk: applying rule 'pdflatex'...
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex)
+ \write18 enabled.
+entering extended mode
+(./thesis.tex
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo))
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+
+Package inputenc Warning: inputenc package ignored with utf8 based engines.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/atbegshi.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/xetex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/pgfplots/pgfplots.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.revision.tex)
+(/home/mikkel/texmf/tex/latex/pgf/frontendlayer/tikz.sty
+(/home/mikkel/texmf/tex/latex/pgf/basiclayer/pgf.sty
+(/home/mikkel/texmf/tex/latex/pgf/utilities/pgfrcs.sty
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfutil-common.tex
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfutil-common-lists.tex))
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfutil-latex.def
+(/usr/share/texlive/texmf-dist/tex/latex/ms/everyshi.sty))
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfrcs.code.tex))
+(/home/mikkel/texmf/tex/latex/pgf/basiclayer/pgfcore.sty
+(/home/mikkel/texmf/tex/latex/pgf/systemlayer/pgfsys.sty
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgf.cfg)
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys-xetex.def
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys-dvipdfmx.def
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def))))
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcore.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmath.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathparser.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.te
+x) (/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.random.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.base.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.round.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.co
+de.tex))) (/home/mikkel/texmf/tex/generic/pgf/math/pgfmathfloat.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex)
+ (/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorequick.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex)))
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmoduleshapes.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmoduleplot.code.tex)
+(/home/mikkel/texmf/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty)
+(/home/mikkel/texmf/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty))
+(/home/mikkel/texmf/tex/latex/pgf/utilities/pgffor.sty
+(/home/mikkel/texmf/tex/latex/pgf/utilities/pgfkeys.sty
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex))
+(/home/mikkel/texmf/tex/latex/pgf/math/pgfmath.sty
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmath.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/utilities/pgffor.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/math/pgfmath.code.tex)))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmodulematrix.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytop
+aths.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotscore.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgfplotssysgeneric.code
+.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/pgfplotslibrary.code.t
+ex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
+gfsupp_loader.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/pgflibraryfpu.code.tex)
+Package pgfplots: loading complementary arithmetics for your pgf version...
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
+gfsupp_pgflibraryfpu.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
+gfsupp_pgfmathfloat.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotslists
+tructure.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotslists
+tructureext.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsarray
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsmatri
+x.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/numtable/pgfplotstableshare
+d.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsdeque
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.code.te
+x
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.data.co
+de.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.verb.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/pgflibrarypgfplots.sur
+fshading.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots.surf
+shading.pgfsys-xetex.def
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots.surf
+shading.pgfsys-dvipdfmx.def))))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotscolormap.code.
+tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotscolor.code.tex
+))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsstackedplots.code.t
+ex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsplothandlers.code.t
+ex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplothandler.cod
+e.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplotimage.code.
+tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.scaling.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotscoordprocessing.cod
+e.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.errorbars.code.tex
+) (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.markers.code.tex
+) (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotsticks.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.paths.code.tex)
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydec
+orations.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/modules/pgfmoduledecorations.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydec
+orations.pathmorphing.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/decorations/pgflibrarydecorations
+.pathmorphing.code.tex))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydec
+orations.pathreplacing.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/decorations/pgflibrarydecorations
+.pathreplacing.code.tex)))
+(/home/mikkel/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryplo
+tmarks.code.tex
+(/home/mikkel/texmf/tex/generic/pgf/libraries/pgflibraryplotmarks.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hxetex.def
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/stringenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/mdframed/mdframed.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3-code.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3xdvipdfmx.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/zref-abspage.sty
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/zref-base.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/needspace/needspace.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/mdframed/md-frame-0.mdf))
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/base/flafter.sty)
+(/home/mikkel/texmf/tex/latex/blindtext/blindtext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty))
+(/home/mikkel/texmf/tex/latex/seqsplit/seqsplit.sty)
+(/home/mikkel/texmf/tex/latex/minted/minted.sty
+(/home/mikkel/texmf/tex/latex/fvextra/fvextra.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)) (/home/mikkel/texmf/tex/latex/upquote/upquote.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/lineno/lineno.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/shellesc.sty)
+(/home/mikkel/texmf/tex/latex/ifplatform/ifplatform.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/catchfile.sty)
+(./thesis.w18)) (/home/mikkel/texmf/tex/generic/xstring/xstring.sty
+(/home/mikkel/texmf/tex/generic/xstring/xstring.tex))
+(/home/mikkel/texmf/tex/latex/framed/framed.sty))
+(/home/mikkel/texmf/tex/latex/hyphenat/hyphenat.sty
+
+Package hyphenat Warning: *******************************
+(hyphenat)                * You have used the htt option.
+(hyphenat)                * You are likely to get many Font Warning messages.
+(hyphenat)                * These can usually be ignored.
+(hyphenat)                *******************************.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/home/mikkel/texmf/tex/latex/stmaryrd/stmaryrd.sty)
+(/home/mikkel/texmf/tex/latex/semantic/semantic.sty
+Semantic Package v2.0(epsilon) [2003/10/28]
+CVSId: $Id: semantic.dtx,v 1.11 2003/10/28 13:45:57 turtle Exp $
+Loading features: 
+(/home/mikkel/texmf/tex/latex/semantic/ligature.sty)  math mode ligatures,
+(/home/mikkel/texmf/tex/latex/semantic/infernce.sty)  inference rules,
+(/home/mikkel/texmf/tex/latex/semantic/tdiagram.sty)  T diagrams,
+(/home/mikkel/texmf/tex/latex/semantic/reserved.sty)  reserved words,
+(/home/mikkel/texmf/tex/latex/semantic/shrthand.sty)  short hands,
+and general definitions.
+
+) (/home/mikkel/texmf/tex/latex/sttools/flushend.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.sty
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/svg/svg.sty
+(/usr/share/texlive/texmf-dist/tex/latex/koma-script/scrbase.sty
+(/usr/share/texlive/texmf-dist/tex/latex/koma-script/scrlfile.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/transparent.sty
+
+Package transparent Warning: Loading aborted, because pdfTeX is not running in 
+PDF mode.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pdfpages/ppxetex.def))
+(/usr/share/texlive/texmf-dist/tex/latex/titling/titling.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/cleveref/cleveref.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/parskip/parskip.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/appendix/appendix.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.sty
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/tuenc.def))
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+(./ku-frontpage.sty (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
+(/usr/share/texlive/texmf-dist/tex/generic/babel/switch.def)
+(/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
+(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
+(/usr/share/texlive/texmf-dist/tex/generic/babel/xebabel.def
+(/usr/share/texlive/texmf-dist/tex/generic/babel/txtbabel.def))))
+(/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf))
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/textpos/textpos.sty
+Package: textpos 2016/06/07 1.8, absolute positioning of text on the page
+Grid set 16 x 16 = 37.34424pt x 52.81541pt
+TextBlockOrigin set to 0pt x 0pt
+)
+Grid set 12 x 24 = 49.79231pt x 35.21028pt
+) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
+(/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty)))
+(/home/mikkel/texmf/tex/latex/changepage/changepage.sty)/usr/local/bin/pygmentize
+ (./thesis.aux
+(./chapters/0_prelude.aux) (./chapters/1_introduction.aux)
+(./chapters/2_background.aux) (./chapters/2half_architecture.aux)
+(./chapters/5_csharpgenerator.aux) (./chapters/3_fsharklang.aux)
+(./chapters/4_fshark_compiler.aux) (./chapters/7_limitations.aux)
+(./chapters/6_evaluation.aux) (./chapters/9_related_work.aux)
+(./chapters/11_conclusion.aux) (./chapters/appendices.aux))
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+
+LaTeX Font Warning: Font shape `TU/ptm/m/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 221.
+
+ABD: EveryShipout initializing macros
+
+Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
+ick labels; missing features). Consider writing \pgfplotsset{compat=1.15} into 
+your preamble.
+ on input line 221.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
+(./thesis.out) (./thesis.out)
+
+LaTeX Font Warning: Font shape `TU/pcr/m/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/it' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/sl' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/sc' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/it' undefined
+(Font)              using `TU/pcr/b/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/sl' undefined
+(Font)              using `TU/pcr/b/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/b/sc' undefined
+(Font)              using `TU/pcr/b/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/it' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/sl' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/sc' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/it' undefined
+(Font)              using `TU/pcr/sb/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/sl' undefined
+(Font)              using `TU/pcr/sb/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/sb/sc' undefined
+(Font)              using `TU/pcr/sb/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/it' undefined
+(Font)              using `TU/pcr/c/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/sl' undefined
+(Font)              using `TU/pcr/c/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/c/sc' undefined
+(Font)              using `TU/pcr/c/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/n' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/it' undefined
+(Font)              using `TU/pcr/l/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/sl' undefined
+(Font)              using `TU/pcr/l/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/l/sc' undefined
+(Font)              using `TU/pcr/l/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/ui' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/bx/ui' undefined
+(Font)              using `TU/pcr/bx/n' instead on input line 221.
+
+
+LaTeX Font Warning: Font shape `TU/pcr/m/In' undefined
+(Font)              using `TU/pcr/m/n' instead on input line 221.
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/pdflscape.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/lscape.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/se-ascii-print.def)
+(./chapters/0_prelude.tex
+
+LaTeX Font Warning: Font shape `TU/phv/bx/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 1.
+
+
+LaTeX Font Warning: Font shape `TU/phv/sb/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 1.
+
+[1] [2]
+
+LaTeX Font Warning: Font shape `TU/ptm/bx/n' undefined
+(Font)              using `TU/ptm/m/n' instead on input line 3.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/home/mikkel/texmf/tex/latex/stmaryrd/Ustmry.fd)
+Overfull \hbox (2.27693pt too wide) in paragraph at lines 27--32
+[]\TU/ptm/m/n/10 Finally, we show that complex GPU benchmarks can be easily wri
+tten in \TU/FreeMono(0)/m/n/10 FShark
+[1] (./thesis.toc [1] [2]) [3]) [4] (./chapters/1_introduction.tex
+Chapter 1.
+[5] [6]
+
+LaTeX Font Warning: Font shape `TU/ptm/m/it' undefined
+(Font)              using `TU/ptm/m/n' instead on input line 157.
+
+[7]
+Underfull \hbox (badness 1540) in paragraph at lines 209--209
+[][][] \TU/ptm/m/n/8 For example \TU/FreeMono(0)/m/n/8 F# \TU/ptm/m/n/8 does no
+t support a \TU/FreeMono(0)/m/n/8 reduce \TU/ptm/m/n/8 operator of type $\OT1/c
+mr/m/n/8 (\OML/cmm/m/it/8 ^^K \OMS/cmsy/m/n/8 ! \OML/cmm/m/it/8 ^^K \OMS/cmsy/m
+/n/8 !
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 270--273
+
+[9]) [10] (./chapters/2_background.tex
+Chapter 2.
+(./thesis.out.pyg) (./thesis.out.pyg) (./thesis.out.pyg) [11]
+Underfull \hbox (badness 10000) in paragraph at lines 68--84
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--84
+
+[12] [13] [14] (./thesis.out.pyg)) [15] (./chapters/2half_architecture.tex
+Chapter 3.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 1.
+
+[16] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty)
+Overfull \hbox (0.97876pt too wide) in paragraph at lines 53--54
+[][][][][][][][][][][][][][][][][][][][][][][][][] 
+(./thesis.out.pyg [17])
+Overfull \hbox (15.36403pt too wide) in paragraph at lines 131--134
+\TU/ptm/m/it/10 Futhark compiler from the command line, which will compile \TU/
+FreeMono(0)/m/n/10 mapPlus2.fut
+(./thesis.out.pyg) [18]
+Overfull \hbox (19.8963pt too wide) in paragraph at lines 191--191
+[]\TU/ptm/bx/n/14.4 Transpiling \TU/FreeMono(0)/bx/n/14.4 F# \TU/ptm/bx/n/14.4 
+Computational Kernels to Futhark 
+
+Overfull \hbox (32.40907pt too wide) in paragraph at lines 207--208
+ [][] 
+[19] (./thesis.out.pyg) (./thesis.out.pyg)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) [20] [21] (./chapters/5_csharpgenerator.tex
+Chapter 4.
+(./thesis.out.pyg) [22] [23] [24] (./thesis.out.pyg) [25] (./thesis.out.pyg)
+Overfull \hbox (0.48538pt too wide) in paragraph at lines 190--198
+\TU/ptm/m/it/10 extra external libraries \TU/FreeMono(0)/m/n/10 Mono.Options.dl
+l \TU/ptm/m/it/10 and \TU/FreeMono(0)/m/n/10 Cloo.clSharp.dll\TU/ptm/m/it/10 ,
+[26]
+Overfull \hbox (5.66173pt too wide) in paragraph at lines 250--251
+ [][] 
+[27] [28]
+Overfull \hbox (0.71938pt too wide) in paragraph at lines 320--322
+[]\TU/ptm/m/it/10 The first variable is \TU/FreeMono(0)/m/n/10 struct futhark_-
+context ctx \TU/ptm/m/it/10 and contains the global
+
+Overfull \hbox (6.43806pt too wide) in paragraph at lines 331--334
+[]\TU/ptm/m/it/10 The second variable is \TU/FreeMono(0)/m/n/10 struct futhark_
+-context_-config cfg \TU/ptm/m/it/10 and records
+(./thesis.out.pyg) [29] (./thesis.out.pyg) [30]
+Overfull \hbox (11.63171pt too wide) in paragraph at lines 448--451
+\TU/ptm/m/it/10 The compiled Futhark functions are the Futhark functions as wri
+tten in \TU/FreeMono(0)/m/n/10 ImpCode[][][]\TU/ptm/m/it/10 ,
+[31]
+Underfull \hbox (badness 10000) in paragraph at lines 487--500
+
+[32] (./thesis.out.pyg) (./thesis.out.pyg) [33] [34] (./thesis.out.pyg)
+Overfull \hbox (38.29271pt too wide) in paragraph at lines 696--702
+[]\TU/ptm/m/it/10 In \TU/FreeMono(0)/m/n/10 C#\TU/ptm/m/it/10 , arrays and list
+s are accessed by indexing, for example \TU/FreeMono(0)/m/n/10 var x = myArray[
+10];\TU/ptm/m/it/10 .
+[35]
+Overfull \hbox (12.04602pt too wide) in paragraph at lines 715--717
+[]\TU/ptm/m/it/10 Therefore we encapsulate our unsafe pointer-using code in an 
+\TU/FreeMono(0)/m/n/10 unsafe \TU/ptm/m/it/10 block. 
+(./thesis.out.pyg) (./thesis.out.pyg) [36]
+Underfull \hbox (badness 10000) in paragraph at lines 857--863
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 857--863
+
+[37] [38] [39]
+Underfull \hbox (badness 10000) in paragraph at lines 894--898
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 894--898
+
+) [40] (./chapters/3_fsharklang.tex
+Chapter 5.
+(./thesis.out.pyg) [41] [42]
+Overfull \hbox (39.70113pt too wide) in paragraph at lines 93--114
+ [][] 
+
+Overfull \hbox (53.91194pt too wide) in paragraph at lines 93--114
+ [] 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (11.0538pt too wide) in paragraph at lines 176--186
+ [][] 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[43] [44]
+Underfull \hbox (badness 10000) in paragraph at lines 193--195
+
+(./thesis.out.pyg) (./thesis.out.pyg) [45]
+Overfull \hbox (20.47832pt too wide) in paragraph at lines 290--290
+[]\TU/FreeMono(0)/bx/n/14.4 F# \TU/ptm/bx/n/14.4 standard library functions ava
+ilable in \TU/FreeMono(0)/bx/n/14.4 FShark 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (5.87741pt too wide) in paragraph at lines 343--343
+[][][]\TU/pcr/m/n/8 except for some convertion functions, found in \TU/FreeMono
+(0)/m/n/8 FSharp.Core.ExtraTopLevelOperators| 
+
+Overfull \hbox (75.1214pt too wide) in paragraph at lines 339--351
+[]\TU/ptm/m/it/10 The primary module used in my supported \TU/FreeMono(0)/m/n/1
+0 F# \TU/ptm/m/it/10 subset is the module \TU/FreeMono(0)/m/n/10 FSharp.Core.Op
+erators\TU/ptm/m/it/10 .
+[46] (./thesis.out.pyg) (./thesis.out.pyg) [47]
+Overfull \hbox (23.29272pt too wide) in paragraph at lines 395--401
+\TU/FreeMono(0)/m/n/10 FShark \TU/ptm/m/it/10 was chosen, the SOACs and array f
+unction included in the \TU/FreeMono(0)/m/n/10 FSharkPrelude
+(./thesis.out.pyg [48]) (./thesis.out.pyg) (./thesis.out.pyg
+Overfull \hbox (7.96071pt too wide) in paragraph at lines 457--1
+\TU/ptm/m/it/10 Note that we are not limited to the \TU/FreeMono(0)/m/n/10 FSha
+rk \TU/ptm/m/it/10 subset in the \TU/FreeMono(0)/m/n/10 FSharkPrelude\TU/ptm/m/
+it/10 ,
+) [49] (./thesis.out.pyg) (./thesis.out.pyg) [50] (./thesis.out.pyg) [51]
+(./thesis.out.pyg) (./thesis.out.pyg)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[52] [53]
+Underfull \hbox (badness 10000) in paragraph at lines 710--721
+
+[54] [55] [56] (./thesis.out.pyg)
+Overfull \hbox (14.91098pt too wide) in paragraph at lines 798--801
+[]\TU/ptm/m/it/10 : For a jagged array of $\OML/cmm/m/it/10 d$ \TU/ptm/m/it/10 
+dimensions, this branch is taken $[][]\OT1/cmr/m/n/10 ([]\OML/cmm/m/it/10 d[]\O
+T1/cmr/m/n/10 )$
+[57] (./thesis.out.pyg) [58] (./thesis.out.pyg)
+Overfull \hbox (2.63403pt too wide) in paragraph at lines 902--912
+\TU/ptm/m/it/10 turns an integer. For example, to get the same functionality fo
+r \TU/FreeMono(0)/m/n/10 FSharkArrays\TU/ptm/m/it/10 ,
+
+Overfull \hbox (3.86871pt too wide) in paragraph at lines 913--918
+\TU/ptm/m/it/10 another \TU/FreeMono(0)/m/n/10 FSharkArray\TU/ptm/m/it/10 . Thi
+s could be handled by implementing \TU/FreeMono(0)/m/n/10 FSharkArray
+(./thesis.out.pyg)
+Overfull \hbox (16.28401pt too wide) in paragraph at lines 941--947
+\TU/ptm/m/it/10 Ultimately, choosing between jagged arrays, multidimensional ar
+rays and FSharkAr-
+[59]) [60] (./chapters/4_fshark_compiler.tex
+Chapter 6.
+(./thesis.out.pyg [61])
+Underfull \hbox (badness 10000) in paragraph at lines 74--83
+
+(./thesis.out.pyg
+Overfull \hbox (121.65375pt too wide) in paragraph at lines 11--11
+[]\TU/FreeMono(0)/m/n/9 ”/home/mikkel/Documents/fshark/FSharkPrelude/bin/Debug/
+FSharkPrelude.dll”[][],[]|  
+) [62] [63]
+Overfull \hbox (2.75636pt too wide) in paragraph at lines 177--177
+[]\TU/ptm/bx/n/14.4 On the design decisions of the \TU/FreeMono(0)/bx/n/14.4 FS
+hark \TU/ptm/bx/n/14.4 wrapper 
+
+Overfull \hbox (7.877pt too wide) in paragraph at lines 186--186
+[]\TU/ptm/bx/n/12 Compiling and loading \TU/FreeMono(0)/bx/n/12 FShark \TU/ptm/
+bx/n/12 modules at every startup 
+
+Overfull \hbox (1.07295pt too wide) in paragraph at lines 198--202
+\TU/ptm/m/it/10 If we, instead of loading the compiled \TU/FreeMono(0)/m/n/10 F
+Shark \TU/ptm/m/it/10 GPU kernels through the \TU/FreeMono(0)/m/n/10 FShark
+[64] [65]
+Overfull \hbox (12.83409pt too wide) in paragraph at lines 270--271
+ [][] 
+
+Overfull \hbox (12.83409pt too wide) in paragraph at lines 293--294
+ [][] 
+[66] [67]
+Chapter 7.
+[68] [69]
+Overfull \hbox (64.32607pt too wide) in paragraph at lines 345--351
+\TU/ptm/m/it/10 able NuGet package for F# projects, we can use this package \TU
+/FreeMono(0)/m/n/10 FSharp.Compiler.Services
+
+Overfull \hbox (116.68677pt too wide) in paragraph at lines 359--364
+[]\TU/ptm/m/it/10 The first kind of FSharpDecl that \TU/FreeMono(0)/m/n/10 FSha
+rk \TU/ptm/m/it/10 supports is the \TU/FreeMono(0)/m/n/10 FSharpDecl.MemberOrFu
+nctionOrValue\TU/ptm/m/it/10 ,
+
+Overfull \hbox (83.98341pt too wide) in paragraph at lines 377--380
+\TU/ptm/m/it/10 records with ease. This entity has an empty \TU/FreeMono(0)/m/n
+/10 FSharpImplementationFileDeclaration
+
+Overfull \hbox (97.45341pt too wide) in paragraph at lines 380--383
+\TU/ptm/m/it/10 Futhark type aliases. This entity has an empty \TU/FreeMono(0)/
+m/n/10 FSharpImplementationFileDeclaration
+
+Overfull \hbox (2.19603pt too wide) in paragraph at lines 383--390
+[]\TU/ptm/m/it/10 are named modules which contains subdeclarations. In \TU/Free
+Mono(0)/m/n/10 FShark
+[70] (./thesis.out.pyg)
+Overfull \hbox (30.9945pt too wide) in paragraph at lines 408--409
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (7.15143pt too wide) in paragraph at lines 409--411
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+(./thesis.out.pyg)
+Overfull \hbox (129.44788pt too wide) in paragraph at lines 442--443
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+[71]
+Overfull \hbox (2.51872pt too wide) in paragraph at lines 476--482
+\TU/ptm/m/it/10 The innermost expression here is the \TU/FreeMono(0)/m/n/10 App
+lication \TU/ptm/m/it/10 expression. \TU/FreeMono(0)/m/n/10 Application
+(./thesis.out.pyg) (./thesis.out.pyg) [72] [73] (./thesis.out.pyg)
+(./thesis.out.pyg) [74]
+Overfull \vbox (42.10973pt too high) has occurred while \output is active
+[75] (./thesis.out.pyg)
+Underfull \hbox (badness 1281) in paragraph at lines 683--683
+[]\TU/ptm/m/it/10 Figure 7.4: []Three \TU/FreeMono(0)/m/n/10 FSharkExpr\TU/ptm/
+m/it/10 s expressions translated to Futhark by
+[76]
+Underfull \hbox (badness 10000) in paragraph at lines 695--698
+
+[77]
+Overfull \hbox (20.11606pt too wide) in paragraph at lines 702--705
+[]\TU/FreeMono(0)/m/n/10 futhark-cs \TU/ptm/m/it/10 compiles a \TU/FreeMono(0)/
+m/n/10 C# \TU/ptm/m/it/10 dynamically linked library and writes it to \TU/FreeM
+ono(0)/m/n/10 MyLib.dll\TU/ptm/m/it/10 ,
+
+Overfull \hbox (25.2067pt too wide) in paragraph at lines 702--705
+\TU/ptm/m/it/10 and also writes the \TU/FreeMono(0)/m/n/10 C# \TU/ptm/m/it/10 s
+ource code from the Futhark compilation to \TU/FreeMono(0)/m/n/10 MyLib.cs\TU/p
+tm/m/it/10 . 
+(./thesis.out.pyg) [78]
+Overfull \hbox (43.75606pt too wide) in paragraph at lines 829--851
+ [][] 
+) [79] [80] [81] [82] (./chapters/7_limitations.tex
+Chapter 8.
+[83]) [84] (./chapters/6_evaluation.tex
+Chapter 9.
+(./thesis.out.pyg) (./thesis.out.pyg [85])
+Overfull \hbox (1.90535pt too wide) in paragraph at lines 44--50
+\TU/ptm/m/it/10 To determine whether Futhark \TU/FreeMono(0)/m/n/10 C# \TU/ptm/
+m/it/10 programs have similar performance to Futhark
+
+LaTeX Warning: Citation `finpar' on page 86 undefined on input line 69.
+
+(./thesis.out.pyg [86])
+Overfull \hbox (41.33533pt too wide) in paragraph at lines 116--117
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (48.35559pt too wide) in paragraph at lines 117--118
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (96.60681pt too wide) in paragraph at lines 124--125
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][] 
+
+Overfull \hbox (96.60681pt too wide) in paragraph at lines 127--128
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][] 
+
+Overfull \hbox (96.88934pt too wide) in paragraph at lines 129--130
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+
+Overfull \hbox (56.22345pt too wide) in paragraph at lines 133--134
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (35.16266pt too wide) in paragraph at lines 134--135
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (36.01025pt too wide) in paragraph at lines 135--136
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][] 
+[87]
+
+LaTeX Warning: Citation `uniqueness' on page 88 undefined on input line 157.
+
+(./thesis.out.pyg)
+Overfull \hbox (333.38544pt too wide) in paragraph at lines 188--189
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (140.94562pt too wide) in paragraph at lines 194--196
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (126.34003pt too wide) in paragraph at lines 196--197
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (6.8421pt too wide) in paragraph at lines 200--201
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+
+Overfull \hbox (6.8421pt too wide) in paragraph at lines 201--203
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
+[88]
+
+LaTeX Warning: Reference `app:futharklocvolcalib' on page 89 undefined on input
+ line 218.
+
+
+LaTeX Warning: Citation `finpar' on page 89 undefined on input line 223.
+
+
+Overfull \hbox (17.40602pt too wide) in paragraph at lines 221--225
+\TU/ptm/m/it/10 FSharpTests/Benchmarks/nbody.fs and accelerate/nbody/nbody.fut 
+in the \TU/FreeMono(0)/m/n/10 FShark
+
+Overfull \hbox (18.49002pt too wide) in paragraph at lines 221--225
+\TU/ptm/m/it/10 and Futhark benchmarks repository.) from the Accelerate[[]] ben
+chmark suite. 
+(./thesis.out.pyg [89] [90])
+Overfull \hbox (110.08228pt too wide) in paragraph at lines 346--347
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (80.06653pt too wide) in paragraph at lines 348--349
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (73.89386pt too wide) in paragraph at lines 349--350
+[][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (164.7887pt too wide) in paragraph at lines 352--353
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][] 
+
+Overfull \hbox (115.40735pt too wide) in paragraph at lines 356--357
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (6.8421pt too wide) in paragraph at lines 357--358
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] 
+[91]
+Overfull \hbox (170.35327pt too wide) in paragraph at lines 370--371
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 374--376
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (128.60028pt too wide) in paragraph at lines 378--379
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 379--380
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 380--381
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (13.01477pt too wide) in paragraph at lines 381--383
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (159.46362pt too wide) in paragraph at lines 383--384
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+
+Overfull \hbox (46.6604pt too wide) in paragraph at lines 396--397
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][] 
+[92]
+
+LaTeX Warning: Reference `app:futharknbody' on page 93 undefined on input line 
+432.
+
+(./thesis.out.pyg)
+Overfull \hbox (22.03473pt too wide) in paragraph at lines 472--475
+\TU/ptm/m/it/10 ing test, suitably located in the directory \TU/FreeMono(0)/m/n
+/10 FSharkTests/UnitTests/Operators
+[93]
+Overfull \hbox (25.53601pt too wide) in paragraph at lines 496--497
+\TU/ptm/m/it/10 - compare benchmarks written in \TU/FreeMono(0)/m/n/10 FShark \
+TU/ptm/m/it/10 with benchmarks written in Futhark. 
+
+Overfull \hbox (6.70552pt too wide) in paragraph at lines 538--539
+[][]
+[94] [95]) [96] (./chapters/9_related_work.tex
+Chapter 10.
+) [97] (./chapters/11_conclusion.tex
+Chapter 11.
+[98]) [99] (./thesis.bbl [100] [101]) [102] (./chapters/appendices.tex [103]
+Appendix A.
+
+Overfull \hbox (7.73573pt too wide) in paragraph at lines 4--7
+\TU/ptm/m/it/10 tion is located on Github: []$[][][][][] [] [] [] [][][][][][] 
+[] [][][] [] [][][][][][][][] [] [][][][][][][]$[] 
+
+Overfull \hbox (30.99675pt too wide) in paragraph at lines 8--14
+\TU/ptm/m/it/10 thesis is based on the commit \TU/FreeMono(0)/m/n/10 0d363e9572
+b1c32299332a30cadfc31d5427817a\TU/ptm/m/it/10 ,
+
+Overfull \hbox (152.09348pt too wide) in paragraph at lines 8--14
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[][] [] [][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][]$[]\TU/ptm/m/it/10 . 
+
+Overfull \hbox (46.5747pt too wide) in paragraph at lines 8--14
+\TU/ptm/m/it/10 Our implementation is located in the folder \TU/FreeMono(0)/m/n
+/10 src/Futhark/CodeGen/Backends\TU/ptm/m/it/10 . 
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--23
+
+[104]
+Appendix B.
+[105]
+Appendix C.
+(./thesis.out.pyg [106] [107]) [108]
+Appendix D.
+
+Overfull \hbox (149.31348pt too wide) in paragraph at lines 133--138
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[] [] [][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] []
+
+Overfull \hbox (223.8855pt too wide) in paragraph at lines 133--138
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[][][][][][][][][][][][][][] [] [][][][] [] [][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][] []
+[109]
+Appendix E.
+
+Overfull \hbox (149.31348pt too wide) in paragraph at lines 143--145
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[] [] [][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][] []
+
+Overfull \hbox (223.8855pt too wide) in paragraph at lines 146--148
+[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][]
+[][][][][][][][][][][][][][] [] [][][][] [] [][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][] []
+[110]
+Appendix F.
+
+Overfull \hbox (17.64917pt too wide) in paragraph at lines 177--177
+[][]\TU/ptm/m/it/10 Futhark benchmark version of LocVolCalib with \TU/FreeMono(
+0)/bx/n/10 C# \TU/ptm/m/it/10 OpenCL (avg. of 10 runs) 
+
+Overfull \hbox (126.01459pt too wide) in paragraph at lines 178--185
+\TU/ptm/m/it/10 benchmark, compiled with the \TU/FreeMono(0)/m/n/10 C# \TU/ptm/
+m/it/10 OpenCL code generator. [] 
+
+Overfull \hbox (10.8689pt too wide) in paragraph at lines 186--186
+[][]\TU/ptm/m/it/10 Futhark benchmark version of LocVolCalib with  ̧ OpenCL (av
+g. of 10 runs) 
+
+Overfull \hbox (154.55925pt too wide) in paragraph at lines 187--194
+\TU/ptm/m/it/10 benchmark, compiled with the existing  ̧ OpenCL code generator.
+ [] 
+) [111] (./thesis.aux (./chapters/0_prelude.aux) (./chapters/1_introduction.aux
+) (./chapters/2_background.aux) (./chapters/2half_architecture.aux)
+(./chapters/5_csharpgenerator.aux) (./chapters/3_fsharklang.aux)
+(./chapters/4_fshark_compiler.aux) (./chapters/7_limitations.aux)
+(./chapters/6_evaluation.aux) (./chapters/9_related_work.aux)
+(./chapters/11_conclusion.aux) (./chapters/appendices.aux))
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
+
+ )
+(see the transcript file for additional information)
+Output written on thesis.pdf (114 pages).
+Transcript written on thesis.log.
+Latexmk: All targets (thesis.pdf) are up-to-date

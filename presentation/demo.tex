@@ -1,4 +1,4 @@
-\documentclass[10pt, compress]{beamer}
+\documentclass[10pt, compress, usenames, dvipsnames]{beamer}
 \usetheme[progressbar=frametitle]{metropolis}
 
 \usetheme[progressbar=frametitle]{metropolis}
@@ -8,6 +8,8 @@
 \usepackage[scale=2]{ccicons}
 
 \usepackage{pgfplots}
+\usepackage[dvipsnames]{xcolor}
+
 \usepgfplotslibrary{dateplot}
 
 \usepackage{xspace}
@@ -173,8 +175,8 @@ Map2 : (a -> b -> c) -> a [] -> b [] -> c []
 \begin{column}{.48\textwidth}
 \texttt{matrix.fs}:
 \begin{minted}[fontsize=\tiny, breaklines, linenos=true]{fsharp}
-open FSharkPrelude
 module Matrix
+open FSharkPrelude
 \end{minted}
 \pause
 \begin{minted}[fontsize=\tiny, breaklines, linenos=true, firstnumber=last]{fsharp}
@@ -185,7 +187,7 @@ type multiply : int [][]
 \end{minted}
 \pause
 \begin{minted}[fontsize=\tiny, breaklines, linenos=true, firstnumber=last]{fsharp}
-let replicateRows n m = Replicate n (Iota m)
+let replicateRows n m = Replicate n [|1..m|]
 \end{minted}
 \pause
 \begin{minted}[fontsize=\tiny, breaklines, linenos=true, firstnumber=last]{fsharp}
@@ -392,6 +394,130 @@ let main argv =
 \end{frame}
 
 \begin{frame}[fragile]
+  \frametitle{Challenges - Choosing an array type for FShark}
+  \begin{itemize}
+  \item <1-> Futhark is an array programming language
+  \item <2-> FShark arrays need to sufficiently enable SOAC- and multidimensional
+  \item <3-> F\# supports both jagged- and multidimensional arrays.
+  \end{itemize}
+  % Choosing what types FShark should support, and how to implement the support
+  % for these types. in particular the whole ding about arrays.
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Challenges - Choosing an array type for FShark}
+  \begin{itemize}
+  \item <1-> Futhark is an array programming language
+  \item <2-> FShark arrays need to sufficiently enable SOAC- and multidimensional
+  \item <3-> F\# supports both jagged- and multidimensional arrays.
+  \end{itemize}
+  % Choosing what types FShark should support, and how to implement the support
+  % for these types. in particular the whole ding about arrays.
+\end{frame}
+
+\begin{frame}[fragile,fragile]
+  \frametitle{Challenges - Choosing an array type for FShark}
+{\onslide<1->
+  Multidimensional arrays:\\
+}
+{\onslide<2->
+\begin{figure}
+  \centering
+  \includegraphics[scale=1]{./images/flatarrays}
+\end{figure}
+}
+
+{\onslide<3->
+  \texttt{let xs = array2D.init 8 5 (fun \_ \_ -> 0)}\\
+  \texttt{let ys = array3D.init 8 5 5 (fun \_ \_ \_ -> 0)}
+}
+\end{frame}
+\begin{frame}
+  \frametitle{Challenges - Choosing an array type for FShark}
+  Jagged arrays:\\
+  \begin{columns}
+    \begin{column}{.48\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=1]{./images/jaggedarrays}
+  \end{figure}
+    \end{column}
+    \begin{column}{.48\textwidth}
+    \end{column}
+  \end{columns}
+  % Choosing what types FShark should support, and how to implement the support
+  % for these types. in particular the whole ding about arrays.
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Challenges - Choosing an array type for FShark}
+  Jagged arrays:\\
+  \begin{columns}
+    \begin{column}{.48\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=1]{./images/jaggedarrays}
+  \end{figure}
+    \end{column}
+    \begin{column}{.48\textwidth}
+\begin{minted}[fontsize=\scriptsize, breaklines]{fsharp}
+let xs = [|
+           [|0;0;0;0;0|];
+           [|0;0;0;0;0|];
+           ...
+           [|0;0;0;0;0|];
+         |] : int array array 
+
+let ys = [|
+           [|
+             [|0;0;0;0;0|];
+             [|0;0;0;0;0|];
+             ...
+             [|0;0;0;0;0|]
+           |];
+           ...
+           [|
+             [|0;0;0;0;0|];
+             [|0;0;0;0;0|];
+             ...
+             [|0;0;0;0;0|]
+           |];
+         |] : int array array array
+    \end{minted}
+    \end{column}
+  \end{columns}
+  % Choosing what types FShark should support, and how to implement the support
+  % for these types. in particular the whole ding about arrays.
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Challenges - Choosing an array type for FShark}
+  Pros and cons:\\
+  \begin{columns}
+    \begin{column}{.48\textwidth}
+      Multidimensional arrays:\\
+      \begin{itemize}
+      \item<1-> {\color{ForestGreen} \textbf{Flat memory layout}}
+      \item<2-> {\color{ForestGreen} \textbf{Inherently regular arrays}}
+      \item<3-> {\color{red} \textbf{Very limited SOAC support}}
+      \end{itemize}
+    \end{column}
+    \begin{column}{.48\textwidth}
+      Jagged arrays:\\
+      \begin{itemize}
+      \item<1-> {\color{red} \textbf{Scattered memory layout}}
+      \item<2-> {\color{red} \textbf{No array layout guarantees*}} 
+      \item<3-> {\color{ForestGreen} \textbf{Close-to-ideal SOAC support}}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  % Choosing what types FShark should support, and how to implement the support
+  % for these types. in particular the whole ding about arrays.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Challenges}
+  % interoperability between F# and generated C# libraries
+\end{frame}
+
+\begin{frame}[fragile]
   \frametitle{Evaluation}
 \end{frame}
 
@@ -410,7 +536,6 @@ let main argv =
 
 \begin{frame}[fragile]
   \frametitle{Evaluation - Performance}
-
   % Look at how C# OpenCL performs compared to C OpenCL
   %% Boxplot for time increase/decrease for all benchmarks
 
@@ -424,7 +549,31 @@ let main argv =
   %% Why are these differences so large?
 
   % All in all quite succesful
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Evaluation - Performance - Futhark benchmarks}
+  
+\end{frame}
 
+\begin{frame}[fragile,c]
+  \frametitle{Evaluation - Performance - FShark benchmarks}
+  \begin{center}
+  {\scriptsize
+  \begin{tabular}{| l | l | c | c | r |}
+    \hline			
+    \textbf{Benchmark} & \textbf{Dataset} & \textbf{Futhark reference} & \textbf{FShark translation} & \textbf{Difference} \\
+    \hline  
+    Pathfinder & 100000 x 100 & 1062µ & 1092µ & +2.8\% \\
+    \hline  
+    Hotspot & 1024 x 1024 & 41779µ & 41630µ & -0.3\% \\
+    \hline  
+    Nbody & N = 100000 & 100085µ & 100072µ & -0.01\% \\
+    \hline  
+    LocVolCalib & medium.in & 132682µ & 263664µ & +99.5\% \\
+    \hline  
+  \end{tabular}
+  }
+    \end{center}
 \end{frame}
 
 \begin{frame}[fragile]
