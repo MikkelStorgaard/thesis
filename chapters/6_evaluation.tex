@@ -58,7 +58,7 @@ effect on longer running benchmarks.
 Our benchmarks doesn't show that either the \csharp{} or the \clang{} GPU
 kernels are the better choice to any significant degree.
 For the two longest benchmarks, we see that the \csharp{} kernels do run
-faster than the reference, but not more than $\~4\%$. For the remaining
+faster than the reference, but not more than $\sim 3\%$. For the remaining
 benchmarks, the two versions are mostly comparable. We see a large speed
 difference for the \texttt{Hotspot} benchmark, but it also has a high relative
 standard deviation.
@@ -80,7 +80,7 @@ confident that future benchmarks will support our assertation, rather than
 disprove it.
 
 \begin{figure}[H]
-  \begin{tabular}{l r r r r}
+	\begin{tabular}{l r r r r}
     \textbf{Benchmark} & \textbf{\csharp{}} & \textbf{Ref.} & \textbf{Speedup in percentage} & \textbf{RSD} \\
   \texttt{LocVolCalib}               & 1879302 &1940669 & $+ 3.16\%$ & 0.00 \\
   \texttt{Particle Filter}           & 396207 &412421 & $+ 3.93\%$ & 0.01 \\
@@ -133,7 +133,7 @@ disprove it.
   \texttt{Fluid} & medium dataset \\
   \texttt{LUD} & $64 \times 64$ \\
   \texttt{Canny Edge Detection} & Lena ($512 \times 512$) \\
-  \texttt{Raytracer} & dataset \#0 \\
+  \texttt{Raytracer} & \textit{dataset \#0} \\
   \caption{Datasets used for benchmarks}
   \label{table:csharpbenchmarksdatasets}
 \end{figure}
@@ -696,7 +696,7 @@ programs with equivalent handwritten Futhark programs.
 
 The first benchmark tested is the LocVolCalib benchmark.
 \subsection{The \texttt{LocVolCalib} benchmark}
-In figure~\ref{fig:line-graph} \refwe see the benchmark results of the LocVolCalib benchmark, located in \texttt{FSharkTests/Benchmarks/LocVolCalib.fs}.\\
+In figure~\ref{fig:line-graph} we see the benchmark results of the LocVolCalib benchmark, located in \texttt{FSharkTests/Benchmarks/LocVolCalib.fs}.\\
 For the \fsharp{} results in this benchmark, we have used the \texttt{FSharkTests} program in the
 \fshark{} repository to first run the compilation, and pass the dataset
 arguments to the resulting loaded library.
@@ -871,6 +871,7 @@ either way.
 \end{figure}
 
 
-
 %%% Local Variables:
 %%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End:

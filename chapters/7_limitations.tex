@@ -136,7 +136,7 @@ design a similar data type for Futhark \csharp{}.
 \label{subsec:badscatter}
 The current implementation of the \fshark{} language allows users to use the
 SOAC \texttt{Scatter}. However, the actual \texttt{scatter} SOAC from Futhark
-has certain usage constraints concerning uniqueness\footnote{See \url{https://futhark.readthedocs.io/en/latest/language-reference.html#in-place-updates}}, which we currently do not enforce
+has certain usage constraints concerning uniqueness\footnote{See \url{https://futhark.readthedocs.io/en/latest/language-reference.html\#in-place-updates}}, which we currently do not enforce
 in \fshark{}.
 
 This means that users can unknowingly write valid \fshark{} programs, that are
@@ -170,6 +170,12 @@ $ fshark -o MyModule.dll MyModule.fs
 \end{minted}
 This should be relatively easy to achieve, as the compiler architecture already
 exists within the \fshark{} project.
+
+\section{The \fshark{} validation}
+The current \fshark{} test suite lacks accompanying tests for the \fshark{} type
+conversion functions. These must be implemented to assure us that \fshark{}
+correctly translate type convertion functions to Futhark.
+
 
 %%% Local Variables:
 %%% mode: latex
