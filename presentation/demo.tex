@@ -138,6 +138,7 @@ namespace Example
       \begin{overprint}
         \onslide<1>\includegraphics{./images/futhark_diagram_before.pdf}
         \onslide<2>\includegraphics{./images/futhark_diagram_after.pdf}
+        \onslide<3>\includegraphics[scale=0.6]{./images/futharkcsarchitecture.pdf}
       \end{overprint}
     \end{figure}
 
@@ -331,6 +332,7 @@ let multiply A B =
 \end{column}
 \end{columns}
 \end{frame}
+
 \begin{frame}[fragile]
   \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
 \begin{columns}[t] % align columns
@@ -365,8 +367,44 @@ let multiply (A : [][]i32) (B : [][]i32) : [][]i32 =
 
 \begin{frame}[fragile]
   \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
-\begin{columns} % align columns
+\begin{columns}[t] % align columns
 \begin{column}{.38\textwidth}
+    \begin{minted}[fontsize=\tiny, linenos=true]{bash}
+$ futhark-cs --library Matrix.fut
+    \end{minted}
+\end{column}
+\hfill
+\begin{column}{.60\textwidth}
+  \begin{figure}
+    \includegraphics[scale=0.7]{./images/pipeline/pipeline7}
+  \end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
+\begin{columns}[t] % align columns
+\begin{column}{.38\textwidth}
+    \begin{minted}[fontsize=\tiny, linenos=true]{bash}
+$ csc -t:library -l:$MONO_PATH \
+      -r:Mono.Options.dll \
+      -r:Cloo.clSharp.dll Matrix.cs
+    \end{minted}
+\end{column}
+\hfill
+\begin{column}{.60\textwidth}
+  \begin{figure}
+    \includegraphics[scale=0.7]{./images/pipeline/pipeline8}
+  \end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
+\begin{columns}[t] % align columns
+\begin{column}{.48\textwidth}
 \begin{minted}[fontsize=\tiny,linenos,breaklines, linenos=true]{fsharp}
 module FSharkExample
 open FShark.Main
@@ -383,37 +421,23 @@ let main argv =
       )
   wrapper.AddSourceFile "matrix.fs"
   wrapper.CompileAndLoad
-\end{minted}
-\begin{minted}[fontsize=\tiny,linenos, linenos=true, firstnumber=last]{fsharp}
-  let n = 5;
-  let m = 7;
-  let p = 6;
 
-  let A =
-    wrapper.InvokeFunction("replicateRows",n,m);
-  let B = 
-    wrapper.InvokeFunction("replicateRows",m,p);
-  let AB = 
-    wrapper.InvokeFunction("multiply",A,B);
-
-  printfn "Multiplying A with B gives us %A" AB
-  0
+  let n = 5
+  let m = 6
+  let nmMatrix = 
+    wrapper.Invoke(
+      "replicateRows", n, m) :?> int array
 \end{minted}
 \end{column}
+\hfill
 \begin{column}{.60\textwidth}
   \begin{figure}
-    \includegraphics[scale=0.7]{./images/pipeline/pipeline2}
+    \includegraphics[scale=0.7]{./images/pipeline/pipeline9}
   \end{figure}
 \end{column}
 \end{columns}
 \end{frame}
-\begin{frame}[fragile]
-  \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
-  % Choosing what types FShark should support, and how to implement the support
-  % for these types. in particular the whole ding about arrays.
 
-  % interoperability between F# and generated C# libraries
-\end{frame}
 \begin{frame}[plain]
   \frametitle{Challenges}
 \begin{center}
@@ -433,28 +457,6 @@ language.
 \item<2-> FShark should behave as closely to Futhark as possible.
 \item<3-> Translating .NET types from F\# to, but how should we translate arrays?
 \end{itemize}
-  % Choosing what types FShark should support, and how to implement the support
-  % for these types. in particular the whole ding about arrays.
-
-  % interoperability between F# and generated C# libraries
-\end{frame}
-
-\begin{frame}[plain]
-\frametitle{Challenges - Arrays in FShark}
-\begin{columns}
-  \begin{column}{.48\textwidth}
-    Jagged arrays:
-    \begin{itemize}
-    \item<1-> {\color{red}prut}
-    \end{itemize}
-  \end{column}
-  \begin{column}{.48\textwidth}
-    Multidimensional arrays:
-    \begin{itemize}
-    \item<1-> {\color{green(ryb)}skid}
-    \end{itemize}
-  \end{column}
-\end{columns}
   % Choosing what types FShark should support, and how to implement the support
   % for these types. in particular the whole ding about arrays.
 
@@ -572,7 +574,8 @@ let ys = [|
       \item<1-> {\color{ForestGreen} \textbf{Flat memory layout}}
       \item<2-> {\color{ForestGreen} \textbf{Inherently regular arrays}}
       \item<3-> {\color{red} \textbf{Very limited SOAC support}}
-      \item<4-> {\color{red} \textbf{Annoying to work with in F\#}}
+      \item<4-> {\color{red} \textbf{Is class-based and difficult to translate
+            to Futhark}}
       \end{itemize}
     \end{column}
     \begin{column}{.48\textwidth}
@@ -581,7 +584,7 @@ let ys = [|
       \item<1-> {\color{red} \textbf{Scattered memory layout}}
       \item<2-> {\color{red} \textbf{No array layout guarantees*}} 
       \item<3-> {\color{ForestGreen} \textbf{Close-to-ideal SOAC support}}
-      \item<4-> {\color{ForestGreen} \textbf{Is readily supported by the F\# syntax}}
+      \item<4-> {\color{ForestGreen} \textbf{Is part of the F\# syntax}}
       \end{itemize}
     \end{column}
   \end{columns}
@@ -589,7 +592,7 @@ let ys = [|
   % for these types. in particular the whole ding about arrays.
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile, c]
   \frametitle{Challenges - Choosing an array type for FShark}
   We went with jagged arrays.\\
   However, jagged arrays can't be used directly with compiled FShark libraries.\\
@@ -601,7 +604,7 @@ let ys = [|
 \begin{frame}[fragile]
   \frametitle{Challenges - Choosing an array type for FShark}
   \begin{figure}
-    \includegraphics[scale=0.75]{./images/jaggedtoflat}
+    \includegraphics[scale=0.85]{./images/jaggedtoflat}
   \end{figure}
 \end{frame}
 
@@ -678,6 +681,49 @@ let ys = [|
   \end{columns}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Challenges - Designing the generated C\# code}
+  \begin{columns}
+    \begin{column}{.48\textwidth}
+\begin{minted}[fontsize=\tiny, breaklines, linenos=true]{fsharp}
+module Matrix
+open FSharkPrelude
+type replicateRows : int -> int -> int [][] 
+type multiply : int [][] 
+                -> int [][] 
+                -> int [][]
+let replicateRows n m = Replicate n [|1..m|]
+let multiply A B =
+  let BT = Transpose B
+  let Sum = Foldr (+) 0
+  in Map (fun row ->
+       Map (fun col -> 
+         Sum <| Map2 (*) row col
+       ) BT
+     ) A
+\end{minted}
+    \end{column}
+    \begin{column}{.48\textwidth}
+      {\scriptsize
+      Matrix.cs\\
+      4124 SLOC:\\
+      
+      Prewritten libraries: 2417 SLOC\\
+      OpenCL generated code: 943 SLOC\\
+      Futhark functions: 627 SLOC\\
+      API functions: 137 SLOC\\
+      
+      Public API:
+      }
+    \begin{minted}[fontsize=\tiny, linenos=true]{fsharp}
+replicateRows : int -> int -> Tuple<int[],long[]>
+multiply : Tuple<int[],long[]> 
+           -> Tuple<int[],long[]> 
+           -> Tuple<int[],long[]>
+\end{minted}
+    \end{column}
+  \end{columns}
+\end{frame}
 \begin{frame}[fragile]
   \frametitle{Evaluation}
   \begin{center}
