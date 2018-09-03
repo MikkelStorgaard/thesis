@@ -13,7 +13,8 @@
 \usepackage{xspace}
 \newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
 \usepackage[langlinenos]{minted}
-
+\usepackage{listings}
+\definecolor{green(ryb)}{rgb}{0.4, 0.69, 0.2}
 \usepgfplotslibrary{dateplot}
 
 \usemintedstyle{trac}
@@ -217,7 +218,7 @@ let multiply A B =
 
 \begin{frame}[fragile]
   \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
-\begin{columns}[t] % align columns
+\begin{columns}[T] % align columns
 \begin{column}{.38\textwidth}
 \begin{minted}[fontsize=\tiny,linenos,breaklines, linenos=true]{fsharp}
 module FSharkExample
@@ -234,7 +235,6 @@ let main argv =
       debug=false
       )
 \end{minted}
-\vfill
 \end{column}
 \pause
 \hfill
@@ -244,12 +244,11 @@ let main argv =
   \end{figure}
 \end{column}
 \end{columns}
-\vfill
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
-\begin{columns}[t] % align columns
+\begin{columns}[T] % align columns
 \begin{column}{.38\textwidth}
   \begin{figure}
 \begin{minted}[fontsize=\tiny,linenos,breaklines, linenos=true]{fsharp}
@@ -330,6 +329,37 @@ let multiply A B =
 \end{column}
 \end{columns}
 \end{frame}
+\begin{frame}[fragile]
+  \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
+\begin{columns}[t] % align columns
+\begin{column}{.38\textwidth}
+    \begin{minted}[fontsize=\tiny, linenos=true]{sml}
+let multiply (A : [][]i32) (B : [][]i32) : [][]i32 =
+ let BT = transpose (B) in
+ let Sum =
+   let f = (\(x : i32) -> (\(y : i32) ->
+             ((x + y)))) in
+   let acc = 0i32 
+   in (\(bs : []i32) -> foldr (f) (acc) (bs))
+ in map ((\(row : []i32) -> 
+      map ((\(col : []i32) -> 
+        (Sum (map2 (
+               (\(x : i32) -> (\(y : i32) -> 
+                 ((x * y))
+             )
+        )
+      ) (row) 
+    (col))))) (BT))) (A)
+    \end{minted}
+\end{column}
+\hfill
+\begin{column}{.60\textwidth}
+  \begin{figure}
+    \includegraphics[scale=0.7]{./images/pipeline/pipeline6}
+  \end{figure}
+\end{column}
+\end{columns}
+\end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
@@ -375,7 +405,6 @@ let main argv =
 \end{column}
 \end{columns}
 \end{frame}
-
 \begin{frame}[fragile]
   \frametitle{Bird's eye view - The FShark Compiler/Wrapper}
   % Choosing what types FShark should support, and how to implement the support
@@ -383,12 +412,58 @@ let main argv =
 
   % interoperability between F# and generated C# libraries
 \end{frame}
-\begin{frame}[fragile]
+\begin{frame}[plain]
   \frametitle{Challenges}
+\begin{center}
+  \Huge Selected implementation- and design challenges for FShark
+\end{center}
   % Choosing what types FShark should support, and how to implement the support
   % for these types. in particular the whole ding about arrays.
 
   % interoperability between F# and generated C# libraries
+\end{frame}
+
+\begin{frame}[plain]
+\frametitle{Challenges - Arrays in FShark}
+\begin{itemize}
+\item<1-> FShark compiles to Futhark, and Futhark is a functional array programming
+language.
+\item<2-> FShark should behave as closely to Futhark as possible.
+\item<3-> Translating .NET types from F\# to, but how should we translate arrays?
+\end{itemize}
+  % Choosing what types FShark should support, and how to implement the support
+  % for these types. in particular the whole ding about arrays.
+
+  % interoperability between F# and generated C# libraries
+\end{frame}
+
+\begin{frame}[plain]
+\frametitle{Challenges - Arrays in FShark}
+\begin{columns}
+  \begin{column}{.48\textwidth}
+    Jagged arrays:
+    \begin{itemize}
+    \item<1-> {\color{red}prut}
+    \end{itemize}
+  \end{column}
+  \begin{column}{.48\textwidth}
+    Multidimensional arrays:
+    \begin{itemize}
+    \item<1-> {\color{green(ryb)}skid}
+    \end{itemize}
+  \end{column}
+\end{columns}
+  % Choosing what types FShark should support, and how to implement the support
+  % for these types. in particular the whole ding about arrays.
+
+  % interoperability between F# and generated C# libraries
+\end{frame}
+
+\begin{frame}[plain]
+\frametitle{Bird's eye view - A C\# Code Generator}
+\begin{center}
+  \Huge A Futhark extension
+\end{center}
 \end{frame}
 
 \begin{frame}[fragile]
