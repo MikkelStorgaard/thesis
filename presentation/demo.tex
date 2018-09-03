@@ -572,6 +572,7 @@ let ys = [|
       \item<1-> {\color{ForestGreen} \textbf{Flat memory layout}}
       \item<2-> {\color{ForestGreen} \textbf{Inherently regular arrays}}
       \item<3-> {\color{red} \textbf{Very limited SOAC support}}
+      \item<4-> {\color{red} \textbf{Annoying to work with in F\#}}
       \end{itemize}
     \end{column}
     \begin{column}{.48\textwidth}
@@ -580,6 +581,7 @@ let ys = [|
       \item<1-> {\color{red} \textbf{Scattered memory layout}}
       \item<2-> {\color{red} \textbf{No array layout guarantees*}} 
       \item<3-> {\color{ForestGreen} \textbf{Close-to-ideal SOAC support}}
+      \item<4-> {\color{ForestGreen} \textbf{Is readily supported by the F\# syntax}}
       \end{itemize}
     \end{column}
   \end{columns}
@@ -588,12 +590,99 @@ let ys = [|
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Challenges}
-  % interoperability between F# and generated C# libraries
+  \frametitle{Challenges - Choosing an array type for FShark}
+  We went with jagged arrays.\\
+  However, jagged arrays can't be used directly with compiled FShark libraries.\\
+  \pause
+  We must transform jagged arrays into flat arrays before invoking compiled
+  FShark functions.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Challenges - Choosing an array type for FShark}
+  \begin{figure}
+    \includegraphics[scale=0.75]{./images/jaggedtoflat}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Challenges - Designing the generated C\# code}
+\begin{center}
+  {\Huge Designing a self-contained OpenCL accelerated computational kernel}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Challenges - Designing the generated C\# code}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.75]{./images/futharkcs_wide}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Challenges - Designing the generated C\# code}
+  \begin{columns}
+    \begin{column}{.48\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.75]{./images/futhark_class}
+    \hspace{1em}
+  \end{figure}
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{overprint}
+
+      {\onslide<1>
+      \texttt{Global context variables:}\\
+      Debug flags, benchmarking functionality et al.
+      }
+
+      {\onslide<2>
+      \texttt{Class constructor:}\\
+      Takes class arguments, sets global context variables, initializes entire
+      OpenCL context and so on.
+      }
+
+      {\onslide<3>
+      \texttt{Various runtime libraries:}\\
+      All needed library functionality; is actually six libraries inlined in the
+      Futhark class:\\
+      {\small
+        \texttt{reader.cs} \\
+        \texttt{memory.cs} \\
+        \texttt{memory\_opencl.cs} \\
+        \texttt{scalar.cs} \\
+        \texttt{exceptions.cs} \\
+        \texttt{panic.cs}
+      }
+      }
+
+      {\onslide<4>
+      \texttt{OpenCL functionality:}\\
+      OpenCL kernel source code, program-specific boilerplate (like stores for
+      measuring kernel runtimes).
+      }
+
+      {\onslide<5>
+      \texttt{Compiled Futhark functions:}\\
+      Implementations corresponding to the entry functions contained in the
+      last segment of the class.
+      }
+      {\onslide<6>
+      \texttt{Entry functions:}\\
+      Contains the actual API of the compiled Futhark library (or executable.)
+      }
+      \end{overprint}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Evaluation}
+  \begin{center}
+    \Huge So how did everything go?
+  \end{center}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -629,11 +718,27 @@ let ys = [|
 \end{frame}
 \begin{frame}[fragile]
   \frametitle{Evaluation - Performance - Futhark benchmarks}
-  
+  \begin{figure}
+  \includegraphics[scale=0.6]{./images/boxplot}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Evaluation - Performance - Futhark benchmarks}
+  \begin{figure}
+  \includegraphics[scale=0.7]{./images/plot}
+  \end{figure}
+\end{frame}
+\begin{frame}[fragile]
+
+  \frametitle{Evaluation - Performance - Futhark benchmarks}
+  \begin{figure}
+  \includegraphics[scale=0.7]{./images/plot2}
+  \end{figure}
 \end{frame}
 
 \begin{frame}[fragile,c]
-  \frametitle{Evaluation - Performance - FShark benchmarks}
+  \frametitle{Evaluation - Performance - FShark (OpenCL) benchmarks}
   \begin{center}
   {\scriptsize
   \begin{tabular}{| l | l | c | c | r |}
@@ -663,6 +768,11 @@ let ys = [|
 
 \begin{frame}[fragile]
   \frametitle{Related work}
+  \begin{itemize}
+  \item<1-> \texttt{TAIL}: A subset of APL is translated to Futhark through an
+    intermediate language.
+  \item<2-> $\widetilde{\mathbf{F}}$: A subset of F\# is translated to high-performing C code.
+  \end{itemize}
 \end{frame}
 
 \plain{Questions?}
