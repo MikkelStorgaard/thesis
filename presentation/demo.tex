@@ -523,14 +523,16 @@ let ys = [|
 
 \begin{frame}[fragile]
   \frametitle{Evaluation - Testing and correctness}
-
-  % Futhark Code Generator (does it work as a Futhark backend?)
+  How do we evaluate the individual parts of this thesis?
+  \begin{itemize}
+  \item<2-> C\# Code Generator:\\
+    Evaluate using 960+ unit tests and 40+ benchmark programs.
   %% yes, based on unit tests and benchmark suite
-  
-  % FShark language (Can we write complex GPU benchmarks in FShark?)
-
-  % FShark Compiler (unit tests)
-
+\item<3-> The FShark Language:\\
+  Write and use real life benchmark programs in FShark.
+\item<4-> The FShark-to-Futhark translations:\\
+  Evaluate using 128 unit tests.
+  \end{itemize}
 \end{frame}
 
 
@@ -578,10 +580,9 @@ let ys = [|
 
 \begin{frame}[fragile]
   \frametitle{Evaluation - Usability and interoperability}
-
-  % Live demo of writing a matrix multiplication kernel in FShark
-  %% Compile using F#
-  %% Use resulting C# library in a C# project
+  \begin{center}
+    \Huge Live demo
+  \end{center}
   
 \end{frame}
 
